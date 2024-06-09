@@ -1023,10 +1023,10 @@ u8* AGIDL_GenerateRGBBuffer(const void* data, const int width, const int height,
 	return rgbbuf;
 }
 
-u8* AGIDL_GenerateBGRBuffer(const COLOR* clrs, const int width, const int height, const AGIDL_CLR_FMT fmt){
+u8* AGIDL_GenerateBGRBuffer(const COLOR* src, const int width, const int height, const AGIDL_CLR_FMT fmt){
 	u8* rgbbuf = malloc(sizeof(u8)*(width*height)*3);
 	for(int i = 0; i < width * height; i++){
-		const COLOR clr = clrs[i];
+		const COLOR clr = src[i];
 		const u8 r = AGIDL_GetR(clr,fmt);
 		const u8 g = AGIDL_GetG(clr,fmt);
 		const u8 b = AGIDL_GetB(clr,fmt);
@@ -1037,10 +1037,10 @@ u8* AGIDL_GenerateBGRBuffer(const COLOR* clrs, const int width, const int height
 	return rgbbuf;
 }
 
-u8* AGIDL_GenerateRGBABuffer(const COLOR* clrs, const int width, const int height, const AGIDL_CLR_FMT fmt){
+u8* AGIDL_GenerateRGBABuffer(const COLOR* src, const int width, const int height, const AGIDL_CLR_FMT fmt){
 	u8* rgbbuf = malloc(sizeof(u8)*(width*height*4));
 	for(int i = 0; i < width * height; i++){
-		const COLOR clr = clrs[i];
+		const COLOR clr = src[i];
 		const u8 r = AGIDL_GetR(clr,fmt);
 		const u8 g = AGIDL_GetG(clr,fmt);
 		const u8 b = AGIDL_GetB(clr,fmt);
