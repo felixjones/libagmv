@@ -133,10 +133,10 @@ int AGMV_DecodeFrameChunk(FILE* file, AGMV* agmv){
 			byte = AGMV_ReadByte(file);
 			
 			pos = bpos;
-			
-			int i;
-			for(i = 0; i < len; i++){
-				bitstream_data[bpos++] = bitstream_data[pos - offset + i];
+
+			int j;
+			for(j = 0; j < len; j++){
+				bitstream_data[bpos++] = bitstream_data[pos - offset + j];
 			}
 			
 			bitstream_data[bpos++] = byte;
@@ -179,29 +179,29 @@ int AGMV_DecodeFrameChunk(FILE* file, AGMV* agmv){
 						color = palette[index];
 					}
 					
-					int i,j;
+					int k,j;
 					for(j = 0; j < 4; j++){
 						offset = (y+j)*width;
-						for(i = 0; i < 4; i++){
-							img_data[x+i+offset] = color;
+						for(k = 0; k < 4; k++){
+							img_data[x+k+offset] = color;
 						}
 					}
 				}
 				else if(byte == AGMV_COPY_FLAG){
-					int i,j;
+					int k,j;
 					for(j = 0; j < 4; j++){
 						offset = (y+j)*width;
-						for(i = 0; i < 4; i++){
-							indice = x+i+offset;
+						for(k = 0; k < 4; k++){
+							indice = x+k+offset;
 							img_data[indice] = iframe_data[indice];
 						}
 					}
 				}
 				else{
-					int i,j;
+					int k,j;
 					for(j = 0; j < 4; j++){
 						offset = (y+j)*width;
-						for(i = 0; i < 4; i++){
+						for(k = 0; k < 4; k++){
 							if(bitpos > agmv->bitstream->pos){
 								escape = TRUE;
 								break;
@@ -209,7 +209,7 @@ int AGMV_DecodeFrameChunk(FILE* file, AGMV* agmv){
 							index = bitstream_data[bitpos++];
 							fbit = index >> 7 & 1;
 							bot = index & 0x7f;
-							
+
 							palette = fbit ? agmv->header.palette1 : agmv->header.palette0;
 
 							if(bot < 127){
@@ -219,7 +219,7 @@ int AGMV_DecodeFrameChunk(FILE* file, AGMV* agmv){
 								index = bitstream_data[bitpos++];
 								color = palette[index];
 							}
-							img_data[x+i+offset] = color;
+							img_data[x+k+offset] = color;
 						}
 					}
 				}
@@ -232,7 +232,7 @@ int AGMV_DecodeFrameChunk(FILE* file, AGMV* agmv){
 		int x,y;
 		for(y = 0; y < height && escape != TRUE; y += 4){
 			for(x = 0; x < width && escape != TRUE; x += 4){
-				u8 byte = bitstream_data[bitpos++];
+				byte = bitstream_data[bitpos++];
 				
 				if(bitpos > agmv->bitstream->pos){
 					escape = TRUE;
@@ -249,30 +249,30 @@ int AGMV_DecodeFrameChunk(FILE* file, AGMV* agmv){
 					}
 					
 					if(escape == FALSE){
-						int i,j;
+						int k,j;
 						for(j = 0; j < 4; j++){
 							offset = (y+j)*width;
-							for(i = 0; i < 4; i++){
-								img_data[x+i+offset] = color;
+							for(k = 0; k < 4; k++){
+								img_data[x+k+offset] = color;
 							}
 						}
 					}
 				}
 				else if(byte == AGMV_COPY_FLAG){
-					int i,j;
+					int k,j;
 					for(j = 0; j < 4; j++){
 						offset = (y+j)*width;
-						for(i = 0; i < 4; i++){
-							indice = x+i+offset;
+						for(k = 0; k < 4; k++){
+							indice = x+k+offset;
 							img_data[indice] = iframe_data[indice];
 						}
 					}
 				}
 				else{
-					int i,j;
+					int k,j;
 					for(j = 0; j < 4; j++){
 						offset = (y+j)*width;
-						for(i = 0; i < 4; i++){
+						for(k = 0; k < 4; k++){
 							index = bitstream_data[bitpos++];
 							if(bitpos > agmv->bitstream->pos){
 								escape = TRUE;
@@ -280,7 +280,7 @@ int AGMV_DecodeFrameChunk(FILE* file, AGMV* agmv){
 							}
 							color = palette0[index];
 							if(escape == FALSE){
-								img_data[x+i+offset] = color;
+								img_data[x+k+offset] = color;
 							}
 						}
 					}
@@ -461,27 +461,27 @@ int AGMV_DecodeAGMV(const char* filename, u8 img_type, AGMV_AUDIO_TYPE audio_typ
 	if(agmv->header.total_audio_duration != 0){
 		agmv->audio_track->start_point = 0;
 		agmv->audio_track->pcm = (u16*)malloc(sizeof(u16)*agmv->header.audio_size);
-	
+
 		agmv->audio_chunk->size = agmv->header.audio_size / (f32)agmv->header.num_of_frames;
-			
+
 		for(i = 0; i < num_of_frames; i++){
 			AGMV_FindNextFrameChunk(file);
 			err1 = AGMV_DecodeFrameChunk(file,agmv);
 			AGMV_FindNextAudioChunk(file);
 			err2 = AGMV_DecodeAudioChunk(file,agmv);
-				
+
 			if(err1 != NO_ERR){
 				fclose(file);
 				DestroyAGMV(agmv);
 				return err1;
 			}
-				
+
 			if(err2 != NO_ERR){
 				fclose(file);
 				DestroyAGMV(agmv);
 				return err1;
 			}
-				
+
 			AGIDL_QuickExport(agmv->frame->img_data,agmv->frame->width,agmv->frame->height,AGIDL_RGB_888,img_type);
 		}
 
@@ -503,7 +503,7 @@ int AGMV_DecodeAGMV(const char* filename, u8 img_type, AGMV_AUDIO_TYPE audio_typ
 			}break;
 			default:{
 				audio = fopen("quick_export.wav","wb");
-				AGMV_ExportAudioType(audio,agmv,AGMV_AUDIO_WAV);	
+				AGMV_ExportAudioType(audio,agmv,AGMV_AUDIO_WAV);
 				fclose(audio);
 			}break;
 		}
@@ -512,13 +512,13 @@ int AGMV_DecodeAGMV(const char* filename, u8 img_type, AGMV_AUDIO_TYPE audio_typ
 		for(i = 0; i < num_of_frames; i++){
 			AGMV_FindNextFrameChunk(file);
 			err1 = AGMV_DecodeFrameChunk(file,agmv);
-					
+
 			if(err1 != NO_ERR){
 				fclose(file);
 				DestroyAGMV(agmv);
 				return err1;
 			}
-				
+
 			AGIDL_QuickExport(agmv->frame->img_data,agmv->frame->width,agmv->frame->height,AGIDL_RGB_888,img_type);
 		}
 	}
@@ -593,9 +593,9 @@ int AGMV_DecodeAudio(const char* filename, AGMV_AUDIO_TYPE audio_type){
 	if(agmv->header.total_audio_duration != 0){
 		agmv->audio_track->start_point = 0;
 		agmv->audio_track->pcm = (u16*)malloc(sizeof(u16)*agmv->header.audio_size);
-	
+
 		agmv->audio_chunk->size = agmv->header.audio_size / (f32)agmv->header.num_of_frames;
-			
+
 		for(i = 0; i < num_of_frames; i++){
 			AGMV_FindNextFrameChunk(file);
 			AGMV_SkipFrameChunk(file);
@@ -608,7 +608,7 @@ int AGMV_DecodeAudio(const char* filename, AGMV_AUDIO_TYPE audio_type){
 				return err1;
 			}
 		}
-			
+
 		switch(audio_type){
 			case AGMV_AUDIO_WAV:{
 				audio = fopen("quick_export.wav","wb");
@@ -627,7 +627,7 @@ int AGMV_DecodeAudio(const char* filename, AGMV_AUDIO_TYPE audio_type){
 			}break;
 			default:{
 				audio = fopen("quick_export.wav","wb");
-				AGMV_ExportAudioType(audio,agmv,AGMV_AUDIO_WAV);	
+				AGMV_ExportAudioType(audio,agmv,AGMV_AUDIO_WAV);
 				fclose(audio);
 			}break;
 		}

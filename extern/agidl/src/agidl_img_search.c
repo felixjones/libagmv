@@ -234,8 +234,8 @@ void AGIDL_TIMSearchFileOnDisk(const char* filename, AGIDL_IMG_TYPE img_type, in
 	fclose(file);
 }
 
-int AGIDL_3DFSearchFileOnDisk(const char* filename, AGIDL_IMG_TYPE img_type, int flip, u32 jump){
-	FILE* file = fopen(filename,"rb");
+int AGIDL_3DFSearchFileOnDisk(const char* searchFilename, AGIDL_IMG_TYPE img_type, int flip, u32 jump){
+	FILE* file = fopen(searchFilename,"rb");
 	
 	if(file == NULL){
 		return FILE_NOT_LOCATED_IMG_ERROR;

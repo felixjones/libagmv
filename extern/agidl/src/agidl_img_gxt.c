@@ -608,7 +608,7 @@ void AGIDL_GXTDecodeIMG(AGIDL_GXT* gxt, FILE* file){
 		int x,y;
 		for(y = 0; y < AGIDL_GXTGetHeight(gxt); y++){
 			for(x = 0; x < AGIDL_GXTGetWidth(gxt); x++){
-				int offset = x + y * AGIDL_GXTGetWidth(gxt);
+				offset = x + y * AGIDL_GXTGetWidth(gxt);
 				AGIDL_GXTSetClr(gxt,x,y,gxt->palette.icp.palette_256[buf[offset]]);
 			}
 

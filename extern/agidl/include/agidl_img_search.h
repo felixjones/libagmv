@@ -19,6 +19,6 @@
 
 void AGIDL_TIMSearchFileOnDisk(const char* filename, AGIDL_IMG_TYPE img_type, int flip);
 void AGIDL_TGASearchFileOnDisk(const char* filename, AGIDL_IMG_TYPE img_type);
-int AGIDL_3DFSearchFileOnDisk(const char* filename, AGIDL_IMG_TYPE img_type, int flip, u32 jump);
+int AGIDL_3DFSearchFileOnDisk(const char* searchFilename, AGIDL_IMG_TYPE img_type, int flip, u32 jump);
 
 #endif

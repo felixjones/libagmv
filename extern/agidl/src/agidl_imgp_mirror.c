@@ -19,9 +19,9 @@
 #include <agidl_imgp_rotate.h>
 #include <agidl_img_types.h>
 
-void * AGIDL_MirrorImgData(void* data, u16* width, u16* height, AGIDL_CLR_FMT fmt, AGIDL_MIRROR mirror){
+void * AGIDL_MirrorImgData(void* data, u16* width, u16* height, AGIDL_CLR_FMT fmt, AGIDL_MIRROR mirrorType){
 	if(AGIDL_GetBitCount(fmt) == 24 || AGIDL_GetBitCount(fmt) == 32){
-		switch(mirror){
+		switch(mirrorType){
 			case MIRROR_LEFT_TO_RIGHT:{
 				int w = *width;
 				int h = *height;
@@ -84,7 +84,7 @@ void * AGIDL_MirrorImgData(void* data, u16* width, u16* height, AGIDL_CLR_FMT fm
 				AGIDL_ClrMemcpy(mirror,clrs,w*h);
 				AGIDL_FlipImgDataHorz(mirror,w,h,fmt);
 				COLOR* final = malloc(sizeof(COLOR)*w*(h*2));
-				
+
 				u32 x,y;
 				for(y = 0; y < h; y++){
 					for(x = 0; x < w; x++){
@@ -92,7 +92,7 @@ void * AGIDL_MirrorImgData(void* data, u16* width, u16* height, AGIDL_CLR_FMT fm
 						AGIDL_SetClr(final,clr,x,y,w,h*2);
 					}
 				}
-				
+
 				for(y = h; y < h*2; y++){
 					for(x = 0; x < w; x++){
 						COLOR clr = AGIDL_GetClr(mirror,x,y-h,w,h);
@@ -139,7 +139,7 @@ void * AGIDL_MirrorImgData(void* data, u16* width, u16* height, AGIDL_CLR_FMT fm
 		}
 	}
 	else{
-		switch(mirror){
+		switch(mirrorType){
 			case MIRROR_LEFT_TO_RIGHT:{
 				int w = *width;
 				int h = *height;
@@ -148,7 +148,7 @@ void * AGIDL_MirrorImgData(void* data, u16* width, u16* height, AGIDL_CLR_FMT fm
 				AGIDL_ClrMemcpy16(mirror,clrs,w*h);
 				AGIDL_FlipImgDataVert(mirror,w,h,fmt);
 				COLOR16* final = malloc(sizeof(COLOR16)*(w*2)*h);
-				
+
 				u32 x,y;
 				for(y = 0; y < h; y++){
 					for(x = 0; x < w; x++){
@@ -175,7 +175,7 @@ void * AGIDL_MirrorImgData(void* data, u16* width, u16* height, AGIDL_CLR_FMT fm
 				AGIDL_ClrMemcpy16(mirror,clrs,w*h);
 				AGIDL_FlipImgDataVert(mirror,w,h,fmt);
 				COLOR16* final = malloc(sizeof(COLOR16)*(w*2)*h);
-				
+
 				u32 x,y;
 				for(y = 0; y < h; y++){
 					for(x = 0; x < w; x++){
@@ -202,7 +202,7 @@ void * AGIDL_MirrorImgData(void* data, u16* width, u16* height, AGIDL_CLR_FMT fm
 				AGIDL_ClrMemcpy16(mirror,clrs,w*h);
 				AGIDL_FlipImgDataHorz(mirror,w,h,fmt);
 				COLOR16* final = malloc(sizeof(COLOR16)*w*(h*2));
-				
+
 				u32 x,y;
 				for(y = 0; y < h; y++){
 					for(x = 0; x < w; x++){
@@ -210,7 +210,7 @@ void * AGIDL_MirrorImgData(void* data, u16* width, u16* height, AGIDL_CLR_FMT fm
 						AGIDL_SetClr16(final,clr,x,y,w,h*2);
 					}
 				}
-				
+
 				for(y = h; y < h*2; y++){
 					for(x = 0; x < w; x++){
 						COLOR16 clr = AGIDL_GetClr16(mirror,x,y-h,w,h);
@@ -232,7 +232,7 @@ void * AGIDL_MirrorImgData(void* data, u16* width, u16* height, AGIDL_CLR_FMT fm
 				AGIDL_ClrMemcpy16(mirror,clrs,w*h);
 				AGIDL_FlipImgDataHorz(mirror,w,h,fmt);
 				COLOR16* final = malloc(sizeof(COLOR16)*w*(h*2));
-				
+
 				u32 x,y;
 				for(y = 0; y < h; y++){
 					for(x = 0; x < w; x++){

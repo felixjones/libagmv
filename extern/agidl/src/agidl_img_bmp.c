@@ -714,9 +714,9 @@ void AGIDL_BMPDecodeIMG(AGIDL_BMP* bmp, FILE* file, BMP_IMG_TYPE img_type){
 							u8 lsb2 = index >> j-2;
 							u8 lsb  = index >> j-3;
 
-							u8 index = ((msb & 1) << 3) + ((msb2 & 1) << 2) + ((lsb2 & 1) << 1) + (lsb & 1);
+							u8 indexByte = ((msb & 1) << 3) + ((msb2 & 1) << 2) + ((lsb2 & 1) << 1) + (lsb & 1);
 
-							AGIDL_BMPSetClr(bmp,x+count,y,palette[index]);
+							AGIDL_BMPSetClr(bmp,x+count,y,palette[indexByte]);
 						}
 					}
 				}
@@ -776,9 +776,9 @@ void AGIDL_BMPDecodeIMG(AGIDL_BMP* bmp, FILE* file, BMP_IMG_TYPE img_type){
 							u8 left = index >> j;
 							u8 right = index >> j-1;
 
-							u8 index = ((left & 1) << 1) + (right & 1);
+							u8 indexByte = ((left & 1) << 1) + (right & 1);
 
-							AGIDL_BMPSetClr(bmp,x+count,y,palette[index]);
+							AGIDL_BMPSetClr(bmp,x+count,y,palette[indexByte]);
 						}
 					}
 				}
@@ -809,7 +809,7 @@ void AGIDL_BMPDecodeRLE(AGIDL_BMP* bmp, FILE* file, BMP_IMG_TYPE img_type){
 						u8 index = AGIDL_ReadByte(file);
 						
 						if(rle != 0){
-							int i;
+
 							for(i = 0; i < rle; i++){
 								AGIDL_BMPSetClr(bmp,x+i,y,bmp->palette.icp.palette_256[index]);
 							}
@@ -817,7 +817,7 @@ void AGIDL_BMPDecodeRLE(AGIDL_BMP* bmp, FILE* file, BMP_IMG_TYPE img_type){
 							x += rle - 1;
 						}
 						else if(index != 0){
-							int i;
+
 							for(i = 0; i < index; i++){
 								u8 byte = AGIDL_ReadByte(file);
 								AGIDL_BMPSetClr(bmp,x+i,y,bmp->palette.icp.palette_256[byte]);
@@ -852,7 +852,7 @@ void AGIDL_BMPDecodeRLE(AGIDL_BMP* bmp, FILE* file, BMP_IMG_TYPE img_type){
 							u8 index = AGIDL_ReadByte(file);
 				
 							if(rle == 0 && index != 0){
-								int i;
+
 								for(i = 0; i < index / 2; i++){
 									u8 ind = AGIDL_ReadByte(file);
 									
@@ -865,7 +865,7 @@ void AGIDL_BMPDecodeRLE(AGIDL_BMP* bmp, FILE* file, BMP_IMG_TYPE img_type){
 							}
 							else{
 								if((index & 0xf) == (index & 0xff) >> 4){
-								int i;
+
 								for(i = 0; i < rle; i++){
 									AGIDL_BMPSetClr(bmp,x+i,y,bmp->palette.icp.palette_16[index&0xf]);
 								}
@@ -883,7 +883,7 @@ void AGIDL_BMPDecodeRLE(AGIDL_BMP* bmp, FILE* file, BMP_IMG_TYPE img_type){
 							}
 								else{
 									u8 frontindex = (index & 0xff) >> 4, backindex = index & 0xf;
-									int i;
+
 									for(i = 0; i < rle; i++){
 										if(i % 2 == 0){
 											AGIDL_BMPSetClr(bmp,x+i,y,bmp->palette.icp.palette_16[frontindex]);

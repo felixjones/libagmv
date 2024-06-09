@@ -490,11 +490,11 @@ void AGIDL_PCXDecodeIMG(AGIDL_PCX* pcx, FILE* file){
 			//	printf("bin - %s\n",bin);
 				
 				if(bin[0] == '1' && bin[1] == '1'){
-					char* byte = pcxrlebits(bin);
-					u16 rle = bin2dec(byte);
+					char* bytePtr = pcxrlebits(bin);
+					u16 rle = bin2dec(bytePtr);
 				//	printf("rle byte - %s\n",byte);
 					free(bin);
-					free(byte);
+					free(bytePtr);
 				//	printf("rle - %d\n",rle);
 					u8 read = AGIDL_ReadByte(file);
 					int i;
@@ -577,14 +577,14 @@ void AGIDL_PCXDecodeIMG(AGIDL_PCX* pcx, FILE* file){
 			//	printf("bin - %s\n",bin);
 				
 				if(bin[0] == '1' && bin[1] == '1'){
-					char* byte = pcxrlebits(bin);
-					u16 rle = bin2dec(byte);
+					char* bytePtr = pcxrlebits(bin);
+					u16 rle = bin2dec(bytePtr);
 				//	printf("rle byte - %s\n",byte);
 					free(bin);
-					free(byte);
+					free(bytePtr);
 				//	printf("rle - %d\n",rle);
 					u8 read = AGIDL_ReadByte(file);
-					int i;
+
 					for(i = 0; i < rle; i++){
 						buf[count] = read;
 						count++;

@@ -425,7 +425,7 @@ void AGMV_AssembleIFrameBitstream(AGMV* agmv, AGMV_ENTRY* img_entry){
 
 					for(j = 0; j < 4; j++){
 						for(i = 0; i < 4; i++){
-							AGMV_ENTRY entry = img_entry[x+i+(y+j)*width];
+							entry = img_entry[x+i+(y+j)*width];
 							data[agmv->bitstream->pos++] = entry.index;
 						}
 					}
@@ -516,7 +516,7 @@ void AGMV_AssemblePFrameBitstream(AGMV* agmv, AGMV_ENTRY* img_entry){
 
 					for(j = 0; j < 4; j++){
 						for(i = 0; i < 4; i++){
-							AGMV_ENTRY entry = img_entry[x+i+(y+j)*width];
+							entry = img_entry[x+i+(y+j)*width];
 							data[agmv->bitstream->pos++] = entry.index;
 						}
 					}
@@ -807,24 +807,24 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 	char* ext = AGIDL_GetImgExtension(img_type);
 
 	for(i = start_frame; i <= end_frame; i++){
-		char filename[60];
+		char tmpFilename[60];
 		if(dir[0] != 'c' || dir[1] != 'u' || dir[2] != 'r'){
-			sprintf(filename,"%s/%s%ld%s",dir,basename,i,ext);
+			sprintf(tmpFilename,"%s/%s%ld%s",dir,basename,i,ext);
 		}
 		else{
-			sprintf(filename,"%s%ld%s",basename,i,ext);
+			sprintf(tmpFilename,"%s%ld%s",basename,i,ext);
 		}
 
 		switch(img_type){
 			case AGIDL_IMG_BMP:{
 				u32* pixels;
 
-				AGIDL_BMP* bmp = AGIDL_LoadBMP(filename);
+				AGIDL_BMP* bmp = AGIDL_LoadBMP(tmpFilename);
 				AGIDL_ColorConvertBMP(bmp,AGIDL_RGB_888);
 
 				pixels = bmp->pixels.pix32;
 
-				int n;
+
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -836,12 +836,12 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 			case AGIDL_IMG_TGA:{
 				u32* pixels;
 
-				AGIDL_TGA* tga = AGIDL_LoadTGA(filename);
+				AGIDL_TGA* tga = AGIDL_LoadTGA(tmpFilename);
 				AGIDL_ColorConvertTGA(tga,AGIDL_RGB_888);
 
 				pixels = tga->pixels.pix32;
 
-				int n;
+
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -853,11 +853,11 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 			case AGIDL_IMG_TIM:{
 				u32* pixels;
 
-				AGIDL_TIM* tim = AGIDL_LoadTIM(filename);
+				AGIDL_TIM* tim = AGIDL_LoadTIM(tmpFilename);
 
 				pixels = tim->pixels.pix32;
 
-				int n;
+
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -869,12 +869,11 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 			case AGIDL_IMG_PCX:{
 				u32* pixels;
 
-				AGIDL_PCX* pcx = AGIDL_LoadPCX(filename);
+				AGIDL_PCX* pcx = AGIDL_LoadPCX(tmpFilename);
 				AGIDL_ColorConvertPCX(pcx,AGIDL_RGB_888);
 
 				pixels = pcx->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -886,12 +885,11 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 			case AGIDL_IMG_LMP:{
 				u32* pixels;
 
-				AGIDL_LMP* lmp = AGIDL_LoadLMP(filename);
+				AGIDL_LMP* lmp = AGIDL_LoadLMP(tmpFilename);
 				AGIDL_ColorConvertLMP(lmp,AGIDL_RGB_888);
 
 				pixels = lmp->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -903,12 +901,11 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 			case AGIDL_IMG_PVR:{
 				u32* pixels;
 
-				AGIDL_PVR* pvr = AGIDL_LoadPVR(filename);
+				AGIDL_PVR* pvr = AGIDL_LoadPVR(tmpFilename);
 				AGIDL_ColorConvertPVR(pvr,AGIDL_RGB_888);
 
 				pixels = pvr->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -920,12 +917,11 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 			case AGIDL_IMG_GXT:{
 				u32* pixels;
 
-				AGIDL_GXT* gxt = AGIDL_LoadGXT(filename);
+				AGIDL_GXT* gxt = AGIDL_LoadGXT(tmpFilename);
 				AGIDL_ColorConvertGXT(gxt,AGIDL_RGB_888);
 
 				pixels = gxt->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -937,12 +933,11 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 			case AGIDL_IMG_BTI:{
 				u32* pixels;
 
-				AGIDL_BTI* bti = AGIDL_LoadBTI(filename);
+				AGIDL_BTI* bti = AGIDL_LoadBTI(tmpFilename);
 				AGIDL_ColorConvertBTI(bti,AGIDL_RGB_888);
 
 				pixels = bti->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -954,12 +949,11 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 			case AGIDL_IMG_3DF:{
 				u32* pixels;
 
-				AGIDL_3DF* glide = AGIDL_Load3DF(filename);
+				AGIDL_3DF* glide = AGIDL_Load3DF(tmpFilename);
 				AGIDL_ColorConvert3DF(glide,AGIDL_RGB_888);
 
 				pixels = glide->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -971,12 +965,11 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 			case AGIDL_IMG_PPM:{
 				u32* pixels;
 
-				AGIDL_PPM* ppm = AGIDL_LoadPPM(filename);
+				AGIDL_PPM* ppm = AGIDL_LoadPPM(tmpFilename);
 				AGIDL_ColorConvertPPM(ppm,AGIDL_RGB_888);
 
 				pixels = ppm->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -988,12 +981,11 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 			case AGIDL_IMG_LBM:{
 				u32* pixels;
 
-				AGIDL_LBM* lbm = AGIDL_LoadLBM(filename);
+				AGIDL_LBM* lbm = AGIDL_LoadLBM(tmpFilename);
 				AGIDL_ColorConvertLBM(lbm,AGIDL_RGB_888);
 
 				pixels = lbm->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -1135,7 +1127,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				AGIDL_ColorConvertBMP(frame4,AGIDL_RGB_888);
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
-					u32 w = AGIDL_BMPGetWidth(frame1), h = AGIDL_BMPGetHeight(frame1);
+					w = AGIDL_BMPGetWidth(frame1), h = AGIDL_BMPGetHeight(frame1);
 					AGIDL_ScaleBMP(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleBMP(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleBMP(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1143,7 +1135,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				}
 
 				if(opt == AGMV_OPT_NDS){
-					u32 w = AGIDL_BMPGetWidth(frame1), h = AGIDL_BMPGetHeight(frame1);
+					w = AGIDL_BMPGetWidth(frame1), h = AGIDL_BMPGetHeight(frame1);
 					AGIDL_FastScaleBMP(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_NEAREST);
 					AGIDL_FastScaleBMP(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_NEAREST);
 					AGIDL_FastScaleBMP(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_NEAREST);
@@ -1234,7 +1226,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				AGIDL_ColorConvertTGA(frame4,AGIDL_RGB_888);
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
-					u32 w = AGIDL_TGAGetWidth(frame1), h = AGIDL_TGAGetHeight(frame1);
+					w = AGIDL_TGAGetWidth(frame1), h = AGIDL_TGAGetHeight(frame1);
 					AGIDL_ScaleTGA(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleTGA(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleTGA(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1242,7 +1234,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				}
 
 				if(opt == AGMV_OPT_NDS){
-					u32 w = AGIDL_TGAGetWidth(frame1), h = AGIDL_TGAGetHeight(frame1);
+					w = AGIDL_TGAGetWidth(frame1), h = AGIDL_TGAGetHeight(frame1);
 					AGIDL_ScaleTGA(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleTGA(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleTGA(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1333,7 +1325,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				AGIDL_ColorConvertTIM(frame4,AGIDL_RGB_888);
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
-					u32 w = AGIDL_TIMGetWidth(frame1), h = AGIDL_TIMGetHeight(frame1);
+					w = AGIDL_TIMGetWidth(frame1), h = AGIDL_TIMGetHeight(frame1);
 					AGIDL_ScaleTIM(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleTIM(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleTIM(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1341,7 +1333,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				}
 
 				if(opt == AGMV_OPT_NDS){
-					u32 w = AGIDL_TIMGetWidth(frame1), h = AGIDL_TIMGetHeight(frame1);
+					w = AGIDL_TIMGetWidth(frame1), h = AGIDL_TIMGetHeight(frame1);
 					AGIDL_ScaleTIM(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleTIM(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleTIM(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1432,7 +1424,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				AGIDL_ColorConvertPCX(frame4,AGIDL_RGB_888);
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
-					u32 w = AGIDL_PCXGetWidth(frame1), h = AGIDL_PCXGetHeight(frame1);
+					w = AGIDL_PCXGetWidth(frame1), h = AGIDL_PCXGetHeight(frame1);
 					AGIDL_ScalePCX(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePCX(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePCX(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1440,7 +1432,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				}
 
 				if(opt == AGMV_OPT_NDS){
-					u32 w = AGIDL_PCXGetWidth(frame1), h = AGIDL_PCXGetHeight(frame1);
+					w = AGIDL_PCXGetWidth(frame1), h = AGIDL_PCXGetHeight(frame1);
 					AGIDL_ScalePCX(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePCX(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePCX(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1531,7 +1523,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				AGIDL_ColorConvertLMP(frame4,AGIDL_RGB_888);
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
-					u32 w = AGIDL_LMPGetWidth(frame1), h = AGIDL_LMPGetHeight(frame1);
+					w = AGIDL_LMPGetWidth(frame1), h = AGIDL_LMPGetHeight(frame1);
 					AGIDL_ScaleLMP(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleLMP(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleLMP(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1539,7 +1531,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				}
 
 				if(opt == AGMV_OPT_NDS){
-					u32 w = AGIDL_LMPGetWidth(frame1), h = AGIDL_LMPGetHeight(frame1);
+					w = AGIDL_LMPGetWidth(frame1), h = AGIDL_LMPGetHeight(frame1);
 					AGIDL_ScaleLMP(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleLMP(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleLMP(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1630,7 +1622,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				AGIDL_ColorConvertPVR(frame4,AGIDL_RGB_888);
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
-					u32 w = AGIDL_PVRGetWidth(frame1), h = AGIDL_PVRGetHeight(frame1);
+					w = AGIDL_PVRGetWidth(frame1), h = AGIDL_PVRGetHeight(frame1);
 					AGIDL_ScalePVR(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePVR(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePVR(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1638,7 +1630,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				}
 
 				if(opt == AGMV_OPT_NDS){
-					u32 w = AGIDL_PVRGetWidth(frame1), h = AGIDL_PVRGetHeight(frame1);
+					w = AGIDL_PVRGetWidth(frame1), h = AGIDL_PVRGetHeight(frame1);
 					AGIDL_ScalePVR(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePVR(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePVR(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1729,7 +1721,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				AGIDL_ColorConvertGXT(frame4,AGIDL_RGB_888);
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
-					u32 w = AGIDL_GXTGetWidth(frame1), h = AGIDL_GXTGetHeight(frame1);
+					w = AGIDL_GXTGetWidth(frame1), h = AGIDL_GXTGetHeight(frame1);
 					AGIDL_ScaleGXT(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleGXT(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleGXT(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1737,7 +1729,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				}
 
 				if(opt == AGMV_OPT_NDS){
-					u32 w = AGIDL_GXTGetWidth(frame1), h = AGIDL_GXTGetHeight(frame1);
+					w = AGIDL_GXTGetWidth(frame1), h = AGIDL_GXTGetHeight(frame1);
 					AGIDL_ScaleGXT(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleGXT(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleGXT(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1828,7 +1820,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				AGIDL_ColorConvertBTI(frame4,AGIDL_RGB_888);
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
-					u32 w = AGIDL_BTIGetWidth(frame1), h = AGIDL_BTIGetHeight(frame1);
+					w = AGIDL_BTIGetWidth(frame1), h = AGIDL_BTIGetHeight(frame1);
 					AGIDL_ScaleBTI(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleBTI(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleBTI(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1836,7 +1828,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				}
 
 				if(opt == AGMV_OPT_NDS){
-					u32 w = AGIDL_BTIGetWidth(frame1), h = AGIDL_BTIGetHeight(frame1);
+					w = AGIDL_BTIGetWidth(frame1), h = AGIDL_BTIGetHeight(frame1);
 					AGIDL_ScaleBTI(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleBTI(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleBTI(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1927,7 +1919,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				AGIDL_ColorConvert3DF(frame4,AGIDL_RGB_888);
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
-					u32 w = AGIDL_3DFGetWidth(frame1), h = AGIDL_3DFGetHeight(frame1);
+					w = AGIDL_3DFGetWidth(frame1), h = AGIDL_3DFGetHeight(frame1);
 					AGIDL_Scale3DF(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_Scale3DF(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_Scale3DF(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1935,7 +1927,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				}
 
 				if(opt == AGMV_OPT_NDS){
-					u32 w = AGIDL_3DFGetWidth(frame1), h = AGIDL_3DFGetHeight(frame1);
+					w = AGIDL_3DFGetWidth(frame1), h = AGIDL_3DFGetHeight(frame1);
 					AGIDL_Scale3DF(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_Scale3DF(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_Scale3DF(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -2026,7 +2018,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				AGIDL_ColorConvertPPM(frame4,AGIDL_RGB_888);
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
-					u32 w = AGIDL_PPMGetWidth(frame1), h = AGIDL_PPMGetHeight(frame1);
+					w = AGIDL_PPMGetWidth(frame1), h = AGIDL_PPMGetHeight(frame1);
 					AGIDL_ScalePPM(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePPM(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePPM(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -2034,7 +2026,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				}
 
 				if(opt == AGMV_OPT_NDS){
-					u32 w = AGIDL_PPMGetWidth(frame1), h = AGIDL_PPMGetHeight(frame1);
+					w = AGIDL_PPMGetWidth(frame1), h = AGIDL_PPMGetHeight(frame1);
 					AGIDL_ScalePPM(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePPM(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePPM(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -2125,7 +2117,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				AGIDL_ColorConvertLBM(frame4,AGIDL_RGB_888);
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
-					u32 w = AGIDL_LBMGetWidth(frame1), h = AGIDL_LBMGetHeight(frame1);
+					w = AGIDL_LBMGetWidth(frame1), h = AGIDL_LBMGetHeight(frame1);
 					AGIDL_ScaleLBM(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleLBM(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleLBM(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -2133,7 +2125,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				}
 
 				if(opt == AGMV_OPT_NDS){
-					u32 w = AGIDL_LBMGetWidth(frame1), h = AGIDL_LBMGetHeight(frame1);
+					w = AGIDL_LBMGetWidth(frame1), h = AGIDL_LBMGetHeight(frame1);
 					AGIDL_ScaleLBM(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleLBM(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleLBM(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -2230,7 +2222,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 	DestroyAGMV(agmv);
 
 	if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
-		FILE* file = fopen(filename,"rb");
+		file = fopen(filename,"rb");
 		fseek(file,0,SEEK_END);
 		u32 file_size = ftell(file);
 		fseek(file,0,SEEK_SET);
@@ -2244,7 +2236,6 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 		fprintf(out,"#define GBA_GEN_AGMV_H\n\n");
 		fprintf(out,"const unsigned char GBA_AGMV_FILE[%ld] = {\n",file_size);
 
-		int i;
 		for(i = 0; i < file_size; i++){
 			if(i != 0 && i % 4000 == 0){
 				fprintf(out,"\n");
@@ -2363,24 +2354,23 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 	char* ext = AGIDL_GetImgExtension(img_type);
 
 	for(i = start_frame; i <= end_frame; i++){
-		char filename[60];
+		char tmpFilename[60];
 		if(dir[0] != 'c' || dir[1] != 'u' || dir[2] != 'r'){
-			sprintf(filename,"%s/%s%ld%s",dir,basename,i,ext);
+			sprintf(tmpFilename,"%s/%s%ld%s",dir,basename,i,ext);
 		}
 		else{
-			sprintf(filename,"%s%ld%s",basename,i,ext);
+			sprintf(tmpFilename,"%s%ld%s",basename,i,ext);
 		}
 
 		switch(img_type){
 			case AGIDL_IMG_BMP:{
 				u32* pixels;
 
-				AGIDL_BMP* bmp = AGIDL_LoadBMP(filename);
+				AGIDL_BMP* bmp = AGIDL_LoadBMP(tmpFilename);
 				AGIDL_ColorConvertBMP(bmp,AGIDL_RGB_888);
 
 				pixels = bmp->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -2392,12 +2382,11 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 			case AGIDL_IMG_TGA:{
 				u32* pixels;
 
-				AGIDL_TGA* tga = AGIDL_LoadTGA(filename);
+				AGIDL_TGA* tga = AGIDL_LoadTGA(tmpFilename);
 				AGIDL_ColorConvertTGA(tga,AGIDL_RGB_888);
 
 				pixels = tga->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -2409,11 +2398,10 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 			case AGIDL_IMG_TIM:{
 				u32* pixels;
 
-				AGIDL_TIM* tim = AGIDL_LoadTIM(filename);
+				AGIDL_TIM* tim = AGIDL_LoadTIM(tmpFilename);
 
 				pixels = tim->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -2425,12 +2413,11 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 			case AGIDL_IMG_PCX:{
 				u32* pixels;
 
-				AGIDL_PCX* pcx = AGIDL_LoadPCX(filename);
+				AGIDL_PCX* pcx = AGIDL_LoadPCX(tmpFilename);
 				AGIDL_ColorConvertPCX(pcx,AGIDL_RGB_888);
 
 				pixels = pcx->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -2442,12 +2429,11 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 			case AGIDL_IMG_LMP:{
 				u32* pixels;
 
-				AGIDL_LMP* lmp = AGIDL_LoadLMP(filename);
+				AGIDL_LMP* lmp = AGIDL_LoadLMP(tmpFilename);
 				AGIDL_ColorConvertLMP(lmp,AGIDL_RGB_888);
 
 				pixels = lmp->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -2459,12 +2445,11 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 			case AGIDL_IMG_PVR:{
 				u32* pixels;
 
-				AGIDL_PVR* pvr = AGIDL_LoadPVR(filename);
+				AGIDL_PVR* pvr = AGIDL_LoadPVR(tmpFilename);
 				AGIDL_ColorConvertPVR(pvr,AGIDL_RGB_888);
 
 				pixels = pvr->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -2476,12 +2461,11 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 			case AGIDL_IMG_GXT:{
 				u32* pixels;
 
-				AGIDL_GXT* gxt = AGIDL_LoadGXT(filename);
+				AGIDL_GXT* gxt = AGIDL_LoadGXT(tmpFilename);
 				AGIDL_ColorConvertGXT(gxt,AGIDL_RGB_888);
 
 				pixels = gxt->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -2493,12 +2477,11 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 			case AGIDL_IMG_BTI:{
 				u32* pixels;
 
-				AGIDL_BTI* bti = AGIDL_LoadBTI(filename);
+				AGIDL_BTI* bti = AGIDL_LoadBTI(tmpFilename);
 				AGIDL_ColorConvertBTI(bti,AGIDL_RGB_888);
 
 				pixels = bti->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -2510,12 +2493,11 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 			case AGIDL_IMG_3DF:{
 				u32* pixels;
 
-				AGIDL_3DF* glide = AGIDL_Load3DF(filename);
+				AGIDL_3DF* glide = AGIDL_Load3DF(tmpFilename);
 				AGIDL_ColorConvert3DF(glide,AGIDL_RGB_888);
 
 				pixels = glide->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -2527,12 +2509,11 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 			case AGIDL_IMG_PPM:{
 				u32* pixels;
 
-				AGIDL_PPM* ppm = AGIDL_LoadPPM(filename);
+				AGIDL_PPM* ppm = AGIDL_LoadPPM(tmpFilename);
 				AGIDL_ColorConvertPPM(ppm,AGIDL_RGB_888);
 
 				pixels = ppm->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -2544,12 +2525,11 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 			case AGIDL_IMG_LBM:{
 				u32* pixels;
 
-				AGIDL_LBM* lbm = AGIDL_LoadLBM(filename);
+				AGIDL_LBM* lbm = AGIDL_LoadLBM(tmpFilename);
 				AGIDL_ColorConvertLBM(lbm,AGIDL_RGB_888);
 
 				pixels = lbm->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -2701,7 +2681,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				AGIDL_ColorConvertBMP(frame4,AGIDL_RGB_888);
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
-					u32 w = AGIDL_BMPGetWidth(frame1), h = AGIDL_BMPGetHeight(frame1);
+					w = AGIDL_BMPGetWidth(frame1), h = AGIDL_BMPGetHeight(frame1);
 					AGIDL_ScaleBMP(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleBMP(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleBMP(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -2709,7 +2689,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				}
 
 				if(opt == AGMV_OPT_NDS){
-					u32 w = AGIDL_BMPGetWidth(frame1), h = AGIDL_BMPGetHeight(frame1);
+					w = AGIDL_BMPGetWidth(frame1), h = AGIDL_BMPGetHeight(frame1);
 					AGIDL_FastScaleBMP(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_NEAREST);
 					AGIDL_FastScaleBMP(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_NEAREST);
 					AGIDL_FastScaleBMP(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_NEAREST);
@@ -2784,7 +2764,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				AGIDL_ColorConvertTGA(frame4,AGIDL_RGB_888);
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
-					u32 w = AGIDL_TGAGetWidth(frame1), h = AGIDL_TGAGetHeight(frame1);
+					w = AGIDL_TGAGetWidth(frame1), h = AGIDL_TGAGetHeight(frame1);
 					AGIDL_ScaleTGA(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleTGA(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleTGA(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -2792,7 +2772,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				}
 
 				if(opt == AGMV_OPT_NDS){
-					u32 w = AGIDL_TGAGetWidth(frame1), h = AGIDL_TGAGetHeight(frame1);
+					w = AGIDL_TGAGetWidth(frame1), h = AGIDL_TGAGetHeight(frame1);
 					AGIDL_ScaleTGA(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleTGA(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleTGA(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -2867,7 +2847,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				AGIDL_ColorConvertTIM(frame4,AGIDL_RGB_888);
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
-					u32 w = AGIDL_TIMGetWidth(frame1), h = AGIDL_TIMGetHeight(frame1);
+					w = AGIDL_TIMGetWidth(frame1), h = AGIDL_TIMGetHeight(frame1);
 					AGIDL_ScaleTIM(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleTIM(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleTIM(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -2875,7 +2855,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				}
 
 				if(opt == AGMV_OPT_NDS){
-					u32 w = AGIDL_TIMGetWidth(frame1), h = AGIDL_TIMGetHeight(frame1);
+					w = AGIDL_TIMGetWidth(frame1), h = AGIDL_TIMGetHeight(frame1);
 					AGIDL_ScaleTIM(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleTIM(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleTIM(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -2950,7 +2930,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				AGIDL_ColorConvertPCX(frame4,AGIDL_RGB_888);
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
-					u32 w = AGIDL_PCXGetWidth(frame1), h = AGIDL_PCXGetHeight(frame1);
+					w = AGIDL_PCXGetWidth(frame1), h = AGIDL_PCXGetHeight(frame1);
 					AGIDL_ScalePCX(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePCX(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePCX(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -2958,7 +2938,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				}
 
 				if(opt == AGMV_OPT_NDS){
-					u32 w = AGIDL_PCXGetWidth(frame1), h = AGIDL_PCXGetHeight(frame1);
+					w = AGIDL_PCXGetWidth(frame1), h = AGIDL_PCXGetHeight(frame1);
 					AGIDL_ScalePCX(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePCX(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePCX(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3034,7 +3014,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				AGIDL_ColorConvertLMP(frame4,AGIDL_RGB_888);
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
-					u32 w = AGIDL_LMPGetWidth(frame1), h = AGIDL_LMPGetHeight(frame1);
+					w = AGIDL_LMPGetWidth(frame1), h = AGIDL_LMPGetHeight(frame1);
 					AGIDL_ScaleLMP(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleLMP(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleLMP(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3042,7 +3022,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				}
 
 				if(opt == AGMV_OPT_NDS){
-					u32 w = AGIDL_LMPGetWidth(frame1), h = AGIDL_LMPGetHeight(frame1);
+					w = AGIDL_LMPGetWidth(frame1), h = AGIDL_LMPGetHeight(frame1);
 					AGIDL_ScaleLMP(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleLMP(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleLMP(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3117,7 +3097,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				AGIDL_ColorConvertPVR(frame4,AGIDL_RGB_888);
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
-					u32 w = AGIDL_PVRGetWidth(frame1), h = AGIDL_PVRGetHeight(frame1);
+					w = AGIDL_PVRGetWidth(frame1), h = AGIDL_PVRGetHeight(frame1);
 					AGIDL_ScalePVR(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePVR(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePVR(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3125,7 +3105,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				}
 
 				if(opt == AGMV_OPT_NDS){
-					u32 w = AGIDL_PVRGetWidth(frame1), h = AGIDL_PVRGetHeight(frame1);
+					w = AGIDL_PVRGetWidth(frame1), h = AGIDL_PVRGetHeight(frame1);
 					AGIDL_ScalePVR(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePVR(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePVR(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3200,7 +3180,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				AGIDL_ColorConvertGXT(frame4,AGIDL_RGB_888);
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
-					u32 w = AGIDL_GXTGetWidth(frame1), h = AGIDL_GXTGetHeight(frame1);
+					w = AGIDL_GXTGetWidth(frame1), h = AGIDL_GXTGetHeight(frame1);
 					AGIDL_ScaleGXT(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleGXT(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleGXT(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3208,7 +3188,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				}
 
 				if(opt == AGMV_OPT_NDS){
-					u32 w = AGIDL_GXTGetWidth(frame1), h = AGIDL_GXTGetHeight(frame1);
+					w = AGIDL_GXTGetWidth(frame1), h = AGIDL_GXTGetHeight(frame1);
 					AGIDL_ScaleGXT(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleGXT(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleGXT(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3283,7 +3263,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				AGIDL_ColorConvertBTI(frame4,AGIDL_RGB_888);
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
-					u32 w = AGIDL_BTIGetWidth(frame1), h = AGIDL_BTIGetHeight(frame1);
+					w = AGIDL_BTIGetWidth(frame1), h = AGIDL_BTIGetHeight(frame1);
 					AGIDL_ScaleBTI(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleBTI(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleBTI(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3291,7 +3271,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				}
 
 				if(opt == AGMV_OPT_NDS){
-					u32 w = AGIDL_BTIGetWidth(frame1), h = AGIDL_BTIGetHeight(frame1);
+					w = AGIDL_BTIGetWidth(frame1), h = AGIDL_BTIGetHeight(frame1);
 					AGIDL_ScaleBTI(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleBTI(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleBTI(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3366,7 +3346,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				AGIDL_ColorConvert3DF(frame4,AGIDL_RGB_888);
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
-					u32 w = AGIDL_3DFGetWidth(frame1), h = AGIDL_3DFGetHeight(frame1);
+					w = AGIDL_3DFGetWidth(frame1), h = AGIDL_3DFGetHeight(frame1);
 					AGIDL_Scale3DF(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_Scale3DF(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_Scale3DF(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3374,7 +3354,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				}
 
 				if(opt == AGMV_OPT_NDS){
-					u32 w = AGIDL_3DFGetWidth(frame1), h = AGIDL_3DFGetHeight(frame1);
+					w = AGIDL_3DFGetWidth(frame1), h = AGIDL_3DFGetHeight(frame1);
 					AGIDL_Scale3DF(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_Scale3DF(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_Scale3DF(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3449,7 +3429,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				AGIDL_ColorConvertPPM(frame4,AGIDL_RGB_888);
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
-					u32 w = AGIDL_PPMGetWidth(frame1), h = AGIDL_PPMGetHeight(frame1);
+					w = AGIDL_PPMGetWidth(frame1), h = AGIDL_PPMGetHeight(frame1);
 					AGIDL_ScalePPM(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePPM(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePPM(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3457,7 +3437,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				}
 
 				if(opt == AGMV_OPT_NDS){
-					u32 w = AGIDL_PPMGetWidth(frame1), h = AGIDL_PPMGetHeight(frame1);
+					w = AGIDL_PPMGetWidth(frame1), h = AGIDL_PPMGetHeight(frame1);
 					AGIDL_ScalePPM(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePPM(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePPM(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3532,7 +3512,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				AGIDL_ColorConvertLBM(frame4,AGIDL_RGB_888);
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
-					u32 w = AGIDL_LBMGetWidth(frame1), h = AGIDL_LBMGetHeight(frame1);
+					w = AGIDL_LBMGetWidth(frame1), h = AGIDL_LBMGetHeight(frame1);
 					AGIDL_ScaleLBM(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleLBM(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleLBM(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3540,7 +3520,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				}
 
 				if(opt == AGMV_OPT_NDS){
-					u32 w = AGIDL_LBMGetWidth(frame1), h = AGIDL_LBMGetHeight(frame1);
+					w = AGIDL_LBMGetWidth(frame1), h = AGIDL_LBMGetHeight(frame1);
 					AGIDL_ScaleLBM(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleLBM(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleLBM(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3621,7 +3601,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 	DestroyAGMV(agmv);
 
 	if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
-		FILE* file = fopen(filename,"rb");
+		file = fopen(filename,"rb");
 		fseek(file,0,SEEK_END);
 		u32 file_size = ftell(file);
 		fseek(file,0,SEEK_SET);
@@ -3635,7 +3615,6 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 		fprintf(out,"#define GBA_GEN_AGMV_H\n\n");
 		fprintf(out,"const unsigned char GBA_AGMV_FILE[%ld] = {\n",file_size);
 
-		int i;
 		for(i = 0; i < file_size; i++){
 			if(i != 0 && i % 4000 == 0){
 				fprintf(out,"\n");
@@ -3727,24 +3706,23 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 	char* ext = AGIDL_GetImgExtension(img_type);
 
 	for(i = start_frame; i <= end_frame; i++){
-		char filename[60];
+		char tmpFilename[60];
 		if(dir[0] != 'c' || dir[1] != 'u' || dir[2] != 'r'){
-			sprintf(filename,"%s/%s%ld%s",dir,basename,i,ext);
+			sprintf(tmpFilename,"%s/%s%ld%s",dir,basename,i,ext);
 		}
 		else{
-			sprintf(filename,"%s%ld%s",basename,i,ext);
+			sprintf(tmpFilename,"%s%ld%s",basename,i,ext);
 		}
 
 		switch(img_type){
 			case AGIDL_IMG_BMP:{
 				u32* pixels;
 
-				AGIDL_BMP* bmp = AGIDL_LoadBMP(filename);
+				AGIDL_BMP* bmp = AGIDL_LoadBMP(tmpFilename);
 				AGIDL_ColorConvertBMP(bmp,AGIDL_RGB_888);
 
 				pixels = bmp->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -3756,12 +3734,11 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 			case AGIDL_IMG_TGA:{
 				u32* pixels;
 
-				AGIDL_TGA* tga = AGIDL_LoadTGA(filename);
+				AGIDL_TGA* tga = AGIDL_LoadTGA(tmpFilename);
 				AGIDL_ColorConvertTGA(tga,AGIDL_RGB_888);
 
 				pixels = tga->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -3773,11 +3750,10 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 			case AGIDL_IMG_TIM:{
 				u32* pixels;
 
-				AGIDL_TIM* tim = AGIDL_LoadTIM(filename);
+				AGIDL_TIM* tim = AGIDL_LoadTIM(tmpFilename);
 
 				pixels = tim->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -3789,12 +3765,11 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 			case AGIDL_IMG_PCX:{
 				u32* pixels;
 
-				AGIDL_PCX* pcx = AGIDL_LoadPCX(filename);
+				AGIDL_PCX* pcx = AGIDL_LoadPCX(tmpFilename);
 				AGIDL_ColorConvertPCX(pcx,AGIDL_RGB_888);
 
 				pixels = pcx->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -3806,12 +3781,11 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 			case AGIDL_IMG_LMP:{
 				u32* pixels;
 
-				AGIDL_LMP* lmp = AGIDL_LoadLMP(filename);
+				AGIDL_LMP* lmp = AGIDL_LoadLMP(tmpFilename);
 				AGIDL_ColorConvertLMP(lmp,AGIDL_RGB_888);
 
 				pixels = lmp->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -3823,12 +3797,11 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 			case AGIDL_IMG_PVR:{
 				u32* pixels;
 
-				AGIDL_PVR* pvr = AGIDL_LoadPVR(filename);
+				AGIDL_PVR* pvr = AGIDL_LoadPVR(tmpFilename);
 				AGIDL_ColorConvertPVR(pvr,AGIDL_RGB_888);
 
 				pixels = pvr->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -3840,12 +3813,11 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 			case AGIDL_IMG_GXT:{
 				u32* pixels;
 
-				AGIDL_GXT* gxt = AGIDL_LoadGXT(filename);
+				AGIDL_GXT* gxt = AGIDL_LoadGXT(tmpFilename);
 				AGIDL_ColorConvertGXT(gxt,AGIDL_RGB_888);
 
 				pixels = gxt->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -3857,12 +3829,11 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 			case AGIDL_IMG_BTI:{
 				u32* pixels;
 
-				AGIDL_BTI* bti = AGIDL_LoadBTI(filename);
+				AGIDL_BTI* bti = AGIDL_LoadBTI(tmpFilename);
 				AGIDL_ColorConvertBTI(bti,AGIDL_RGB_888);
 
 				pixels = bti->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -3874,12 +3845,11 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 			case AGIDL_IMG_3DF:{
 				u32* pixels;
 
-				AGIDL_3DF* glide = AGIDL_Load3DF(filename);
+				AGIDL_3DF* glide = AGIDL_Load3DF(tmpFilename);
 				AGIDL_ColorConvert3DF(glide,AGIDL_RGB_888);
 
 				pixels = glide->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -3891,12 +3861,11 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 			case AGIDL_IMG_PPM:{
 				u32* pixels;
 
-				AGIDL_PPM* ppm = AGIDL_LoadPPM(filename);
+				AGIDL_PPM* ppm = AGIDL_LoadPPM(tmpFilename);
 				AGIDL_ColorConvertPPM(ppm,AGIDL_RGB_888);
 
 				pixels = ppm->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -3908,12 +3877,11 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 			case AGIDL_IMG_LBM:{
 				u32* pixels;
 
-				AGIDL_LBM* lbm = AGIDL_LoadLBM(filename);
+				AGIDL_LBM* lbm = AGIDL_LoadLBM(tmpFilename);
 				AGIDL_ColorConvertLBM(lbm,AGIDL_RGB_888);
 
 				pixels = lbm->pixels.pix32;
 
-				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
@@ -4378,7 +4346,7 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 	DestroyAGMV(agmv);
 
 	if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
-		FILE* file = fopen(filename,"rb");
+		file = fopen(filename,"rb");
 		fseek(file,0,SEEK_END);
 		u32 file_size = ftell(file);
 		fseek(file,0,SEEK_SET);
@@ -4391,8 +4359,7 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 		fprintf(out,"#ifndef GBA_GEN_AGMV_H\n");
 		fprintf(out,"#define GBA_GEN_AGMV_H\n\n");
 		fprintf(out,"const unsigned char GBA_AGMV_FILE[%ld] = {\n",file_size);
-		
-		int i;
+
 		for(i = 0; i < file_size; i++){
 			if(i != 0 && i % 4000 == 0){
 				fprintf(out,"\n");

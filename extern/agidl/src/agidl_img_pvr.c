@@ -694,9 +694,9 @@ void AGIDL_PVRDecodeImg(AGIDL_PVR* pvr, PVRClrFmt fmt, PVRImgType img, FILE* fil
 		}
 	}
 	else{
-		PVRPxlFmt fmt = pvr->pxl_fmt;
+		PVRPxlFmt pxlFmt = pvr->pxl_fmt;
 
-		switch(fmt){
+		switch(pxlFmt){
 			case PVRTC_RGB_888:{
 				AGIDL_PVRSetClrFmt(pvr,AGIDL_RGB_888);
 				pvr->pixels.pix32 = (COLOR*)malloc(sizeof(COLOR)*AGIDL_PVRGetSize(pvr));
@@ -1010,8 +1010,8 @@ void AGIDL_PVRDecodeTwiddledImg(AGIDL_PVR* pvr, PVRClrFmt fmt, PVRImgType img, F
 		
 		pvr->mipmap->mipcount = count-1;
 		
-		COLOR16* img = pvr->mipmap->mipmap[count-1].img_data;
-		AGIDL_ClrMemcpy16(pvr->pixels.pix16,img,AGIDL_PVRGetSize(pvr));
+		COLOR16* imgPtr = pvr->mipmap->mipmap[count-1].img_data;
+		AGIDL_ClrMemcpy16(pvr->pixels.pix16,imgPtr,AGIDL_PVRGetSize(pvr));
 	}
 	else if(fmt == PVR_RGB_565 && img == PVR_IMG_SQUARE_TWIDDLED_AND_MIPMAPPED){
 		AGIDL_PVRSetClrFmt(pvr,AGIDL_RGB_565);
@@ -1060,8 +1060,8 @@ void AGIDL_PVRDecodeTwiddledImg(AGIDL_PVR* pvr, PVRClrFmt fmt, PVRImgType img, F
 		
 		pvr->mipmap->mipcount = count-1;
 		
-		COLOR16* img = pvr->mipmap->mipmap[count-1].img_data;
-		AGIDL_ClrMemcpy16(pvr->pixels.pix16,img,AGIDL_PVRGetSize(pvr));
+		COLOR16* imgPtr = pvr->mipmap->mipmap[count-1].img_data;
+		AGIDL_ClrMemcpy16(pvr->pixels.pix16,imgPtr,AGIDL_PVRGetSize(pvr));
 	}
 }
 

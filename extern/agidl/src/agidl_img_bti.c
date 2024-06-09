@@ -675,7 +675,7 @@ void AGIDL_BTIDecodeIMG(AGIDL_BTI* bti, FILE* file){
 			int x,y;
 			for(y = 0; y < AGIDL_BTIGetHeight(bti); y += 4){
 				for(x = 0; x < AGIDL_BTIGetWidth(bti); x += 8){
-					u8 i,j;
+					u8 j;
 					for(j = 0; j < 4; j++){
 						for(i = 0; i < 8; i++){
 							u8 byte = AGIDL_ReadByte(file);
@@ -715,7 +715,7 @@ void AGIDL_BTIDecodeIMG(AGIDL_BTI* bti, FILE* file){
 			int x,y;
 			for(y = 0; y < AGIDL_BTIGetHeight(bti); y += 4){
 				for(x = 0; x < AGIDL_BTIGetWidth(bti); x += 8){
-					u8 i,j;
+					u8 j;
 					for(j = 0; j < 4; j++){
 						for(i = 0; i < 8; i++){
 							u8 byte = AGIDL_ReadByte(file);

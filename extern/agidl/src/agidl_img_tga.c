@@ -666,7 +666,7 @@ void AGIDL_TGADecodeRLE(AGIDL_TGA* tga, FILE* file, TGA_ICP_TYPE icp, TGA_IMG_TY
 							char* packrle = tgarlebits(binbyte);
 							u16 rle = bin2dec2(packrle) + 1;
 							u8 index = AGIDL_ReadByte(file);
-							int i;
+
 							for(i = 0; i < rle; i++){
 								AGIDL_TGASetClr(tga,x+i,y,tga->palette.icp.palette_256[index]);
 							}
@@ -704,7 +704,7 @@ void AGIDL_TGADecodeRLE(AGIDL_TGA* tga, FILE* file, TGA_ICP_TYPE icp, TGA_IMG_TY
 							char* packrle = tgarlebits(binbyte);
 							u16 rle = bin2dec2(packrle) + 1;
 							u8 index = AGIDL_ReadByte(file);
-							int i;
+
 							for(i = 0; i < rle; i++){
 								AGIDL_TGASetClr16(tga,x+i,y,tga->palette.icp.palette_16b_256[index]);
 							}
