@@ -2224,7 +2224,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 	}
 }
 
-void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const char* basename, u8 img_type, u32 start_frame, u32 end_frame, u32 width, u32 height, u32, AGMV_OPT opt, AGMV_QUALITY quality, AGMV_COMPRESSION compression){
+void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const char* basename, u8 img_type, u32 start_frame, u32 end_frame, u32 width, u32 height, u32 frames_per_second, AGMV_OPT opt, AGMV_QUALITY quality, AGMV_COMPRESSION compression){
 	u32 i, palette0[256], palette1[256], n, count = 0, num_of_frames_encoded = 0, w, h, num_of_pix, max_clr;
 	u32 sample_size, adjusted_num_of_frames = end_frame-start_frame;
 	u32 pal[512];
@@ -3603,7 +3603,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 	}
 }
 
-void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, const char* basename, u8 img_type, u32 start_frame, u32 end_frame, u32 width, u32 height, u32, AGMV_OPT opt, AGMV_QUALITY quality, AGMV_COMPRESSION compression){
+void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, const char* basename, u8 img_type, u32 start_frame, u32 end_frame, u32 width, u32 height, u32 frames_per_second, AGMV_OPT opt, AGMV_QUALITY quality, AGMV_COMPRESSION compression){
 	u32 i, palette0[256], palette1[256], n, count = 0, max_clr;
 	u32 sample_size;
 	u32 pal[512];
