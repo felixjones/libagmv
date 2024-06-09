@@ -1205,7 +1205,7 @@ void AGMV_AIFFToAudioTrack(const char* filename, AGMV* agmv){
 		AGMV_SetNumberOfChannels(agmv,num_of_channels);
 
 		if(sample_size == 16){
-			u16* pcm = (u16*) malloc(sizeof(u16) * (size / 2));
+			u16* pcm = malloc(sizeof(u16) * (size / 2));
 			for(i = 0; i < size/2; i++){
 				pcm[i] = AGMV_SwapShort(AGMV_ReadShort(file));
 			}
@@ -1215,7 +1215,7 @@ void AGMV_AIFFToAudioTrack(const char* filename, AGMV* agmv){
 			free(pcm);
 		}
 		else{
-			u8* pcm8 = (u8*) malloc(sizeof(u8) * size);
+			u8* pcm8 = malloc(sizeof(u8) * size);
 			fread(pcm8,1,size,file);
 			AGMV_SetAudioSize(agmv,size);
 			agmv->audio_chunk->atsample = (u8*)malloc(sizeof(u8)*agmv->header.audio_size);
@@ -1235,7 +1235,7 @@ void AGMV_Raw8PCMToAudioTrack(const char* filename, AGMV* agmv){
 	const int file_size = ftell(file);
 	fseek(file,0,SEEK_SET);
 
-	s8* data = (s8*) malloc(sizeof(s8) * file_size);
+	s8* data = malloc(sizeof(s8) * file_size);
 	fread(data,1,file_size,file);
 
 	AGMV_SetTotalAudioDuration(agmv,file_size/16000);
@@ -1270,7 +1270,7 @@ void AGMV_Export8PCMWav(const char* filename){
 	u32 data_chunk = AGMV_ReadLong(wav);
 	const u32 sub_chunk_size2 = AGMV_ReadLong(wav);
 
-	u8* pcm = (u8*) malloc(sizeof(u8) * sub_chunk_size2);
+	u8* pcm = malloc(sizeof(u8) * sub_chunk_size2);
 	fread(pcm,1,sub_chunk_size2,wav);
 
 	fclose(wav);
@@ -1303,7 +1303,7 @@ void AGMV_ExportRaw8PCM(const char* filename, const u32 total_num_frames){
 	const int file_size = ftell(file);
 	fseek(file,0,SEEK_SET);
 
-	s8* data = (s8*) malloc(sizeof(s8) * file_size);
+	s8* data = malloc(sizeof(s8) * file_size);
 	fread(data,1,file_size,file);
 
 	fclose(file);
@@ -1358,7 +1358,7 @@ int AGMV_ResetFrameRate(const char* filename, const u32 frames_per_second){
 	const u32 file_size = ftell(file);
 	fseek(file,0,SEEK_SET);
 
-	u8* data = (u8*) malloc(sizeof(u8) * file_size);
+	u8* data = malloc(sizeof(u8) * file_size);
 
 	if(!fread(data,1,file_size,file)){
 		free(data);
@@ -1495,7 +1495,7 @@ void AGMV_ExportAGMVToHeader(const char* filename){
 	const u32 file_size = ftell(in);
 	fseek(in,0,SEEK_SET);
 
-	u8* data = (u8*) malloc(sizeof(u8) * file_size);
+	u8* data = malloc(sizeof(u8) * file_size);
 	fread(data,1,file_size,in);
 
 	fclose(in);

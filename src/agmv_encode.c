@@ -517,7 +517,7 @@ void AGMV_EncodeFrame(FILE* file, AGMV* agmv, const u32* img_data){
 	int max_size = size * 0.8f;
 
 	AGMV_ENTRY* iframe_entries = agmv->iframe_entries;
-	AGMV_ENTRY* img_entry = (AGMV_ENTRY*) malloc(sizeof(AGMV_ENTRY) * size);
+	AGMV_ENTRY* img_entry = malloc(sizeof(AGMV_ENTRY) * size);
 
 	AGMV_SyncFrameAndImage(agmv,img_data);
 	AGMV_WriteFourCC(file,'A','G','F','C');
