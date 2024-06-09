@@ -171,15 +171,15 @@ void AGIDL_DestroyFont(AGIDL_FONT* font){
 void AGIDL_AddLetter(AGIDL_FONT* font, char c, void* data){
 	if(AGIDL_FindNode(font->list,c) != 1){
 		if(AGIDL_GetBitCount(font->fmt) == 16){
-			COLOR16* clrdata = (COLOR16*)data;
-			COLOR16* cpy = (COLOR16*)malloc(sizeof(COLOR16)*font->width*font->height);
+			COLOR16* clrdata = data;
+			COLOR16* cpy = malloc(sizeof(COLOR16)*font->width*font->height);
 			AGIDL_ClrMemcpy16(cpy,clrdata,font->width*font->height);
 			AGIDL_AddNode(font->list,c,cpy,font->width,font->height);
 			font->num_of_letters++;
 		}
 		else{
-			COLOR* clrdata = (COLOR*)data;
-			COLOR* cpy = (COLOR*)malloc(sizeof(COLOR)*font->width*font->height);
+			COLOR* clrdata = data;
+			COLOR* cpy = malloc(sizeof(COLOR)*font->width*font->height);
 			AGIDL_ClrMemcpy(cpy,clrdata,font->width*font->height);
 			AGIDL_AddNode(font->list,c,cpy,font->width,font->height);
 			font->num_of_letters++;
