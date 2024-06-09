@@ -643,7 +643,7 @@ void AGIDL_PVREncodeHeader(AGIDL_PVR* pvr, FILE* file){
 		AGIDL_WriteLong(file,1);
 		AGIDL_WriteLong(file,1);
 		AGIDL_WriteLong(file,1);
-		if(pvr->mipped = TRUE){
+		if(pvr->mipped == TRUE){
 			AGIDL_WriteLong(file,count);
 		}
 		else{
