@@ -419,7 +419,7 @@ void AGIDL_TGASearchFileOnDisk(const char* filename, AGIDL_IMG_TYPE img_type){
 	FILE* file = fopen(filename,"rb");
 	
 	if(file == NULL){
-		printf("Could not locate/open file - %s!\n");
+		printf("Could not locate/open file - %s!\n", filename);
 		return;
 	}	
 	
