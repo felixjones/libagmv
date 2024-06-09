@@ -180,60 +180,6 @@ char* AGIDL_Dec2Bin(u32 num){
 }
 
 void AGIDL_PrintBin(u32 num){
-	u8 num_of_bits = 0;
-	
-	if(num <= 1){
-		num_of_bits = 1;
-	}
-	else if(num <= 3){
-		num_of_bits = 2;
-	}
-	else if(num <= 7){
-		num_of_bits = 3;
-	}
-	else if(num <= 15){
-		num_of_bits = 4;
-	}
-	else if(num <= 31){
-		num_of_bits = 5;
-	}
-	else if(num <= 63){
-		num_of_bits = 6;
-	}
-	else if(num <= 127){
-		num_of_bits = 7;
-	}
-	else if(num <= 255){
-		num_of_bits = 8;
-	}
-	else if(num <= 511){
-		num_of_bits = 9;
-	}
-	else if(num <= 1023){
-		num_of_bits = 10;
-	}
-	else if(num <= 2047){
-		num_of_bits = 11;
-	}
-	else if(num <= 4095){
-		num_of_bits = 12;
-	}
-	else if(num <= 8191){
-		num_of_bits = 13;
-	}
-	else if(num <= 16383){
-		num_of_bits = 14;
-	}
-	else if(num <= 32767){
-		num_of_bits = 15;
-	}
-	else if(num <= 65535){
-		num_of_bits = 16;
-	}
-	else if(num <= 131071){
-		num_of_bits = 17;
-	}
-	
 	int i;
 	for(i = 8; i >= 0; i--){
 		int k = num >> i;
