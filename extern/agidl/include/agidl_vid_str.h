@@ -92,7 +92,7 @@ float C(int u);
 int AGIDL_SingleIDCT(int x, int y, s16 macroblock[8][8]);
 void AGIDL_IDCT(s16 macroblock[8][8]);
 void AGIDL_DecodeMacroblock(AGIDL_MDEC_FRAME* frame, s16 block[64], const int table[64]);
-int AGIDL_MDEC(const char* filename, AGIDL_IMG_TYPE img_type);
+int AGIDL_MDEC(const char* filename);
 
 
 #endif

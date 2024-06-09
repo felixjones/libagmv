@@ -119,7 +119,7 @@ int AGIDL_3DFDecodeHeader(AGIDL_3DF* glide, FILE* file);
 int AGIDL_3DFDecodePartialHeader(AGIDL_3DF* glide, FILE* file);
 void AGIDL_3DFDecodeIMG(AGIDL_3DF* glide, FILE* file);
 void AGIDL_3DFEncodeHeader(AGIDL_3DF* glide, FILE* file);
-void AGIDL_3DFEncodeICP(AGIDL_3DF* glide, FILE* file);
+void AGIDL_3DFEncodeICP(AGIDL_3DF* glide);
 void AGIDL_3DFEncodeNearestICP(AGIDL_3DF* glide, AGIDL_ICP palette, FILE* file);
 void AGIDL_3DFEncodeIMG(AGIDL_3DF* glide, FILE* file);
 

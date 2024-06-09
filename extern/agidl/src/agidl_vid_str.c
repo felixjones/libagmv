@@ -498,7 +498,7 @@ void AGIDL_DecodeMacroblock(AGIDL_MDEC_FRAME* frame, s16 block[64], const int ta
 	AGIDL_TransformMaroblockToBlock(block,macroblock);
 }
 
-int AGIDL_MDEC(const char* filename, AGIDL_IMG_TYPE img_type){
+int AGIDL_MDEC(const char* filename){
 	FILE* file = fopen(filename,"rb");
 	
 	if(file == NULL){

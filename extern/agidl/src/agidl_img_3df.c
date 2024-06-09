@@ -1295,7 +1295,7 @@ void AGIDL_3DFEncodeHeader(AGIDL_3DF* glide, FILE* file){
 	}
 }
 
-void AGIDL_3DFEncodeICP(AGIDL_3DF* glide, FILE* file){
+void AGIDL_3DFEncodeICP(AGIDL_3DF* glide){
 	if(glide->encode == ICP_ENCODE_THRESHOLD){
 		int pass = 0;
 		u8 pal_index = 0;
@@ -1617,7 +1617,7 @@ void AGIDL_Export3DF(AGIDL_3DF* glide){
 				AGIDL_3DFConvert16BPPTO24BPP(glide);
 				glide->pixels.pix32 = (COLOR*)AGIDL_NearestPow2ScaleImgData(glide->pixels.pix32,&glide->width,&glide->height,256,AGIDL_3DFGetClrFmt(glide));
 				AGIDL_3DFConvertRGB2RGBA(glide);
-				AGIDL_3DFEncodeICP(glide,file);
+				AGIDL_3DFEncodeICP(glide);
 				AGIDL_3DFEncodeIMG(glide,file);
 				AGIDL_3DFConvertRGBA2RGB(glide);
 				AGIDL_3DFConvert24BPPTO16BPP(glide);
@@ -1626,7 +1626,7 @@ void AGIDL_Export3DF(AGIDL_3DF* glide){
 				AGIDL_3DFConvert16BPPTO24BPP(glide);
 				glide->pixels.pix32 = (COLOR*)AGIDL_NearestPow2ScaleImgData(glide->pixels.pix32,&glide->width,&glide->height,256,AGIDL_3DFGetClrFmt(glide));
 				AGIDL_3DFConvertRGB2RGBA(glide);
-				AGIDL_3DFEncodeICP(glide,file);
+				AGIDL_3DFEncodeICP(glide);
 				AGIDL_3DFEncodeIMG(glide,file);
 				AGIDL_3DFConvertRGBA2RGB(glide);
 				AGIDL_3DFConvert24BPPTO16BPP(glide);
@@ -1636,7 +1636,7 @@ void AGIDL_Export3DF(AGIDL_3DF* glide){
 				AGIDL_3DFConvert16BPPTO24BPP(glide);
 				glide->pixels.pix32 = (COLOR*)AGIDL_NearestPow2ScaleImgData(glide->pixels.pix32,&glide->width,&glide->height,256,AGIDL_3DFGetClrFmt(glide));
 				AGIDL_3DFConvertRGB2RGBA(glide);
-				AGIDL_3DFEncodeICP(glide,file);
+				AGIDL_3DFEncodeICP(glide);
 				AGIDL_3DFEncodeIMG(glide,file);
 				AGIDL_3DFConvertRGBA2RGB(glide);
 				AGIDL_3DFConvert24BPPTO16BPP(glide);
@@ -1647,7 +1647,7 @@ void AGIDL_Export3DF(AGIDL_3DF* glide){
 				AGIDL_3DFConvert16BPPTO24BPP(glide);
 				glide->pixels.pix32 = (COLOR*)AGIDL_NearestPow2ScaleImgData(glide->pixels.pix32,&glide->width,&glide->height,256,AGIDL_3DFGetClrFmt(glide));
 				AGIDL_3DFConvertRGB2RGBA(glide);
-				AGIDL_3DFEncodeICP(glide,file);
+				AGIDL_3DFEncodeICP(glide);
 				AGIDL_3DFEncodeIMG(glide,file);
 				AGIDL_3DFConvertRGBA2RGB(glide);
 				AGIDL_3DFConvert24BPPTO16BPP(glide);
@@ -1656,7 +1656,7 @@ void AGIDL_Export3DF(AGIDL_3DF* glide){
 			case AGIDL_RGB_888:{
 				glide->pixels.pix32 = (COLOR*)AGIDL_NearestPow2ScaleImgData(glide->pixels.pix32,&glide->width,&glide->height,256,AGIDL_3DFGetClrFmt(glide));
 				AGIDL_3DFConvertRGB2RGBA(glide);
-				AGIDL_3DFEncodeICP(glide,file);
+				AGIDL_3DFEncodeICP(glide);
 				AGIDL_3DFEncodeIMG(glide,file);
 				AGIDL_3DFConvertRGBA2RGB(glide);
 			}break;
@@ -1664,19 +1664,19 @@ void AGIDL_Export3DF(AGIDL_3DF* glide){
 				AGIDL_3DFBGR2RGB(glide);
 				glide->pixels.pix32 = (COLOR*)AGIDL_NearestPow2ScaleImgData(glide->pixels.pix32,&glide->width,&glide->height,256,AGIDL_3DFGetClrFmt(glide));
 				AGIDL_3DFConvertRGB2RGBA(glide);
-				AGIDL_3DFEncodeICP(glide,file);
+				AGIDL_3DFEncodeICP(glide);
 				AGIDL_3DFEncodeIMG(glide,file);
 				AGIDL_3DFConvertRGBA2RGB(glide);
 				AGIDL_3DFRGB2BGR(glide);
 			}break;
 			case AGIDL_RGBA_8888:{
 				glide->pixels.pix32 = (COLOR*)AGIDL_NearestPow2ScaleImgData(glide->pixels.pix32,&glide->width,&glide->height,256,AGIDL_3DFGetClrFmt(glide));
-				AGIDL_3DFEncodeICP(glide,file);
+				AGIDL_3DFEncodeICP(glide);
 				AGIDL_3DFEncodeIMG(glide,file);
 			}break;
 			case AGIDL_ARGB_8888:{
 				glide->pixels.pix32 = (COLOR*)AGIDL_NearestPow2ScaleImgData(glide->pixels.pix32,&glide->width,&glide->height,256,AGIDL_3DFGetClrFmt(glide));
-				AGIDL_3DFEncodeICP(glide,file);
+				AGIDL_3DFEncodeICP(glide);
 				AGIDL_3DFEncodeIMG(glide,file);
 			}break;
 		}

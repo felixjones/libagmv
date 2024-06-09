@@ -251,51 +251,51 @@ u8 AGMV_ComparePFrameBlock(AGMV* agmv, u32 x, u32 y, AGMV_ENTRY* entry){
 		for(i = 0; i < 4; i++){
 			AGMV_ENTRY ent1 = entry[x+i+(y+j)*width];
 			AGMV_ENTRY ent2 = iframe_entries[x+i+(y+j)*width];
-			
+
 			if(ent1.pal_num == 0){
 				color1 = agmv->header.palette0[ent1.index];
 			}
 			else{
 				color1 = agmv->header.palette1[ent1.index];
 			}
-			
+
 			if(ent2.pal_num == 0){
 				color2 = agmv->header.palette0[ent2.index];
 			}
 			else{
 				color2 = agmv->header.palette1[ent2.index];
 			}
-			
+
 			r1 = AGMV_GetR(color1);
 			g1 = AGMV_GetG(color1);
 			b1 = AGMV_GetB(color1);
-			
+
 			r2 = AGMV_GetR(color2);
 			g2 = AGMV_GetG(color2);
 			b2 = AGMV_GetB(color2);
-			
+
 			rdiff = r1-r2;
 			gdiff = g1-g2;
 			bdiff = b1-b2;
-			
+
 			if(rdiff < 0){
 				rdiff = AGIDL_Abs(rdiff);
 			}
-			
+
 			if(gdiff < 0){
 				gdiff = AGIDL_Abs(gdiff);
 			}
-			
+
 			if(bdiff < 0){
 				bdiff = AGIDL_Abs(bdiff);
 			}
-			
+
 			if(rdiff <= 2 && gdiff <= 2 && bdiff <= 2){
 				count++;
 			}
 		}
 	}
-	
+
 	return count;
 }
 
@@ -303,10 +303,10 @@ u8 AGMV_CompareIFrameBlock(AGMV* agmv, u32 x, u32 y, u32 color, AGMV_ENTRY* img_
 	u32 i, j, width;
 	int r1, g1, b1, r2, g2, b2, rdiff, gdiff, bdiff;
 	u8 count;
-	
+
 	width = agmv->frame->width;
 	count = 0;
-	
+
 	for(j = 0; j < 4; j++){
 		for(i = 0; i < 4; i++){
 			AGMV_ENTRY entry = img_entry[x+i+(y+j)*width];
@@ -321,62 +321,62 @@ u8 AGMV_CompareIFrameBlock(AGMV* agmv, u32 x, u32 y, u32 color, AGMV_ENTRY* img_
 			r1 = AGMV_GetR(color);
 			g1 = AGMV_GetG(color);
 			b1 = AGMV_GetB(color);
-			
+
 			r2 = AGMV_GetR(bc);
 			g2 = AGMV_GetG(bc);
 			b2 = AGMV_GetB(bc);
-			
+
 			rdiff = r1-r2;
 			gdiff = g1-g2;
 			bdiff = b1-b2;
-			
+
 			if(rdiff < 0){
 				rdiff = AGIDL_Abs(rdiff);
 			}
-			
+
 			if(gdiff < 0){
 				gdiff = AGIDL_Abs(gdiff);
 			}
-			
+
 			if(bdiff < 0){
 				bdiff = AGIDL_Abs(bdiff);
 			}
-			
+
 			if(rdiff <= 2 && gdiff <= 2 && bdiff <= 2){
 				count++;
 			}
 		}
 	}
-	
+
 	return count;
 }
 
 void AGMV_AssembleIFrameBitstream(AGMV* agmv, AGMV_ENTRY* img_entry){
 	AGMV_OPT opt;
 	u32 width, height, x, y, i, j;
-	u8* data = agmv->bitstream->data;			
-	
+	u8* data = agmv->bitstream->data;
+
 	width = agmv->frame->width;
 	height = agmv->frame->height;
-	
+
 	opt = AGMV_GetOPT(agmv);
-	
+
 	if(opt != AGMV_OPT_II && opt != AGMV_OPT_ANIM && opt != AGMV_OPT_GBA_II){
 		for(y = 0; y < height; y += 4){
 			for(x = 0; x < width; x += 4){
 				u8 count;
 				u32 color;
 				AGMV_ENTRY entry = img_entry[x+y*width];
-	
+
 				if(entry.pal_num == 0){
 					color = agmv->header.palette0[entry.index];
 				}
 				else{
 					color = agmv->header.palette1[entry.index];
 				}
-				
+
 				count = AGMV_CompareIFrameBlock(agmv,x,y,color,img_entry);
-				
+
 				if(count >= AGMV_FILL_COUNT){
 					data[agmv->bitstream->pos++] = AGMV_FILL_FLAG;
 					if(entry.index < 127){
@@ -408,21 +408,21 @@ void AGMV_AssembleIFrameBitstream(AGMV* agmv, AGMV_ENTRY* img_entry){
 	else{
 		for(y = 0; y < height; y += 4){
 			for(x = 0; x < width; x += 4){
-				
+
 				u8 count;
 				u32 color;
 				AGMV_ENTRY entry = img_entry[x+y*width];
-	
+
 				color = agmv->header.palette0[entry.index];
 				count = AGMV_CompareIFrameBlock(agmv,x,y,color,img_entry);
-				
+
 				if(count >= AGMV_FILL_COUNT){
 					data[agmv->bitstream->pos++] = AGMV_FILL_FLAG;
 					data[agmv->bitstream->pos++] = entry.index;
 				}
 				else{
 					data[agmv->bitstream->pos++] = AGMV_NORMAL_FLAG;
-	
+
 					for(j = 0; j < 4; j++){
 						for(i = 0; i < 4; i++){
 							AGMV_ENTRY entry = img_entry[x+i+(y+j)*width];
@@ -438,30 +438,30 @@ void AGMV_AssembleIFrameBitstream(AGMV* agmv, AGMV_ENTRY* img_entry){
 void AGMV_AssemblePFrameBitstream(AGMV* agmv, AGMV_ENTRY* img_entry){
 	AGMV_OPT opt;
 	u32 width, height, x, y, i, j;
-	u8* data = agmv->bitstream->data;			
-	
+	u8* data = agmv->bitstream->data;
+
 	width = agmv->frame->width;
 	height = agmv->frame->height;
-	
+
 	opt = AGMV_GetOPT(agmv);
-	
+
 	if(opt != AGMV_OPT_II && opt != AGMV_OPT_ANIM && opt != AGMV_OPT_GBA_II){
 		for(y = 0; y < height; y += 4){
 			for(x = 0; x < width; x += 4){
 				u8 count1,count2;
 				u32 color;
 				AGMV_ENTRY entry = img_entry[x+y*width];
-	
+
 				if(entry.pal_num == 0){
 					color = agmv->header.palette0[entry.index];
 				}
 				else{
 					color = agmv->header.palette1[entry.index];
 				}
-				
+
 				count1 = AGMV_CompareIFrameBlock(agmv,x,y,color,img_entry);
 				count2 = AGMV_ComparePFrameBlock(agmv,x,y,img_entry);
-				
+
 				if(count2 >= AGMV_COPY_COUNT){
 					data[agmv->bitstream->pos++] = AGMV_COPY_FLAG;
 				}
@@ -499,11 +499,11 @@ void AGMV_AssemblePFrameBitstream(AGMV* agmv, AGMV_ENTRY* img_entry){
 				u8 count1,count2;
 				u32 color;
 				AGMV_ENTRY entry = img_entry[x+y*width];
-	
+
 				color  = agmv->header.palette0[entry.index];
 				count1 = AGMV_CompareIFrameBlock(agmv,x,y,color,img_entry);
 				count2 = AGMV_ComparePFrameBlock(agmv,x,y,img_entry);
-				
+
 				if(count2 >= AGMV_COPY_COUNT){
 					data[agmv->bitstream->pos++] = AGMV_COPY_FLAG;
 				}
@@ -513,7 +513,7 @@ void AGMV_AssemblePFrameBitstream(AGMV* agmv, AGMV_ENTRY* img_entry){
 				}
 				else{
 					data[agmv->bitstream->pos++] = AGMV_NORMAL_FLAG;
-	
+
 					for(j = 0; j < 4; j++){
 						for(i = 0; i < 4; i++){
 							AGMV_ENTRY entry = img_entry[x+i+(y+j)*width];
@@ -533,15 +533,15 @@ void AGMV_EncodeFrame(FILE* file, AGMV* agmv, u32* img_data){
 
 	int i, csize, pos, size, max_size;
 	u32 palette0[256], palette1[256];
-	
+
 	for(i = 0; i < 256; i++){
 		palette0[i] = agmv->header.palette0[i];
 		palette1[i] = agmv->header.palette1[i];
 	}
-	
+
 	size     = AGMV_GetWidth(agmv)*AGMV_GetHeight(agmv);
 	max_size = size * 0.8f;
-	
+
 	iframe_entries = agmv->iframe_entries;
 	img_entry = (AGMV_ENTRY*)malloc(sizeof(AGMV_ENTRY)*size);
 
@@ -552,11 +552,11 @@ void AGMV_EncodeFrame(FILE* file, AGMV* agmv, u32* img_data){
 	agmv->bitstream->pos = 0;
 
 	if(opt != AGMV_OPT_II && opt != AGMV_OPT_ANIM && opt != AGMV_OPT_GBA_II){
-		
+
 		for(i = 0; i < size; i++){
 			img_entry[i] = AGMV_FindNearestEntry(palette0,palette1,img_data[i]);
 		}
-		
+
 		if(agmv->frame_count % 4 == 0){
 			AGMV_AssembleIFrameBitstream(agmv,img_entry);
 		}
@@ -568,29 +568,29 @@ void AGMV_EncodeFrame(FILE* file, AGMV* agmv, u32* img_data){
 		AGMV_WriteLong(file,0);
 
 		pos = ftell(file);
-		
+
 		if(AGMV_GetCompression(agmv) == AGMV_LZSS_COMPRESSION){
 			csize = AGMV_LZSS(file,agmv->bitstream);
 		}
 		else{
 			csize = AGMV_LZ77(file,agmv->bitstream);
 		}
-		
+
 		AGMV_FlushWriteBits();
-		
+
 		fseek(file,pos-4,SEEK_SET);
-		
+
 		AGMV_WriteLong(file,csize);
 
 		fseek(file,csize,SEEK_CUR);
-		
+
 	}
 	else{
 		for(i = 0; i < size; i++){
 			img_entry[i].index = AGMV_FindNearestColor(palette0,img_data[i]);
 			img_entry[i].pal_num = 0;
 		}
-		
+
 		if(agmv->frame_count % 4 == 0){
 			AGMV_AssembleIFrameBitstream(agmv,img_entry);
 		}
@@ -600,7 +600,7 @@ void AGMV_EncodeFrame(FILE* file, AGMV* agmv, u32* img_data){
 
 		AGMV_WriteLong(file,agmv->bitstream->pos);
 		AGMV_WriteLong(file,0);
-		
+
 		pos = ftell(file);
 
 		if(AGMV_GetCompression(agmv) == AGMV_LZSS_COMPRESSION){
@@ -609,26 +609,26 @@ void AGMV_EncodeFrame(FILE* file, AGMV* agmv, u32* img_data){
 		else{
 			csize = AGMV_LZ77(file,agmv->bitstream);
 		}
-		
+
 		AGMV_FlushWriteBits();
-		
+
 		fseek(file,pos-4,SEEK_SET);
-		
+
 		AGMV_WriteLong(file,csize);
 
 		fseek(file,csize,SEEK_CUR);
 	}
-	
+
 	for(i = 0; i < 16; i++){
 		AGMV_WriteByte(file,0);
 	}
-	
+
 	if(agmv->frame_count % 4 == 0){
 		for(i = 0; i < size; i++){
 			iframe_entries[i] = img_entry[i];
 		}
 	}
-		
+
 	free(img_entry);
 	agmv->frame_count++;
 }
@@ -663,26 +663,26 @@ void AGMV_CompressAudio(AGMV* agmv){
 
 	for(i = 0; i < size; i++){
 		int samp = pcm[i];
-		
+
 		ssqrt1 = sqrt(samp);
 		ssqrt2 = AGMV_Round(sqrt(samp));
 		shift = samp >> 8;
-		
+
 		roundUpEven(&ssqrt1);
 	    roundUpEven(&ssqrt2);
 	    roundUpOdd(&shift);
-		
+
 		resamp1 = ssqrt1 * ssqrt1;
 		resamp2 = ssqrt2 * ssqrt2;
 		resamp3 = shift << 8;
-	    
+
 	    dist1 = AGMV_Abs(resamp1-samp);
 	    dist2 = AGMV_Abs(resamp2-samp);
-	    dist3 = AGMV_Abs(resamp3-samp);	    
-	    
+	    dist3 = AGMV_Abs(resamp3-samp);
+
 	    dist = AGMV_Min(dist1,dist2);
-	    dist = AGMV_Min(dist1,dist3);	    
-	    
+	    dist = AGMV_Min(dist1,dist3);
+
 	    if(dist == dist1){
 	    	atsample[i] = ssqrt1;
 	    }
@@ -698,12 +698,12 @@ void AGMV_CompressAudio(AGMV* agmv){
 void AGMV_EncodeAudioChunk(FILE* file, AGMV* agmv){
 	int i, size = agmv->audio_chunk->size;
 	u8* atsample = agmv->audio_chunk->atsample;
-	
+
 	if(AGMV_GetOPT(agmv) != AGMV_OPT_GBA_I && AGMV_GetOPT(agmv) != AGMV_OPT_GBA_II && AGMV_GetOPT(agmv) != AGMV_OPT_GBA_III){
-		
+
 		AGMV_WriteFourCC(file,'A','G','A','C');
 		AGMV_WriteLong(file,agmv->audio_chunk->size);
-		
+
 		for(i = 0; i < size; i++){
 			AGMV_WriteByte(file,atsample[agmv->audio_track->start_point++]);
 		}
@@ -713,11 +713,11 @@ void AGMV_EncodeAudioChunk(FILE* file, AGMV* agmv){
 void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basename, u8 img_type, u32 start_frame, u32 end_frame, u32 width, u32 height, u32 frames_per_second, AGMV_OPT opt, AGMV_QUALITY quality, AGMV_COMPRESSION compression){
 	u32 i, palette0[256], palette1[256], n, count = 0, num_of_frames_encoded = 0, w, h, num_of_pix, max_clr;
 	u32 pal[512];
-	
+
 	AGMV* agmv = CreateAGMV(end_frame-start_frame,width,height,frames_per_second);
 	AGMV_SetOPT(agmv,opt);
 	AGMV_SetCompression(agmv,compression);
-	
+
 	switch(quality){
 		case AGMV_HIGH_QUALITY:{
 			max_clr = AGMV_MAX_CLR;
@@ -732,10 +732,10 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 			max_clr = AGMV_MAX_CLR;
 		}break;
 	}
-	
+
 	u32* colorgram = malloc(sizeof(u32)*max_clr);
 	u32* histogram = malloc(sizeof(u32)*max_clr);
-	
+
 	switch(opt){
 		case AGMV_OPT_I:{
 			AGMV_SetLeniency(agmv,0.2282);
@@ -751,37 +751,37 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 		}break;
 		case AGMV_OPT_GBA_I:{
 			AGMV_SetLeniency(agmv,0.0);
-			
+
 			AGMV_SetWidth(agmv,AGMV_GBA_W);
 			AGMV_SetHeight(agmv,AGMV_GBA_H);
-			
+
 			free(agmv->frame->img_data);
 			agmv->frame->img_data = (u32*)malloc(sizeof(u32)*AGMV_GBA_W*AGMV_GBA_H);
 		}break;
 		case AGMV_OPT_GBA_II:{
 			AGMV_SetLeniency(agmv,0.0);
-			
+
 			AGMV_SetWidth(agmv,AGMV_GBA_W);
 			AGMV_SetHeight(agmv,AGMV_GBA_H);
-			
+
 			free(agmv->frame->img_data);
 			agmv->frame->img_data = (u32*)malloc(sizeof(u32)*AGMV_GBA_W*AGMV_GBA_H);
 		}break;
 		case AGMV_OPT_GBA_III:{
 			AGMV_SetLeniency(agmv,0.0f);
-			
+
 			AGMV_SetWidth(agmv,AGMV_GBA_W);
 			AGMV_SetHeight(agmv,AGMV_GBA_H);
-			
+
 			free(agmv->frame->img_data);
 			agmv->frame->img_data = (u32*)malloc(sizeof(u32)*AGMV_GBA_W*AGMV_GBA_H);
 		}break;
 		case AGMV_OPT_NDS:{
 			AGMV_SetLeniency(agmv,0.2282);
-			
+
 			AGMV_SetWidth(agmv,AGMV_NDS_W);
 			AGMV_SetHeight(agmv,AGMV_NDS_H);
-			
+
 			free(agmv->frame->img_data);
 			agmv->frame->img_data = (u32*)malloc(sizeof(u32)*AGMV_NDS_W*AGMV_NDS_H);
 		}break;
@@ -789,23 +789,23 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 			AGMV_SetLeniency(agmv,0.2282);
 		}break;
 	}
-	
+
 	for(i = 0; i < 512; i++){
 		if(i < 256){
 			palette0[i] = 0;
 			palette1[i] = 0;
 		}
-		
+
 		pal[i] = 0;
 	}
-	
+
 	for(i = 0; i < max_clr; i++){
 		histogram[i] = 1;
 		colorgram[i] = i;
 	}
-	
+
 	char* ext = AGIDL_GetImgExtension(img_type);
-	
+
 	for(i = start_frame; i <= end_frame; i++){
 		char filename[60];
 		if(dir[0] != 'c' || dir[1] != 'u' || dir[2] != 'r'){
@@ -814,232 +814,232 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 		else{
 			sprintf(filename,"%s%ld%s",basename,i,ext);
 		}
-		
+
 		switch(img_type){
 			case AGIDL_IMG_BMP:{
 				u32* pixels;
-				
+
 				AGIDL_BMP* bmp = AGIDL_LoadBMP(filename);
 				AGIDL_ColorConvertBMP(bmp,AGIDL_RGB_888);
-				
+
 				pixels = bmp->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreeBMP(bmp);
 			}break;
 			case AGIDL_IMG_TGA:{
 				u32* pixels;
-				
+
 				AGIDL_TGA* tga = AGIDL_LoadTGA(filename);
 				AGIDL_ColorConvertTGA(tga,AGIDL_RGB_888);
-				
+
 				pixels = tga->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreeTGA(tga);
 			}break;
 			case AGIDL_IMG_TIM:{
 				u32* pixels;
-				
+
 				AGIDL_TIM* tim = AGIDL_LoadTIM(filename);
-				
+
 				pixels = tim->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreeTIM(tim);
 			}break;
 			case AGIDL_IMG_PCX:{
 				u32* pixels;
-				
+
 				AGIDL_PCX* pcx = AGIDL_LoadPCX(filename);
 				AGIDL_ColorConvertPCX(pcx,AGIDL_RGB_888);
-				
+
 				pixels = pcx->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreePCX(pcx);
 			}break;
 			case AGIDL_IMG_LMP:{
 				u32* pixels;
-				
+
 				AGIDL_LMP* lmp = AGIDL_LoadLMP(filename);
 				AGIDL_ColorConvertLMP(lmp,AGIDL_RGB_888);
-				
+
 				pixels = lmp->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreeLMP(lmp);
 			}break;
 			case AGIDL_IMG_PVR:{
 				u32* pixels;
-				
+
 				AGIDL_PVR* pvr = AGIDL_LoadPVR(filename);
 				AGIDL_ColorConvertPVR(pvr,AGIDL_RGB_888);
-				
+
 				pixels = pvr->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreePVR(pvr);
 			}break;
 			case AGIDL_IMG_GXT:{
 				u32* pixels;
-				
+
 				AGIDL_GXT* gxt = AGIDL_LoadGXT(filename);
 				AGIDL_ColorConvertGXT(gxt,AGIDL_RGB_888);
-				
+
 				pixels = gxt->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreeGXT(gxt);
 			}break;
 			case AGIDL_IMG_BTI:{
 				u32* pixels;
-				
+
 				AGIDL_BTI* bti = AGIDL_LoadBTI(filename);
 				AGIDL_ColorConvertBTI(bti,AGIDL_RGB_888);
-				
+
 				pixels = bti->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreeBTI(bti);
 			}break;
 			case AGIDL_IMG_3DF:{
 				u32* pixels;
-				
+
 				AGIDL_3DF* glide = AGIDL_Load3DF(filename);
 				AGIDL_ColorConvert3DF(glide,AGIDL_RGB_888);
-				
+
 				pixels = glide->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_Free3DF(glide);
 			}break;
 			case AGIDL_IMG_PPM:{
 				u32* pixels;
-				
+
 				AGIDL_PPM* ppm = AGIDL_LoadPPM(filename);
 				AGIDL_ColorConvertPPM(ppm,AGIDL_RGB_888);
-				
+
 				pixels = ppm->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreePPM(ppm);
 			}break;
 			case AGIDL_IMG_LBM:{
 				u32* pixels;
-				
+
 				AGIDL_LBM* lbm = AGIDL_LoadLBM(filename);
 				AGIDL_ColorConvertLBM(lbm,AGIDL_RGB_888);
-				
+
 				pixels = lbm->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreeLBM(lbm);
 			}break;
 		}
 	}
-	
+
 	AGMV_QuickSort(histogram,colorgram,0,max_clr);
-	
+
 	for(n = max_clr; n > 0; n--){
 		Bool skip = FALSE;
-			
+
 		u32 clr = colorgram[n];
-		
+
 		int r = AGMV_GetQuantizedR(clr,quality);
 		int g = AGMV_GetQuantizedG(clr,quality);
 		int b = AGMV_GetQuantizedB(clr,quality);
-		
+
 		int j;
 		for(j = 0; j < 512; j++){
 			u32 palclr = pal[j];
-			
+
 			int palr = AGMV_GetQuantizedR(palclr,quality);
 			int palg = AGMV_GetQuantizedG(palclr,quality);
 			int palb = AGMV_GetQuantizedB(palclr,quality);
-			
+
 			int rdiff = r-palr;
 			int gdiff = g-palg;
 			int bdiff = b-palb;
-			
+
 			if(rdiff < 0){
 				rdiff = AGIDL_Abs(rdiff);
 			}
-			
+
 			if(gdiff < 0){
 				gdiff = AGIDL_Abs(gdiff);
 			}
-			
+
 			if(bdiff < 0){
 				bdiff = AGIDL_Abs(bdiff);
 			}
-			
+
 			if(quality == AGMV_HIGH_QUALITY){
 				if(rdiff <= 2 && gdiff <= 2 && bdiff <= 3){
 					skip = TRUE;
@@ -1051,60 +1051,60 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				}
 			}
 		}
-		
+
 		if(skip == FALSE){
 			pal[count] = clr;
 			count++;
 		}
-		
+
 		if(count >= 512){
 			break;
 		}
 	}
-	
+
 	if(opt == AGMV_OPT_I || opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_III || opt == AGMV_OPT_GBA_III || opt == AGMV_OPT_NDS){
 		for(n = 0; n < 512; n++){
 			u32 clr = pal[n];
 			u32 invclr = AGMV_ReverseQuantizeColor(clr,quality);
-			
+
 			if(n < 126){
 				palette0[n] = invclr;
 			}
 			else if(n >= 126 && n <= 252){
 				palette1[n-126] = invclr;
 			}
-			
+
 			if(n > 252 && n <= 378){
 				palette0[n-126] = invclr;
 			}
-			
+
 			if(n > 378){
 				palette1[n-252] = invclr;
 			}
 		}
 	}
-	
+
 	if(opt == AGMV_OPT_II || opt == AGMV_OPT_GBA_II|| opt == AGMV_OPT_ANIM){
 		for(n = 0; n < 256; n++){
 			u32 clr = pal[n];
 			u32 invclr = AGMV_ReverseQuantizeColor(clr,quality);
-			
+
 			palette0[n] = invclr;
 		}
 	}
-	
+
 	free(colorgram);
 	free(histogram);
-	
+
 	FILE* file = fopen(filename,"wb");
-	
+
 	AGMV_SetICP0(agmv,palette0);
 	AGMV_SetICP1(agmv,palette1);
-	
+
 	printf("Encoding AGMV Header...\n");
 	AGMV_EncodeHeader(file,agmv);
 	printf("Encoded AGMV Header...\n");
-	
+
 	for(i = start_frame; i <= end_frame;){
 		char filename1[60],filename2[60],filename3[60],filename4[60];
 		if(dir[0] != 'c' || dir[1] != 'u' || dir[2] != 'r'){
@@ -1119,7 +1119,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 			sprintf(filename3,"%s%ld%s",basename,i+2,ext);
 			sprintf(filename4,"%s%ld%s",basename,i+3,ext);
 		}
-		
+
 		switch(img_type){
 			case AGIDL_IMG_BMP:{
 				printf("Loading Group of AGIDL Image Frames - %ld - %ld...\n",i,i+3);
@@ -1128,12 +1128,12 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				AGIDL_BMP* frame3 = AGIDL_LoadBMP(filename3);
 				AGIDL_BMP* frame4 = AGIDL_LoadBMP(filename4);
 				printf("Loaded Group of AGIDL Image Frames - %ld - %ld...\n",i,i+3);
-				
+
 				AGIDL_ColorConvertBMP(frame1,AGIDL_RGB_888);
 				AGIDL_ColorConvertBMP(frame2,AGIDL_RGB_888);
 				AGIDL_ColorConvertBMP(frame3,AGIDL_RGB_888);
 				AGIDL_ColorConvertBMP(frame4,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_BMPGetWidth(frame1), h = AGIDL_BMPGetHeight(frame1);
 					AGIDL_ScaleBMP(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1141,7 +1141,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					AGIDL_ScaleBMP(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleBMP(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_BMPGetWidth(frame1), h = AGIDL_BMPGetHeight(frame1);
 					AGIDL_FastScaleBMP(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_NEAREST);
@@ -1149,69 +1149,69 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					AGIDL_FastScaleBMP(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_NEAREST);
 					AGIDL_FastScaleBMP(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_NEAREST);
 				}
-				
+
 				w = AGIDL_BMPGetWidth(frame2), h = AGIDL_BMPGetHeight(frame2);
-				
+
 				num_of_pix = w*h;
-				
+
 				if(opt != AGMV_OPT_I && opt != AGMV_OPT_ANIM && opt != AGMV_OPT_GBA_I && opt != AGMV_OPT_GBA_II){
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
-					
+
 					f32 ratio = AGMV_CompareFrameSimilarity(frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-					
+
 					if(ratio >= AGMV_GetLeniency(agmv)){
 						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-						
+
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						printf("Encoding Interpolated Image Frame - %ld...\n",i+1);
-						AGMV_EncodeFrame(file,agmv,interp);	
+						AGMV_EncodeFrame(file,agmv,interp);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-						AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-						
+
 						num_of_frames_encoded += 3; i += 4;
-						
+
 						free(interp);
 					}
 					else{
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						num_of_frames_encoded++; i++;
 					}
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 				}
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
-					
+
 					f32 ratio = AGMV_CompareFrameSimilarity(frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-					
+
 					if(ratio >= AGMV_GetLeniency(agmv)){
 						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-						
+
 						printf("Encoding Interpolated Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,interp);	
+						AGMV_EncodeFrame(file,agmv,interp);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 
 						num_of_frames_encoded++; i += 2;
-						
+
 						free(interp);
 					}
 					else{
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						num_of_frames_encoded++; i++;
 					}
-					
+
 				    printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 				}
 
@@ -1227,12 +1227,12 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				AGIDL_TGA* frame3 = AGIDL_LoadTGA(filename3);
 				AGIDL_TGA* frame4 = AGIDL_LoadTGA(filename4);
 				printf("Loaded Group of AGIDL Image Frames - %ld - %ld...\n",i,i+3);
-				
+
 				AGIDL_ColorConvertTGA(frame1,AGIDL_RGB_888);
 				AGIDL_ColorConvertTGA(frame2,AGIDL_RGB_888);
 				AGIDL_ColorConvertTGA(frame3,AGIDL_RGB_888);
 				AGIDL_ColorConvertTGA(frame4,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_TGAGetWidth(frame1), h = AGIDL_TGAGetHeight(frame1);
 					AGIDL_ScaleTGA(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1240,7 +1240,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					AGIDL_ScaleTGA(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleTGA(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_TGAGetWidth(frame1), h = AGIDL_TGAGetHeight(frame1);
 					AGIDL_ScaleTGA(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1248,69 +1248,69 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					AGIDL_ScaleTGA(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleTGA(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				w = AGIDL_TGAGetWidth(frame2), h = AGIDL_TGAGetHeight(frame2);
-				
+
 				num_of_pix = w*h;
-				
+
 				if(opt != AGMV_OPT_I && opt != AGMV_OPT_ANIM && opt != AGMV_OPT_GBA_I && opt != AGMV_OPT_GBA_II && opt != AGMV_OPT_NDS){
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
-					
+
 					f32 ratio = AGMV_CompareFrameSimilarity(frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-					
+
 					if(ratio >= AGMV_GetLeniency(agmv)){
 						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-						
+
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						printf("Encoding Interpolated Image Frame - %ld...\n",i+1);
-						AGMV_EncodeFrame(file,agmv,interp);	
+						AGMV_EncodeFrame(file,agmv,interp);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-						AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-						
+
 						num_of_frames_encoded += 3; i += 4;
-						
+
 						free(interp);
 					}
 					else{
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						num_of_frames_encoded++; i++;
 					}
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 				}
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
-					
+
 					f32 ratio = AGMV_CompareFrameSimilarity(frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-					
+
 					if(ratio >= AGMV_GetLeniency(agmv)){
 						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-						
+
 						printf("Encoding Interpolated Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,interp);	
+						AGMV_EncodeFrame(file,agmv,interp);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 
 						num_of_frames_encoded++; i += 2;
-						
+
 						free(interp);
 					}
 					else{
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						num_of_frames_encoded++; i++;
 					}
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 				}
 
@@ -1326,12 +1326,12 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				AGIDL_TIM* frame3 = AGIDL_LoadTIM(filename3);
 				AGIDL_TIM* frame4 = AGIDL_LoadTIM(filename4);
 				printf("Loaded Group of AGIDL Image Frames - %ld - %ld...\n",i,i+3);
-				
+
 				AGIDL_ColorConvertTIM(frame1,AGIDL_RGB_888);
 				AGIDL_ColorConvertTIM(frame2,AGIDL_RGB_888);
 				AGIDL_ColorConvertTIM(frame3,AGIDL_RGB_888);
 				AGIDL_ColorConvertTIM(frame4,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_TIMGetWidth(frame1), h = AGIDL_TIMGetHeight(frame1);
 					AGIDL_ScaleTIM(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1339,7 +1339,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					AGIDL_ScaleTIM(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleTIM(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_TIMGetWidth(frame1), h = AGIDL_TIMGetHeight(frame1);
 					AGIDL_ScaleTIM(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1347,69 +1347,69 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					AGIDL_ScaleTIM(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleTIM(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				w = AGIDL_TIMGetWidth(frame2), h = AGIDL_TIMGetHeight(frame2);
-				
+
 				num_of_pix = w*h;
-				
+
 				if(opt != AGMV_OPT_I && opt != AGMV_OPT_ANIM && opt != AGMV_OPT_GBA_I && opt != AGMV_OPT_GBA_II && opt != AGMV_OPT_NDS){
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
-					
+
 					f32 ratio = AGMV_CompareFrameSimilarity(frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-					
+
 					if(ratio >= AGMV_GetLeniency(agmv)){
 						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-						
+
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						printf("Encoding Interpolated Image Frame - %ld...\n",i+1);
-						AGMV_EncodeFrame(file,agmv,interp);	
+						AGMV_EncodeFrame(file,agmv,interp);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-						AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-						
+
 						num_of_frames_encoded += 3; i += 4;
-						
+
 						free(interp);
 					}
 					else{
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						num_of_frames_encoded++; i++;
 					}
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 				}
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
-					
+
 					f32 ratio = AGMV_CompareFrameSimilarity(frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-					
+
 					if(ratio >= AGMV_GetLeniency(agmv)){
 						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-						
+
 						printf("Encoding Interpolated Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,interp);	
+						AGMV_EncodeFrame(file,agmv,interp);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 
 						num_of_frames_encoded++; i += 2;
-						
+
 						free(interp);
 					}
 					else{
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						num_of_frames_encoded++; i++;
 					}
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 				}
 
@@ -1425,12 +1425,12 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				AGIDL_PCX* frame3 = AGIDL_LoadPCX(filename3);
 				AGIDL_PCX* frame4 = AGIDL_LoadPCX(filename4);
 				printf("Loaded Group of AGIDL Image Frames - %ld - %ld...\n",i,i+3);
-				
+
 				AGIDL_ColorConvertPCX(frame1,AGIDL_RGB_888);
 				AGIDL_ColorConvertPCX(frame2,AGIDL_RGB_888);
 				AGIDL_ColorConvertPCX(frame3,AGIDL_RGB_888);
 				AGIDL_ColorConvertPCX(frame4,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_PCXGetWidth(frame1), h = AGIDL_PCXGetHeight(frame1);
 					AGIDL_ScalePCX(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1438,7 +1438,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					AGIDL_ScalePCX(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePCX(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_PCXGetWidth(frame1), h = AGIDL_PCXGetHeight(frame1);
 					AGIDL_ScalePCX(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1446,69 +1446,69 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					AGIDL_ScalePCX(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePCX(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				w = AGIDL_PCXGetWidth(frame2), h = AGIDL_PCXGetHeight(frame2);
-				
+
 				num_of_pix = w*h;
-				
+
 				if(opt != AGMV_OPT_I && opt != AGMV_OPT_ANIM && opt != AGMV_OPT_GBA_I && opt != AGMV_OPT_GBA_II && opt != AGMV_OPT_NDS){
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
-					
+
 					f32 ratio = AGMV_CompareFrameSimilarity(frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-					
+
 					if(ratio >= AGMV_GetLeniency(agmv)){
 						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-						
+
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						printf("Encoding Interpolated Image Frame - %ld...\n",i+1);
-						AGMV_EncodeFrame(file,agmv,interp);	
+						AGMV_EncodeFrame(file,agmv,interp);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-						AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-						
+
 						num_of_frames_encoded += 3; i += 4;
-						
+
 						free(interp);
 					}
 					else{
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						num_of_frames_encoded++; i++;
 					}
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 				}
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
-					
+
 					f32 ratio = AGMV_CompareFrameSimilarity(frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-					
+
 					if(ratio >= AGMV_GetLeniency(agmv)){
 						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-						
+
 						printf("Encoding Interpolated Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,interp);	
+						AGMV_EncodeFrame(file,agmv,interp);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 
 						num_of_frames_encoded++; i += 2;
-						
+
 						free(interp);
 					}
 					else{
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						num_of_frames_encoded++; i++;
 					}
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 				}
 
@@ -1524,12 +1524,12 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				AGIDL_LMP* frame3 = AGIDL_LoadLMP(filename3);
 				AGIDL_LMP* frame4 = AGIDL_LoadLMP(filename4);
 				printf("Loaded Group of AGIDL Image Frames - %ld - %ld...\n",i,i+3);
-				
+
 				AGIDL_ColorConvertLMP(frame1,AGIDL_RGB_888);
 				AGIDL_ColorConvertLMP(frame2,AGIDL_RGB_888);
 				AGIDL_ColorConvertLMP(frame3,AGIDL_RGB_888);
 				AGIDL_ColorConvertLMP(frame4,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_LMPGetWidth(frame1), h = AGIDL_LMPGetHeight(frame1);
 					AGIDL_ScaleLMP(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1537,7 +1537,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					AGIDL_ScaleLMP(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleLMP(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_LMPGetWidth(frame1), h = AGIDL_LMPGetHeight(frame1);
 					AGIDL_ScaleLMP(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1545,69 +1545,69 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					AGIDL_ScaleLMP(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleLMP(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				w = AGIDL_LMPGetWidth(frame2), h = AGIDL_LMPGetHeight(frame2);
-				
+
 				num_of_pix = w*h;
-				
+
 				if(opt != AGMV_OPT_I && opt != AGMV_OPT_ANIM && opt != AGMV_OPT_GBA_I && opt != AGMV_OPT_GBA_II && opt != AGMV_OPT_NDS){
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
-					
+
 					f32 ratio = AGMV_CompareFrameSimilarity(frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-					
+
 					if(ratio >= AGMV_GetLeniency(agmv)){
 						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-						
+
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						printf("Encoding Interpolated Image Frame - %ld...\n",i+1);
-						AGMV_EncodeFrame(file,agmv,interp);	
+						AGMV_EncodeFrame(file,agmv,interp);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-						AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-						
+
 						num_of_frames_encoded += 3; i += 4;
-						
+
 						free(interp);
 					}
 					else{
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						num_of_frames_encoded++; i++;
 					}
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 				}
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
-					
+
 					f32 ratio = AGMV_CompareFrameSimilarity(frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-					
+
 					if(ratio >= AGMV_GetLeniency(agmv)){
 						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-						
+
 						printf("Encoding Interpolated Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,interp);	
+						AGMV_EncodeFrame(file,agmv,interp);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 
 						num_of_frames_encoded++; i += 2;
-						
+
 						free(interp);
 					}
 					else{
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						num_of_frames_encoded++; i++;
 					}
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 				}
 
@@ -1623,12 +1623,12 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				AGIDL_PVR* frame3 = AGIDL_LoadPVR(filename3);
 				AGIDL_PVR* frame4 = AGIDL_LoadPVR(filename4);
 				printf("Loaded Group of AGIDL Image Frames - %ld - %ld...\n",i,i+3);
-				
+
 				AGIDL_ColorConvertPVR(frame1,AGIDL_RGB_888);
 				AGIDL_ColorConvertPVR(frame2,AGIDL_RGB_888);
 				AGIDL_ColorConvertPVR(frame3,AGIDL_RGB_888);
 				AGIDL_ColorConvertPVR(frame4,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_PVRGetWidth(frame1), h = AGIDL_PVRGetHeight(frame1);
 					AGIDL_ScalePVR(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1636,7 +1636,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					AGIDL_ScalePVR(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePVR(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_PVRGetWidth(frame1), h = AGIDL_PVRGetHeight(frame1);
 					AGIDL_ScalePVR(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1644,69 +1644,69 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					AGIDL_ScalePVR(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePVR(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				w = AGIDL_PVRGetWidth(frame2), h = AGIDL_PVRGetHeight(frame2);
-				
+
 				num_of_pix = w*h;
-				
+
 				if(opt != AGMV_OPT_I && opt != AGMV_OPT_ANIM && opt != AGMV_OPT_GBA_I && opt != AGMV_OPT_GBA_II && opt != AGMV_OPT_NDS){
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
-					
+
 					f32 ratio = AGMV_CompareFrameSimilarity(frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-					
+
 					if(ratio >= AGMV_GetLeniency(agmv)){
 						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-						
+
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						printf("Encoding Interpolated Image Frame - %ld...\n",i+1);
-						AGMV_EncodeFrame(file,agmv,interp);	
+						AGMV_EncodeFrame(file,agmv,interp);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-						AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-						
+
 						num_of_frames_encoded += 3; i += 4;
-						
+
 						free(interp);
 					}
 					else{
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						num_of_frames_encoded++; i++;
 					}
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 				}
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
-					
+
 					f32 ratio = AGMV_CompareFrameSimilarity(frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-					
+
 					if(ratio >= AGMV_GetLeniency(agmv)){
 						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-						
+
 						printf("Encoding Interpolated Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,interp);	
+						AGMV_EncodeFrame(file,agmv,interp);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 
 						num_of_frames_encoded++; i += 2;
-						
+
 						free(interp);
 					}
 					else{
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						num_of_frames_encoded++; i++;
 					}
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 				}
 
@@ -1722,12 +1722,12 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				AGIDL_GXT* frame3 = AGIDL_LoadGXT(filename3);
 				AGIDL_GXT* frame4 = AGIDL_LoadGXT(filename4);
 				printf("Loaded Group of AGIDL Image Frames - %ld - %ld...\n",i,i+3);
-				
+
 				AGIDL_ColorConvertGXT(frame1,AGIDL_RGB_888);
 				AGIDL_ColorConvertGXT(frame2,AGIDL_RGB_888);
 				AGIDL_ColorConvertGXT(frame3,AGIDL_RGB_888);
 				AGIDL_ColorConvertGXT(frame4,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_GXTGetWidth(frame1), h = AGIDL_GXTGetHeight(frame1);
 					AGIDL_ScaleGXT(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1735,7 +1735,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					AGIDL_ScaleGXT(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleGXT(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_GXTGetWidth(frame1), h = AGIDL_GXTGetHeight(frame1);
 					AGIDL_ScaleGXT(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1743,69 +1743,69 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					AGIDL_ScaleGXT(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleGXT(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				w = AGIDL_GXTGetWidth(frame2), h = AGIDL_GXTGetHeight(frame2);
-				
+
 				num_of_pix = w*h;
-				
+
 				if(opt != AGMV_OPT_I && opt != AGMV_OPT_ANIM && opt != AGMV_OPT_GBA_I && opt != AGMV_OPT_GBA_II && opt != AGMV_OPT_NDS){
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
-					
+
 					f32 ratio = AGMV_CompareFrameSimilarity(frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-					
+
 					if(ratio >= AGMV_GetLeniency(agmv)){
 						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-						
+
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						printf("Encoding Interpolated Image Frame - %ld...\n",i+1);
-						AGMV_EncodeFrame(file,agmv,interp);	
+						AGMV_EncodeFrame(file,agmv,interp);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-						AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-						
+
 						num_of_frames_encoded += 3; i += 4;
-						
+
 						free(interp);
 					}
 					else{
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						num_of_frames_encoded++; i++;
 					}
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 				}
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
-					
+
 					f32 ratio = AGMV_CompareFrameSimilarity(frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-					
+
 					if(ratio >= AGMV_GetLeniency(agmv)){
 						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-						
+
 						printf("Encoding Interpolated Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,interp);	
+						AGMV_EncodeFrame(file,agmv,interp);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 
 						num_of_frames_encoded++; i += 2;
-						
+
 						free(interp);
 					}
 					else{
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						num_of_frames_encoded++; i++;
 					}
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 				}
 
@@ -1821,12 +1821,12 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				AGIDL_BTI* frame3 = AGIDL_LoadBTI(filename3);
 				AGIDL_BTI* frame4 = AGIDL_LoadBTI(filename4);
 				printf("Loaded Group of AGIDL Image Frames - %ld - %ld...\n",i,i+3);
-				
+
 				AGIDL_ColorConvertBTI(frame1,AGIDL_RGB_888);
 				AGIDL_ColorConvertBTI(frame2,AGIDL_RGB_888);
 				AGIDL_ColorConvertBTI(frame3,AGIDL_RGB_888);
 				AGIDL_ColorConvertBTI(frame4,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_BTIGetWidth(frame1), h = AGIDL_BTIGetHeight(frame1);
 					AGIDL_ScaleBTI(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1834,7 +1834,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					AGIDL_ScaleBTI(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleBTI(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_BTIGetWidth(frame1), h = AGIDL_BTIGetHeight(frame1);
 					AGIDL_ScaleBTI(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1842,69 +1842,69 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					AGIDL_ScaleBTI(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleBTI(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				w = AGIDL_BTIGetWidth(frame2), h = AGIDL_BTIGetHeight(frame2);
-				
+
 				num_of_pix = w*h;
-				
+
 				if(opt != AGMV_OPT_I && opt != AGMV_OPT_ANIM && opt != AGMV_OPT_GBA_I && opt != AGMV_OPT_GBA_II && opt != AGMV_OPT_NDS){
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
-					
+
 					f32 ratio = AGMV_CompareFrameSimilarity(frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-					
+
 					if(ratio >= AGMV_GetLeniency(agmv)){
 						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-						
+
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						printf("Encoding Interpolated Image Frame - %ld...\n",i+1);
-						AGMV_EncodeFrame(file,agmv,interp);	
+						AGMV_EncodeFrame(file,agmv,interp);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-						AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-						
+
 						num_of_frames_encoded += 3; i += 4;
-						
+
 						free(interp);
 					}
 					else{
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						num_of_frames_encoded++; i++;
 					}
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 				}
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
-					
+
 					f32 ratio = AGMV_CompareFrameSimilarity(frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-					
+
 					if(ratio >= AGMV_GetLeniency(agmv)){
 						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-						
+
 						printf("Encoding Interpolated Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,interp);	
+						AGMV_EncodeFrame(file,agmv,interp);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 
 						num_of_frames_encoded++; i += 2;
-						
+
 						free(interp);
 					}
 					else{
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						num_of_frames_encoded++; i++;
 					}
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 				}
 
@@ -1920,12 +1920,12 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				AGIDL_3DF* frame3 = AGIDL_Load3DF(filename3);
 				AGIDL_3DF* frame4 = AGIDL_Load3DF(filename4);
 				printf("Loaded Group of AGIDL Image Frames - %ld - %ld...\n",i,i+3);
-				
+
 				AGIDL_ColorConvert3DF(frame1,AGIDL_RGB_888);
 				AGIDL_ColorConvert3DF(frame2,AGIDL_RGB_888);
 				AGIDL_ColorConvert3DF(frame3,AGIDL_RGB_888);
 				AGIDL_ColorConvert3DF(frame4,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_3DFGetWidth(frame1), h = AGIDL_3DFGetHeight(frame1);
 					AGIDL_Scale3DF(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1933,7 +1933,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					AGIDL_Scale3DF(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_Scale3DF(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_3DFGetWidth(frame1), h = AGIDL_3DFGetHeight(frame1);
 					AGIDL_Scale3DF(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -1941,69 +1941,69 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					AGIDL_Scale3DF(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_Scale3DF(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				w = AGIDL_3DFGetWidth(frame2), h = AGIDL_3DFGetHeight(frame2);
-				
+
 				num_of_pix = w*h;
-				
+
 				if(opt != AGMV_OPT_I && opt != AGMV_OPT_ANIM && opt != AGMV_OPT_GBA_I && opt != AGMV_OPT_GBA_II && opt != AGMV_OPT_NDS){
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
-					
+
 					f32 ratio = AGMV_CompareFrameSimilarity(frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-					
+
 					if(ratio >= AGMV_GetLeniency(agmv)){
 						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-						
+
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						printf("Encoding Interpolated Image Frame - %ld...\n",i+1);
-						AGMV_EncodeFrame(file,agmv,interp);	
+						AGMV_EncodeFrame(file,agmv,interp);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-						AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-						
+
 						num_of_frames_encoded += 3; i += 4;
-						
+
 						free(interp);
 					}
 					else{
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						num_of_frames_encoded++; i++;
 					}
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 				}
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
-					
+
 					f32 ratio = AGMV_CompareFrameSimilarity(frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-					
+
 					if(ratio >= AGMV_GetLeniency(agmv)){
 						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-						
+
 						printf("Encoding Interpolated Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,interp);	
+						AGMV_EncodeFrame(file,agmv,interp);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 
 						num_of_frames_encoded++; i += 2;
-						
+
 						free(interp);
 					}
 					else{
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						num_of_frames_encoded++; i++;
 					}
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 				}
 
@@ -2019,12 +2019,12 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				AGIDL_PPM* frame3 = AGIDL_LoadPPM(filename3);
 				AGIDL_PPM* frame4 = AGIDL_LoadPPM(filename4);
 				printf("Loaded Group of AGIDL Image Frames - %ld - %ld...\n",i,i+3);
-				
+
 				AGIDL_ColorConvertPPM(frame1,AGIDL_RGB_888);
 				AGIDL_ColorConvertPPM(frame2,AGIDL_RGB_888);
 				AGIDL_ColorConvertPPM(frame3,AGIDL_RGB_888);
 				AGIDL_ColorConvertPPM(frame4,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_PPMGetWidth(frame1), h = AGIDL_PPMGetHeight(frame1);
 					AGIDL_ScalePPM(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -2032,7 +2032,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					AGIDL_ScalePPM(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePPM(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_PPMGetWidth(frame1), h = AGIDL_PPMGetHeight(frame1);
 					AGIDL_ScalePPM(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -2040,69 +2040,69 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					AGIDL_ScalePPM(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePPM(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				w = AGIDL_PPMGetWidth(frame2), h = AGIDL_PPMGetHeight(frame2);
-				
+
 				num_of_pix = w*h;
-				
+
 				if(opt != AGMV_OPT_I && opt != AGMV_OPT_ANIM && opt != AGMV_OPT_GBA_I && opt != AGMV_OPT_GBA_II && opt != AGMV_OPT_NDS){
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
-					
+
 					f32 ratio = AGMV_CompareFrameSimilarity(frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-					
+
 					if(ratio >= AGMV_GetLeniency(agmv)){
 						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-						
+
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						printf("Encoding Interpolated Image Frame - %ld...\n",i+1);
-						AGMV_EncodeFrame(file,agmv,interp);	
+						AGMV_EncodeFrame(file,agmv,interp);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-						AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-						
+
 						num_of_frames_encoded += 3; i += 4;
-						
+
 						free(interp);
 					}
 					else{
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						num_of_frames_encoded++; i++;
 					}
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 				}
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
-					
+
 					f32 ratio = AGMV_CompareFrameSimilarity(frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-					
+
 					if(ratio >= AGMV_GetLeniency(agmv)){
 						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-						
+
 						printf("Encoding Interpolated Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,interp);	
+						AGMV_EncodeFrame(file,agmv,interp);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 
 						num_of_frames_encoded++; i += 2;
-						
+
 						free(interp);
 					}
 					else{
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						num_of_frames_encoded++; i++;
 					}
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 				}
 
@@ -2118,12 +2118,12 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				AGIDL_LBM* frame3 = AGIDL_LoadLBM(filename3);
 				AGIDL_LBM* frame4 = AGIDL_LoadLBM(filename4);
 				printf("Loaded Group of AGIDL Image Frames - %ld - %ld...\n",i,i+3);
-				
+
 				AGIDL_ColorConvertLBM(frame1,AGIDL_RGB_888);
 				AGIDL_ColorConvertLBM(frame2,AGIDL_RGB_888);
 				AGIDL_ColorConvertLBM(frame3,AGIDL_RGB_888);
 				AGIDL_ColorConvertLBM(frame4,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_LBMGetWidth(frame1), h = AGIDL_LBMGetHeight(frame1);
 					AGIDL_ScaleLBM(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -2131,7 +2131,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					AGIDL_ScaleLBM(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleLBM(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_LBMGetWidth(frame1), h = AGIDL_LBMGetHeight(frame1);
 					AGIDL_ScaleLBM(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -2139,69 +2139,69 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					AGIDL_ScaleLBM(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleLBM(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				w = AGIDL_LBMGetWidth(frame2), h = AGIDL_LBMGetHeight(frame2);
-				
+
 				num_of_pix = w*h;
-				
+
 				if(opt != AGMV_OPT_I && opt != AGMV_OPT_ANIM && opt != AGMV_OPT_GBA_I && opt != AGMV_OPT_GBA_II && opt != AGMV_OPT_NDS){
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
-					
+
 					f32 ratio = AGMV_CompareFrameSimilarity(frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-					
+
 					if(ratio >= AGMV_GetLeniency(agmv)){
 						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-						
+
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						printf("Encoding Interpolated Image Frame - %ld...\n",i+1);
-						AGMV_EncodeFrame(file,agmv,interp);	
+						AGMV_EncodeFrame(file,agmv,interp);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-						AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-						
+
 						num_of_frames_encoded += 3; i += 4;
-						
+
 						free(interp);
 					}
 					else{
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						num_of_frames_encoded++; i++;
 					}
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 				}
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
-					
+
 					f32 ratio = AGMV_CompareFrameSimilarity(frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-					
+
 					if(ratio >= AGMV_GetLeniency(agmv)){
 						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-						
+
 						printf("Encoding Interpolated Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,interp);	
+						AGMV_EncodeFrame(file,agmv,interp);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 
 						num_of_frames_encoded++; i += 2;
-						
+
 						free(interp);
 					}
 					else{
 						printf("Encoding AGIDL Image Frame - %ld...\n",i);
-						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+						AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 						printf("Encoded AGIDL Image Frame - %ld...\n",i);
 						num_of_frames_encoded++; i++;
 					}
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 				}
 
@@ -2211,24 +2211,24 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 				AGIDL_FreeLBM(frame4);
 			}break;
 		}
-		
+
 		if(i + 4 >= end_frame){
 			break;
 		}
 	}
-	
+
 	fseek(file,4,SEEK_SET);
 	AGIDL_WriteLong(file,num_of_frames_encoded);
 
 	fseek(file,18,SEEK_SET);
 	f32 rate = (f32)num_of_frames_encoded/AGMV_GetNumberOfFrames(agmv);
 	AGIDL_WriteLong(file,round(AGMV_GetFramesPerSecond(agmv)*rate));
-		
+
 	fclose(file);
-	
+
 	free(ext);
-	DestroyAGMV(agmv); 
-	
+	DestroyAGMV(agmv);
+
 	if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 		FILE* file = fopen(filename,"rb");
 		fseek(file,0,SEEK_END);
@@ -2237,38 +2237,38 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 		u8* data = malloc(sizeof(u8)*file_size);
 		fread(data,1,file_size,file);
 		fclose(file);
-		
+
 		FILE* out = fopen("GBA_GEN_AGMV.h","w");
-		
+
 		fprintf(out,"#ifndef GBA_GEN_AGMV_H\n");
 		fprintf(out,"#define GBA_GEN_AGMV_H\n\n");
 		fprintf(out,"const unsigned char GBA_AGMV_FILE[%ld] = {\n",file_size);
-		
+
 		int i;
 		for(i = 0; i < file_size; i++){
 			if(i != 0 && i % 4000 == 0){
 				fprintf(out,"\n");
 			}
-			
+
 			fprintf(out,"%d,",data[i]);
 		}
-		
+
 		fprintf(out,"};\n\n");
 		fprintf(out,"#endif");
-		
+
 		free(data);
-		fclose(out);		
+		fclose(out);
 	}
 }
 
-void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const char* basename, u8 img_type, u32 start_frame, u32 end_frame, u32 width, u32 height, u32 frames_per_second, AGMV_OPT opt, AGMV_QUALITY quality, AGMV_COMPRESSION compression){
+void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const char* basename, u8 img_type, u32 start_frame, u32 end_frame, u32 width, u32 height, u32, AGMV_OPT opt, AGMV_QUALITY quality, AGMV_COMPRESSION compression){
 	u32 i, palette0[256], palette1[256], n, count = 0, num_of_frames_encoded = 0, w, h, num_of_pix, max_clr;
 	u32 sample_size, adjusted_num_of_frames = end_frame-start_frame;
 	u32 pal[512];
 
 	AGMV_SetOPT(agmv,opt);
 	AGMV_SetCompression(agmv,compression);
-	
+
 	switch(quality){
 		case AGMV_HIGH_QUALITY:{
 			max_clr = AGMV_MAX_CLR;
@@ -2283,10 +2283,10 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 			max_clr = AGMV_MAX_CLR;
 		}break;
 	}
-	
+
 	u32* colorgram = malloc(sizeof(u32)*max_clr);
 	u32* histogram = malloc(sizeof(u32)*max_clr);
-	
+
 	switch(opt){
 		case AGMV_OPT_I:{
 			AGMV_SetLeniency(agmv,0); adjusted_num_of_frames /= 2;
@@ -2302,46 +2302,46 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 		}break;
 		case AGMV_OPT_GBA_I:{
 			AGMV_SetLeniency(agmv,0);
-			
+
 			AGMV_SetWidth(agmv,AGMV_GBA_W);
 			AGMV_SetHeight(agmv,AGMV_GBA_H);
-			
+
 			free(agmv->frame->img_data);
 			agmv->frame->img_data = (u32*)malloc(sizeof(u32)*AGMV_GBA_W*AGMV_GBA_H);
-			
+
 			adjusted_num_of_frames /= 2;
 		}break;
 		case AGMV_OPT_GBA_II:{
 			AGMV_SetLeniency(agmv,0);
-			
+
 			AGMV_SetWidth(agmv,AGMV_GBA_W);
 			AGMV_SetHeight(agmv,AGMV_GBA_H);
-			
+
 			free(agmv->frame->img_data);
 			agmv->frame->img_data = (u32*)malloc(sizeof(u32)*AGMV_GBA_W*AGMV_GBA_H);
-			
+
 			adjusted_num_of_frames /= 2;
 		}break;
 		case AGMV_OPT_GBA_III:{
 			AGMV_SetLeniency(agmv,0);
-			
+
 			AGMV_SetWidth(agmv,AGMV_GBA_W);
 			AGMV_SetHeight(agmv,AGMV_GBA_H);
-			
+
 			free(agmv->frame->img_data);
 			agmv->frame->img_data = (u32*)malloc(sizeof(u32)*AGMV_GBA_W*AGMV_GBA_H);
-			
+
 			adjusted_num_of_frames *= 0.75f;
 		}break;
 		case AGMV_OPT_NDS:{
 			AGMV_SetLeniency(agmv,0);
-			
+
 			AGMV_SetWidth(agmv,AGMV_NDS_W);
 			AGMV_SetHeight(agmv,AGMV_NDS_H);
-			
+
 			free(agmv->frame->img_data);
 			agmv->frame->img_data = (u32*)malloc(sizeof(u32)*AGMV_NDS_W*AGMV_NDS_H);
-			
+
 			adjusted_num_of_frames *= 0.75;
 		}break;
 	}
@@ -2351,17 +2351,17 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 			palette0[i] = 0;
 			palette1[i] = 0;
 		}
-		
+
 		pal[i] = 0;
 	}
-	
+
 	for(i = 0; i < max_clr; i++){
 		histogram[i] = 1;
 		colorgram[i] = i;
 	}
-	
+
 	char* ext = AGIDL_GetImgExtension(img_type);
-	
+
 	for(i = start_frame; i <= end_frame; i++){
 		char filename[60];
 		if(dir[0] != 'c' || dir[1] != 'u' || dir[2] != 'r'){
@@ -2370,232 +2370,232 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 		else{
 			sprintf(filename,"%s%ld%s",basename,i,ext);
 		}
-		
+
 		switch(img_type){
 			case AGIDL_IMG_BMP:{
 				u32* pixels;
-				
+
 				AGIDL_BMP* bmp = AGIDL_LoadBMP(filename);
 				AGIDL_ColorConvertBMP(bmp,AGIDL_RGB_888);
-				
+
 				pixels = bmp->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreeBMP(bmp);
 			}break;
 			case AGIDL_IMG_TGA:{
 				u32* pixels;
-				
+
 				AGIDL_TGA* tga = AGIDL_LoadTGA(filename);
 				AGIDL_ColorConvertTGA(tga,AGIDL_RGB_888);
-				
+
 				pixels = tga->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreeTGA(tga);
 			}break;
 			case AGIDL_IMG_TIM:{
 				u32* pixels;
-				
+
 				AGIDL_TIM* tim = AGIDL_LoadTIM(filename);
-				
+
 				pixels = tim->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreeTIM(tim);
 			}break;
 			case AGIDL_IMG_PCX:{
 				u32* pixels;
-				
+
 				AGIDL_PCX* pcx = AGIDL_LoadPCX(filename);
 				AGIDL_ColorConvertPCX(pcx,AGIDL_RGB_888);
-				
+
 				pixels = pcx->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreePCX(pcx);
 			}break;
 			case AGIDL_IMG_LMP:{
 				u32* pixels;
-				
+
 				AGIDL_LMP* lmp = AGIDL_LoadLMP(filename);
 				AGIDL_ColorConvertLMP(lmp,AGIDL_RGB_888);
-				
+
 				pixels = lmp->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreeLMP(lmp);
 			}break;
 			case AGIDL_IMG_PVR:{
 				u32* pixels;
-				
+
 				AGIDL_PVR* pvr = AGIDL_LoadPVR(filename);
 				AGIDL_ColorConvertPVR(pvr,AGIDL_RGB_888);
-				
+
 				pixels = pvr->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreePVR(pvr);
 			}break;
 			case AGIDL_IMG_GXT:{
 				u32* pixels;
-				
+
 				AGIDL_GXT* gxt = AGIDL_LoadGXT(filename);
 				AGIDL_ColorConvertGXT(gxt,AGIDL_RGB_888);
-				
+
 				pixels = gxt->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreeGXT(gxt);
 			}break;
 			case AGIDL_IMG_BTI:{
 				u32* pixels;
-				
+
 				AGIDL_BTI* bti = AGIDL_LoadBTI(filename);
 				AGIDL_ColorConvertBTI(bti,AGIDL_RGB_888);
-				
+
 				pixels = bti->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreeBTI(bti);
 			}break;
 			case AGIDL_IMG_3DF:{
 				u32* pixels;
-				
+
 				AGIDL_3DF* glide = AGIDL_Load3DF(filename);
 				AGIDL_ColorConvert3DF(glide,AGIDL_RGB_888);
-				
+
 				pixels = glide->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_Free3DF(glide);
 			}break;
 			case AGIDL_IMG_PPM:{
 				u32* pixels;
-				
+
 				AGIDL_PPM* ppm = AGIDL_LoadPPM(filename);
 				AGIDL_ColorConvertPPM(ppm,AGIDL_RGB_888);
-				
+
 				pixels = ppm->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreePPM(ppm);
 			}break;
 			case AGIDL_IMG_LBM:{
 				u32* pixels;
-				
+
 				AGIDL_LBM* lbm = AGIDL_LoadLBM(filename);
 				AGIDL_ColorConvertLBM(lbm,AGIDL_RGB_888);
-				
+
 				pixels = lbm->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreeLBM(lbm);
 			}break;
 		}
 	}
-	
+
 	AGMV_QuickSort(histogram,colorgram,0,max_clr);
-	
+
 	for(n = max_clr; n > 0; n--){
 		Bool skip = FALSE;
-			
+
 		u32 clr = colorgram[n];
-		
+
 		int r = AGMV_GetQuantizedR(clr,quality);
 		int g = AGMV_GetQuantizedG(clr,quality);
 		int b = AGMV_GetQuantizedB(clr,quality);
-		
+
 		int j;
 		for(j = 0; j < 512; j++){
 			u32 palclr = pal[j];
-			
+
 			int palr = AGMV_GetQuantizedR(palclr,quality);
 			int palg = AGMV_GetQuantizedG(palclr,quality);
 			int palb = AGMV_GetQuantizedB(palclr,quality);
-			
+
 			int rdiff = r-palr;
 			int gdiff = g-palg;
 			int bdiff = b-palb;
-			
+
 			if(rdiff < 0){
 				rdiff = AGIDL_Abs(rdiff);
 			}
-			
+
 			if(gdiff < 0){
 				gdiff = AGIDL_Abs(gdiff);
 			}
-			
+
 			if(bdiff < 0){
 				bdiff = AGIDL_Abs(bdiff);
 			}
-			
+
 			if(quality == AGMV_HIGH_QUALITY){
 				if(rdiff <= 2 && gdiff <= 2 && bdiff <= 3){
 					skip = TRUE;
@@ -2607,70 +2607,70 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				}
 			}
 		}
-		
+
 		if(skip == FALSE){
 			pal[count] = clr;
 			count++;
 		}
-		
+
 		if(count >= 512){
 			break;
 		}
 	}
-	
+
 	if(opt == AGMV_OPT_I || opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_III || opt == AGMV_OPT_GBA_III || opt == AGMV_OPT_NDS){
 		for(n = 0; n < 512; n++){
 			u32 clr = pal[n];
 			u32 invclr = AGMV_ReverseQuantizeColor(clr,quality);
-			
+
 			if(n < 126){
 				palette0[n] = invclr;
 			}
 			else if(n >= 126 && n <= 252){
 				palette1[n-126] = invclr;
 			}
-			
+
 			if(n > 252 && n <= 378){
 				palette0[n-126] = invclr;
 			}
-			
+
 			if(n > 378){
 				palette1[n-252] = invclr;
 			}
 		}
 	}
-	
+
 	if(opt == AGMV_OPT_II || opt == AGMV_OPT_GBA_II|| opt == AGMV_OPT_ANIM){
 		for(n = 0; n < 256; n++){
 			u32 clr = pal[n];
 			u32 invclr = AGMV_ReverseQuantizeColor(clr,quality);
-			
+
 			palette0[n] = invclr;
 		}
 	}
-	
+
 	free(colorgram);
 	free(histogram);
-	
+
 	sample_size = agmv->header.audio_size / (f32)adjusted_num_of_frames;
-	
+
 	if(opt != AGMV_OPT_GBA_I && opt != AGMV_OPT_GBA_II){
 		agmv->audio_chunk->size = sample_size;
 		agmv->audio_chunk->atsample = (u8*)malloc(sizeof(u8)*agmv->header.audio_size);
 		agmv->audio_track->start_point = 0;
-		
+
 		AGMV_CompressAudio(agmv);
 	}
-	
+
 	FILE* file = fopen(filename,"wb");
-	
+
 	AGMV_SetICP0(agmv,palette0);
 	AGMV_SetICP1(agmv,palette1);
-	
+
 	printf("Encoding AGMV Header...\n");
 	AGMV_EncodeHeader(file,agmv);
 	printf("Encoded AGMV Header...\n");
-	
+
 	for(i = start_frame; i <= end_frame;){
 		char filename1[60],filename2[60],filename3[60],filename4[60];
 		if(dir[0] != 'c' || dir[1] != 'u' || dir[2] != 'r'){
@@ -2685,7 +2685,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 			sprintf(filename3,"%s%ld%s",basename,i+2,ext);
 			sprintf(filename4,"%s%ld%s",basename,i+3,ext);
 		}
-		
+
 		switch(img_type){
 			case AGIDL_IMG_BMP:{
 				printf("Loading Group of AGIDL Image Frames - %ld - %ld...\n",i,i+3);
@@ -2694,12 +2694,12 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				AGIDL_BMP* frame3 = AGIDL_LoadBMP(filename3);
 				AGIDL_BMP* frame4 = AGIDL_LoadBMP(filename4);
 				printf("Loaded Group of AGIDL Image Frames - %ld - %ld...\n",i,i+3);
-				
+
 				AGIDL_ColorConvertBMP(frame1,AGIDL_RGB_888);
 				AGIDL_ColorConvertBMP(frame2,AGIDL_RGB_888);
 				AGIDL_ColorConvertBMP(frame3,AGIDL_RGB_888);
 				AGIDL_ColorConvertBMP(frame4,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_BMPGetWidth(frame1), h = AGIDL_BMPGetHeight(frame1);
 					AGIDL_ScaleBMP(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -2707,7 +2707,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					AGIDL_ScaleBMP(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleBMP(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_BMPGetWidth(frame1), h = AGIDL_BMPGetHeight(frame1);
 					AGIDL_FastScaleBMP(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_NEAREST);
@@ -2715,53 +2715,53 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					AGIDL_FastScaleBMP(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_NEAREST);
 					AGIDL_FastScaleBMP(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_NEAREST);
 				}
-				
+
 				w = AGIDL_BMPGetWidth(frame2), h = AGIDL_BMPGetHeight(frame2);
-				
+
 				num_of_pix = w*h;
-				
+
 				if(opt != AGMV_OPT_I && opt != AGMV_OPT_ANIM && opt != AGMV_OPT_GBA_I && opt != AGMV_OPT_GBA_II){
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
-					
+
 					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-					
+
 					printf("Encoding AGIDL Image Frame - %ld...\n",i);
-					AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+					AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i);
 					printf("Encoding Interpolated Image Frame - %ld...\n",i+1);
-					AGMV_EncodeFrame(file,agmv,interp);	
+					AGMV_EncodeFrame(file,agmv,interp);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-					AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);	
+					AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-					
+
 					num_of_frames_encoded += 3; i += 4;
-					
+
 					free(interp);
 
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 				}
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
-					
+
 					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-					
+
 					printf("Encoding Interpolated Image Frame - %ld...\n",i);
-					AGMV_EncodeFrame(file,agmv,interp);	
+					AGMV_EncodeFrame(file,agmv,interp);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i);
 
 					num_of_frames_encoded++; i += 2;
-					
-					free(interp); 
-				
+
+					free(interp);
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 				}
 
@@ -2777,12 +2777,12 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				AGIDL_TGA* frame3 = AGIDL_LoadTGA(filename3);
 				AGIDL_TGA* frame4 = AGIDL_LoadTGA(filename4);
 				printf("Loaded Group of AGIDL Image Frames - %ld - %ld...\n",i,i+3);
-				
+
 				AGIDL_ColorConvertTGA(frame1,AGIDL_RGB_888);
 				AGIDL_ColorConvertTGA(frame2,AGIDL_RGB_888);
 				AGIDL_ColorConvertTGA(frame3,AGIDL_RGB_888);
 				AGIDL_ColorConvertTGA(frame4,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_TGAGetWidth(frame1), h = AGIDL_TGAGetHeight(frame1);
 					AGIDL_ScaleTGA(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -2790,7 +2790,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					AGIDL_ScaleTGA(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleTGA(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_TGAGetWidth(frame1), h = AGIDL_TGAGetHeight(frame1);
 					AGIDL_ScaleTGA(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -2798,11 +2798,11 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					AGIDL_ScaleTGA(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleTGA(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				w = AGIDL_TGAGetWidth(frame2), h = AGIDL_TGAGetHeight(frame2);
-				
+
 				num_of_pix = w*h;
-				
+
 				if(opt != AGMV_OPT_I && opt != AGMV_OPT_ANIM && opt != AGMV_OPT_GBA_I && opt != AGMV_OPT_GBA_II && opt != AGMV_OPT_NDS){
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
@@ -2810,21 +2810,21 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-					
+
 					printf("Encoding AGIDL Image Frame - %ld...\n",i);
-					AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+					AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i);
 					printf("Encoding Interpolated Image Frame - %ld...\n",i+1);
-					AGMV_EncodeFrame(file,agmv,interp);	
+					AGMV_EncodeFrame(file,agmv,interp);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-					AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);	
+					AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-					
+
 					num_of_frames_encoded += 3; i += 4;
-					
+
 					free(interp);
 
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
@@ -2835,16 +2835,16 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-					
+
 					printf("Encoding Interpolated Image Frame - %ld...\n",i);
-					AGMV_EncodeFrame(file,agmv,interp);	
+					AGMV_EncodeFrame(file,agmv,interp);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i);
 
 					num_of_frames_encoded++; i += 2;
-					
+
 					free(interp);
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 				}
 
@@ -2860,12 +2860,12 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				AGIDL_TIM* frame3 = AGIDL_LoadTIM(filename3);
 				AGIDL_TIM* frame4 = AGIDL_LoadTIM(filename4);
 				printf("Loaded Group of AGIDL Image Frames - %ld - %ld...\n",i,i+3);
-				
+
 				AGIDL_ColorConvertTIM(frame1,AGIDL_RGB_888);
 				AGIDL_ColorConvertTIM(frame2,AGIDL_RGB_888);
 				AGIDL_ColorConvertTIM(frame3,AGIDL_RGB_888);
 				AGIDL_ColorConvertTIM(frame4,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_TIMGetWidth(frame1), h = AGIDL_TIMGetHeight(frame1);
 					AGIDL_ScaleTIM(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -2873,7 +2873,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					AGIDL_ScaleTIM(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleTIM(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_TIMGetWidth(frame1), h = AGIDL_TIMGetHeight(frame1);
 					AGIDL_ScaleTIM(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -2881,11 +2881,11 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					AGIDL_ScaleTIM(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleTIM(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				w = AGIDL_TIMGetWidth(frame2), h = AGIDL_TIMGetHeight(frame2);
-				
+
 				num_of_pix = w*h;
-				
+
 				if(opt != AGMV_OPT_I && opt != AGMV_OPT_ANIM && opt != AGMV_OPT_GBA_I && opt != AGMV_OPT_GBA_II && opt != AGMV_OPT_NDS){
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
@@ -2893,41 +2893,41 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-					
+
 					printf("Encoding AGIDL Image Frame - %ld...\n",i);
-					AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+					AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i);
 					printf("Encoding Interpolated Image Frame - %ld...\n",i+1);
-					AGMV_EncodeFrame(file,agmv,interp);	
+					AGMV_EncodeFrame(file,agmv,interp);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-					AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);	
+					AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-					
+
 					num_of_frames_encoded += 3; i += 4;
-					
+
 					free(interp);
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 				}
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
-					
+
 					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-					
+
 					printf("Encoding Interpolated Image Frame - %ld...\n",i);
-					AGMV_EncodeFrame(file,agmv,interp);	
+					AGMV_EncodeFrame(file,agmv,interp);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i);
 
 					num_of_frames_encoded++; i += 2;
-					
+
 					free(interp);
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 				}
 
@@ -2943,12 +2943,12 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				AGIDL_PCX* frame3 = AGIDL_LoadPCX(filename3);
 				AGIDL_PCX* frame4 = AGIDL_LoadPCX(filename4);
 				printf("Loaded Group of AGIDL Image Frames - %ld - %ld...\n",i,i+3);
-				
+
 				AGIDL_ColorConvertPCX(frame1,AGIDL_RGB_888);
 				AGIDL_ColorConvertPCX(frame2,AGIDL_RGB_888);
 				AGIDL_ColorConvertPCX(frame3,AGIDL_RGB_888);
 				AGIDL_ColorConvertPCX(frame4,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_PCXGetWidth(frame1), h = AGIDL_PCXGetHeight(frame1);
 					AGIDL_ScalePCX(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -2956,7 +2956,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					AGIDL_ScalePCX(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePCX(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_PCXGetWidth(frame1), h = AGIDL_PCXGetHeight(frame1);
 					AGIDL_ScalePCX(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -2964,12 +2964,12 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					AGIDL_ScalePCX(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePCX(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
-				
+
+
 				w = AGIDL_PCXGetWidth(frame2), h = AGIDL_PCXGetHeight(frame2);
-				
+
 				num_of_pix = w*h;
-				
+
 				if(opt != AGMV_OPT_I && opt != AGMV_OPT_ANIM && opt != AGMV_OPT_GBA_I && opt != AGMV_OPT_GBA_II && opt != AGMV_OPT_NDS){
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
@@ -2977,23 +2977,23 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-					
+
 					printf("Encoding AGIDL Image Frame - %ld...\n",i);
 					AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i);
 					printf("Encoding Interpolated Image Frame - %ld...\n",i+1);
-					AGMV_EncodeFrame(file,agmv,interp);	
+					AGMV_EncodeFrame(file,agmv,interp);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-					AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);	
+					AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-					
+
 					num_of_frames_encoded += 3; i += 4;
-					
+
 					free(interp);
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 				}
 				else{
@@ -3002,16 +3002,16 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-					
+
 					printf("Encoding Interpolated Image Frame - %ld...\n",i);
-					AGMV_EncodeFrame(file,agmv,interp);	
+					AGMV_EncodeFrame(file,agmv,interp);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i);
 
 					num_of_frames_encoded++; i += 2;
-					
+
 					free(interp);
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 				}
 
@@ -3027,12 +3027,12 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				AGIDL_LMP* frame3 = AGIDL_LoadLMP(filename3);
 				AGIDL_LMP* frame4 = AGIDL_LoadLMP(filename4);
 				printf("Loaded Group of AGIDL Image Frames - %ld - %ld...\n",i,i+3);
-				
+
 				AGIDL_ColorConvertLMP(frame1,AGIDL_RGB_888);
 				AGIDL_ColorConvertLMP(frame2,AGIDL_RGB_888);
 				AGIDL_ColorConvertLMP(frame3,AGIDL_RGB_888);
 				AGIDL_ColorConvertLMP(frame4,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_LMPGetWidth(frame1), h = AGIDL_LMPGetHeight(frame1);
 					AGIDL_ScaleLMP(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3040,7 +3040,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					AGIDL_ScaleLMP(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleLMP(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_LMPGetWidth(frame1), h = AGIDL_LMPGetHeight(frame1);
 					AGIDL_ScaleLMP(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3048,11 +3048,11 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					AGIDL_ScaleLMP(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleLMP(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				w = AGIDL_LMPGetWidth(frame2), h = AGIDL_LMPGetHeight(frame2);
-				
+
 				num_of_pix = w*h;
-				
+
 				if(opt != AGMV_OPT_I && opt != AGMV_OPT_ANIM && opt != AGMV_OPT_GBA_I && opt != AGMV_OPT_GBA_II && opt != AGMV_OPT_NDS){
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
@@ -3060,23 +3060,23 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-					
+
 					printf("Encoding AGIDL Image Frame - %ld...\n",i);
-					AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+					AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i);
 					printf("Encoding Interpolated Image Frame - %ld...\n",i+1);
-					AGMV_EncodeFrame(file,agmv,interp);	
+					AGMV_EncodeFrame(file,agmv,interp);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-					AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);	
+					AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-					
+
 					num_of_frames_encoded += 3; i += 4;
-					
+
 					free(interp);
-						
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 				}
 				else{
@@ -3085,16 +3085,16 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-					
+
 					printf("Encoding Interpolated Image Frame - %ld...\n",i);
-					AGMV_EncodeFrame(file,agmv,interp);	
+					AGMV_EncodeFrame(file,agmv,interp);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i);
 
 					num_of_frames_encoded++; i += 2;
-					
+
 					free(interp);
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 				}
 
@@ -3110,12 +3110,12 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				AGIDL_PVR* frame3 = AGIDL_LoadPVR(filename3);
 				AGIDL_PVR* frame4 = AGIDL_LoadPVR(filename4);
 				printf("Loaded Group of AGIDL Image Frames - %ld - %ld...\n",i,i+3);
-				
+
 				AGIDL_ColorConvertPVR(frame1,AGIDL_RGB_888);
 				AGIDL_ColorConvertPVR(frame2,AGIDL_RGB_888);
 				AGIDL_ColorConvertPVR(frame3,AGIDL_RGB_888);
 				AGIDL_ColorConvertPVR(frame4,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_PVRGetWidth(frame1), h = AGIDL_PVRGetHeight(frame1);
 					AGIDL_ScalePVR(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3123,7 +3123,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					AGIDL_ScalePVR(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePVR(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_PVRGetWidth(frame1), h = AGIDL_PVRGetHeight(frame1);
 					AGIDL_ScalePVR(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3131,53 +3131,53 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					AGIDL_ScalePVR(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePVR(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				w = AGIDL_PVRGetWidth(frame2), h = AGIDL_PVRGetHeight(frame2);
-				
+
 				num_of_pix = w*h;
-				
+
 				if(opt != AGMV_OPT_I && opt != AGMV_OPT_ANIM && opt != AGMV_OPT_GBA_I && opt != AGMV_OPT_GBA_II && opt != AGMV_OPT_NDS){
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
-					
+
 					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-					
+
 					printf("Encoding AGIDL Image Frame - %ld...\n",i);
-					AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+					AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i);
 					printf("Encoding Interpolated Image Frame - %ld...\n",i+1);
-					AGMV_EncodeFrame(file,agmv,interp);	
+					AGMV_EncodeFrame(file,agmv,interp);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-					AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);	
+					AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-					
+
 					num_of_frames_encoded += 3; i += 4;
-					
+
 					free(interp);
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 				}
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
-					
+
 					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-					
+
 					printf("Encoding Interpolated Image Frame - %ld...\n",i);
-					AGMV_EncodeFrame(file,agmv,interp);	
+					AGMV_EncodeFrame(file,agmv,interp);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i);
 
 					num_of_frames_encoded++; i += 2;
-					
+
 					free(interp);
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 				}
 
@@ -3193,12 +3193,12 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				AGIDL_GXT* frame3 = AGIDL_LoadGXT(filename3);
 				AGIDL_GXT* frame4 = AGIDL_LoadGXT(filename4);
 				printf("Loaded Group of AGIDL Image Frames - %ld - %ld...\n",i,i+3);
-				
+
 				AGIDL_ColorConvertGXT(frame1,AGIDL_RGB_888);
 				AGIDL_ColorConvertGXT(frame2,AGIDL_RGB_888);
 				AGIDL_ColorConvertGXT(frame3,AGIDL_RGB_888);
 				AGIDL_ColorConvertGXT(frame4,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_GXTGetWidth(frame1), h = AGIDL_GXTGetHeight(frame1);
 					AGIDL_ScaleGXT(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3206,7 +3206,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					AGIDL_ScaleGXT(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleGXT(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_GXTGetWidth(frame1), h = AGIDL_GXTGetHeight(frame1);
 					AGIDL_ScaleGXT(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3214,53 +3214,53 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					AGIDL_ScaleGXT(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleGXT(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				w = AGIDL_GXTGetWidth(frame2), h = AGIDL_GXTGetHeight(frame2);
-				
+
 				num_of_pix = w*h;
-				
+
 				if(opt != AGMV_OPT_I && opt != AGMV_OPT_ANIM && opt != AGMV_OPT_GBA_I && opt != AGMV_OPT_GBA_II && opt != AGMV_OPT_NDS){
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
-					
+
 					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-					
+
 					printf("Encoding AGIDL Image Frame - %ld...\n",i);
-					AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+					AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i);
 					printf("Encoding Interpolated Image Frame - %ld...\n",i+1);
-					AGMV_EncodeFrame(file,agmv,interp);	
+					AGMV_EncodeFrame(file,agmv,interp);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
 					AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);
-					AGMV_EncodeAudioChunk(file,agmv);					
+					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-					
+
 					num_of_frames_encoded += 3; i += 4;
-					
+
 					free(interp);
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 				}
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
-					
+
 					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-					
+
 					printf("Encoding Interpolated Image Frame - %ld...\n",i);
-					AGMV_EncodeFrame(file,agmv,interp);	
+					AGMV_EncodeFrame(file,agmv,interp);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i);
 
 					num_of_frames_encoded++; i += 2;
-					
+
 					free(interp);
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 				}
 
@@ -3276,12 +3276,12 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				AGIDL_BTI* frame3 = AGIDL_LoadBTI(filename3);
 				AGIDL_BTI* frame4 = AGIDL_LoadBTI(filename4);
 				printf("Loaded Group of AGIDL Image Frames - %ld - %ld...\n",i,i+3);
-				
+
 				AGIDL_ColorConvertBTI(frame1,AGIDL_RGB_888);
 				AGIDL_ColorConvertBTI(frame2,AGIDL_RGB_888);
 				AGIDL_ColorConvertBTI(frame3,AGIDL_RGB_888);
 				AGIDL_ColorConvertBTI(frame4,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_BTIGetWidth(frame1), h = AGIDL_BTIGetHeight(frame1);
 					AGIDL_ScaleBTI(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3289,7 +3289,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					AGIDL_ScaleBTI(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleBTI(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_BTIGetWidth(frame1), h = AGIDL_BTIGetHeight(frame1);
 					AGIDL_ScaleBTI(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3297,35 +3297,35 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					AGIDL_ScaleBTI(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleBTI(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				w = AGIDL_BTIGetWidth(frame2), h = AGIDL_BTIGetHeight(frame2);
-				
+
 				num_of_pix = w*h;
-				
+
 				if(opt != AGMV_OPT_I && opt != AGMV_OPT_ANIM && opt != AGMV_OPT_GBA_I && opt != AGMV_OPT_GBA_II && opt != AGMV_OPT_NDS){
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
-					
+
 					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-					
+
 					printf("Encoding AGIDL Image Frame - %ld...\n",i);
-					AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+					AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i);
 					printf("Encoding Interpolated Image Frame - %ld...\n",i+1);
-					AGMV_EncodeFrame(file,agmv,interp);	
+					AGMV_EncodeFrame(file,agmv,interp);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-					AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);	
+					AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-					
+
 					num_of_frames_encoded += 3; i += 4;
-					
+
 					free(interp);
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 				}
 				else{
@@ -3334,16 +3334,16 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-					
+
 					printf("Encoding Interpolated Image Frame - %ld...\n",i);
-					AGMV_EncodeFrame(file,agmv,interp);	
+					AGMV_EncodeFrame(file,agmv,interp);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i);
 
 					num_of_frames_encoded++; i += 2;
-					
+
 					free(interp);
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 				}
 
@@ -3359,12 +3359,12 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				AGIDL_3DF* frame3 = AGIDL_Load3DF(filename3);
 				AGIDL_3DF* frame4 = AGIDL_Load3DF(filename4);
 				printf("Loaded Group of AGIDL Image Frames - %ld - %ld...\n",i,i+3);
-				
+
 				AGIDL_ColorConvert3DF(frame1,AGIDL_RGB_888);
 				AGIDL_ColorConvert3DF(frame2,AGIDL_RGB_888);
 				AGIDL_ColorConvert3DF(frame3,AGIDL_RGB_888);
 				AGIDL_ColorConvert3DF(frame4,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_3DFGetWidth(frame1), h = AGIDL_3DFGetHeight(frame1);
 					AGIDL_Scale3DF(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3372,7 +3372,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					AGIDL_Scale3DF(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_Scale3DF(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_3DFGetWidth(frame1), h = AGIDL_3DFGetHeight(frame1);
 					AGIDL_Scale3DF(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3380,11 +3380,11 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					AGIDL_Scale3DF(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_Scale3DF(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				w = AGIDL_3DFGetWidth(frame2), h = AGIDL_3DFGetHeight(frame2);
-				
+
 				num_of_pix = w*h;
-				
+
 				if(opt != AGMV_OPT_I && opt != AGMV_OPT_ANIM && opt != AGMV_OPT_GBA_I && opt != AGMV_OPT_GBA_II && opt != AGMV_OPT_NDS){
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
@@ -3392,41 +3392,41 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-					
+
 					printf("Encoding AGIDL Image Frame - %ld...\n",i);
-					AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+					AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i);
 					printf("Encoding Interpolated Image Frame - %ld...\n",i+1);
-					AGMV_EncodeFrame(file,agmv,interp);	
+					AGMV_EncodeFrame(file,agmv,interp);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-					AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);	
+					AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-					
+
 					num_of_frames_encoded += 3; i += 4;
-					
+
 					free(interp);
 
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 				}
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
-					
+
 					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-					
+
 					printf("Encoding Interpolated Image Frame - %ld...\n",i);
-					AGMV_EncodeFrame(file,agmv,interp);	
+					AGMV_EncodeFrame(file,agmv,interp);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i);
 
 					num_of_frames_encoded++; i += 2;
-					
+
 					free(interp);
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 				}
 
@@ -3442,12 +3442,12 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				AGIDL_PPM* frame3 = AGIDL_LoadPPM(filename3);
 				AGIDL_PPM* frame4 = AGIDL_LoadPPM(filename4);
 				printf("Loaded Group of AGIDL Image Frames - %ld - %ld...\n",i,i+3);
-				
+
 				AGIDL_ColorConvertPPM(frame1,AGIDL_RGB_888);
 				AGIDL_ColorConvertPPM(frame2,AGIDL_RGB_888);
 				AGIDL_ColorConvertPPM(frame3,AGIDL_RGB_888);
 				AGIDL_ColorConvertPPM(frame4,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_PPMGetWidth(frame1), h = AGIDL_PPMGetHeight(frame1);
 					AGIDL_ScalePPM(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3455,7 +3455,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					AGIDL_ScalePPM(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePPM(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_PPMGetWidth(frame1), h = AGIDL_PPMGetHeight(frame1);
 					AGIDL_ScalePPM(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3463,35 +3463,35 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					AGIDL_ScalePPM(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScalePPM(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				w = AGIDL_PPMGetWidth(frame2), h = AGIDL_PPMGetHeight(frame2);
-				
+
 				num_of_pix = w*h;
-				
+
 				if(opt != AGMV_OPT_I && opt != AGMV_OPT_ANIM && opt != AGMV_OPT_GBA_I && opt != AGMV_OPT_GBA_II && opt != AGMV_OPT_NDS){
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
-	
+
 					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-					
+
 					printf("Encoding AGIDL Image Frame - %ld...\n",i);
 					AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
-					AGMV_EncodeAudioChunk(file,agmv);					
+					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i);
 					printf("Encoding Interpolated Image Frame - %ld...\n",i+1);
-					AGMV_EncodeFrame(file,agmv,interp);	
+					AGMV_EncodeFrame(file,agmv,interp);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-					AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);	
+					AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-					
+
 					num_of_frames_encoded += 3; i += 4;
-					
+
 					free(interp);
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 				}
 				else{
@@ -3500,16 +3500,16 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-					
+
 					printf("Encoding Interpolated Image Frame - %ld...\n",i);
-					AGMV_EncodeFrame(file,agmv,interp);	
+					AGMV_EncodeFrame(file,agmv,interp);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i);
 
 					num_of_frames_encoded++; i += 2;
-					
+
 					free(interp);
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 				}
 
@@ -3525,12 +3525,12 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				AGIDL_LBM* frame3 = AGIDL_LoadLBM(filename3);
 				AGIDL_LBM* frame4 = AGIDL_LoadLBM(filename4);
 				printf("Loaded Group of AGIDL Image Frames - %ld - %ld...\n",i,i+3);
-				
+
 				AGIDL_ColorConvertLBM(frame1,AGIDL_RGB_888);
 				AGIDL_ColorConvertLBM(frame2,AGIDL_RGB_888);
 				AGIDL_ColorConvertLBM(frame3,AGIDL_RGB_888);
 				AGIDL_ColorConvertLBM(frame4,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_LBMGetWidth(frame1), h = AGIDL_LBMGetHeight(frame1);
 					AGIDL_ScaleLBM(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3538,7 +3538,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					AGIDL_ScaleLBM(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleLBM(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_LBMGetWidth(frame1), h = AGIDL_LBMGetHeight(frame1);
 					AGIDL_ScaleLBM(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -3546,11 +3546,11 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					AGIDL_ScaleLBM(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 					AGIDL_ScaleLBM(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				w = AGIDL_LBMGetWidth(frame2), h = AGIDL_LBMGetHeight(frame2);
-				
+
 				num_of_pix = w*h;
-				
+
 				if(opt != AGMV_OPT_I && opt != AGMV_OPT_ANIM && opt != AGMV_OPT_GBA_I && opt != AGMV_OPT_GBA_II && opt != AGMV_OPT_NDS){
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
@@ -3558,41 +3558,41 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
-					
+
 					printf("Encoding AGIDL Image Frame - %ld...\n",i);
 					AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
-					AGMV_EncodeAudioChunk(file,agmv);					
+					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i);
 					printf("Encoding Interpolated Image Frame - %ld...\n",i+1);
-					AGMV_EncodeFrame(file,agmv,interp);	
+					AGMV_EncodeFrame(file,agmv,interp);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-					AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);	
+					AGMV_EncodeFrame(file,agmv,frame4->pixels.pix32);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i+3);
-					
+
 					num_of_frames_encoded += 3; i += 4;
-					
+
 					free(interp);
-					
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 				}
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
-					
+
 					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
-					
+
 					printf("Encoding Interpolated Image Frame - %ld...\n",i);
-					AGMV_EncodeFrame(file,agmv,interp);	
+					AGMV_EncodeFrame(file,agmv,interp);
 					AGMV_EncodeAudioChunk(file,agmv);
 					printf("Encoded AGIDL Image Frame - %ld...\n",i);
 
 					num_of_frames_encoded++; i += 2;
-					
+
 					free(interp);
-						
+
 					printf("Performed Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 				}
 
@@ -3602,12 +3602,12 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				AGIDL_FreeLBM(frame4);
 			}break;
 		}
-		
+
 		if(i + 4 >= end_frame){
 			break;
 		}
 	}
-	
+
 	fseek(file,4,SEEK_SET);
 	AGIDL_WriteLong(file,num_of_frames_encoded);
 
@@ -3616,10 +3616,10 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 	AGIDL_WriteLong(file,round(AGMV_GetFramesPerSecond(agmv)*rate));
 
 	fclose(file);
-	
+
 	free(ext);
-	DestroyAGMV(agmv); 
-	
+	DestroyAGMV(agmv);
+
 	if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 		FILE* file = fopen(filename,"rb");
 		fseek(file,0,SEEK_END);
@@ -3628,38 +3628,38 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 		u8* data = malloc(sizeof(u8)*file_size);
 		fread(data,1,file_size,file);
 		fclose(file);
-		
+
 		FILE* out = fopen("GBA_GEN_AGMV.h","w");
-		
+
 		fprintf(out,"#ifndef GBA_GEN_AGMV_H\n");
 		fprintf(out,"#define GBA_GEN_AGMV_H\n\n");
 		fprintf(out,"const unsigned char GBA_AGMV_FILE[%ld] = {\n",file_size);
-		
+
 		int i;
 		for(i = 0; i < file_size; i++){
 			if(i != 0 && i % 4000 == 0){
 				fprintf(out,"\n");
 			}
-			
+
 			fprintf(out,"%d,",data[i]);
 		}
-		
+
 		fprintf(out,"};\n\n");
 		fprintf(out,"#endif");
-		
+
 		free(data);
-		fclose(out);		
+		fclose(out);
 	}
 }
 
-void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, const char* basename, u8 img_type, u32 start_frame, u32 end_frame, u32 width, u32 height, u32 frames_per_second, AGMV_OPT opt, AGMV_QUALITY quality, AGMV_COMPRESSION compression){
+void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, const char* basename, u8 img_type, u32 start_frame, u32 end_frame, u32 width, u32 height, u32, AGMV_OPT opt, AGMV_QUALITY quality, AGMV_COMPRESSION compression){
 	u32 i, palette0[256], palette1[256], n, count = 0, max_clr;
 	u32 sample_size;
 	u32 pal[512];
 
 	AGMV_SetOPT(agmv,opt);
 	AGMV_SetCompression(agmv,compression);
-	
+
 	switch(quality){
 		case AGMV_HIGH_QUALITY:{
 			max_clr = 524287;
@@ -3671,18 +3671,18 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 			max_clr = 65535;
 		}break;
 		default:{
-			max_clr = 524287; 
+			max_clr = 524287;
 		}break;
 	}
-	
+
 	u32* colorgram = malloc(sizeof(u32)*max_clr);
 	u32* histogram = malloc(sizeof(u32)*max_clr);
-	
+
 	switch(opt){
 		case AGMV_OPT_GBA_I:{
 			AGMV_SetWidth(agmv,AGMV_GBA_W);
 			AGMV_SetHeight(agmv,AGMV_GBA_H);
-			
+
 			free(agmv->frame->img_data);
 			agmv->frame->img_data = (u32*)malloc(sizeof(u32)*AGMV_GBA_W*AGMV_GBA_H);
 
@@ -3690,21 +3690,21 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 		case AGMV_OPT_GBA_II:{
 			AGMV_SetWidth(agmv,AGMV_GBA_W);
 			AGMV_SetHeight(agmv,AGMV_GBA_H);
-			
+
 			free(agmv->frame->img_data);
 			agmv->frame->img_data = (u32*)malloc(sizeof(u32)*AGMV_GBA_W*AGMV_GBA_H);
 		}break;
 		case AGMV_OPT_GBA_III:{
 			AGMV_SetWidth(agmv,AGMV_GBA_W);
 			AGMV_SetHeight(agmv,AGMV_GBA_H);
-			
+
 			free(agmv->frame->img_data);
 			agmv->frame->img_data = (u32*)malloc(sizeof(u32)*AGMV_GBA_W*AGMV_GBA_H);
 		}break;
 		case AGMV_OPT_NDS:{
 			AGMV_SetWidth(agmv,AGMV_NDS_W);
 			AGMV_SetHeight(agmv,AGMV_NDS_H);
-			
+
 			free(agmv->frame->img_data);
 			agmv->frame->img_data = (u32*)malloc(sizeof(u32)*AGMV_NDS_W*AGMV_NDS_H);
 		}break;
@@ -3715,17 +3715,17 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 			palette0[i] = 0;
 			palette1[i] = 0;
 		}
-		
+
 		pal[i] = 0;
 	}
-	
+
 	for(i = 0; i < max_clr; i++){
 		histogram[i] = 1;
 		colorgram[i] = i;
 	}
-	
+
 	char* ext = AGIDL_GetImgExtension(img_type);
-	
+
 	for(i = start_frame; i <= end_frame; i++){
 		char filename[60];
 		if(dir[0] != 'c' || dir[1] != 'u' || dir[2] != 'r'){
@@ -3734,232 +3734,232 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 		else{
 			sprintf(filename,"%s%ld%s",basename,i,ext);
 		}
-		
+
 		switch(img_type){
 			case AGIDL_IMG_BMP:{
 				u32* pixels;
-				
+
 				AGIDL_BMP* bmp = AGIDL_LoadBMP(filename);
 				AGIDL_ColorConvertBMP(bmp,AGIDL_RGB_888);
-				
+
 				pixels = bmp->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreeBMP(bmp);
 			}break;
 			case AGIDL_IMG_TGA:{
 				u32* pixels;
-				
+
 				AGIDL_TGA* tga = AGIDL_LoadTGA(filename);
 				AGIDL_ColorConvertTGA(tga,AGIDL_RGB_888);
-				
+
 				pixels = tga->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreeTGA(tga);
 			}break;
 			case AGIDL_IMG_TIM:{
 				u32* pixels;
-				
+
 				AGIDL_TIM* tim = AGIDL_LoadTIM(filename);
-				
+
 				pixels = tim->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreeTIM(tim);
 			}break;
 			case AGIDL_IMG_PCX:{
 				u32* pixels;
-				
+
 				AGIDL_PCX* pcx = AGIDL_LoadPCX(filename);
 				AGIDL_ColorConvertPCX(pcx,AGIDL_RGB_888);
-				
+
 				pixels = pcx->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreePCX(pcx);
 			}break;
 			case AGIDL_IMG_LMP:{
 				u32* pixels;
-				
+
 				AGIDL_LMP* lmp = AGIDL_LoadLMP(filename);
 				AGIDL_ColorConvertLMP(lmp,AGIDL_RGB_888);
-				
+
 				pixels = lmp->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreeLMP(lmp);
 			}break;
 			case AGIDL_IMG_PVR:{
 				u32* pixels;
-				
+
 				AGIDL_PVR* pvr = AGIDL_LoadPVR(filename);
 				AGIDL_ColorConvertPVR(pvr,AGIDL_RGB_888);
-				
+
 				pixels = pvr->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreePVR(pvr);
 			}break;
 			case AGIDL_IMG_GXT:{
 				u32* pixels;
-				
+
 				AGIDL_GXT* gxt = AGIDL_LoadGXT(filename);
 				AGIDL_ColorConvertGXT(gxt,AGIDL_RGB_888);
-				
+
 				pixels = gxt->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreeGXT(gxt);
 			}break;
 			case AGIDL_IMG_BTI:{
 				u32* pixels;
-				
+
 				AGIDL_BTI* bti = AGIDL_LoadBTI(filename);
 				AGIDL_ColorConvertBTI(bti,AGIDL_RGB_888);
-				
+
 				pixels = bti->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreeBTI(bti);
 			}break;
 			case AGIDL_IMG_3DF:{
 				u32* pixels;
-				
+
 				AGIDL_3DF* glide = AGIDL_Load3DF(filename);
 				AGIDL_ColorConvert3DF(glide,AGIDL_RGB_888);
-				
+
 				pixels = glide->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_Free3DF(glide);
 			}break;
 			case AGIDL_IMG_PPM:{
 				u32* pixels;
-				
+
 				AGIDL_PPM* ppm = AGIDL_LoadPPM(filename);
 				AGIDL_ColorConvertPPM(ppm,AGIDL_RGB_888);
-				
+
 				pixels = ppm->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreePPM(ppm);
 			}break;
 			case AGIDL_IMG_LBM:{
 				u32* pixels;
-				
+
 				AGIDL_LBM* lbm = AGIDL_LoadLBM(filename);
 				AGIDL_ColorConvertLBM(lbm,AGIDL_RGB_888);
-				
+
 				pixels = lbm->pixels.pix32;
-				
+
 				int n;
 				for(n = 0; n < width*height; n++){
 					u32 color = pixels[n];
 					u32 hcolor = AGMV_QuantizeColor(color,quality);
 					histogram[hcolor] = histogram[hcolor] + 1;
 				}
-						
+
 				AGIDL_FreeLBM(lbm);
 			}break;
 		}
 	}
-	
+
 	AGMV_QuickSort(histogram,colorgram,0,max_clr);
-	
+
 	for(n = max_clr; n > 0; n--){
 		Bool skip = FALSE;
-			
+
 		u32 clr = colorgram[n];
-		
+
 		int r = AGMV_GetQuantizedR(clr,quality);
 		int g = AGMV_GetQuantizedG(clr,quality);
 		int b = AGMV_GetQuantizedB(clr,quality);
-		
+
 		int j;
 		for(j = 0; j < 512; j++){
 			u32 palclr = pal[j];
-			
+
 			int palr = AGMV_GetQuantizedR(palclr,quality);
 			int palg = AGMV_GetQuantizedG(palclr,quality);
 			int palb = AGMV_GetQuantizedB(palclr,quality);
-			
+
 			int rdiff = r-palr;
 			int gdiff = g-palg;
 			int bdiff = b-palb;
-			
+
 			if(rdiff < 0){
 				rdiff = AGIDL_Abs(rdiff);
 			}
-			
+
 			if(gdiff < 0){
 				gdiff = AGIDL_Abs(gdiff);
 			}
-			
+
 			if(bdiff < 0){
 				bdiff = AGIDL_Abs(bdiff);
 			}
-			
+
 			if(quality == AGMV_HIGH_QUALITY){
 				if(rdiff <= 2 && gdiff <= 2 && bdiff <= 3){
 					skip = TRUE;
@@ -3971,59 +3971,59 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 				}
 			}
 		}
-		
+
 		if(skip == FALSE){
 			pal[count] = clr;
 			count++;
 		}
-		
+
 		if(count >= 512){
 			break;
 		}
 	}
-	
+
 	if(opt == AGMV_OPT_I || opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_III || opt == AGMV_OPT_GBA_III || opt == AGMV_OPT_NDS){
 		for(n = 0; n < 512; n++){
 			u32 clr = pal[n];
 			u32 invclr = AGMV_ReverseQuantizeColor(clr,quality);
-			
+
 			if(n < 126){
 				palette0[n] = invclr;
 			}
 			else if(n >= 126 && n <= 252){
 				palette1[n-126] = invclr;
 			}
-			
+
 			if(n > 252 && n <= 378){
 				palette0[n-126] = invclr;
 			}
-			
+
 			if(n > 378){
 				palette1[n-252] = invclr;
 			}
 		}
 	}
-	
+
 	if(opt == AGMV_OPT_II || opt == AGMV_OPT_GBA_II|| opt == AGMV_OPT_ANIM){
 		for(n = 0; n < 256; n++){
 			u32 clr = pal[n];
 			u32 invclr = AGMV_ReverseQuantizeColor(clr,quality);
-			
+
 			palette0[n] = invclr;
 		}
 	}
-	
+
 	free(colorgram);
 	free(histogram);
-	
+
 	if(AGMV_GetTotalAudioDuration(agmv) != 0){
 		sample_size = agmv->header.audio_size / (f32)(end_frame-start_frame);
-		
+
 		if(opt != AGMV_OPT_GBA_I && opt != AGMV_OPT_GBA_II){
 			agmv->audio_chunk->size = sample_size;
 			agmv->audio_chunk->atsample = (u8*)malloc(sizeof(u8)*agmv->header.audio_size);
 			agmv->audio_track->start_point = 0;
-			
+
 			AGMV_CompressAudio(agmv);
 		}
 		else{
@@ -4031,16 +4031,16 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 			agmv->audio_track->start_point = 0;
 		}
 	}
-	
+
 	FILE* file = fopen(filename,"wb");
-	
+
 	AGMV_SetICP0(agmv,palette0);
 	AGMV_SetICP1(agmv,palette1);
-	
+
 	printf("Encoding AGMV Header...\n");
 	AGMV_EncodeHeader(file,agmv);
 	printf("Encoded AGMV Header...\n");
-	
+
 	for(i = start_frame; i <= end_frame; i++){
 		char filename1[60];
 		if(dir[0] != 'c' || dir[1] != 'u' || dir[2] != 'r'){
@@ -4049,194 +4049,194 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 		else{
 			sprintf(filename1,"%s%ld%s",basename,i,ext);
 		}
-		
+
 		switch(img_type){
 			case AGIDL_IMG_BMP:{
 				printf("Loading AGIDL Image Frame - %ld\n",i);
 				AGIDL_BMP* frame1 = AGIDL_LoadBMP(filename1);
 				printf("Loaded AGIDL Image Frame - %ld\n",i);
-				
+
 				AGIDL_ColorConvertBMP(frame1,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_BMPGetWidth(frame1), h = AGIDL_BMPGetHeight(frame1);
 					AGIDL_ScaleBMP(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_BMPGetWidth(frame1), h = AGIDL_BMPGetHeight(frame1);
 					AGIDL_ScaleBMP(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-					
+
 				printf("Encoding AGIDL Image Frame - %ld...\n",i);
 				AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 				printf("Encoded AGIDL Image Frame - %ld...\n",i);
-				
+
 				if(AGMV_GetTotalAudioDuration(agmv) != 0){
-					printf("Encoding AGMV Audio Chunk - %ld...\n",i);					
+					printf("Encoding AGMV Audio Chunk - %ld...\n",i);
 					AGMV_EncodeAudioChunk(file,agmv);
-					printf("Encoded AGMV Audio Chunk - %ld...\n",i);	
+					printf("Encoded AGMV Audio Chunk - %ld...\n",i);
 				}
-				
+
 				AGIDL_FreeBMP(frame1);
 			}break;
 			case AGIDL_IMG_TGA:{
 				printf("Loading AGIDL Image Frame - %ld\n",i);
 				AGIDL_TGA* frame1 = AGIDL_LoadTGA(filename1);
 				printf("Loaded AGIDL Image Frame - %ld\n",i);
-				
+
 				AGIDL_ColorConvertTGA(frame1,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_TGAGetWidth(frame1), h = AGIDL_TGAGetHeight(frame1);
 					AGIDL_ScaleTGA(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_TGAGetWidth(frame1), h = AGIDL_TGAGetHeight(frame1);
 					AGIDL_ScaleTGA(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-					
+
 				printf("Encoding AGIDL Image Frame - %ld...\n",i);
 				AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 				printf("Encoded AGIDL Image Frame - %ld...\n",i);
-				
+
 				if(AGMV_GetTotalAudioDuration(agmv) != 0){
-					printf("Encoding AGMV Audio Chunk - %ld...\n",i);					
+					printf("Encoding AGMV Audio Chunk - %ld...\n",i);
 					AGMV_EncodeAudioChunk(file,agmv);
-					printf("Encoded AGMV Audio Chunk - %ld...\n",i);	
+					printf("Encoded AGMV Audio Chunk - %ld...\n",i);
 				}
-				
+
 				AGIDL_FreeTGA(frame1);
 			}break;
 			case AGIDL_IMG_TIM:{
 				printf("Loading AGIDL Image Frame - %ld\n",i);
 				AGIDL_TIM* frame1 = AGIDL_LoadTIM(filename1);
 				printf("Loaded AGIDL Image Frame - %ld\n",i);
-				
+
 				AGIDL_ColorConvertTIM(frame1,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_TIMGetWidth(frame1), h = AGIDL_TIMGetHeight(frame1);
 					AGIDL_ScaleTIM(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_TIMGetWidth(frame1), h = AGIDL_TIMGetHeight(frame1);
 					AGIDL_ScaleTIM(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-					
+
 				printf("Encoding AGIDL Image Frame - %ld...\n",i);
 				AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 				printf("Encoded AGIDL Image Frame - %ld...\n",i);
-				
+
 				if(AGMV_GetTotalAudioDuration(agmv) != 0){
-					printf("Encoding AGMV Audio Chunk - %ld...\n",i);					
+					printf("Encoding AGMV Audio Chunk - %ld...\n",i);
 					AGMV_EncodeAudioChunk(file,agmv);
-					printf("Encoded AGMV Audio Chunk - %ld...\n",i);	
+					printf("Encoded AGMV Audio Chunk - %ld...\n",i);
 				}
-				
+
 				AGIDL_FreeTIM(frame1);
 			}break;
 			case AGIDL_IMG_PCX:{
 				printf("Loading AGIDL Image Frame - %ld\n",i);
 				AGIDL_PCX* frame1 = AGIDL_LoadPCX(filename1);
 				printf("Loaded AGIDL Image Frame - %ld\n",i);
-				
+
 				AGIDL_ColorConvertPCX(frame1,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_PCXGetWidth(frame1), h = AGIDL_PCXGetHeight(frame1);
 					AGIDL_ScalePCX(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_PCXGetWidth(frame1), h = AGIDL_PCXGetHeight(frame1);
 					AGIDL_ScalePCX(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-					
+
 				printf("Encoding AGIDL Image Frame - %ld...\n",i);
 				AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 				printf("Encoded AGIDL Image Frame - %ld...\n",i);
-				
+
 				if(AGMV_GetTotalAudioDuration(agmv) != 0){
-					printf("Encoding AGMV Audio Chunk - %ld...\n",i);					
+					printf("Encoding AGMV Audio Chunk - %ld...\n",i);
 					AGMV_EncodeAudioChunk(file,agmv);
-					printf("Encoded AGMV Audio Chunk - %ld...\n",i);	
+					printf("Encoded AGMV Audio Chunk - %ld...\n",i);
 				}
-				
+
 				AGIDL_FreePCX(frame1);
 			}break;
 			case AGIDL_IMG_LMP:{
 				printf("Loading AGIDL Image Frame - %ld\n",i);
 				AGIDL_LMP* frame1 = AGIDL_LoadLMP(filename1);
 				printf("Loaded AGIDL Image Frame - %ld\n",i);
-				
+
 				AGIDL_ColorConvertLMP(frame1,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_LMPGetWidth(frame1), h = AGIDL_LMPGetHeight(frame1);
 					AGIDL_ScaleLMP(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_LMPGetWidth(frame1), h = AGIDL_LMPGetHeight(frame1);
 					AGIDL_ScaleLMP(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-					
+
 				printf("Encoding AGIDL Image Frame - %ld...\n",i);
 				AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 				printf("Encoded AGIDL Image Frame - %ld...\n",i);
-				
+
 				if(AGMV_GetTotalAudioDuration(agmv) != 0){
-					printf("Encoding AGMV Audio Chunk - %ld...\n",i);					
+					printf("Encoding AGMV Audio Chunk - %ld...\n",i);
 					AGMV_EncodeAudioChunk(file,agmv);
-					printf("Encoded AGMV Audio Chunk - %ld...\n",i);	
+					printf("Encoded AGMV Audio Chunk - %ld...\n",i);
 				}
-				
+
 				AGIDL_FreeLMP(frame1);
 			}break;
 			case AGIDL_IMG_PVR:{
 				printf("Loading AGIDL Image Frame - %ld\n",i);
 				AGIDL_PVR* frame1 = AGIDL_LoadPVR(filename1);
 				printf("Loaded AGIDL Image Frame - %ld\n",i);
-				
+
 				AGIDL_ColorConvertPVR(frame1,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_PVRGetWidth(frame1), h = AGIDL_PVRGetHeight(frame1);
 					AGIDL_ScalePVR(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_PVRGetWidth(frame1), h = AGIDL_PVRGetHeight(frame1);
 					AGIDL_ScalePVR(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-					
+
 				printf("Encoding AGIDL Image Frame - %ld...\n",i);
 				AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 				printf("Encoded AGIDL Image Frame - %ld...\n",i);
-				
+
 				if(AGMV_GetTotalAudioDuration(agmv) != 0){
-					printf("Encoding AGMV Audio Chunk - %ld...\n",i);					
+					printf("Encoding AGMV Audio Chunk - %ld...\n",i);
 					AGMV_EncodeAudioChunk(file,agmv);
-					printf("Encoded AGMV Audio Chunk - %ld...\n",i);	
+					printf("Encoded AGMV Audio Chunk - %ld...\n",i);
 				}
-				
+
 				AGIDL_FreePVR(frame1);
 			}break;
 			case AGIDL_IMG_GXT:{
 				printf("Loading AGIDL Image Frame - %ld\n",i);
 				AGIDL_GXT* frame1 = AGIDL_LoadGXT(filename1);
 				printf("Loaded AGIDL Image Frame - %ld\n",i);
-				
+
 				AGIDL_ColorConvertGXT(frame1,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_GXTGetWidth(frame1), h = AGIDL_GXTGetHeight(frame1);
 					AGIDL_ScaleGXT(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_GXTGetWidth(frame1), h = AGIDL_GXTGetHeight(frame1);
 					AGIDL_ScaleGXT(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -4245,113 +4245,113 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 				printf("Encoding AGIDL Image Frame - %ld...\n",i);
 				AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 				printf("Encoded AGIDL Image Frame - %ld...\n",i);
-				
+
 				if(AGMV_GetTotalAudioDuration(agmv) != 0){
-					printf("Encoding AGMV Audio Chunk - %ld...\n",i);					
+					printf("Encoding AGMV Audio Chunk - %ld...\n",i);
 					AGMV_EncodeAudioChunk(file,agmv);
-					printf("Encoded AGMV Audio Chunk - %ld...\n",i);	
+					printf("Encoded AGMV Audio Chunk - %ld...\n",i);
 				}
-				
+
 				AGIDL_FreeGXT(frame1);
 			}break;
 			case AGIDL_IMG_BTI:{
 				printf("Loading AGIDL Image Frame - %ld\n",i);
 				AGIDL_BTI* frame1 = AGIDL_LoadBTI(filename1);
 				printf("Loaded AGIDL Image Frame - %ld\n",i);
-				
+
 				AGIDL_ColorConvertBTI(frame1,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_BTIGetWidth(frame1), h = AGIDL_BTIGetHeight(frame1);
 					AGIDL_ScaleBTI(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_BTIGetWidth(frame1), h = AGIDL_BTIGetHeight(frame1);
 					AGIDL_ScaleBTI(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-	
+
 				printf("Encoding AGIDL Image Frame - %ld...\n",i);
-				AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);	
+				AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 				if(AGMV_GetTotalAudioDuration(agmv) != 0){
-					printf("Encoding AGMV Audio Chunk - %ld...\n",i);					
+					printf("Encoding AGMV Audio Chunk - %ld...\n",i);
 					AGMV_EncodeAudioChunk(file,agmv);
-					printf("Encoded AGMV Audio Chunk - %ld...\n",i);	
+					printf("Encoded AGMV Audio Chunk - %ld...\n",i);
 				}
 				printf("Encoded AGIDL Image Frame - %ld...\n",i);
-				
+
 				AGIDL_FreeBTI(frame1);
 			}break;
 			case AGIDL_IMG_3DF:{
 				printf("Loading AGIDL Image Frame - %ld\n",i);
 				AGIDL_3DF* frame1 = AGIDL_Load3DF(filename1);
 				printf("Loaded AGIDL Image Frame - %ld\n",i);
-				
+
 				AGIDL_ColorConvert3DF(frame1,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_3DFGetWidth(frame1), h = AGIDL_3DFGetHeight(frame1);
 					AGIDL_Scale3DF(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_3DFGetWidth(frame1), h = AGIDL_3DFGetHeight(frame1);
 					AGIDL_Scale3DF(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-					
+
 				printf("Encoding AGIDL Image Frame - %ld...\n",i);
 				AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 				printf("Encoded AGIDL Image Frame - %ld...\n",i);
-				
+
 				if(AGMV_GetTotalAudioDuration(agmv) != 0){
-					printf("Encoding AGMV Audio Chunk - %ld...\n",i);					
+					printf("Encoding AGMV Audio Chunk - %ld...\n",i);
 					AGMV_EncodeAudioChunk(file,agmv);
-					printf("Encoded AGMV Audio Chunk - %ld...\n",i);	
+					printf("Encoded AGMV Audio Chunk - %ld...\n",i);
 				}
-				
+
 				AGIDL_Free3DF(frame1);
 			}break;
 			case AGIDL_IMG_PPM:{
 				printf("Loading AGIDL Image Frame - %ld\n",i);
 				AGIDL_PPM* frame1 = AGIDL_LoadPPM(filename1);
 				printf("Loaded AGIDL Image Frame - %ld\n",i);
-				
+
 				AGIDL_ColorConvertPPM(frame1,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_PPMGetWidth(frame1), h = AGIDL_PPMGetHeight(frame1);
 					AGIDL_ScalePPM(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_PPMGetWidth(frame1), h = AGIDL_PPMGetHeight(frame1);
 					AGIDL_ScalePPM(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-					
+
 				printf("Encoding AGIDL Image Frame - %ld...\n",i);
 				AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 				printf("Encoded AGIDL Image Frame - %ld...\n",i);
-				
+
 				if(AGMV_GetTotalAudioDuration(agmv) != 0){
-					printf("Encoding AGMV Audio Chunk - %ld...\n",i);					
+					printf("Encoding AGMV Audio Chunk - %ld...\n",i);
 					AGMV_EncodeAudioChunk(file,agmv);
-					printf("Encoded AGMV Audio Chunk - %ld...\n",i);	
+					printf("Encoded AGMV Audio Chunk - %ld...\n",i);
 				}
-				
+
 				AGIDL_FreePPM(frame1);
 			}break;
 			case AGIDL_IMG_LBM:{
 				printf("Loading AGIDL Image Frame - %ld\n",i);
 				AGIDL_LBM* frame1 = AGIDL_LoadLBM(filename1);
 				printf("Loaded AGIDL Image Frame - %ld\n",i);
-				
+
 				AGIDL_ColorConvertLBM(frame1,AGIDL_RGB_888);
-				
+
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_LBMGetWidth(frame1), h = AGIDL_LBMGetHeight(frame1);
 					AGIDL_ScaleLBM(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
 				}
-				
+
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_LBMGetWidth(frame1), h = AGIDL_LBMGetHeight(frame1);
 					AGIDL_ScaleLBM(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
@@ -4360,23 +4360,23 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 				printf("Encoding AGIDL Image Frame - %ld...\n",i);
 				AGMV_EncodeFrame(file,agmv,frame1->pixels.pix32);
 				printf("Encoded AGIDL Image Frame - %ld...\n",i);
-				
+
 				if(AGMV_GetTotalAudioDuration(agmv) != 0){
-					printf("Encoding AGMV Audio Chunk - %ld...\n",i);					
+					printf("Encoding AGMV Audio Chunk - %ld...\n",i);
 					AGMV_EncodeAudioChunk(file,agmv);
-					printf("Encoded AGMV Audio Chunk - %ld...\n",i);	
+					printf("Encoded AGMV Audio Chunk - %ld...\n",i);
 				}
-				
+
 				AGIDL_FreeLBM(frame1);
 			}break;
 		}
 	}
 
 	fclose(file);
-	
+
 	free(ext);
-	DestroyAGMV(agmv); 
-	
+	DestroyAGMV(agmv);
+
 	if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 		FILE* file = fopen(filename,"rb");
 		fseek(file,0,SEEK_END);
