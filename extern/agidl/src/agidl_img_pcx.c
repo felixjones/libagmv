@@ -186,10 +186,6 @@ void AGIDL_FreePCX(AGIDL_PCX *pcx){
 	}
 	
 	free(pcx);
-	
-	if(pcx != NULL){
-		pcx = NULL;
-	}
 }
 
 void AGIDL_PCXRGB2BGR(AGIDL_PCX *pcx){
@@ -953,7 +949,7 @@ AGIDL_PCX * AGIDL_LoadPCX(char *filename){
 	AGIDL_FilenameCpy(pcx->filename,filename);
 	AGIDL_PCXSetICPEncoding(pcx,ICP_ENCODE_THRESHOLD);
 	
-	if(pcx == NULL || pcx->filename == NULL){
+	if(pcx->filename == NULL){
 		printf("%s\n",AGIDL_Error2Str(MEMORY_IMG_ERROR));
 	}
 	

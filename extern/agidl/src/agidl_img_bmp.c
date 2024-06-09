@@ -248,10 +248,6 @@ void AGIDL_FreeBMP(AGIDL_BMP *bmp){
 	}
 	
 	free(bmp);
-	
-	if(bmp != NULL){
-		bmp = NULL;
-	}
 }
 
 int AGIDL_BMPGetWidth(AGIDL_BMP *bmp){
@@ -837,70 +833,68 @@ void AGIDL_BMPDecodeRLE(AGIDL_BMP* bmp, FILE* file, BMP_IMG_TYPE img_type){
 					bmp->palette.icp.palette_16[i] = AGIDL_ReadRGB(file,AGIDL_RGB_888);
 					fseek(file,1,SEEK_CUR);
 				}
-				
-				if(img_type == BMP_IMG_TYPE_ICP_16){
-					bmp->pixels.pix32 = (COLOR*)malloc(sizeof(COLOR)*(AGIDL_BMPGetWidth(bmp)*AGIDL_BMPGetHeight(bmp)));
-					
-					int x,y;
-					for(y = 0; y < AGIDL_BMPGetHeight(bmp); y++){
-						for(x = 0; x < AGIDL_BMPGetWidth(bmp); x++){
-							u8 rle = AGIDL_ReadByte(file);
-							u8 index = AGIDL_ReadByte(file);
-				
-							if(rle == 0 && index != 0){
 
-								for(i = 0; i < index / 2; i++){
-									u8 ind = AGIDL_ReadByte(file);
-									
-									u8 backind = ind & 0xf , frontind = (ind & 0xff) >> 4;
-									AGIDL_BMPSetClr(bmp,x+i*2,y,bmp->palette.icp.palette_16[frontind]);
-									AGIDL_BMPSetClr(bmp,x+(i*2+1),y,bmp->palette.icp.palette_16[backind]);
-								}
-								
-								x += index - 1;
+				bmp->pixels.pix32 = (COLOR*)malloc(sizeof(COLOR)*(AGIDL_BMPGetWidth(bmp)*AGIDL_BMPGetHeight(bmp)));
+
+				int x,y;
+				for(y = 0; y < AGIDL_BMPGetHeight(bmp); y++){
+					for(x = 0; x < AGIDL_BMPGetWidth(bmp); x++){
+						u8 rle = AGIDL_ReadByte(file);
+						u8 index = AGIDL_ReadByte(file);
+
+						if(rle == 0 && index != 0){
+
+							for(i = 0; i < index / 2; i++){
+								u8 ind = AGIDL_ReadByte(file);
+
+								u8 backind = ind & 0xf , frontind = (ind & 0xff) >> 4;
+								AGIDL_BMPSetClr(bmp,x+i*2,y,bmp->palette.icp.palette_16[frontind]);
+								AGIDL_BMPSetClr(bmp,x+(i*2+1),y,bmp->palette.icp.palette_16[backind]);
 							}
+
+							x += index - 1;
+						}
+						else{
+							if((index & 0xf) == (index & 0xff) >> 4){
+
+							for(i = 0; i < rle; i++){
+								AGIDL_BMPSetClr(bmp,x+i,y,bmp->palette.icp.palette_16[index&0xf]);
+							}
+
+							x += rle - 1;
+
+							if(x == AGIDL_BMPGetWidth(bmp) && rle != 0 && index != 0){
+								fread(&rle,1,1,file);
+								fread(&index,1,1,file);
+
+								if(rle == 0 && index == 0){
+									break;
+								}
+							}
+						}
 							else{
-								if((index & 0xf) == (index & 0xff) >> 4){
+								u8 frontindex = (index & 0xff) >> 4, backindex = index & 0xf;
 
 								for(i = 0; i < rle; i++){
-									AGIDL_BMPSetClr(bmp,x+i,y,bmp->palette.icp.palette_16[index&0xf]);
+									if(i % 2 == 0){
+										AGIDL_BMPSetClr(bmp,x+i,y,bmp->palette.icp.palette_16[frontindex]);
+									}
+									else{
+										AGIDL_BMPSetClr(bmp,x+i,y,bmp->palette.icp.palette_16[backindex]);
+									}
 								}
-								
+
 								x += rle - 1;
-								
+
 								if(x == AGIDL_BMPGetWidth(bmp) && rle != 0 && index != 0){
 									fread(&rle,1,1,file);
 									fread(&index,1,1,file);
-									
+
 									if(rle == 0 && index == 0){
 										break;
 									}
 								}
 							}
-								else{
-									u8 frontindex = (index & 0xff) >> 4, backindex = index & 0xf;
-
-									for(i = 0; i < rle; i++){
-										if(i % 2 == 0){
-											AGIDL_BMPSetClr(bmp,x+i,y,bmp->palette.icp.palette_16[frontindex]);
-										}
-										else{
-											AGIDL_BMPSetClr(bmp,x+i,y,bmp->palette.icp.palette_16[backindex]);
-										}
-									}
-									
-									x += rle - 1;
-									
-									if(x == AGIDL_BMPGetWidth(bmp) && rle != 0 && index != 0){
-										fread(&rle,1,1,file);
-										fread(&index,1,1,file);
-										
-										if(rle == 0 && index == 0){
-											break;
-										}
-									}
-								}
-							}								
 						}
 					}
 				}

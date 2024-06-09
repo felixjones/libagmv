@@ -201,10 +201,6 @@ void AGIDL_FreeTGA(AGIDL_TGA *tga){
 	}
 	
 	free(tga);
-	
-	if(tga != NULL){
-		tga = NULL;
-	}
 }
 
 AGIDL_TGA * AGIDL_CreateTGA(const char* filename, int width, int height, AGIDL_CLR_FMT fmt){
@@ -1118,7 +1114,7 @@ AGIDL_TGA * AGIDL_LoadTGA(char *filename){
 	AGIDL_FilenameCpy(tga->filename,filename);
 	AGIDL_TGASetICPEncoding(tga,ICP_ENCODE_THRESHOLD);
 	
-	if(tga == NULL || tga->filename == NULL){
+	if(tga->filename == NULL){
 		printf("%s\n",AGIDL_Error2Str(MEMORY_IMG_ERROR));
 		return NULL;
 	}

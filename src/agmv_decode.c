@@ -247,16 +247,6 @@ int AGMV_DecodeFrameChunk(FILE* file, AGMV* agmv){
 						escape = TRUE;
 						break;
 					}
-					
-					if(escape == FALSE){
-						int k,j;
-						for(j = 0; j < 4; j++){
-							offset = (y+j)*width;
-							for(k = 0; k < 4; k++){
-								img_data[x+k+offset] = color;
-							}
-						}
-					}
 				}
 				else if(byte == AGMV_COPY_FLAG){
 					int k,j;

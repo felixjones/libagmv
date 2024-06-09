@@ -297,10 +297,6 @@ void AGIDL_FreeBTI(AGIDL_BTI* bti){
 	}
 	
 	free(bti);
-	
-	if(bti != NULL){
-		bti = NULL;
-	}
 }
 
 BTI_CLR_FMT AGIDL_GetBTIClrFmt(u8 type){
@@ -723,7 +719,7 @@ AGIDL_BTI* AGIDL_LoadBTI(char* filename){
 	AGIDL_FilenameCpy(bti->filename,filename);
 	AGIDL_BTISetICPEncoding(bti,ICP_ENCODE_THRESHOLD);
 	
-	if(bti == NULL || bti->filename == NULL){
+	if(bti->filename == NULL){
 		printf("%s\n",AGIDL_Error2Str(MEMORY_IMG_ERROR));
 		return NULL;
 	}

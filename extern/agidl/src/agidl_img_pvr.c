@@ -216,10 +216,6 @@ void AGIDL_FreePVR(AGIDL_PVR* pvr){
 	else{
 		free(pvr);
 	}
-
-	if(pvr != NULL){
-		pvr = NULL;
-	}
 }
 
 void AGIDL_PVRRGB2BGR(AGIDL_PVR *pvr){
@@ -1073,7 +1069,7 @@ AGIDL_PVR * AGIDL_LoadPVR(char* filename){
 	AGIDL_PVRBuildMipmap(pvr,FALSE);
 	pvr->mipmap = NULL;
 	
-	if(pvr == NULL || pvr->filename == NULL){
+	if(pvr->filename == NULL){
 		printf("%s\n",AGIDL_Error2Str(MEMORY_IMG_ERROR));
 		return NULL;
 	}
