@@ -135,12 +135,16 @@ COLOR AGIDL_GXTGetClr(AGIDL_GXT* gxt, int x, int y){
 	if(x >= 0 && y >= 0 && x < AGIDL_GXTGetWidth(gxt) && y < AGIDL_GXTGetHeight(gxt)){
 		return gxt->pixels.pix32[x+y*AGIDL_GXTGetWidth(gxt)];
 	}
+	fprintf(stderr, "%s: Index out of range", __FUNCTION__);
+	abort();
 }
 
 COLOR16 AGIDL_GXTGetClr16(AGIDL_GXT* gxt, int x, int y){
 	if(x >= 0 && y >= 0 && x < AGIDL_GXTGetWidth(gxt) && y < AGIDL_GXTGetHeight(gxt)){
 		return gxt->pixels.pix16[x+y*AGIDL_GXTGetWidth(gxt)];
 	}
+	fprintf(stderr, "%s: Index out of range", __FUNCTION__);
+	abort();
 }
 
 void AGIDL_GXTRGB2BGR(AGIDL_GXT* gxt){
@@ -375,6 +379,10 @@ u32 bsr_bin_2_dec(char* binary){
 		}
 		if(binary[i] == '1'){
 			bin = 1;
+		}
+		else {
+			fprintf(stderr, "%s: Unexpected binary digit", __FUNCTION__);
+			abort();
 		}
 		
 		u8 mul = strlen(binary)-1 - i;

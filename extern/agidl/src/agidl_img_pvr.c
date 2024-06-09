@@ -188,12 +188,16 @@ COLOR AGIDL_PVRGetClr(AGIDL_PVR* pvr, int x, int y){
 	if(x >= 0 && y >= 0 && x < AGIDL_PVRGetWidth(pvr) && y < AGIDL_PVRGetHeight(pvr)){
 		return pvr->pixels.pix32[x+y*AGIDL_PVRGetWidth(pvr)];
 	}
+	fprintf(stderr, "%s: Index out of range", __FUNCTION__);
+	abort();
 }
 
 COLOR16 AGIDL_PVRGetClr16(AGIDL_PVR* pvr, int x, int y){
 	if(x >= 0 && y >= 0 && x < AGIDL_PVRGetWidth(pvr) && y < AGIDL_PVRGetHeight(pvr)){
 		return pvr->pixels.pix16[x+y*AGIDL_PVRGetWidth(pvr)];
 	}
+	fprintf(stderr, "%s: Index out of range", __FUNCTION__);
+	abort();
 }
 
 void AGIDL_FreePVR(AGIDL_PVR* pvr){

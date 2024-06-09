@@ -825,12 +825,16 @@ COLOR AGIDL_GetClr(COLOR* clrs, int x, int y, int width, int height){
 	if(x >= 0 && y >= 0 && x < width && y < height){
 		return clrs[x+y*width];
 	}
+	fprintf(stderr, "%s: Index out of range", __FUNCTION__);
+	abort();
 }
 
 COLOR16 AGIDL_GetClr16(COLOR16* clrs, int x, int y, int width, int height){
 	if(x >= 0 && y >= 0 && x < width && y < height){
 		return clrs[x+y*width];
 	}
+	fprintf(stderr, "%s: Index out of range", __FUNCTION__);
+	abort();
 }
 
 void AGIDL_SetClr(COLOR* clrs, COLOR clr, int x, int y, int width, int height){

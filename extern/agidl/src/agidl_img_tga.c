@@ -150,6 +150,8 @@ COLOR AGIDL_TGAGetClr(AGIDL_TGA *tga, int x, int y){
 	if(x >= 0 && y >= 0 && x < AGIDL_TGAGetWidth(tga) && y < AGIDL_TGAGetHeight(tga)){
 		return tga->pixels.pix32[x+y*AGIDL_TGAGetWidth(tga)];
 	}
+	fprintf(stderr, "%s: Index out of range", __FUNCTION__);
+	abort();
 }
 
 int AGIDL_TGAGetMaxDiff(AGIDL_TGA* tga){
@@ -160,6 +162,8 @@ COLOR16 AGIDL_TGAGetClr16(AGIDL_TGA *tga, int x, int y){
 	if(x >= 0 && y >= 0 && x < AGIDL_TGAGetWidth(tga) && y < AGIDL_TGAGetHeight(tga)){
 		return tga->pixels.pix16[x+y*AGIDL_TGAGetWidth(tga)];
 	}
+	fprintf(stderr, "%s: Index out of range", __FUNCTION__);
+	abort();
 }
 
 void AGIDL_TGASyncPix(AGIDL_TGA *tga, COLOR *clrs){
@@ -321,6 +325,10 @@ TGA_ICP_TYPE AGIDL_TGAGetICPType(int num){
 		case 10:{
 			return TGA_IMG_TYPE_RLE_NO_ICP;
 		}break;
+		default:{
+			fprintf(stderr, "%s: Unsupported num code", __FUNCTION__);
+			abort();
+		}
 	}
 }
 
@@ -341,6 +349,10 @@ TGA_IMG_TYPE AGIDL_TGAGetIMGType(int bits){
 		case 32:{
 			return TGA_IMG_TYPE_DEEP_CLR;
 		}break;
+		default:{
+			fprintf(stderr, "%s: Unsupported bit size", __FUNCTION__);
+			abort();
+		}
 	}
 }
 
@@ -473,6 +485,10 @@ u16 bin2dec2(char* binary){
 		}
 		if(binary[i] == '1'){
 			bin = 1;
+		}
+		else {
+			fprintf(stderr, "%s: Unexpected binary digit", __FUNCTION__);
+			abort();
 		}
 		accumulation += bin * binmul2[count];
 		count++;

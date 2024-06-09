@@ -517,6 +517,8 @@ u8 AGMV_GetVersionFromOPT(AGMV_OPT opt, AGMV_COMPRESSION compression){
 			}break;
 		}
 	}
+	fprintf(stderr, "%s: Unsupported opt compression combination", __FUNCTION__);
+	abort();
 }
 
 f32 AGMV_ClampVolume(f32 volume){

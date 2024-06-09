@@ -149,12 +149,16 @@ COLOR AGIDL_TIMGetClr(AGIDL_TIM *tim, int x, int y){
 	if(x >= 0 && y >= 0 && x < AGIDL_TIMGetWidth(tim) && y < AGIDL_TIMGetHeight(tim)){
 		return tim->pixels.pix32[x+y*AGIDL_TIMGetWidth(tim)];
 	}
+	fprintf(stderr, "%s: Index out of range", __FUNCTION__);
+	abort();
 }
 
 COLOR16 AGIDL_TIMGetClr16(AGIDL_TIM *tim, int x, int y){
 	if(x >= 0 && y >= 0 && x < AGIDL_TIMGetWidth(tim) && y < AGIDL_TIMGetHeight(tim)){
 		return tim->pixels.pix16[x+y*AGIDL_TIMGetWidth(tim)];
 	}
+	fprintf(stderr, "%s: Index out of range", __FUNCTION__);
+	abort();
 }
 
 int AGIDL_IsTIM(AGIDL_TIM* tim){

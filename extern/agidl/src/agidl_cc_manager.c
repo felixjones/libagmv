@@ -1659,8 +1659,9 @@ u8 AGIDL_FindClosestColor(AGIDL_ICP palette, COLOR clr, AGIDL_CLR_FMT fmt, int m
 				}
 			}
 		}break;
-		default: return 0; break;
+		default: break;
 	}
+	return 0;
 }
 
 u8 AGIDL_FindNearestColor(AGIDL_ICP palette, COLOR clr, AGIDL_CLR_FMT fmt){

@@ -201,12 +201,16 @@ COLOR AGIDL_BMPGetClr(AGIDL_BMP *bmp, int x, int y){
 	if(x >= 0 && y >= 0 && x < AGIDL_BMPGetWidth(bmp) && y < AGIDL_BMPGetHeight(bmp)){
 		return bmp->pixels.pix32[x+y*AGIDL_BMPGetWidth(bmp)];
 	}
+	fprintf(stderr, "%s: Index out of range", __FUNCTION__);
+	abort();
 }
 
 COLOR16 AGIDL_BMPGetClr16(AGIDL_BMP *bmp, int x, int y){
 	if(x >= 0 && y >= 0 && x < AGIDL_BMPGetWidth(bmp) && y < AGIDL_BMPGetHeight(bmp)){
 		return bmp->pixels.pix16[x+y*AGIDL_BMPGetWidth(bmp)];
 	}
+	fprintf(stderr, "%s: Index out of range", __FUNCTION__);
+	abort();
 }
 
 void AGIDL_BMPSyncPix(AGIDL_BMP *bmp, COLOR *clrs){
@@ -294,6 +298,8 @@ BMP_IMG_TYPE AGIDL_BMPGetImgType(int bits){
 			return BMP_IMG_TYPE_2BPP_ICP;
 		}break;
 	}
+	fprintf(stderr, "%s: Unsupported bits type", __FUNCTION__);
+	abort();
 }
 
 void AGIDL_BMPEncodeICP(AGIDL_BMP* bmp, FILE* file){

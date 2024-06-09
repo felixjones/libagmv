@@ -163,12 +163,16 @@ COLOR AGIDL_PCXGetClr(AGIDL_PCX *pcx, int x, int y){
 	if(x >= 0 && y >= 0 && x < AGIDL_PCXGetWidth(pcx) && y < AGIDL_PCXGetHeight(pcx)){
 		return pcx->pixels.pix32[x+y*AGIDL_PCXGetWidth(pcx)];
 	}
+	fprintf(stderr, "%s: Index out of range", __FUNCTION__);
+	abort();
 }
 
 COLOR16 AGIDL_PCXGetClr16(AGIDL_PCX *pcx, int x, int y){
 	if(x >= 0 && y >= 0 && x < AGIDL_PCXGetWidth(pcx) && y < AGIDL_PCXGetHeight(pcx)){
 		return pcx->pixels.pix16[x+y*AGIDL_PCXGetWidth(pcx)];
 	}
+	fprintf(stderr, "%s: Index out of range", __FUNCTION__);
+	abort();
 }
 
 void AGIDL_FreePCX(AGIDL_PCX *pcx){
@@ -300,6 +304,10 @@ u16 bin2dec(char *binary){
 		}
 		if(binary[i] == '1'){
 			bin = 1;
+		}
+		else {
+			fprintf(stderr, "%s: Unexpected binary digit", __FUNCTION__);
+			abort();
 		}
 		accumulation += binmul[count] * bin;
 		count++;

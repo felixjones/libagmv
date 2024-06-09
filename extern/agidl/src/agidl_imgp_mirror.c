@@ -256,4 +256,6 @@ void * AGIDL_MirrorImgData(void* data, u16* width, u16* height, AGIDL_CLR_FMT fm
 			}break;
 		}
 	}
+	fprintf(stderr, "%s: Unsupported fmt mirror combination", __FUNCTION__);
+	abort();
 }

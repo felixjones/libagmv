@@ -121,12 +121,16 @@ COLOR AGIDL_LMPGetClr(AGIDL_LMP *lmp, int x, int y){
 	if(x >= 0 && y >= 0 && x < AGIDL_LMPGetWidth(lmp) && y < AGIDL_LMPGetHeight(lmp)){
 		return lmp->pixels.pix32[x+y*AGIDL_LMPGetWidth(lmp)];
 	}
+	fprintf(stderr, "%s: Index out of range", __FUNCTION__);
+	abort();
 }
 
 COLOR16 AGIDL_LMPGetClr16(AGIDL_LMP *lmp, int x, int y){
 	if(x >= 0 && y >= 0 && x < AGIDL_LMPGetWidth(lmp) && y < AGIDL_LMPGetHeight(lmp)){
 		return lmp->pixels.pix16[x+y*AGIDL_LMPGetWidth(lmp)];
 	}
+	fprintf(stderr, "%s: Index out of range", __FUNCTION__);
+	abort();
 }
 
 void AGIDL_FreeLMP(AGIDL_LMP *lmp){
