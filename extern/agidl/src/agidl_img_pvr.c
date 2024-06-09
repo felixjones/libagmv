@@ -104,7 +104,7 @@ void AGIDL_ClearPVR(AGIDL_PVR *pvr, COLOR clr){
 		AGIDL_ClrMemset(pvr->pixels.pix32,clr,AGIDL_PVRGetSize(pvr));
 	}
 	else{
-		AGIDL_ClrMemset16(pvr->pixels.pix16,(COLOR16)clr,AGIDL_PVRGetSize(pvr));
+		AGIDL_ClrMemset16(pvr->pixels.pix16,clr,AGIDL_PVRGetSize(pvr));
 	}
 }
 
@@ -304,7 +304,7 @@ void AGIDL_PVRConvertRGBA2RGB(AGIDL_PVR* pvr){
 }
 
 AGIDL_PVR * AGIDL_CreatePVR(const char* filename, int width, int height, AGIDL_CLR_FMT fmt){
-	AGIDL_PVR* pvr = (AGIDL_PVR*)malloc(sizeof(AGIDL_PVR));
+	AGIDL_PVR* pvr = malloc(sizeof(AGIDL_PVR));
 	pvr->filename = (char*)malloc(strlen(filename)+1);
 	AGIDL_FilenameCpy(pvr->filename,filename);
 	AGIDL_PVRSetType(pvr,DREAMCAST_PVR);
@@ -711,7 +711,7 @@ void AGIDL_PVRDecodeImg(AGIDL_PVR* pvr, PVRClrFmt fmt, PVRImgType img, FILE* fil
 					}
 				}
 				
-				COLOR* clr = (COLOR*)pvr->mipmap->mipmap[0].img_data;
+				COLOR* clr = pvr->mipmap->mipmap[0].img_data;
 				AGIDL_ClrMemcpy(pvr->pixels.pix32,clr,AGIDL_PVRGetSize(pvr));
 			}break;
 			case PVRTC_RGB_565:{
@@ -807,7 +807,7 @@ void AGIDL_PVREncodeIMG(AGIDL_PVR* pvr, FILE* file){
 					
 					int i;
 					for(i = 1; i < pvr->mipmap->mipcount; i++){
-						COLOR* clr_data = (COLOR*)pvr->mipmap->mipmap[i].img_data;
+						COLOR* clr_data = pvr->mipmap->mipmap[i].img_data;
 						AGIDL_WriteBufRGB(file,clr_data,pvr->mipmap->mipmap[i].width,pvr->mipmap->mipmap[i].height);
 					}
 				}
@@ -823,7 +823,7 @@ void AGIDL_PVREncodeIMG(AGIDL_PVR* pvr, FILE* file){
 					
 					int i;
 					for(i = 1; i < pvr->mipmap->mipcount; i++){
-						COLOR16* clr_data = (COLOR16*)pvr->mipmap->mipmap[i].img_data;
+						COLOR16* clr_data = pvr->mipmap->mipmap[i].img_data;
 						AGIDL_WriteBufClr16(file,clr_data,pvr->mipmap->mipmap[i].width,pvr->mipmap->mipmap[i].height);
 					}
 				}
@@ -853,7 +853,7 @@ void AGIDL_PVREncodeIMG(AGIDL_PVR* pvr, FILE* file){
 					
 					int i;
 					for(i = 1; i < pvr->mipmap->mipcount; i++){
-						COLOR* clr_data = (COLOR*)pvr->mipmap->mipmap[i].img_data;
+						COLOR* clr_data = pvr->mipmap->mipmap[i].img_data;
 						AGIDL_WriteBufRGBA(file,clr_data,pvr->mipmap->mipmap[i].width,pvr->mipmap->mipmap[i].height);
 					}
 				}
@@ -885,7 +885,7 @@ void AGIDL_PVRDecodeTwiddledImg(AGIDL_PVR* pvr, PVRClrFmt fmt, PVRImgType img, F
 		AGIDL_PVRSetClrFmt(pvr,AGIDL_RGB_555);
 		pvr->pixels.pix16 = (COLOR16*)malloc(sizeof(COLOR16)*(AGIDL_PVRGetWidth(pvr)*AGIDL_PVRGetHeight(pvr)));
 		
-		COLOR16* buf = (COLOR16*)malloc(sizeof(COLOR16)*(AGIDL_PVRGetWidth(pvr)*AGIDL_PVRGetHeight(pvr)));
+		COLOR16* buf = malloc(sizeof(COLOR16)*(AGIDL_PVRGetWidth(pvr)*AGIDL_PVRGetHeight(pvr)));
 		
 		int img_size = AGIDL_PVRGetWidth(pvr) * AGIDL_PVRGetHeight(pvr);
 		
@@ -907,7 +907,7 @@ void AGIDL_PVRDecodeTwiddledImg(AGIDL_PVR* pvr, PVRClrFmt fmt, PVRImgType img, F
 		AGIDL_PVRSetClrFmt(pvr,AGIDL_RGB_565);
 		pvr->pixels.pix16 = (COLOR16*)malloc(sizeof(COLOR16)*(AGIDL_PVRGetWidth(pvr)*AGIDL_PVRGetHeight(pvr)));
 		
-		COLOR16* buf = (COLOR16*)malloc(sizeof(COLOR16)*(AGIDL_PVRGetWidth(pvr)*AGIDL_PVRGetHeight(pvr)));
+		COLOR16* buf = malloc(sizeof(COLOR16)*(AGIDL_PVRGetWidth(pvr)*AGIDL_PVRGetHeight(pvr)));
 		
 		int img_size = AGIDL_PVRGetWidth(pvr) * AGIDL_PVRGetHeight(pvr);
 		
@@ -929,7 +929,7 @@ void AGIDL_PVRDecodeTwiddledImg(AGIDL_PVR* pvr, PVRClrFmt fmt, PVRImgType img, F
 		AGIDL_PVRSetClrFmt(pvr,AGIDL_RGB_555);
 		pvr->pixels.pix16 = (COLOR16*)malloc(sizeof(COLOR16)*(AGIDL_PVRGetWidth(pvr)*AGIDL_PVRGetHeight(pvr)));
 		
-		COLOR16* buf = (COLOR16*)malloc(sizeof(COLOR16)*(AGIDL_PVRGetWidth(pvr)*AGIDL_PVRGetHeight(pvr)));
+		COLOR16* buf = malloc(sizeof(COLOR16)*(AGIDL_PVRGetWidth(pvr)*AGIDL_PVRGetHeight(pvr)));
 		
 		int img_size = AGIDL_PVRGetWidth(pvr) * AGIDL_PVRGetHeight(pvr);
 		
@@ -981,7 +981,7 @@ void AGIDL_PVRDecodeTwiddledImg(AGIDL_PVR* pvr, PVRClrFmt fmt, PVRImgType img, F
 			w <<= 1;
 			h <<= 1;
 			
-			COLOR16* buf = (COLOR16*)AGIDL_AllocImgDataMMU(w,h,AGIDL_PVRGetClrFmt(pvr));
+			COLOR16* buf = AGIDL_AllocImgDataMMU(w,h,AGIDL_PVRGetClrFmt(pvr));
 			
 			if(!fread(buf,2,w*h,file)){
 				break;
@@ -1009,7 +1009,7 @@ void AGIDL_PVRDecodeTwiddledImg(AGIDL_PVR* pvr, PVRClrFmt fmt, PVRImgType img, F
 		
 		pvr->mipmap->mipcount = count-1;
 		
-		COLOR16* img = (COLOR16*)pvr->mipmap->mipmap[count-1].img_data;
+		COLOR16* img = pvr->mipmap->mipmap[count-1].img_data;
 		AGIDL_ClrMemcpy16(pvr->pixels.pix16,img,AGIDL_PVRGetSize(pvr));
 	}
 	else if(fmt == PVR_RGB_565 && img == PVR_IMG_SQUARE_TWIDDLED_AND_MIPMAPPED){
@@ -1031,7 +1031,7 @@ void AGIDL_PVRDecodeTwiddledImg(AGIDL_PVR* pvr, PVRClrFmt fmt, PVRImgType img, F
 			w <<= 1;
 			h <<= 1;
 			
-			COLOR16* buf = (COLOR16*)AGIDL_AllocImgDataMMU(w,h,AGIDL_PVRGetClrFmt(pvr));
+			COLOR16* buf = AGIDL_AllocImgDataMMU(w,h,AGIDL_PVRGetClrFmt(pvr));
 			
 			if(!fread(buf,2,w*h,file)){
 				break;
@@ -1059,7 +1059,7 @@ void AGIDL_PVRDecodeTwiddledImg(AGIDL_PVR* pvr, PVRClrFmt fmt, PVRImgType img, F
 		
 		pvr->mipmap->mipcount = count-1;
 		
-		COLOR16* img = (COLOR16*)pvr->mipmap->mipmap[count-1].img_data;
+		COLOR16* img = pvr->mipmap->mipmap[count-1].img_data;
 		AGIDL_ClrMemcpy16(pvr->pixels.pix16,img,AGIDL_PVRGetSize(pvr));
 	}
 }
@@ -1072,7 +1072,7 @@ AGIDL_PVR * AGIDL_LoadPVR(char* filename){
 		return NULL;
 	}
 	
-	AGIDL_PVR* pvr = (AGIDL_PVR*)malloc(sizeof(AGIDL_PVR));
+	AGIDL_PVR* pvr = malloc(sizeof(AGIDL_PVR));
 	pvr->filename = (char*)malloc(strlen(filename)+1);
 	AGIDL_FilenameCpy(pvr->filename,filename);
 	AGIDL_PVRBuildMipmap(pvr,FALSE);
@@ -1158,7 +1158,7 @@ void AGIDL_ExportPVR(AGIDL_PVR* pvr){
 		}break;
 		case AGIDL_RGBA_8888:{
 			if(AGIDL_PVRGetType(pvr) == DREAMCAST_PVR){
-				COLOR* buf = (COLOR*)AGIDL_AllocImgDataMMU(AGIDL_PVRGetWidth(pvr),AGIDL_PVRGetHeight(pvr),AGIDL_PVRGetClrFmt(pvr));
+				COLOR* buf = AGIDL_AllocImgDataMMU(AGIDL_PVRGetWidth(pvr),AGIDL_PVRGetHeight(pvr),AGIDL_PVRGetClrFmt(pvr));
 				AGIDL_ClrMemcpy(buf,pvr->pixels.pix32,AGIDL_PVRGetSize(pvr));
 				AGIDL_CLR_FMT src = AGIDL_PVRGetClrFmt(pvr);
 				AGIDL_ColorConvertPVR(pvr,AGIDL_RGB_555);
@@ -1173,7 +1173,7 @@ void AGIDL_ExportPVR(AGIDL_PVR* pvr){
 		}break;
 		case AGIDL_ARGB_8888:{
 			if(AGIDL_PVRGetType(pvr) == DREAMCAST_PVR){
-				COLOR* buf = (COLOR*)AGIDL_AllocImgDataMMU(AGIDL_PVRGetWidth(pvr),AGIDL_PVRGetHeight(pvr),AGIDL_PVRGetClrFmt(pvr));
+				COLOR* buf = AGIDL_AllocImgDataMMU(AGIDL_PVRGetWidth(pvr),AGIDL_PVRGetHeight(pvr),AGIDL_PVRGetClrFmt(pvr));
 				AGIDL_ClrMemcpy(buf,pvr->pixels.pix32,AGIDL_PVRGetSize(pvr));
 				AGIDL_CLR_FMT src = AGIDL_PVRGetClrFmt(pvr);
 				AGIDL_ColorConvertPVR(pvr,AGIDL_RGB_555);

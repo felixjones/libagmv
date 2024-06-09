@@ -38,7 +38,7 @@ void AGIDL_TIMSearchFileOnDisk(const char* filename, AGIDL_IMG_TYPE type, int fl
 	
 	while(!feof(file)){
 	
-		AGIDL_TIM *tim = (AGIDL_TIM*)malloc(sizeof(AGIDL_TIM));
+		AGIDL_TIM *tim = malloc(sizeof(AGIDL_TIM));
 		
 		AGIDL_TIMDecodeHeader(tim,file);
 
@@ -248,7 +248,7 @@ int AGIDL_3DFSearchFileOnDisk(const char* filename, AGIDL_IMG_TYPE img_type, int
 	fseek(file,jump,SEEK_SET);
 	
 	while(!feof(file)){
-		AGIDL_3DF* glide = (AGIDL_3DF*)malloc(sizeof(AGIDL_3DF));
+		AGIDL_3DF* glide = malloc(sizeof(AGIDL_3DF));
 		
 		int error = AGIDL_3DFDecodePartialHeader(glide,file);
 
@@ -426,7 +426,7 @@ void AGIDL_TGASearchFileOnDisk(const char* filename, AGIDL_IMG_TYPE img_type){
 	u32 img_count = 0;
 	
 	while(!feof(file)){
-		AGIDL_TGA* tga = (AGIDL_TGA*)malloc(sizeof(AGIDL_TGA));
+		AGIDL_TGA* tga = malloc(sizeof(AGIDL_TGA));
 		
 		AGIDL_TGADecodeHeader(tga,file);
 		

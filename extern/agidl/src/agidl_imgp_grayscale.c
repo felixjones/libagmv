@@ -19,7 +19,7 @@
 
 void AGIDL_GrayscaleImgData(void *data, u32 width, u32 height, AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 24 || AGIDL_GetBitCount(fmt) == 32){
-		COLOR* clrdata = (COLOR*)data;
+		COLOR* clrdata = data;
 		int x,y;
 		for(y = 0; y < height; y++){
 			for(x = 0; x < width; x++){
@@ -28,7 +28,7 @@ void AGIDL_GrayscaleImgData(void *data, u32 width, u32 height, AGIDL_CLR_FMT fmt
 		}
 	}
 	else{
-		COLOR16* clrdata = (COLOR16*)data;
+		COLOR16* clrdata = data;
 		int x,y;
 		for(y = 0; y < height; y++){
 			for(x = 0; x < width; x++){

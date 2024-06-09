@@ -21,19 +21,19 @@
 
 void* AGIDL_AllocImgDataMMU(u32 width, u32 height, AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 16){
-		COLOR16* clr = (COLOR16*)malloc(sizeof(COLOR16)*width*height);
+		COLOR16* clr = malloc(sizeof(COLOR16)*width*height);
 		return clr;
 	}
 	else{
-		COLOR* clr = (COLOR*)malloc(sizeof(COLOR)*width*height);
+		COLOR* clr = malloc(sizeof(COLOR)*width*height);
 		return clr;
 	}
 	return NULL;
 }
 
 void AGIDL_ConvertRGB2RGBA(void* src, void* dest, u32 width, u32 height, AGIDL_CLR_FMT srcfmt, AGIDL_CLR_FMT destfmt){
-	COLOR* clr_data = (COLOR*)src;
-	COLOR* dest_data = (COLOR*)dest;
+	COLOR* clr_data = src;
+	COLOR* dest_data = dest;
 	
 	int i;
 	for(i = 0; i < width*height; i++){
@@ -43,8 +43,8 @@ void AGIDL_ConvertRGB2RGBA(void* src, void* dest, u32 width, u32 height, AGIDL_C
 }
 
 void AGIDL_ConvertRGBA2RGB(void* src, void* dest, u32 width, u32 height, AGIDL_CLR_FMT srcfmt, AGIDL_CLR_FMT destfmt){
-	COLOR* clr_data = (COLOR*)src;
-	COLOR* dest_data = (COLOR*)dest;
+	COLOR* clr_data = src;
+	COLOR* dest_data = dest;
 	
 	int i;
 	for(i = 0; i < width*height; i++){
@@ -61,7 +61,7 @@ void AGIDL_ColorConvertImgData(void* src, void* dest, u32 width, u32 height, AGI
 	u8 sbits = AGIDL_GetBitCount(srcfmt), dbits = AGIDL_GetBitCount(destfmt);
 	
 	if((sbits == 24 || sbits == 32) && (dbits == 24 || dbits == 32)){
-		COLOR* src_data = (COLOR*)src;
+		COLOR* src_data = src;
 		
 		int i;
 		for(i = 0; i < width*height; i++){
@@ -71,7 +71,7 @@ void AGIDL_ColorConvertImgData(void* src, void* dest, u32 width, u32 height, AGI
 		}
 	}
 	else if(sbits == 16 && dbits == 16){
-		COLOR16* src_data = (COLOR16*)src;
+		COLOR16* src_data = src;
 		
 		int i;
 		for(i = 0; i < width*height; i++){
@@ -81,8 +81,8 @@ void AGIDL_ColorConvertImgData(void* src, void* dest, u32 width, u32 height, AGI
 		}
 	}
 	else if((sbits == 24 || sbits == 32) && dbits == 16){
-		COLOR* src_data = (COLOR*)src;
-		COLOR16* dst_data = (COLOR16*)dest;
+		COLOR* src_data = src;
+		COLOR16* dst_data = dest;
 		
 		int i;
 		for(i = 0; i < width*height; i++){
@@ -92,8 +92,8 @@ void AGIDL_ColorConvertImgData(void* src, void* dest, u32 width, u32 height, AGI
 		}
 	}
 	else{
-		COLOR16* src_data = (COLOR16*)src;
-		COLOR* dst_data = (COLOR*)dest;
+		COLOR16* src_data = src;
+		COLOR* dst_data = dest;
 		
 		int i;
 		for(i = 0; i < width*height; i++){

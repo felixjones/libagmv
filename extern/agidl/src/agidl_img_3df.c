@@ -147,7 +147,7 @@ void AGIDL_Clear3DF(AGIDL_3DF *glide, COLOR clr){
 		AGIDL_ClrMemset(glide->pixels.pix32,clr,AGIDL_3DFGetSize(glide));
 	}
 	else{
-		AGIDL_ClrMemset16(glide->pixels.pix16,(COLOR16)clr,AGIDL_3DFGetSize(glide));
+		AGIDL_ClrMemset16(glide->pixels.pix16,clr,AGIDL_3DFGetSize(glide));
 	}
 }
 
@@ -307,7 +307,7 @@ void AGIDL_ColorConvert3DF(AGIDL_3DF* glide, AGIDL_CLR_FMT dest){
 }
 
 AGIDL_3DF * AGIDL_Create3DF(const char* filename, int width, int height, AGIDL_CLR_FMT fmt){
-	AGIDL_3DF* glide = (AGIDL_3DF*)malloc(sizeof(AGIDL_3DF));
+	AGIDL_3DF* glide = malloc(sizeof(AGIDL_3DF));
 	glide->filename = (char*)malloc(strlen(filename)+1);
 	AGIDL_FilenameCpy(glide->filename,filename);
 	AGIDL_3DFSetWidth(glide,width);
@@ -848,7 +848,7 @@ void AGIDL_3DFDecodeIMG(AGIDL_3DF* glide, FILE* file){
 					glide->mipmap->mipmap[i].fmt = AGIDL_3DFGetClrFmt(glide);
 					glide->mipmap->mipmap[i].img_data = (COLOR*)AGIDL_AllocImgDataMMU(w,h,AGIDL_3DFGetClrFmt(glide));
 					
-					COLOR* img = (COLOR*)glide->mipmap->mipmap[i].img_data;
+					COLOR* img = glide->mipmap->mipmap[i].img_data;
 					
 					int j;
 					for(j = 0; j < w*h; j++){
@@ -882,7 +882,7 @@ void AGIDL_3DFDecodeIMG(AGIDL_3DF* glide, FILE* file){
 					glide->mipmap->mipmap[i].fmt = AGIDL_3DFGetClrFmt(glide);
 					glide->mipmap->mipmap[i].img_data = (COLOR16*)AGIDL_AllocImgDataMMU(w,h,AGIDL_3DFGetClrFmt(glide));
 					
-					COLOR16* img = (COLOR16*)glide->mipmap->mipmap[i].img_data;
+					COLOR16* img = glide->mipmap->mipmap[i].img_data;
 					
 					int j;
 					for(j = 0; j < w*h; j++){	
@@ -918,7 +918,7 @@ void AGIDL_3DFDecodeIMG(AGIDL_3DF* glide, FILE* file){
 					glide->mipmap->mipmap[i].fmt = AGIDL_3DFGetClrFmt(glide);
 					glide->mipmap->mipmap[i].img_data = (COLOR*)AGIDL_AllocImgDataMMU(w,h,AGIDL_3DFGetClrFmt(glide));
 					
-					COLOR* img = (COLOR*)glide->mipmap->mipmap[i].img_data;
+					COLOR* img = glide->mipmap->mipmap[i].img_data;
 					
 					int j;
 					for(j = 0; j < w*h; j++){
@@ -955,7 +955,7 @@ void AGIDL_3DFDecodeIMG(AGIDL_3DF* glide, FILE* file){
 					glide->mipmap->mipmap[i].fmt = AGIDL_3DFGetClrFmt(glide);
 					glide->mipmap->mipmap[i].img_data = (COLOR*)AGIDL_AllocImgDataMMU(w,h,AGIDL_3DFGetClrFmt(glide));
 					
-					COLOR* img = (COLOR*)glide->mipmap->mipmap[i].img_data;
+					COLOR* img = glide->mipmap->mipmap[i].img_data;
 					
 					int j;
 					for(j = 0; j < w*h; j++){
@@ -983,7 +983,7 @@ void AGIDL_3DFDecodeIMG(AGIDL_3DF* glide, FILE* file){
 					glide->mipmap->mipmap[i].fmt = AGIDL_3DFGetClrFmt(glide);
 					glide->mipmap->mipmap[i].img_data = (COLOR*)AGIDL_AllocImgDataMMU(w,h,AGIDL_3DFGetClrFmt(glide));
 					
-					COLOR* img = (COLOR*)glide->mipmap->mipmap[i].img_data;
+					COLOR* img = glide->mipmap->mipmap[i].img_data;
 					
 					int j;
 					for(j = 0; j < w*h; j++){
@@ -1019,7 +1019,7 @@ void AGIDL_3DFDecodeIMG(AGIDL_3DF* glide, FILE* file){
 					glide->mipmap->mipmap[i].fmt = AGIDL_3DFGetClrFmt(glide);
 					glide->mipmap->mipmap[i].img_data = (COLOR*)AGIDL_AllocImgDataMMU(w,h,AGIDL_3DFGetClrFmt(glide));
 					
-					COLOR* img = (COLOR*)glide->mipmap->mipmap[i].img_data;
+					COLOR* img = glide->mipmap->mipmap[i].img_data;
 					
 					int j;
 					for(j = 0; j < w*h; j++){
@@ -1413,7 +1413,7 @@ void AGIDL_3DFEncodeIMG(AGIDL_3DF* glide, FILE* file){
 				int i,j;
 				for(i = 0; i < glide->mipmap->mipcount; i++){
 					for(j = 0; j < w*h; j++){
-						COLOR* img = (COLOR*)glide->mipmap->mipmap[i].img_data;
+						COLOR* img = glide->mipmap->mipmap[i].img_data;
 						COLOR clr = img[j];
 						u8 r = AGIDL_GetR(clr,AGIDL_RGBA_8888);
 						u8 g = AGIDL_GetG(clr,AGIDL_RGBA_8888);
@@ -1441,7 +1441,7 @@ void AGIDL_3DFEncodeIMG(AGIDL_3DF* glide, FILE* file){
 				int i,j;
 				for(i = 0; i < glide->mipmap->mipcount; i++){
 					for(j = 0; j < w*h; j++){
-						COLOR* img = (COLOR*)glide->mipmap->mipmap[i].img_data;
+						COLOR* img = glide->mipmap->mipmap[i].img_data;
 						COLOR clr = img[j];
 						u8 r = AGIDL_GetR(clr,AGIDL_ARGB_8888);
 						u8 g = AGIDL_GetG(clr,AGIDL_ARGB_8888);
@@ -1510,7 +1510,7 @@ void AGIDL_3DFEncodeIMG(AGIDL_3DF* glide, FILE* file){
 		int j;
 		for(i = 0; i < glide->mipmap->mipcount; i++){
 			for(j = 0; j < w*h; j++){
-				COLOR* img = (COLOR*)glide->mipmap->mipmap[i].img_data;
+				COLOR* img = glide->mipmap->mipmap[i].img_data;
 				COLOR clr = img[j];
 				u8 index = AGIDL_FindNearestColor(glide->palette,clr,AGIDL_3DFGetClrFmt(glide));
 				AGIDL_WriteByte(file,index);
@@ -1530,7 +1530,7 @@ AGIDL_3DF * AGIDL_Load3DF(char* filename){
 		return NULL;
 	}
 	
-	AGIDL_3DF* glide = (AGIDL_3DF*)malloc(sizeof(AGIDL_3DF));
+	AGIDL_3DF* glide = malloc(sizeof(AGIDL_3DF));
 	glide->filename = (char*)malloc(sizeof(filename)+1);
 	AGIDL_FilenameCpy(glide->filename,filename);
 	

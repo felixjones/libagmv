@@ -628,14 +628,14 @@ void AGIDL_RotateLBM(AGIDL_LBM* lbm, AGIDL_ANGLE angle){
 
 void AGIDL_ScaleBMP(AGIDL_BMP* bmp, float sx, float sy, AGIDL_SCALE scale){
 	if(AGIDL_GetBitCount(AGIDL_BMPGetClrFmt(bmp)) == 16){
-		u16* img_data = (u16*)malloc(sizeof(u16)*AGIDL_BMPGetSize(bmp));
+		u16* img_data = malloc(sizeof(u16)*AGIDL_BMPGetSize(bmp));
 		AGIDL_ClrMemcpy16(img_data,bmp->pixels.pix16,AGIDL_BMPGetSize(bmp));
 		free(bmp->pixels.pix16);
 		bmp->pixels.pix16 = (COLOR16*)AGIDL_ScaleImgData(img_data,&bmp->header.width,&bmp->header.height,
 		sx,sy,scale,AGIDL_BMPGetClrFmt(bmp));
 	}
 	else{
-		u32* img_data = (u32*)malloc(sizeof(u32)*AGIDL_BMPGetSize(bmp));
+		u32* img_data = malloc(sizeof(u32)*AGIDL_BMPGetSize(bmp));
 		AGIDL_ClrMemcpy(img_data,bmp->pixels.pix32,AGIDL_BMPGetSize(bmp));
 		free(bmp->pixels.pix32);
 		bmp->pixels.pix32 = (COLOR*)AGIDL_ScaleImgData(img_data,&bmp->header.width,&bmp->header.height,
@@ -645,14 +645,14 @@ void AGIDL_ScaleBMP(AGIDL_BMP* bmp, float sx, float sy, AGIDL_SCALE scale){
 
 void AGIDL_ScaleTGA(AGIDL_TGA* tga, float sx, float sy, AGIDL_SCALE scale){
 	if(AGIDL_GetBitCount(AGIDL_TGAGetClrFmt(tga)) == 16){
-		u16* img_data = (u16*)malloc(sizeof(u16)*AGIDL_TGAGetSize(tga));
+		u16* img_data = malloc(sizeof(u16)*AGIDL_TGAGetSize(tga));
 		AGIDL_ClrMemcpy16(img_data,tga->pixels.pix16,AGIDL_TGAGetSize(tga));
 		free(tga->pixels.pix16);
 		tga->pixels.pix16 = (COLOR16*)AGIDL_ScaleImgData(img_data,&tga->header.width,&tga->header.height,
 		sx,sy,scale,AGIDL_TGAGetClrFmt(tga));
 	}
 	else{
-		u32* img_data = (u32*)malloc(sizeof(u32)*AGIDL_TGAGetSize(tga));
+		u32* img_data = malloc(sizeof(u32)*AGIDL_TGAGetSize(tga));
 		AGIDL_ClrMemcpy(img_data,tga->pixels.pix32,AGIDL_TGAGetSize(tga));
 		free(tga->pixels.pix32);
 		tga->pixels.pix32 = (COLOR*)AGIDL_ScaleImgData(img_data,&tga->header.width,&tga->header.height,
@@ -662,14 +662,14 @@ void AGIDL_ScaleTGA(AGIDL_TGA* tga, float sx, float sy, AGIDL_SCALE scale){
 
 void AGIDL_ScaleTIM(AGIDL_TIM* tim, float sx, float sy, AGIDL_SCALE scale){
 	if(AGIDL_GetBitCount(AGIDL_TIMGetClrFmt(tim)) == 16){
-		u16* img_data = (u16*)malloc(sizeof(u16)*AGIDL_TIMGetSize(tim));
+		u16* img_data = malloc(sizeof(u16)*AGIDL_TIMGetSize(tim));
 		AGIDL_ClrMemcpy16(img_data,tim->pixels.pix16,AGIDL_TIMGetSize(tim));
 		free(tim->pixels.pix16);
 		tim->pixels.pix16 = (COLOR16*)AGIDL_ScaleImgData(img_data,&tim->img_header.width,&tim->img_header.height,
 		sx,sy,scale,AGIDL_TIMGetClrFmt(tim));
 	}
 	else{
-		u32* img_data = (u32*)malloc(sizeof(u32)*AGIDL_TIMGetSize(tim));
+		u32* img_data = malloc(sizeof(u32)*AGIDL_TIMGetSize(tim));
 		AGIDL_ClrMemcpy(img_data,tim->pixels.pix32,AGIDL_TIMGetSize(tim));
 		free(tim->pixels.pix32);
 		tim->pixels.pix32 = (COLOR*)AGIDL_ScaleImgData(img_data,&tim->img_header.width,&tim->img_header.height,
@@ -679,14 +679,14 @@ void AGIDL_ScaleTIM(AGIDL_TIM* tim, float sx, float sy, AGIDL_SCALE scale){
 
 void AGIDL_ScalePCX(AGIDL_PCX* pcx, float sx, float sy, AGIDL_SCALE scale){
 	if(AGIDL_GetBitCount(AGIDL_PCXGetClrFmt(pcx)) == 16){
-		u16* img_data = (u16*)malloc(sizeof(u16)*AGIDL_PCXGetSize(pcx));
+		u16* img_data = malloc(sizeof(u16)*AGIDL_PCXGetSize(pcx));
 		AGIDL_ClrMemcpy16(img_data,pcx->pixels.pix16,AGIDL_PCXGetSize(pcx));
 		free(pcx->pixels.pix16);
 		pcx->pixels.pix16 = (COLOR16*)AGIDL_ScaleImgData(img_data,&pcx->header.width,&pcx->header.height,
 		sx,sy,scale,AGIDL_PCXGetClrFmt(pcx));
 	}
 	else{
-		u32* img_data = (u32*)malloc(sizeof(u32)*AGIDL_PCXGetSize(pcx));
+		u32* img_data = malloc(sizeof(u32)*AGIDL_PCXGetSize(pcx));
 		AGIDL_ClrMemcpy(img_data,pcx->pixels.pix32,AGIDL_PCXGetSize(pcx));
 		free(pcx->pixels.pix32);
 		pcx->pixels.pix32 = (COLOR*)AGIDL_ScaleImgData(img_data,&pcx->header.width,&pcx->header.height,
@@ -696,14 +696,14 @@ void AGIDL_ScalePCX(AGIDL_PCX* pcx, float sx, float sy, AGIDL_SCALE scale){
 
 void AGIDL_ScaleLMP(AGIDL_LMP* lmp, float sx, float sy, AGIDL_SCALE scale){
 	if(AGIDL_GetBitCount(AGIDL_LMPGetClrFmt(lmp)) == 16){
-		u16* img_data = (u16*)malloc(sizeof(u16)*AGIDL_LMPGetSize(lmp));
+		u16* img_data = malloc(sizeof(u16)*AGIDL_LMPGetSize(lmp));
 		AGIDL_ClrMemcpy16(img_data,lmp->pixels.pix16,AGIDL_LMPGetSize(lmp));
 		free(lmp->pixels.pix16);
 		lmp->pixels.pix16 = (COLOR16*)AGIDL_ScaleImgData(img_data,&lmp->width,&lmp->height,
 		sx,sy,scale,AGIDL_LMPGetClrFmt(lmp));
 	}
 	else{
-		u32* img_data = (u32*)malloc(sizeof(u32)*AGIDL_LMPGetSize(lmp));
+		u32* img_data = malloc(sizeof(u32)*AGIDL_LMPGetSize(lmp));
 		AGIDL_ClrMemcpy(img_data,lmp->pixels.pix32,AGIDL_LMPGetSize(lmp));
 		free(lmp->pixels.pix32);
 		lmp->pixels.pix32 = (COLOR*)AGIDL_ScaleImgData(img_data,&lmp->width,&lmp->height,
@@ -713,14 +713,14 @@ void AGIDL_ScaleLMP(AGIDL_LMP* lmp, float sx, float sy, AGIDL_SCALE scale){
 
 void AGIDL_ScalePVR(AGIDL_PVR* pvr, float sx, float sy, AGIDL_SCALE scale){
 	if(AGIDL_GetBitCount(AGIDL_PVRGetClrFmt(pvr)) == 16){
-		u16* img_data = (u16*)malloc(sizeof(u16)*AGIDL_PVRGetSize(pvr));
+		u16* img_data = malloc(sizeof(u16)*AGIDL_PVRGetSize(pvr));
 		AGIDL_ClrMemcpy16(img_data,pvr->pixels.pix16,AGIDL_PVRGetSize(pvr));
 		free(pvr->pixels.pix16);
 		pvr->pixels.pix16 = (COLOR16*)AGIDL_ScaleImgData(img_data,&pvr->header.width,&pvr->header.height,
 		sx,sy,scale,AGIDL_PVRGetClrFmt(pvr));
 	}
 	else{
-		u32* img_data = (u32*)malloc(sizeof(u32)*AGIDL_PVRGetSize(pvr));
+		u32* img_data = malloc(sizeof(u32)*AGIDL_PVRGetSize(pvr));
 		AGIDL_ClrMemcpy(img_data,pvr->pixels.pix32,AGIDL_PVRGetSize(pvr));
 		free(pvr->pixels.pix32);
 		pvr->pixels.pix32 = (COLOR*)AGIDL_ScaleImgData(img_data,&pvr->header.width,&pvr->header.height,
@@ -730,14 +730,14 @@ void AGIDL_ScalePVR(AGIDL_PVR* pvr, float sx, float sy, AGIDL_SCALE scale){
 
 void AGIDL_ScaleGXT(AGIDL_GXT* gxt, float sx, float sy, AGIDL_SCALE scale){
 	if(AGIDL_GetBitCount(AGIDL_GXTGetClrFmt(gxt)) == 16){
-		u16* img_data = (u16*)malloc(sizeof(u16)*AGIDL_GXTGetSize(gxt));
+		u16* img_data = malloc(sizeof(u16)*AGIDL_GXTGetSize(gxt));
 		AGIDL_ClrMemcpy16(img_data,gxt->pixels.pix16,AGIDL_GXTGetSize(gxt));
 		free(gxt->pixels.pix16);
 		gxt->pixels.pix16 = (COLOR16*)AGIDL_ScaleImgData(img_data,&gxt->header.header.width,&gxt->header.header.height,
 		sx,sy,scale,AGIDL_GXTGetClrFmt(gxt));
 	}
 	else{
-		u32* img_data = (u32*)malloc(sizeof(u32)*AGIDL_GXTGetSize(gxt));
+		u32* img_data = malloc(sizeof(u32)*AGIDL_GXTGetSize(gxt));
 		AGIDL_ClrMemcpy(img_data,gxt->pixels.pix32,AGIDL_GXTGetSize(gxt));
 		free(gxt->pixels.pix32);
 		gxt->pixels.pix32 = (COLOR*)AGIDL_ScaleImgData(img_data,&gxt->header.header.width,&gxt->header.header.height,
@@ -747,14 +747,14 @@ void AGIDL_ScaleGXT(AGIDL_GXT* gxt, float sx, float sy, AGIDL_SCALE scale){
 
 void AGIDL_ScaleBTI(AGIDL_BTI* bti, float sx, float sy, AGIDL_SCALE scale){
 	if(AGIDL_GetBitCount(AGIDL_BTIGetClrFmt(bti)) == 16){
-		u16* img_data = (u16*)malloc(sizeof(u16)*AGIDL_BTIGetSize(bti));
+		u16* img_data = malloc(sizeof(u16)*AGIDL_BTIGetSize(bti));
 		AGIDL_ClrMemcpy16(img_data,bti->pixels.pix16,AGIDL_BTIGetSize(bti));
 		free(bti->pixels.pix16);
 		bti->pixels.pix16 = (COLOR16*)AGIDL_ScaleImgData(img_data,&bti->header.width,&bti->header.height,
 		sx,sy,scale,AGIDL_BTIGetClrFmt(bti));
 	}
 	else{
-		u32* img_data = (u32*)malloc(sizeof(u32)*AGIDL_BTIGetSize(bti));
+		u32* img_data = malloc(sizeof(u32)*AGIDL_BTIGetSize(bti));
 		AGIDL_ClrMemcpy(img_data,bti->pixels.pix32,AGIDL_BTIGetSize(bti));
 		free(bti->pixels.pix32);
 		bti->pixels.pix32 = (COLOR*)AGIDL_ScaleImgData(img_data,&bti->header.width,&bti->header.height,
@@ -764,14 +764,14 @@ void AGIDL_ScaleBTI(AGIDL_BTI* bti, float sx, float sy, AGIDL_SCALE scale){
 
 void AGIDL_Scale3DF(AGIDL_3DF* glide, float sx, float sy, AGIDL_SCALE scale){
 	if(AGIDL_GetBitCount(AGIDL_3DFGetClrFmt(glide)) == 16){
-		u16* img_data = (u16*)malloc(sizeof(u16)*AGIDL_3DFGetSize(glide));
+		u16* img_data = malloc(sizeof(u16)*AGIDL_3DFGetSize(glide));
 		AGIDL_ClrMemcpy16(img_data,glide->pixels.pix16,AGIDL_3DFGetSize(glide));
 		free(glide->pixels.pix16);
 		glide->pixels.pix16 = (COLOR16*)AGIDL_ScaleImgData(img_data,&glide->width,&glide->height,
 		sx,sy,scale,AGIDL_3DFGetClrFmt(glide));
 	}
 	else{
-		u32* img_data = (u32*)malloc(sizeof(u32)*AGIDL_3DFGetSize(glide));
+		u32* img_data = malloc(sizeof(u32)*AGIDL_3DFGetSize(glide));
 		AGIDL_ClrMemcpy(img_data,glide->pixels.pix32,AGIDL_3DFGetSize(glide));
 		free(glide->pixels.pix32);
 		glide->pixels.pix32 = (COLOR*)AGIDL_ScaleImgData(img_data,&glide->width,&glide->height,
@@ -781,14 +781,14 @@ void AGIDL_Scale3DF(AGIDL_3DF* glide, float sx, float sy, AGIDL_SCALE scale){
 
 void AGIDL_ScalePPM(AGIDL_PPM* ppm, float sx, float sy, AGIDL_SCALE scale){
 	if(AGIDL_GetBitCount(AGIDL_PPMGetClrFmt(ppm)) == 16){
-		u16* img_data = (u16*)malloc(sizeof(u16)*AGIDL_PPMGetSize(ppm));
+		u16* img_data = malloc(sizeof(u16)*AGIDL_PPMGetSize(ppm));
 		AGIDL_ClrMemcpy16(img_data,ppm->pixels.pix16,AGIDL_PPMGetSize(ppm));
 		free(ppm->pixels.pix16);
 		ppm->pixels.pix16 = (COLOR16*)AGIDL_ScaleImgData(img_data,&ppm->width,&ppm->height,
 		sx,sy,scale,AGIDL_PPMGetClrFmt(ppm));
 	}
 	else{
-		u32* img_data = (u32*)malloc(sizeof(u32)*AGIDL_PPMGetSize(ppm));
+		u32* img_data = malloc(sizeof(u32)*AGIDL_PPMGetSize(ppm));
 		AGIDL_ClrMemcpy(img_data,ppm->pixels.pix32,AGIDL_PPMGetSize(ppm));
 		free(ppm->pixels.pix32);
 		ppm->pixels.pix32 = (COLOR*)AGIDL_ScaleImgData(img_data,&ppm->width,&ppm->height,
@@ -798,14 +798,14 @@ void AGIDL_ScalePPM(AGIDL_PPM* ppm, float sx, float sy, AGIDL_SCALE scale){
 
 void AGIDL_ScaleLBM(AGIDL_LBM* lbm, float sx, float sy, AGIDL_SCALE scale){
 	if(AGIDL_GetBitCount(AGIDL_LBMGetClrFmt(lbm)) == 16){
-		u16* img_data = (u16*)malloc(sizeof(u16)*AGIDL_LBMGetSize(lbm));
+		u16* img_data = malloc(sizeof(u16)*AGIDL_LBMGetSize(lbm));
 		AGIDL_ClrMemcpy16(img_data,lbm->pixels.pix16,AGIDL_LBMGetSize(lbm));
 		free(lbm->pixels.pix16);
 		lbm->pixels.pix16 = (COLOR16*)AGIDL_ScaleImgData(img_data,&lbm->header.bmhd.width,&lbm->header.bmhd.height,
 		sx,sy,scale,AGIDL_LBMGetClrFmt(lbm));
 	}
 	else{
-		u32* img_data = (u32*)malloc(sizeof(u32)*AGIDL_LBMGetSize(lbm));
+		u32* img_data = malloc(sizeof(u32)*AGIDL_LBMGetSize(lbm));
 		AGIDL_ClrMemcpy(img_data,lbm->pixels.pix32,AGIDL_LBMGetSize(lbm));
 		free(lbm->pixels.pix32);
 		lbm->pixels.pix32 = (COLOR*)AGIDL_ScaleImgData(img_data,&lbm->header.bmhd.width,&lbm->header.bmhd.height,
@@ -815,14 +815,14 @@ void AGIDL_ScaleLBM(AGIDL_LBM* lbm, float sx, float sy, AGIDL_SCALE scale){
 
 void AGIDL_FastScaleBMP(AGIDL_BMP* bmp, float sx, float sy, AGIDL_SCALE scale){
 	if(AGIDL_GetBitCount(AGIDL_BMPGetClrFmt(bmp)) == 16){
-		u16* img_data = (u16*)malloc(sizeof(u16)*AGIDL_BMPGetSize(bmp));
+		u16* img_data = malloc(sizeof(u16)*AGIDL_BMPGetSize(bmp));
 		AGIDL_ClrMemcpy16(img_data,bmp->pixels.pix16,AGIDL_BMPGetSize(bmp));
 		free(bmp->pixels.pix16);
 		bmp->pixels.pix16 = (COLOR16*)AGIDL_FastScaleImgData(img_data,&bmp->header.width,&bmp->header.height,
 		sx,sy,scale,AGIDL_BMPGetClrFmt(bmp));
 	}
 	else{
-		u32* img_data = (u32*)malloc(sizeof(u32)*AGIDL_BMPGetSize(bmp));
+		u32* img_data = malloc(sizeof(u32)*AGIDL_BMPGetSize(bmp));
 		AGIDL_ClrMemcpy(img_data,bmp->pixels.pix32,AGIDL_BMPGetSize(bmp));
 		free(bmp->pixels.pix32);
 		bmp->pixels.pix32 = (COLOR*)AGIDL_FastScaleImgData(img_data,&bmp->header.width,&bmp->header.height,
@@ -832,14 +832,14 @@ void AGIDL_FastScaleBMP(AGIDL_BMP* bmp, float sx, float sy, AGIDL_SCALE scale){
 
 void AGIDL_FastScaleTGA(AGIDL_TGA* tga, float sx, float sy, AGIDL_SCALE scale){
 	if(AGIDL_GetBitCount(AGIDL_TGAGetClrFmt(tga)) == 16){
-		u16* img_data = (u16*)malloc(sizeof(u16)*AGIDL_TGAGetSize(tga));
+		u16* img_data = malloc(sizeof(u16)*AGIDL_TGAGetSize(tga));
 		AGIDL_ClrMemcpy16(img_data,tga->pixels.pix16,AGIDL_TGAGetSize(tga));
 		free(tga->pixels.pix16);
 		tga->pixels.pix16 = (COLOR16*)AGIDL_FastScaleImgData(img_data,&tga->header.width,&tga->header.height,
 		sx,sy,scale,AGIDL_TGAGetClrFmt(tga));
 	}
 	else{
-		u32* img_data = (u32*)malloc(sizeof(u32)*AGIDL_TGAGetSize(tga));
+		u32* img_data = malloc(sizeof(u32)*AGIDL_TGAGetSize(tga));
 		AGIDL_ClrMemcpy(img_data,tga->pixels.pix32,AGIDL_TGAGetSize(tga));
 		free(tga->pixels.pix32);
 		tga->pixels.pix32 = (COLOR*)AGIDL_FastScaleImgData(img_data,&tga->header.width,&tga->header.height,
@@ -849,14 +849,14 @@ void AGIDL_FastScaleTGA(AGIDL_TGA* tga, float sx, float sy, AGIDL_SCALE scale){
 
 void AGIDL_FastScaleTIM(AGIDL_TIM* tim, float sx, float sy, AGIDL_SCALE scale){
 	if(AGIDL_GetBitCount(AGIDL_TIMGetClrFmt(tim)) == 16){
-		u16* img_data = (u16*)malloc(sizeof(u16)*AGIDL_TIMGetSize(tim));
+		u16* img_data = malloc(sizeof(u16)*AGIDL_TIMGetSize(tim));
 		AGIDL_ClrMemcpy16(img_data,tim->pixels.pix16,AGIDL_TIMGetSize(tim));
 		free(tim->pixels.pix16);
 		tim->pixels.pix16 = (COLOR16*)AGIDL_FastScaleImgData(img_data,&tim->img_header.width,&tim->img_header.height,
 		sx,sy,scale,AGIDL_TIMGetClrFmt(tim));
 	}
 	else{
-		u32* img_data = (u32*)malloc(sizeof(u32)*AGIDL_TIMGetSize(tim));
+		u32* img_data = malloc(sizeof(u32)*AGIDL_TIMGetSize(tim));
 		AGIDL_ClrMemcpy(img_data,tim->pixels.pix32,AGIDL_TIMGetSize(tim));
 		free(tim->pixels.pix32);
 		tim->pixels.pix32 = (COLOR*)AGIDL_FastScaleImgData(img_data,&tim->img_header.width,&tim->img_header.height,
@@ -866,14 +866,14 @@ void AGIDL_FastScaleTIM(AGIDL_TIM* tim, float sx, float sy, AGIDL_SCALE scale){
 
 void AGIDL_FastScalePCX(AGIDL_PCX* pcx, float sx, float sy, AGIDL_SCALE scale){
 	if(AGIDL_GetBitCount(AGIDL_PCXGetClrFmt(pcx)) == 16){
-		u16* img_data = (u16*)malloc(sizeof(u16)*AGIDL_PCXGetSize(pcx));
+		u16* img_data = malloc(sizeof(u16)*AGIDL_PCXGetSize(pcx));
 		AGIDL_ClrMemcpy16(img_data,pcx->pixels.pix16,AGIDL_PCXGetSize(pcx));
 		free(pcx->pixels.pix16);
 		pcx->pixels.pix16 = (COLOR16*)AGIDL_FastScaleImgData(img_data,&pcx->header.width,&pcx->header.height,
 		sx,sy,scale,AGIDL_PCXGetClrFmt(pcx));
 	}
 	else{
-		u32* img_data = (u32*)malloc(sizeof(u32)*AGIDL_PCXGetSize(pcx));
+		u32* img_data = malloc(sizeof(u32)*AGIDL_PCXGetSize(pcx));
 		AGIDL_ClrMemcpy(img_data,pcx->pixels.pix32,AGIDL_PCXGetSize(pcx));
 		free(pcx->pixels.pix32);
 		pcx->pixels.pix32 = (COLOR*)AGIDL_FastScaleImgData(img_data,&pcx->header.width,&pcx->header.height,
@@ -883,14 +883,14 @@ void AGIDL_FastScalePCX(AGIDL_PCX* pcx, float sx, float sy, AGIDL_SCALE scale){
 
 void AGIDL_FastScaleLMP(AGIDL_LMP* lmp, float sx, float sy, AGIDL_SCALE scale){
 	if(AGIDL_GetBitCount(AGIDL_LMPGetClrFmt(lmp)) == 16){
-		u16* img_data = (u16*)malloc(sizeof(u16)*AGIDL_LMPGetSize(lmp));
+		u16* img_data = malloc(sizeof(u16)*AGIDL_LMPGetSize(lmp));
 		AGIDL_ClrMemcpy16(img_data,lmp->pixels.pix16,AGIDL_LMPGetSize(lmp));
 		free(lmp->pixels.pix16);
 		lmp->pixels.pix16 = (COLOR16*)AGIDL_FastScaleImgData(img_data,&lmp->width,&lmp->height,
 		sx,sy,scale,AGIDL_LMPGetClrFmt(lmp));
 	}
 	else{
-		u32* img_data = (u32*)malloc(sizeof(u32)*AGIDL_LMPGetSize(lmp));
+		u32* img_data = malloc(sizeof(u32)*AGIDL_LMPGetSize(lmp));
 		AGIDL_ClrMemcpy(img_data,lmp->pixels.pix32,AGIDL_LMPGetSize(lmp));
 		free(lmp->pixels.pix32);
 		lmp->pixels.pix32 = (COLOR*)AGIDL_FastScaleImgData(img_data,&lmp->width,&lmp->height,
@@ -900,14 +900,14 @@ void AGIDL_FastScaleLMP(AGIDL_LMP* lmp, float sx, float sy, AGIDL_SCALE scale){
 
 void AGIDL_FastScalePVR(AGIDL_PVR* pvr, float sx, float sy, AGIDL_SCALE scale){
 	if(AGIDL_GetBitCount(AGIDL_PVRGetClrFmt(pvr)) == 16){
-		u16* img_data = (u16*)malloc(sizeof(u16)*AGIDL_PVRGetSize(pvr));
+		u16* img_data = malloc(sizeof(u16)*AGIDL_PVRGetSize(pvr));
 		AGIDL_ClrMemcpy16(img_data,pvr->pixels.pix16,AGIDL_PVRGetSize(pvr));
 		free(pvr->pixels.pix16);
 		pvr->pixels.pix16 = (COLOR16*)AGIDL_FastScaleImgData(img_data,&pvr->header.width,&pvr->header.height,
 		sx,sy,scale,AGIDL_PVRGetClrFmt(pvr));
 	}
 	else{
-		u32* img_data = (u32*)malloc(sizeof(u32)*AGIDL_PVRGetSize(pvr));
+		u32* img_data = malloc(sizeof(u32)*AGIDL_PVRGetSize(pvr));
 		AGIDL_ClrMemcpy(img_data,pvr->pixels.pix32,AGIDL_PVRGetSize(pvr));
 		free(pvr->pixels.pix32);
 		pvr->pixels.pix32 = (COLOR*)AGIDL_FastScaleImgData(img_data,&pvr->header.width,&pvr->header.height,
@@ -917,14 +917,14 @@ void AGIDL_FastScalePVR(AGIDL_PVR* pvr, float sx, float sy, AGIDL_SCALE scale){
 
 void AGIDL_FastScaleGXT(AGIDL_GXT* gxt, float sx, float sy, AGIDL_SCALE scale){
 	if(AGIDL_GetBitCount(AGIDL_GXTGetClrFmt(gxt)) == 16){
-		u16* img_data = (u16*)malloc(sizeof(u16)*AGIDL_GXTGetSize(gxt));
+		u16* img_data = malloc(sizeof(u16)*AGIDL_GXTGetSize(gxt));
 		AGIDL_ClrMemcpy16(img_data,gxt->pixels.pix16,AGIDL_GXTGetSize(gxt));
 		free(gxt->pixels.pix16);
 		gxt->pixels.pix16 = (COLOR16*)AGIDL_FastScaleImgData(img_data,&gxt->header.header.width,&gxt->header.header.height,
 		sx,sy,scale,AGIDL_GXTGetClrFmt(gxt));
 	}
 	else{
-		u32* img_data = (u32*)malloc(sizeof(u32)*AGIDL_GXTGetSize(gxt));
+		u32* img_data = malloc(sizeof(u32)*AGIDL_GXTGetSize(gxt));
 		AGIDL_ClrMemcpy(img_data,gxt->pixels.pix32,AGIDL_GXTGetSize(gxt));
 		free(gxt->pixels.pix32);
 		gxt->pixels.pix32 = (COLOR*)AGIDL_FastScaleImgData(img_data,&gxt->header.header.width,&gxt->header.header.height,
@@ -934,14 +934,14 @@ void AGIDL_FastScaleGXT(AGIDL_GXT* gxt, float sx, float sy, AGIDL_SCALE scale){
 
 void AGIDL_FastScaleBTI(AGIDL_BTI* bti, float sx, float sy, AGIDL_SCALE scale){
 	if(AGIDL_GetBitCount(AGIDL_BTIGetClrFmt(bti)) == 16){
-		u16* img_data = (u16*)malloc(sizeof(u16)*AGIDL_BTIGetSize(bti));
+		u16* img_data = malloc(sizeof(u16)*AGIDL_BTIGetSize(bti));
 		AGIDL_ClrMemcpy16(img_data,bti->pixels.pix16,AGIDL_BTIGetSize(bti));
 		free(bti->pixels.pix16);
 		bti->pixels.pix16 = (COLOR16*)AGIDL_FastScaleImgData(img_data,&bti->header.width,&bti->header.height,
 		sx,sy,scale,AGIDL_BTIGetClrFmt(bti));
 	}
 	else{
-		u32* img_data = (u32*)malloc(sizeof(u32)*AGIDL_BTIGetSize(bti));
+		u32* img_data = malloc(sizeof(u32)*AGIDL_BTIGetSize(bti));
 		AGIDL_ClrMemcpy(img_data,bti->pixels.pix32,AGIDL_BTIGetSize(bti));
 		free(bti->pixels.pix32);
 		bti->pixels.pix32 = (COLOR*)AGIDL_FastScaleImgData(img_data,&bti->header.width,&bti->header.height,
@@ -951,14 +951,14 @@ void AGIDL_FastScaleBTI(AGIDL_BTI* bti, float sx, float sy, AGIDL_SCALE scale){
 
 void AGIDL_FastScale3DF(AGIDL_3DF* glide, float sx, float sy, AGIDL_SCALE scale){
 	if(AGIDL_GetBitCount(AGIDL_3DFGetClrFmt(glide)) == 16){
-		u16* img_data = (u16*)malloc(sizeof(u16)*AGIDL_3DFGetSize(glide));
+		u16* img_data = malloc(sizeof(u16)*AGIDL_3DFGetSize(glide));
 		AGIDL_ClrMemcpy16(img_data,glide->pixels.pix16,AGIDL_3DFGetSize(glide));
 		free(glide->pixels.pix16);
 		glide->pixels.pix16 = (COLOR16*)AGIDL_FastScaleImgData(img_data,&glide->width,&glide->height,
 		sx,sy,scale,AGIDL_3DFGetClrFmt(glide));
 	}
 	else{
-		u32* img_data = (u32*)malloc(sizeof(u32)*AGIDL_3DFGetSize(glide));
+		u32* img_data = malloc(sizeof(u32)*AGIDL_3DFGetSize(glide));
 		AGIDL_ClrMemcpy(img_data,glide->pixels.pix32,AGIDL_3DFGetSize(glide));
 		free(glide->pixels.pix32);
 		glide->pixels.pix32 = (COLOR*)AGIDL_FastScaleImgData(img_data,&glide->width,&glide->height,
@@ -968,14 +968,14 @@ void AGIDL_FastScale3DF(AGIDL_3DF* glide, float sx, float sy, AGIDL_SCALE scale)
 
 void AGIDL_FastScalePPM(AGIDL_PPM* ppm, float sx, float sy, AGIDL_SCALE scale){
 	if(AGIDL_GetBitCount(AGIDL_PPMGetClrFmt(ppm)) == 16){
-		u16* img_data = (u16*)malloc(sizeof(u16)*AGIDL_PPMGetSize(ppm));
+		u16* img_data = malloc(sizeof(u16)*AGIDL_PPMGetSize(ppm));
 		AGIDL_ClrMemcpy16(img_data,ppm->pixels.pix16,AGIDL_PPMGetSize(ppm));
 		free(ppm->pixels.pix16);
 		ppm->pixels.pix16 = (COLOR16*)AGIDL_FastScaleImgData(img_data,&ppm->width,&ppm->height,
 		sx,sy,scale,AGIDL_PPMGetClrFmt(ppm));
 	}
 	else{
-		u32* img_data = (u32*)malloc(sizeof(u32)*AGIDL_PPMGetSize(ppm));
+		u32* img_data = malloc(sizeof(u32)*AGIDL_PPMGetSize(ppm));
 		AGIDL_ClrMemcpy(img_data,ppm->pixels.pix32,AGIDL_PPMGetSize(ppm));
 		free(ppm->pixels.pix32);
 		ppm->pixels.pix32 = (COLOR*)AGIDL_FastScaleImgData(img_data,&ppm->width,&ppm->height,
@@ -985,14 +985,14 @@ void AGIDL_FastScalePPM(AGIDL_PPM* ppm, float sx, float sy, AGIDL_SCALE scale){
 
 void AGIDL_FastScaleLBM(AGIDL_LBM* lbm, float sx, float sy, AGIDL_SCALE scale){
 	if(AGIDL_GetBitCount(AGIDL_LBMGetClrFmt(lbm)) == 16){
-		u16* img_data = (u16*)malloc(sizeof(u16)*AGIDL_LBMGetSize(lbm));
+		u16* img_data = malloc(sizeof(u16)*AGIDL_LBMGetSize(lbm));
 		AGIDL_ClrMemcpy16(img_data,lbm->pixels.pix16,AGIDL_LBMGetSize(lbm));
 		free(lbm->pixels.pix16);
 		lbm->pixels.pix16 = (COLOR16*)AGIDL_FastScaleImgData(img_data,&lbm->header.bmhd.width,&lbm->header.bmhd.height,
 		sx,sy,scale,AGIDL_LBMGetClrFmt(lbm));
 	}
 	else{
-		u32* img_data = (u32*)malloc(sizeof(u32)*AGIDL_LBMGetSize(lbm));
+		u32* img_data = malloc(sizeof(u32)*AGIDL_LBMGetSize(lbm));
 		AGIDL_ClrMemcpy(img_data,lbm->pixels.pix32,AGIDL_LBMGetSize(lbm));
 		free(lbm->pixels.pix32);
 		lbm->pixels.pix32 = (COLOR*)AGIDL_FastScaleImgData(img_data,&lbm->header.bmhd.width,&lbm->header.bmhd.height,

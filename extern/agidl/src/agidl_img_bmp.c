@@ -105,7 +105,7 @@ void AGIDL_ClearBMP(AGIDL_BMP *bmp, COLOR clr){
 		AGIDL_ClrMemset(bmp->pixels.pix32,clr,AGIDL_BMPGetSize(bmp));
 	}
 	else{
-		AGIDL_ClrMemset16(bmp->pixels.pix16,(COLOR16)clr,AGIDL_BMPGetSize(bmp));
+		AGIDL_ClrMemset16(bmp->pixels.pix16,clr,AGIDL_BMPGetSize(bmp));
 	}
 }
 
@@ -910,7 +910,7 @@ void AGIDL_BMPDecodeRLE(AGIDL_BMP* bmp, FILE* file, BMP_IMG_TYPE img_type){
 }
 
 AGIDL_BMP * AGIDL_LoadBMP(char* filename){
-	AGIDL_BMP *bmp = (AGIDL_BMP*)malloc(sizeof(AGIDL_BMP));
+	AGIDL_BMP *bmp = malloc(sizeof(AGIDL_BMP));
 	
 	bmp->filename = (char*)malloc(strlen(filename)+1);
 	AGIDL_FilenameCpy(bmp->filename,filename);
@@ -941,7 +941,7 @@ AGIDL_BMP * AGIDL_LoadBMP(char* filename){
 }
 
 AGIDL_BMP * AGIDL_CreateBMP(const char *filename, int width, int height, AGIDL_CLR_FMT fmt){
-	AGIDL_BMP* bmp = (AGIDL_BMP*)malloc(sizeof(AGIDL_BMP));
+	AGIDL_BMP* bmp = malloc(sizeof(AGIDL_BMP));
 	bmp->filename = (char*)malloc(strlen(filename)+1);
 	AGIDL_FilenameCpy(bmp->filename,filename);
 	AGIDL_BMPSetWidth(bmp,width);

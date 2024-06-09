@@ -104,7 +104,7 @@ void AGIDL_ClearTGA(AGIDL_TGA *tga, COLOR clr){
 		AGIDL_ClrMemset(tga->pixels.pix32,clr,AGIDL_TGAGetSize(tga));
 	}
 	else{
-		AGIDL_ClrMemset16(tga->pixels.pix16,(COLOR16)clr,AGIDL_TGAGetSize(tga));
+		AGIDL_ClrMemset16(tga->pixels.pix16,clr,AGIDL_TGAGetSize(tga));
 	}
 }
 
@@ -204,7 +204,7 @@ void AGIDL_FreeTGA(AGIDL_TGA *tga){
 }
 
 AGIDL_TGA * AGIDL_CreateTGA(const char* filename, int width, int height, AGIDL_CLR_FMT fmt){
-	AGIDL_TGA *tga = (AGIDL_TGA*)malloc(sizeof(AGIDL_TGA));
+	AGIDL_TGA *tga = malloc(sizeof(AGIDL_TGA));
 	tga->filename = (char*)malloc(strlen(filename)+1);
 	AGIDL_FilenameCpy(tga->filename,filename);
 	AGIDL_TGASetWidth(tga,width);
@@ -481,7 +481,7 @@ u16 bin2dec2(char* binary){
 }
 
 char* dec2bin2(u16 number){
-	char *bin = (char*)malloc(sizeof(char)*9);
+	char *bin = malloc(sizeof(char)*9);
 	int i;
 	for(i = 7; i >= 0; i--){
 		int k = number >> i;
@@ -497,7 +497,7 @@ char* dec2bin2(u16 number){
 }
 
 char* tgarlebits(char *binary){
-	char *bin = (char*)malloc(sizeof(char)*9);
+	char *bin = malloc(sizeof(char)*9);
 	int i;
 	for(i = 1; i <= 7; i++){
 		bin[i-1] = binary[i];
@@ -1098,7 +1098,7 @@ AGIDL_TGA * AGIDL_LoadTGA(char *filename){
 		return NULL;
 	}
 	
-	AGIDL_TGA *tga = (AGIDL_TGA*)malloc(sizeof(AGIDL_TGA));
+	AGIDL_TGA *tga = malloc(sizeof(AGIDL_TGA));
 	tga->filename = (char*)malloc(strlen(filename)+1);
 	AGIDL_FilenameCpy(tga->filename,filename);
 	AGIDL_TGASetICPEncoding(tga,ICP_ENCODE_THRESHOLD);

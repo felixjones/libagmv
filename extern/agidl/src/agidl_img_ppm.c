@@ -138,7 +138,7 @@ void AGIDL_ClearPPM(AGIDL_PPM *ppm, COLOR clr){
 		AGIDL_ClrMemset(ppm->pixels.pix32,clr,AGIDL_PPMGetSize(ppm));
 	}
 	else{
-		AGIDL_ClrMemset16(ppm->pixels.pix16,(COLOR16)clr,AGIDL_PPMGetSize(ppm));
+		AGIDL_ClrMemset16(ppm->pixels.pix16,clr,AGIDL_PPMGetSize(ppm));
 	}
 }
 
@@ -299,7 +299,7 @@ int AGIDL_PPMDecodeHeader(AGIDL_PPM* ppm, FILE* file){
 	
 	u32 count = 0, byte = AGIDL_ReadByte(file);
 	
-	char* comment = (char*)malloc(60);
+	char* comment = malloc(60);
 	
 	do{
 		fgets(comment,60,file);
@@ -483,7 +483,7 @@ AGIDL_PPM* AGIDL_LoadPPM(const char* filename){
 		return NULL;
 	}
 	
-	AGIDL_PPM* ppm = (AGIDL_PPM*)malloc(sizeof(AGIDL_PPM));
+	AGIDL_PPM* ppm = malloc(sizeof(AGIDL_PPM));
 	ppm->filename = (char*)malloc(strlen(filename)+1);
 	AGIDL_FilenameCpy(ppm->filename,filename);
 	
@@ -507,7 +507,7 @@ AGIDL_PPM* AGIDL_LoadPPM(const char* filename){
 }
 
 AGIDL_PPM* AGIDL_CreatePPM(const char* filename, int width, int height, AGIDL_CLR_FMT fmt){
-	AGIDL_PPM* ppm = (AGIDL_PPM*)malloc(sizeof(AGIDL_PPM));
+	AGIDL_PPM* ppm = malloc(sizeof(AGIDL_PPM));
 	AGIDL_PPMSetWidth(ppm,width);
 	AGIDL_PPMSetHeight(ppm,height);
 	AGIDL_PPMSetClrFmt(ppm,fmt);

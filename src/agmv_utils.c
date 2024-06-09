@@ -324,7 +324,7 @@ void AGMV_SetVolume(AGMV* agmv, f32 volume){
 }
 
 AGMV* CreateAGMV(u32 num_of_frames, u32 width, u32 height, u32 frames_per_second){
-	AGMV* agmv = (AGMV*)malloc(sizeof(AGMV));
+	AGMV* agmv = malloc(sizeof(AGMV));
 
 	agmv->frame_chunk = (AGMV_FRAME_CHUNK*)malloc(sizeof(AGMV_FRAME_CHUNK));
 	agmv->audio_chunk = (AGMV_AUDIO_CHUNK*)malloc(sizeof(AGMV_AUDIO_CHUNK));

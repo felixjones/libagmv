@@ -22,14 +22,14 @@
 #include <agidl_img_types.h>
 
 AGIDL_GlyphList* AGIDL_CreateGlyphList(){
-	AGIDL_GlyphList* list = (AGIDL_GlyphList*)malloc(sizeof(AGIDL_GlyphList));
+	AGIDL_GlyphList* list = malloc(sizeof(AGIDL_GlyphList));
 	list->len = 0;
 	list->head = NULL;
 	return list;
 }
 
 AGIDL_GlyphNode* AGIDL_CreateGlyphNode(char c, void* data, u32 width, u32 height){
-	AGIDL_GlyphNode* node = (AGIDL_GlyphNode*)malloc(sizeof(AGIDL_GlyphNode));
+	AGIDL_GlyphNode* node = malloc(sizeof(AGIDL_GlyphNode));
 	node->glyph.c = c;
 	node->glyph.img_data = data;
 	node->glyph.width = width;
@@ -146,7 +146,7 @@ void AGIDL_DestroyGlyphList(AGIDL_GlyphList* list){
 }
 
 AGIDL_FONT* AGIDL_CreateFont(u32 width, u32 height, AGIDL_CLR_FMT fmt){
-	AGIDL_FONT* font = (AGIDL_FONT*)malloc(sizeof(AGIDL_FONT));
+	AGIDL_FONT* font = malloc(sizeof(AGIDL_FONT));
 	font->width = width;
 	font->height = height;
 	font->fmt = fmt;
@@ -206,14 +206,14 @@ int AGIDL_InsideClipBounds(u32 x, u32 y, u32 width, u32 height);
 
 void AGIDL_BlitFont(AGIDL_FONT* font, char c, void* data, u32 x, u32 y, u32 width, u32 height, AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) != 16){
-		COLOR* clrdata = (COLOR*)data;
+		COLOR* clrdata = data;
 		
 		if(AGIDL_InsideClipBounds(x,y,width,height) && AGIDL_InsideClipBounds(x+font->width-1,y+font->height-1,width,height)){
 			if(AGIDL_FindNode(font->list,c)){
 				AGIDL_GLYPH glyph = AGIDL_FindLetter(font,c);
 				
 				if(AGIDL_GetBitCount(font->fmt) != 16){
-					COLOR* fnt = (COLOR*)glyph.img_data;
+					COLOR* fnt = glyph.img_data;
 					
 					int fx, fy;
 					for(fy = 0; fy < font->height; fy++){
@@ -224,7 +224,7 @@ void AGIDL_BlitFont(AGIDL_FONT* font, char c, void* data, u32 x, u32 y, u32 widt
 					}
 				}
 				else{
-					COLOR16* fnt = (COLOR16*)glyph.img_data;
+					COLOR16* fnt = glyph.img_data;
 					
 					int fx, fy;
 					for(fy = 0; fy < font->height; fy++){
@@ -239,14 +239,14 @@ void AGIDL_BlitFont(AGIDL_FONT* font, char c, void* data, u32 x, u32 y, u32 widt
 		}
 	}
 	else{
-		COLOR16* clrdata = (COLOR16*)data;
+		COLOR16* clrdata = data;
 		
 		if(AGIDL_InsideClipBounds(x,y,width,height) && AGIDL_InsideClipBounds(x+width,y+height,width,height)){
 			if(AGIDL_FindNode(font->list,c)){
 				AGIDL_GLYPH glyph = AGIDL_FindLetter(font,c);
 				
 				if(AGIDL_GetBitCount(font->fmt) != 16){
-					COLOR* fnt = (COLOR*)glyph.img_data;
+					COLOR* fnt = glyph.img_data;
 					
 					int fx, fy;
 					for(fy = 0; fy < font->width; fy++){
@@ -258,7 +258,7 @@ void AGIDL_BlitFont(AGIDL_FONT* font, char c, void* data, u32 x, u32 y, u32 widt
 					}
 				}
 				else{
-					COLOR16* fnt = (COLOR16*)glyph.img_data;
+					COLOR16* fnt = glyph.img_data;
 					
 					int fx, fy;
 					for(fy = 0; fy < font->width; fy++){
@@ -306,7 +306,7 @@ void AGIDL_FontPrint(char* string, void* data, u32 width, u32 height, AGIDL_CLR_
 AGIDL_FONT* AGIDL_GenerateDefaultFont(){
 	AGIDL_FONT* font = AGIDL_CreateFont(8,11,AGIDL_BGR_888);
 	
-	COLOR* color = (COLOR*)malloc(sizeof(COLOR)*8*11);
+	COLOR* color = malloc(sizeof(COLOR)*8*11);
 	
 	color[0] = AGIDL_RGB(0,0,0,AGIDL_BGR_888); color[1] = AGIDL_RGB(0,0,0,AGIDL_BGR_888); color[2] = AGIDL_RGB(0,0,0,AGIDL_BGR_888); color[3] = AGIDL_RGB(0,0,0,AGIDL_BGR_888); color[4] = AGIDL_RGB(0,0,0,AGIDL_BGR_888); color[5] = AGIDL_RGB(0,0,0,AGIDL_BGR_888); color[6] = AGIDL_RGB(0,0,0,AGIDL_BGR_888); color[7] = AGIDL_RGB(0,0,0,AGIDL_BGR_888); 
 	color[8] = AGIDL_RGB(0,0,0,AGIDL_BGR_888); color[9] = AGIDL_RGB(255,255,255,AGIDL_BGR_888); color[10] = AGIDL_RGB(0,0,0,AGIDL_BGR_888); color[11] = AGIDL_RGB(0,0,0,AGIDL_BGR_888); color[12] = AGIDL_RGB(0,0,0,AGIDL_BGR_888); color[13] = AGIDL_RGB(0,0,0,AGIDL_BGR_888); color[14] = AGIDL_RGB(255,255,255,AGIDL_BGR_888); color[15] = AGIDL_RGB(0,0,0,AGIDL_BGR_888); 

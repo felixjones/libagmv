@@ -20,8 +20,8 @@
 
 void AGIDL_FlipImgDataHorz(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 24 || AGIDL_GetBitCount(fmt) == 32){
-		COLOR* flip = (COLOR*)malloc(sizeof(COLOR)*width*height);
-		COLOR* clrs = (COLOR*)data;
+		COLOR* flip = malloc(sizeof(COLOR)*width*height);
+		COLOR* clrs = data;
 		
 		u32 x,y;
 		for(y = 0; y < height; y++){
@@ -35,8 +35,8 @@ void AGIDL_FlipImgDataHorz(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt)
 		free(flip);
 	}
 	else{
-		COLOR16* flip = (COLOR16*)malloc(sizeof(COLOR16)*width*height);
-		COLOR16* clrs = (COLOR16*)data;
+		COLOR16* flip = malloc(sizeof(COLOR16)*width*height);
+		COLOR16* clrs = data;
 		
 		u32 x,y;
 		for(y = 0; y < height; y++){
@@ -53,8 +53,8 @@ void AGIDL_FlipImgDataHorz(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt)
 
 void AGIDL_FlipImgDataVert(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 24 || AGIDL_GetBitCount(fmt) == 32){
-		COLOR* flip = (COLOR*)malloc(sizeof(COLOR)*width*height);
-		COLOR* clrs = (COLOR*)data;
+		COLOR* flip = malloc(sizeof(COLOR)*width*height);
+		COLOR* clrs = data;
 		
 		u32 x,y;
 		for(y = 0; y < height; y++){
@@ -68,8 +68,8 @@ void AGIDL_FlipImgDataVert(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt)
 		free(flip);
 	}
 	else{
-		COLOR16* flip = (COLOR16*)malloc(sizeof(COLOR16)*width*height);
-		COLOR16* clrs = (COLOR16*)data;
+		COLOR16* flip = malloc(sizeof(COLOR16)*width*height);
+		COLOR16* clrs = data;
 		
 		u32 x,y;
 		for(y = 0; y < height; y++){
@@ -86,8 +86,8 @@ void AGIDL_FlipImgDataVert(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt)
 
 void AGIDL_FlipImgDataHorzAndVert(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 24 || AGIDL_GetBitCount(fmt) == 32){
-		COLOR* flip = (COLOR*)malloc(sizeof(COLOR)*width*height);
-		COLOR* clrs = (COLOR*)data;
+		COLOR* flip = malloc(sizeof(COLOR)*width*height);
+		COLOR* clrs = data;
 		
 		u32 x,y;
 		for(y = 0; y < height; y++){
@@ -101,8 +101,8 @@ void AGIDL_FlipImgDataHorzAndVert(void* data, u32 width, u32 height, AGIDL_CLR_F
 		free(flip);
 	}
 	else{
-		COLOR16* flip = (COLOR16*)malloc(sizeof(COLOR16)*width*height);
-		COLOR16* clrs = (COLOR16*)data;
+		COLOR16* flip = malloc(sizeof(COLOR16)*width*height);
+		COLOR16* clrs = data;
 		
 		u32 x,y;
 		for(y = 0; y < height; y++){
@@ -126,8 +126,8 @@ void AGIDL_RotateImgData(void* data, u16* width, u16* height, AGIDL_CLR_FMT fmt,
 			if(AGIDL_GetBitCount(fmt) == 24 || AGIDL_GetBitCount(fmt) == 32){
 				u16 w = *width, h = *height;
 				u16 wr = *height, hr = *width;
-				COLOR* clrs = (COLOR*)data;
-				COLOR* rotate = (COLOR*)malloc(sizeof(COLOR)*w*h);
+				COLOR* clrs = data;
+				COLOR* rotate = malloc(sizeof(COLOR)*w*h);
 				
 				u16 x,y;
 				for(y = 0; y < h; y++){
@@ -146,8 +146,8 @@ void AGIDL_RotateImgData(void* data, u16* width, u16* height, AGIDL_CLR_FMT fmt,
 			else{
 				u16 w = *width, h = *height;
 				u16 wr = *height, hr = *width;
-				COLOR16* clrs = (COLOR16*)data;
-				COLOR16* rotate = (COLOR16*)malloc(sizeof(COLOR16)*w*h);
+				COLOR16* clrs = data;
+				COLOR16* rotate = malloc(sizeof(COLOR16)*w*h);
 				
 				u16 x,y;
 				for(y = 0; y < h; y++){
@@ -168,8 +168,8 @@ void AGIDL_RotateImgData(void* data, u16* width, u16* height, AGIDL_CLR_FMT fmt,
 			if(AGIDL_GetBitCount(fmt) == 24 || AGIDL_GetBitCount(fmt) == 32){
 				u16 w = *width, h = *height;
 				u16 wr = *height, hr = *width;
-				COLOR* clrs = (COLOR*)data;
-				COLOR* rotate = (COLOR*)malloc(sizeof(COLOR16)*w*h);
+				COLOR* clrs = data;
+				COLOR* rotate = malloc(sizeof(COLOR16)*w*h);
 				
 				u16 x,y;
 				for(y = 0; y < h; y++){
@@ -188,8 +188,8 @@ void AGIDL_RotateImgData(void* data, u16* width, u16* height, AGIDL_CLR_FMT fmt,
 			else{
 				u16 w = *width, h = *height;
 				u16 wr = *height, hr = *width;
-				COLOR16* clrs = (COLOR16*)data;
-				COLOR16* rotate = (COLOR16*)malloc(sizeof(COLOR16)*w*h);
+				COLOR16* clrs = data;
+				COLOR16* rotate = malloc(sizeof(COLOR16)*w*h);
 				
 				u16 x,y;
 				for(y = 0; y < h; y++){

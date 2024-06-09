@@ -384,7 +384,7 @@ void AGIDL_AddMDECCode(AGIDL_MDEC_FRAME* frame, AGIDL_MDEC_CODE code){
 	else{
 		u32 old_len = frame->len; frame->len++;
 		
-		u16* prev = (u16*)malloc(sizeof(u16)*old_len);
+		u16* prev = malloc(sizeof(u16)*old_len);
 		
 		memcpy(prev,frame->mdec,old_len);
 		
@@ -508,7 +508,7 @@ int AGIDL_MDEC(const char* filename, AGIDL_IMG_TYPE img_type){
 	u32 magic = AGIDL_ReadLong(file); fseek(file,0,SEEK_SET);
 	
 	if(magic == MDEC_MAGIC){
-		AGIDL_MDEC_FRAME* frame = (AGIDL_MDEC_FRAME*)malloc(sizeof(AGIDL_MDEC_FRAME));
+		AGIDL_MDEC_FRAME* frame = malloc(sizeof(AGIDL_MDEC_FRAME));
 		
 		frame->no_audio = TRUE;
 		
@@ -547,7 +547,7 @@ int AGIDL_MDEC(const char* filename, AGIDL_IMG_TYPE img_type){
 	}
 	else{
 		AGIDL_FindNextVideoFrame(file);
-		AGIDL_MDEC_FRAME* frame = (AGIDL_MDEC_FRAME*)malloc(sizeof(AGIDL_MDEC_FRAME));
+		AGIDL_MDEC_FRAME* frame = malloc(sizeof(AGIDL_MDEC_FRAME));
 	
 		frame->no_audio = FALSE;
 		

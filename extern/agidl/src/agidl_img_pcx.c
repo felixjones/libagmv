@@ -89,7 +89,7 @@ void AGIDL_ClearPCX(AGIDL_PCX *pcx, COLOR clr){
 		AGIDL_ClrMemset(pcx->pixels.pix32,clr,AGIDL_PCXGetSize(pcx));
 	}
 	else{
-		AGIDL_ClrMemset16(pcx->pixels.pix16,(COLOR16)clr,AGIDL_PCXGetSize(pcx));
+		AGIDL_ClrMemset16(pcx->pixels.pix16,clr,AGIDL_PCXGetSize(pcx));
 	}
 }
 
@@ -256,7 +256,7 @@ void AGIDL_ColorConvertPCX(AGIDL_PCX* pcx, AGIDL_CLR_FMT dest){
 }
 
 AGIDL_PCX * AGIDL_CreatePCX(const char *filename, int width, int height, AGIDL_CLR_FMT fmt){
-	AGIDL_PCX *pcx = (AGIDL_PCX*)malloc(sizeof(AGIDL_PCX));
+	AGIDL_PCX *pcx = malloc(sizeof(AGIDL_PCX));
 	pcx->filename = (char*)malloc(strlen(filename)+1);
 	AGIDL_FilenameCpy(pcx->filename,filename);
 	AGIDL_PCXSetWidth(pcx,width);
@@ -308,7 +308,7 @@ u16 bin2dec(char *binary){
 }
 
 char* dec2bin(u16 number){
-	char *bin = (char*)malloc(sizeof(char)*9);
+	char *bin = malloc(sizeof(char)*9);
 	int i;
 	for(i = 7; i >= 0; i--){
 		int k = number >> i;
@@ -324,7 +324,7 @@ char* dec2bin(u16 number){
 }
 
 char* pcxrlebits(char *binary){
-	char *bin = (char*)malloc(sizeof(char)*7);
+	char *bin = malloc(sizeof(char)*7);
 	int i;
 	for(i = 2; i <= 7; i++){
 		bin[i-2] = binary[i];
@@ -467,7 +467,7 @@ void AGIDL_PCXDecodeIMG(AGIDL_PCX* pcx, FILE* file){
 		
 		int scanline;
 		for(scanline = 0; scanline < AGIDL_PCXGetHeight(pcx); scanline++){		
-			u8 *buf = (u8*)malloc(sizeof(u8)*scanlinelength);
+			u8 *buf = malloc(sizeof(u8)*scanlinelength);
 			
 			int count = 0;
 			while(count < scanlinelength){
@@ -554,7 +554,7 @@ void AGIDL_PCXDecodeIMG(AGIDL_PCX* pcx, FILE* file){
 		
 		int scanline;
 		for(scanline = 0; scanline < AGIDL_PCXGetHeight(pcx); scanline++){		
-			u8 *buf = (u8*)malloc(sizeof(u8)*scanlinelength);
+			u8 *buf = malloc(sizeof(u8)*scanlinelength);
 			
 			int count = 0;
 			while(count < scanlinelength){
@@ -735,7 +735,7 @@ void AGIDL_PCXEncodeImg(AGIDL_PCX* pcx, FILE* file){
 		
 		int scanline, x;
 		for(scanline = 0; scanline <= AGIDL_PCXGetHeight(pcx); scanline++){
-			u8 *buf = (u8*)malloc(sizeof(u8)*scanlinelength);
+			u8 *buf = malloc(sizeof(u8)*scanlinelength);
 			for(x = 0; x < AGIDL_PCXGetWidth(pcx); x++){
 				if(AGIDL_GetBitCount(AGIDL_PCXGetClrFmt(pcx)) == 32){
 					COLOR clr = AGIDL_PCXGetClr(pcx,x,scanline);
@@ -940,7 +940,7 @@ AGIDL_PCX * AGIDL_LoadPCX(char *filename){
 		return NULL;
 	}
 	
-	AGIDL_PCX *pcx = (AGIDL_PCX*)malloc(sizeof(AGIDL_PCX));
+	AGIDL_PCX *pcx = malloc(sizeof(AGIDL_PCX));
 	pcx->filename = (char*)malloc(strlen(filename)+1);
 	AGIDL_FilenameCpy(pcx->filename,filename);
 	AGIDL_PCXSetICPEncoding(pcx,ICP_ENCODE_THRESHOLD);

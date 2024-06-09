@@ -85,7 +85,7 @@ void AGIDL_ClearGXT(AGIDL_GXT *gxt, COLOR clr){
 		AGIDL_ClrMemset(gxt->pixels.pix32,clr,AGIDL_GXTGetSize(gxt));
 	}
 	else{
-		AGIDL_ClrMemset16(gxt->pixels.pix16,(COLOR16)clr,AGIDL_GXTGetSize(gxt));
+		AGIDL_ClrMemset16(gxt->pixels.pix16,clr,AGIDL_GXTGetSize(gxt));
 	}
 }
 
@@ -234,7 +234,7 @@ void AGIDL_GXTCopyPix16(AGIDL_GXT* gxt, COLOR16* clrs, u32 count){
 }
 
 AGIDL_GXT* AGIDL_CreateGXT(const char* filename, int width, int height, AGIDL_CLR_FMT fmt){
-	AGIDL_GXT* gxt = (AGIDL_GXT*)malloc(sizeof(AGIDL_GXT));
+	AGIDL_GXT* gxt = malloc(sizeof(AGIDL_GXT));
 	gxt->filename = (char*)malloc(strlen(filename)+1);
 	AGIDL_SetGXTFilename(gxt,filename);
 	AGIDL_GXTSetWidth(gxt,width);
@@ -341,7 +341,7 @@ GXT_CLR_FMT AGIDL_GetGXTClrFmt(u8 type){
 
 
 char* bsr_dec_2_bin(u32 num){
-	char* bin = (char*)malloc(sizeof(char)*33);
+	char* bin = malloc(sizeof(char)*33);
 	int i;
 	for(i = 31; i >= 0; i--){
 		int k = num >> i;
@@ -391,7 +391,7 @@ u32 bsr_bin_2_dec(char* binary){
 
 u32 bsr(u32 num){
 	char* bin = bsr_dec_2_bin(num);
-	char* binrev = (char*)malloc(strlen(bin)+1);
+	char* binrev = malloc(strlen(bin)+1);
 	
 	int i, count = 0;
 	for(i = strlen(bin)-1; i >= 0; i--){
@@ -593,7 +593,7 @@ void AGIDL_GXTDecodeIMG(AGIDL_GXT* gxt, FILE* file){
 		
 		fseek(file,gxt->header.offset,SEEK_SET);
 		
-		u8* buf = (u8*)malloc(sizeof(u8)*AGIDL_GXTGetSize(gxt));
+		u8* buf = malloc(sizeof(u8)*AGIDL_GXTGetSize(gxt));
 		
 		fread(buf,1,AGIDL_GXTGetSize(gxt),file);
 
@@ -618,7 +618,7 @@ AGIDL_GXT* AGIDL_LoadGXT(char *filename){
 		return NULL;
 	}
 	
-	AGIDL_GXT* gxt = (AGIDL_GXT*)malloc(sizeof(AGIDL_GXT));
+	AGIDL_GXT* gxt = malloc(sizeof(AGIDL_GXT));
 	gxt->filename = (char*)malloc(strlen(filename)+1);
 	AGIDL_FilenameCpy(gxt->filename,filename);
 	

@@ -33,11 +33,11 @@ COLOR AGIDL_SamplePointNearest(void* data, float u, float v, u32 width, u32 heig
 	y = AGIDL_Clampf(0,y,height);
 	
 	if(AGIDL_GetBitCount(fmt) == 16){
-		COLOR16* clrdata = (COLOR16*)data;
+		COLOR16* clrdata = data;
 		return AGIDL_GetClr16(clrdata,x,y,width,height);
 	}
 	else{
-		COLOR* clrdata = (COLOR*)data;
+		COLOR* clrdata = data;
 		return AGIDL_GetClr(clrdata,x,y,width,height);
 	}
 }
@@ -53,7 +53,7 @@ COLOR AGIDL_SamplePointBilerp(void* data, float u, float v, u32 width, u32 heigh
 	y = AGIDL_Clampf(0,y,height);
 	
 	if(AGIDL_GetBitCount(fmt) == 16){
-		COLOR16* clrdata = (COLOR16*)data;
+		COLOR16* clrdata = data;
 		
 		float x_floor = floor(x);
 		float y_floor = floor(y);
@@ -134,7 +134,7 @@ COLOR AGIDL_SamplePointBilerp(void* data, float u, float v, u32 width, u32 heigh
 		}		
 	}
 	else{
-		COLOR* clrdata = (COLOR*)data;
+		COLOR* clrdata = data;
 		
 		float x_floor = floor(x);
 		float y_floor = floor(y);
@@ -227,13 +227,13 @@ COLOR AGIDL_SamplePointTrilerp(void* data, float u, float v, u32 width, u32 heig
 	y = AGIDL_Clampf(0,y,height);
 	
 	if(AGIDL_GetBitCount(fmt) == 16){
-		COLOR16* clrdata = (COLOR16*)data;
-		COLOR16* clrscpy = (COLOR16*)malloc(sizeof(COLOR16)*width*height);
+		COLOR16* clrdata = data;
+		COLOR16* clrscpy = malloc(sizeof(COLOR16)*width*height);
 		AGIDL_ClrMemcpy16(clrscpy,clrdata,width*height);
 		
 		u16 w = width, h = height;
 		
-		COLOR16* clrscale = (COLOR16*)malloc(sizeof(COLOR16)*w*h);
+		COLOR16* clrscale = malloc(sizeof(COLOR16)*w*h);
 		clrscale = (COLOR16*)AGIDL_ScaleImgDataBilerp(clrscpy,&w,&h,0.5f,0.5f,fmt);
 		
 		float x_floor = floor(x);
@@ -327,13 +327,13 @@ COLOR AGIDL_SamplePointTrilerp(void* data, float u, float v, u32 width, u32 heig
 		return AGIDL_RGB16(rfinal,gfinal,bfinal,fmt);
 	}
 	else{
-		COLOR* clrdata = (COLOR*)data;
-		COLOR* clrscpy = (COLOR*)malloc(sizeof(COLOR)*width*height);
+		COLOR* clrdata = data;
+		COLOR* clrscpy = malloc(sizeof(COLOR)*width*height);
 		AGIDL_ClrMemcpy(clrscpy,clrdata,width*height);
 		
 		u16 w = width, h = height;
 		
-		COLOR* clrscale = (COLOR*)malloc(sizeof(COLOR16)*w*h);
+		COLOR* clrscale = malloc(sizeof(COLOR16)*w*h);
 		clrscale = (COLOR*)AGIDL_ScaleImgDataBilerp(clrscpy,&w,&h,0.5f,0.5f,fmt);
 		
 		float x_floor = floor(x);
@@ -430,8 +430,8 @@ COLOR AGIDL_SamplePointTrilerp(void* data, float u, float v, u32 width, u32 heig
 
 void AGIDL_FilterImgDataBilerp(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 24 || AGIDL_GetBitCount(fmt) == 32){
-		COLOR* clrs = (COLOR*)data;
-		COLOR* temp = (COLOR*)malloc(sizeof(COLOR)*width*height);
+		COLOR* clrs = data;
+		COLOR* temp = malloc(sizeof(COLOR)*width*height);
 
 		u16 x,y;
 		for(y = 0; y < height; y++){
@@ -445,8 +445,8 @@ void AGIDL_FilterImgDataBilerp(void* data, u32 width, u32 height, AGIDL_CLR_FMT 
 		free(temp);
 	}
 	else{
-		COLOR16* clrs = (COLOR16*)data;
-		COLOR16* temp = (COLOR16*)malloc(sizeof(COLOR16)*width*height);
+		COLOR16* clrs = data;
+		COLOR16* temp = malloc(sizeof(COLOR16)*width*height);
 		
 		u16 x,y;
 		for(y = 0; y < height; y++){
@@ -463,7 +463,7 @@ void AGIDL_FilterImgDataBilerp(void* data, u32 width, u32 height, AGIDL_CLR_FMT 
 
 void AGIDL_FastFilterImgDataBilerp(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 16){
-		COLOR16* clr_data = (COLOR16*)data;
+		COLOR16* clr_data = data;
 		
 		int x,y;
 		for(y = 0; y < height; y++){
@@ -520,7 +520,7 @@ void AGIDL_FastFilterImgDataBilerp(void* data, u32 width, u32 height, AGIDL_CLR_
 		}
 	}
 	else{
-		COLOR* clr_data = (COLOR*)data;
+		COLOR* clr_data = data;
 		
 		int x,y;
 		for(y = 0; y < height; y++){
@@ -580,15 +580,15 @@ void AGIDL_FastFilterImgDataBilerp(void* data, u32 width, u32 height, AGIDL_CLR_
 
 void AGIDL_FilterImgDataTrilerp(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 24 || AGIDL_GetBitCount(fmt) == 32){
-		COLOR* clr_data = (COLOR*)data;
-		COLOR* clr_cpy = (COLOR*)malloc(sizeof(COLOR)*width*height);
-		COLOR* temp = (COLOR*)malloc(sizeof(COLOR)*width*height);
+		COLOR* clr_data = data;
+		COLOR* clr_cpy = malloc(sizeof(COLOR)*width*height);
+		COLOR* temp = malloc(sizeof(COLOR)*width*height);
 		
 		AGIDL_ClrMemcpy(clr_cpy,clr_data,width*height);
 		
 		u16 w = width, h = height;
 		
-		COLOR* scale = (COLOR*)AGIDL_ScaleImgDataBilerp(clr_cpy,&w,&h,2.0f,2.0f,fmt);
+		COLOR* scale = AGIDL_ScaleImgDataBilerp(clr_cpy,&w,&h,2.0f,2.0f,fmt);
 		
 		int x,y;
 		for(y = 0; y < height; y++){
@@ -774,15 +774,15 @@ void AGIDL_FilterImgDataTrilerp(void* data, u32 width, u32 height, AGIDL_CLR_FMT
 		free(scale);
 	}
 	else{
-		COLOR16* clr_data = (COLOR16*)data;
-		COLOR16* clr_cpy = (COLOR16*)malloc(sizeof(COLOR16)*width*height);
-		COLOR16* temp = (COLOR16*)malloc(sizeof(COLOR16)*width*height);
+		COLOR16* clr_data = data;
+		COLOR16* clr_cpy = malloc(sizeof(COLOR16)*width*height);
+		COLOR16* temp = malloc(sizeof(COLOR16)*width*height);
 		
 		AGIDL_ClrMemcpy16(clr_cpy,clr_data,width*height);
 		
 		u16 w = width, h = height;
 		
-		COLOR16* scale = (COLOR16*)AGIDL_ScaleImgDataBilerp(clr_cpy,&w,&h,2.0f,2.0f,fmt);
+		COLOR16* scale = AGIDL_ScaleImgDataBilerp(clr_cpy,&w,&h,2.0f,2.0f,fmt);
 		
 		int x,y;
 		for(y = 0; y < height; y++){
@@ -972,14 +972,14 @@ void AGIDL_FilterImgDataTrilerp(void* data, u32 width, u32 height, AGIDL_CLR_FMT
 
 void AGIDL_FastFilterImgDataTrilerp(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 24 || AGIDL_GetBitCount(fmt) == 32){
-		COLOR* clrs = (COLOR*)data;
-		COLOR* clrscpy = (COLOR*)malloc(sizeof(COLOR)*width*height);
+		COLOR* clrs = data;
+		COLOR* clrscpy = malloc(sizeof(COLOR)*width*height);
 		
 		AGIDL_ClrMemcpy(clrscpy,clrs,width*height);
 		
 		u16 w = width, h = height;
 		
-		COLOR* clrscale = (COLOR*)malloc(sizeof(COLOR)*w*h);
+		COLOR* clrscale = malloc(sizeof(COLOR)*w*h);
 		clrscale = (COLOR*)AGIDL_ScaleImgDataNearest(clrscpy,&w,&h,2.0f,2.0f,fmt);
 		
 		AGIDL_FastFilterImgDataBilerp(clrscale,w,h,fmt);
@@ -1095,14 +1095,14 @@ void AGIDL_FastFilterImgDataTrilerp(void* data, u32 width, u32 height, AGIDL_CLR
 		free(clrscale);
 	}
 	else{
-		COLOR16* clrs = (COLOR16*)data;
-		COLOR16* clrscpy = (COLOR16*)malloc(sizeof(COLOR16)*width*height);
+		COLOR16* clrs = data;
+		COLOR16* clrscpy = malloc(sizeof(COLOR16)*width*height);
 		
 		AGIDL_ClrMemcpy16(clrscpy,clrs,width*height);
 		
 		u16 w = width, h = height;
 		
-		COLOR16* clrscale = (COLOR16*)malloc(sizeof(COLOR16)*w*h);
+		COLOR16* clrscale = malloc(sizeof(COLOR16)*w*h);
 		clrscale = (COLOR16*)AGIDL_ScaleImgDataNearest(clrscpy,&w,&h,2.0f,2.0f,fmt);
 		
 		AGIDL_FastFilterImgDataBilerp(clrscale,w,h,fmt);

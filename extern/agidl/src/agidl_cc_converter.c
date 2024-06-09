@@ -296,9 +296,9 @@ AGIDL_CMYK AGIDL_RGB_TO_CMYK(u8 r, u8 g, u8 b){
 	
 	AGIDL_CMYK cmyk;
 	cmyk.k = 1 - max;
-	cmyk.c = (1-newR-cmyk.k)/(float)(1.0f-cmyk.k);
-	cmyk.m = (1-newG-cmyk.k)/(float)(1.0f-cmyk.k);
-	cmyk.y = (1-newB-cmyk.k)/(float)(1.0f-cmyk.k);
+	cmyk.c = (1-newR-cmyk.k)/(1.0f-cmyk.k);
+	cmyk.m = (1-newG-cmyk.k)/(1.0f-cmyk.k);
+	cmyk.y = (1-newB-cmyk.k)/(1.0f-cmyk.k);
 	
 	return cmyk;
 }

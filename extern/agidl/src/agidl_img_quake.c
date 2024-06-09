@@ -75,7 +75,7 @@ void AGIDL_ClearLMP(AGIDL_LMP *lmp, COLOR clr){
 		AGIDL_ClrMemset(lmp->pixels.pix32,clr,AGIDL_LMPGetSize(lmp));
 	}
 	else{
-		AGIDL_ClrMemset16(lmp->pixels.pix16,(COLOR16)clr,AGIDL_LMPGetSize(lmp));
+		AGIDL_ClrMemset16(lmp->pixels.pix16,clr,AGIDL_LMPGetSize(lmp));
 	}
 }
 
@@ -239,7 +239,7 @@ void AGIDL_LMPCopyPix16(AGIDL_LMP* lmp, COLOR16* clrs, u32 count){
 }
 
 AGIDL_LMP * AGIDL_CreateLMP(const char *filename, int width, int height, AGIDL_CLR_FMT fmt){
-	AGIDL_LMP* lmp = (AGIDL_LMP*)malloc(sizeof(AGIDL_LMP));
+	AGIDL_LMP* lmp = malloc(sizeof(AGIDL_LMP));
 	lmp->filename = (char*)malloc(strlen(filename)+1);
 	AGIDL_FilenameCpy(lmp->filename,filename);
 	AGIDL_LMPSetWidth(lmp,width);
@@ -407,7 +407,7 @@ AGIDL_LMP * AGIDL_LoadLMP(char *filename){
 		printf("Could not open/locate Quake LMP Image - %s!\n",filename);
 	}
 	
-	AGIDL_LMP* lmp = (AGIDL_LMP*)malloc(sizeof(AGIDL_LMP));
+	AGIDL_LMP* lmp = malloc(sizeof(AGIDL_LMP));
 	lmp->filename = (char*)malloc(strlen(filename)+1);
 	AGIDL_FilenameCpy(lmp->filename,filename);
 	lmp->palette = AGIDL_GenerateQuakeICP();
@@ -495,7 +495,7 @@ void AGIDL_ExportLMP(AGIDL_LMP *lmp){
 			AGIDL_LMPConvert555TO565(lmp);
 		}break;
 		case AGIDL_RGBA_8888:{
-			COLOR* buf = (COLOR*)AGIDL_AllocImgDataMMU(AGIDL_LMPGetWidth(lmp),AGIDL_LMPGetHeight(lmp),AGIDL_LMPGetClrFmt(lmp));
+			COLOR* buf = AGIDL_AllocImgDataMMU(AGIDL_LMPGetWidth(lmp),AGIDL_LMPGetHeight(lmp),AGIDL_LMPGetClrFmt(lmp));
 			AGIDL_ClrMemcpy(buf,lmp->pixels.pix32,AGIDL_LMPGetSize(lmp));
 			AGIDL_CLR_FMT src = AGIDL_LMPGetClrFmt(lmp);
 			AGIDL_ColorConvertLMP(lmp,AGIDL_RGB_888);
@@ -506,7 +506,7 @@ void AGIDL_ExportLMP(AGIDL_LMP *lmp){
 			free(buf);
 		}break;
 		case AGIDL_ARGB_8888:{
-			COLOR* buf = (COLOR*)AGIDL_AllocImgDataMMU(AGIDL_LMPGetWidth(lmp),AGIDL_LMPGetHeight(lmp),AGIDL_LMPGetClrFmt(lmp));
+			COLOR* buf = AGIDL_AllocImgDataMMU(AGIDL_LMPGetWidth(lmp),AGIDL_LMPGetHeight(lmp),AGIDL_LMPGetClrFmt(lmp));
 			AGIDL_ClrMemcpy(buf,lmp->pixels.pix32,AGIDL_LMPGetSize(lmp));
 			AGIDL_CLR_FMT src = AGIDL_LMPGetClrFmt(lmp);
 			AGIDL_ColorConvertLMP(lmp,AGIDL_RGB_888);

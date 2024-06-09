@@ -23,8 +23,8 @@
 
 void AGIDL_BindLightmapAndImg(void* data, void* lightdata, u16 width, u16 height, u16 widthl, u16 heightl, AGIDL_CLR_FMT imgfmt, AGIDL_CLR_FMT lightfmt, AGIDL_LIGHT light, COLOR blend){
 	if((AGIDL_GetBitCount(imgfmt) == 24 && AGIDL_GetBitCount(lightfmt) == 24) || (AGIDL_GetBitCount(imgfmt) == 32 && AGIDL_GetBitCount(lightfmt) == 32)){
-		COLOR* clrdata = (COLOR*)data;
-		COLOR* lightclr = (COLOR*)lightdata;
+		COLOR* clrdata = data;
+		COLOR* lightclr = lightdata;
 		
 		if(width != widthl && height == heightl){
 			lightclr = (COLOR*)AGIDL_ScaleImgDataNearest(lightdata,&widthl,&heightl,width/widthl,1,lightfmt);
@@ -58,8 +58,8 @@ void AGIDL_BindLightmapAndImg(void* data, void* lightdata, u16 width, u16 height
 		}
 	}
 	else if(AGIDL_GetBitCount(imgfmt) == 16 && AGIDL_GetBitCount(lightfmt) == 16){
-		COLOR16* clrdata = (COLOR16*)data;
-		COLOR16* lightclr = (COLOR16*)lightdata;
+		COLOR16* clrdata = data;
+		COLOR16* lightclr = lightdata;
 		
 		if(width != widthl && height == heightl){
 			lightclr = (COLOR16*)AGIDL_ScaleImgDataNearest(lightdata,&widthl,&heightl,width/widthl,1,lightfmt);
@@ -93,8 +93,8 @@ void AGIDL_BindLightmapAndImg(void* data, void* lightdata, u16 width, u16 height
 		}
 	}
 	else if((AGIDL_GetBitCount(imgfmt) == 24 || AGIDL_GetBitCount(imgfmt) == 32) && AGIDL_GetBitCount(lightfmt) == 16){
-		COLOR* clrdata = (COLOR*)data;
-		COLOR16* lightclr = (COLOR16*)lightdata;
+		COLOR* clrdata = data;
+		COLOR16* lightclr = lightdata;
 		
 		if(width != widthl && height == heightl){
 			lightclr = (COLOR16*)AGIDL_ScaleImgDataNearest(lightdata,&widthl,&heightl,width/widthl,1,lightfmt);
@@ -128,8 +128,8 @@ void AGIDL_BindLightmapAndImg(void* data, void* lightdata, u16 width, u16 height
 		}
 	}	
 	else if((AGIDL_GetBitCount(lightfmt) == 24 || AGIDL_GetBitCount(lightfmt) == 32) && AGIDL_GetBitCount(imgfmt) == 16){
-		COLOR16* clrdata = (COLOR16*)data;
-		COLOR* lightclr = (COLOR*)lightdata;
+		COLOR16* clrdata = data;
+		COLOR* lightclr = lightdata;
 		
 		if(width != widthl && height == heightl){
 			lightclr = (COLOR*)AGIDL_ScaleImgDataNearest(lightdata,&widthl,&heightl,width/widthl,1,lightfmt);
@@ -408,7 +408,7 @@ void * AGIDL_GenerateLightmapImgData(AGIDL_LIGHTMAP lightmap){
 	if(AGIDL_GetBitCount(lightmap.fmt) == 24 || AGIDL_GetBitCount(lightmap.fmt) == 32){
 		u16 w = lightmap.width, h = lightmap.height;
 		
-		COLOR* lightdata = (COLOR*)malloc(sizeof(COLOR)*w*h);
+		COLOR* lightdata = malloc(sizeof(COLOR)*w*h);
 
 		COLOR defacto = AGIDL_RGB(245,245,245,lightmap.fmt);
 		AGIDL_ClrMemset(lightdata,defacto,w*h);
@@ -464,7 +464,7 @@ void * AGIDL_GenerateLightmapImgData(AGIDL_LIGHTMAP lightmap){
 	else{
 		u16 w = lightmap.width, h = lightmap.height;
 		
-		COLOR16* lightdata = (COLOR16*)malloc(sizeof(COLOR16)*w*h);
+		COLOR16* lightdata = malloc(sizeof(COLOR16)*w*h);
 
 		COLOR16 defacto = AGIDL_RGB16(30,30,30,lightmap.fmt);
 		AGIDL_ClrMemset16(lightdata,defacto,w*h);

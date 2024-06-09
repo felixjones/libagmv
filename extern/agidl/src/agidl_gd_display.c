@@ -19,8 +19,8 @@
 
 void AGIDL_DispImgData(void* vram, u32 width, u32 height, AGIDL_ATTR table, void* spr, u32 widths, u32 heights, AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 16){
-		COLOR16* vram16 = (COLOR16*)vram;
-		COLOR16* spr16 = (COLOR16*)spr;
+		COLOR16* vram16 = vram;
+		COLOR16* spr16 = spr;
 		
 		if(table.enableScale != TRUE){
 			u32 x,y;
@@ -139,8 +139,8 @@ void AGIDL_DispImgData(void* vram, u32 width, u32 height, AGIDL_ATTR table, void
 		}
 	}
 	else if(AGIDL_GetBitCount(fmt) == 24){
-		COLOR* vram16 = (COLOR*)vram;
-		COLOR* spr16 = (COLOR*)spr;
+		COLOR* vram16 = vram;
+		COLOR* spr16 = spr;
 
 		if(table.enableScale != TRUE){
 			u32 x,y;
@@ -259,8 +259,8 @@ void AGIDL_DispImgData(void* vram, u32 width, u32 height, AGIDL_ATTR table, void
 		}
 	}
 	else{
-		COLOR* vram32 = (COLOR*)vram;
-		COLOR* spr32 = (COLOR*)spr;
+		COLOR* vram32 = vram;
+		COLOR* spr32 = spr;
 
 		if(table.enableScale != TRUE){
 			u32 x,y;
@@ -356,8 +356,8 @@ void AGIDL_DispImgData(void* vram, u32 width, u32 height, AGIDL_ATTR table, void
 
 void AGIDL_DrawImgData(void* vram, u32 width, u32 height, int tx, int ty, void* spr, u32 widths, u32 heights, AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 16){
-		COLOR16* vram16 = (COLOR16*)vram;
-		COLOR16* spr16 = (COLOR16*)spr;
+		COLOR16* vram16 = vram;
+		COLOR16* spr16 = spr;
 
 		u32 x,y;
 		for(y = 0; y < heights; y++){
@@ -368,8 +368,8 @@ void AGIDL_DrawImgData(void* vram, u32 width, u32 height, int tx, int ty, void* 
 		}
 	}
 	else if(AGIDL_GetBitCount(fmt) == 24){
-		COLOR* vram24 = (COLOR*)vram;
-		COLOR* spr24 = (COLOR*)spr;
+		COLOR* vram24 = vram;
+		COLOR* spr24 = spr;
 
 		u32 x,y;
 		for(y = 0; y < heights; y++){
@@ -380,8 +380,8 @@ void AGIDL_DrawImgData(void* vram, u32 width, u32 height, int tx, int ty, void* 
 		}
 	}
 	else{
-		COLOR* vram32 = (COLOR*)vram;
-		COLOR* spr32 = (COLOR*)spr;
+		COLOR* vram32 = vram;
+		COLOR* spr32 = spr;
 
 		u32 x,y;
 		for(y = 0; y < heights; y++){
@@ -399,8 +399,8 @@ void AGIDL_DrawImgData(void* vram, u32 width, u32 height, int tx, int ty, void* 
 
 void AGIDL_DispScaleImgData(void* vram, u32 width, u32 height, f32 sx, f32 sy, int tx, int ty, void* spr, u32 widths, u32 heights, AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 16){
-		COLOR16* vram16 = (COLOR16*)vram;
-		COLOR16* spr16 = (COLOR16*)spr;
+		COLOR16* vram16 = vram;
+		COLOR16* spr16 = spr;
 
 		u32 w = widths*sx;
 		u32 h = heights*sy;
@@ -420,8 +420,8 @@ void AGIDL_DispScaleImgData(void* vram, u32 width, u32 height, f32 sx, f32 sy, i
 		}
 	}
 	else if(AGIDL_GetBitCount(fmt) == 24){
-		COLOR* vram24 = (COLOR*)vram;
-		COLOR* spr24 = (COLOR*)spr;
+		COLOR* vram24 = vram;
+		COLOR* spr24 = spr;
 
 		u32 w = widths*sx;
 		u32 h = heights*sy;
@@ -441,8 +441,8 @@ void AGIDL_DispScaleImgData(void* vram, u32 width, u32 height, f32 sx, f32 sy, i
 		}
 	}
 	else{
-		COLOR* vram32 = (COLOR*)vram;
-		COLOR* spr32 = (COLOR*)spr;
+		COLOR* vram32 = vram;
+		COLOR* spr32 = spr;
 
 		u32 w = widths*sx;
 		u32 h = heights*sy;
@@ -469,8 +469,8 @@ void AGIDL_DispScaleImgData(void* vram, u32 width, u32 height, f32 sx, f32 sy, i
 
 void AGIDL_DispFlipHorzImgData(void* vram, u32 width, u32 height, int tx, int ty, void* spr, u32 widths, u32 heights, AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 16){
-		COLOR16* vram16 = (COLOR16*)vram;
-		COLOR16* spr16 = (COLOR16*)spr;
+		COLOR16* vram16 = vram;
+		COLOR16* spr16 = spr;
 
 		int x,y;
 		for(y = 0; y < heights; y++){
@@ -481,8 +481,8 @@ void AGIDL_DispFlipHorzImgData(void* vram, u32 width, u32 height, int tx, int ty
 		}
 	}
 	else if(AGIDL_GetBitCount(fmt) == 24){
-		COLOR* vram24 = (COLOR*)vram;
-		COLOR* spr24 = (COLOR*)spr;
+		COLOR* vram24 = vram;
+		COLOR* spr24 = spr;
 
 		int x,y;
 		for(y = 0; y < heights; y++){
@@ -493,8 +493,8 @@ void AGIDL_DispFlipHorzImgData(void* vram, u32 width, u32 height, int tx, int ty
 		}
 	}
 	else{
-		COLOR* vram32 = (COLOR*)vram;
-		COLOR* spr32 = (COLOR*)spr;
+		COLOR* vram32 = vram;
+		COLOR* spr32 = spr;
 
 		int x,y;
 		for(y = 0; y < heights; y++){
@@ -512,8 +512,8 @@ void AGIDL_DispFlipHorzImgData(void* vram, u32 width, u32 height, int tx, int ty
 
 void AGIDL_DispFlipVertImgData(void* vram, u32 width, u32 height, int tx, int ty, void* spr, u32 widths, u32 heights, AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 16){
-		COLOR16* vram16 = (COLOR16*)vram;
-		COLOR16* spr16 = (COLOR16*)spr;
+		COLOR16* vram16 = vram;
+		COLOR16* spr16 = spr;
 
 		int x,y;
 		for(y = 0; y < heights; y++){
@@ -524,8 +524,8 @@ void AGIDL_DispFlipVertImgData(void* vram, u32 width, u32 height, int tx, int ty
 		}
 	}
 	else if(AGIDL_GetBitCount(fmt) == 24){
-		COLOR* vram24 = (COLOR*)vram;
-		COLOR* spr24 = (COLOR*)spr;
+		COLOR* vram24 = vram;
+		COLOR* spr24 = spr;
 
 		int x,y;
 		for(y = 0; y < heights; y++){
@@ -536,8 +536,8 @@ void AGIDL_DispFlipVertImgData(void* vram, u32 width, u32 height, int tx, int ty
 		}
 	}
 	else{
-		COLOR* vram32 = (COLOR*)vram;
-		COLOR* spr32 = (COLOR*)spr;
+		COLOR* vram32 = vram;
+		COLOR* spr32 = spr;
 
 		int x,y;
 		for(y = 0; y < heights; y++){
@@ -555,8 +555,8 @@ void AGIDL_DispFlipVertImgData(void* vram, u32 width, u32 height, int tx, int ty
 
 void AGIDL_DispFlipHorzAndVertImgData(void* vram, u32 width, u32 height, int tx, int ty, void* spr, u32 widths, u32 heights, AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 16){
-		COLOR16* vram16 = (COLOR16*)vram;
-		COLOR16* spr16 = (COLOR16*)spr;
+		COLOR16* vram16 = vram;
+		COLOR16* spr16 = spr;
 
 		int x,y;
 		for(y = 0; y < heights; y++){
@@ -567,8 +567,8 @@ void AGIDL_DispFlipHorzAndVertImgData(void* vram, u32 width, u32 height, int tx,
 		}
 	}
 	else if(AGIDL_GetBitCount(fmt) == 24){
-		COLOR* vram24 = (COLOR*)vram;
-		COLOR* spr24 = (COLOR*)spr;
+		COLOR* vram24 = vram;
+		COLOR* spr24 = spr;
 
 		int x,y;
 		for(y = 0; y < heights; y++){
@@ -579,8 +579,8 @@ void AGIDL_DispFlipHorzAndVertImgData(void* vram, u32 width, u32 height, int tx,
 		}
 	}
 	else{
-		COLOR* vram32 = (COLOR*)vram;
-		COLOR* spr32 = (COLOR*)spr;
+		COLOR* vram32 = vram;
+		COLOR* spr32 = spr;
 
 		int x,y;
 		for(y = 0; y < heights; y++){

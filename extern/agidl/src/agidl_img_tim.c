@@ -100,7 +100,7 @@ void AGIDL_ClearTIM(AGIDL_TIM *tim, COLOR clr){
 		AGIDL_ClrMemset(tim->pixels.pix32,clr,AGIDL_TIMGetSize(tim));
 	}
 	else{
-		AGIDL_ClrMemset16(tim->pixels.pix16,(COLOR16)clr,AGIDL_TIMGetSize(tim));
+		AGIDL_ClrMemset16(tim->pixels.pix16,clr,AGIDL_TIMGetSize(tim));
 	}
 }
 
@@ -295,7 +295,7 @@ void AGIDL_TIMCopyPix16(AGIDL_TIM* tim, COLOR16* clrs, u32 count){
 }
 
 AGIDL_TIM * AGIDL_CreateTIM(const char *filename, int width, int height, AGIDL_CLR_FMT fmt){
-	AGIDL_TIM *tim = (AGIDL_TIM*)malloc(sizeof(AGIDL_TIM));
+	AGIDL_TIM *tim = malloc(sizeof(AGIDL_TIM));
 	tim->filename = (char*)malloc(strlen(filename)+1);
 	AGIDL_FilenameCpy(tim->filename,filename);
 	AGIDL_TIMSetWidth(tim,width);
@@ -729,7 +729,7 @@ AGIDL_TIM * AGIDL_LoadTIM(char *filename){
 		return NULL;
 	}
 	
-	AGIDL_TIM *tim = (AGIDL_TIM*)malloc(sizeof(AGIDL_TIM));
+	AGIDL_TIM *tim = malloc(sizeof(AGIDL_TIM));
 	tim->filename = (char*)malloc(strlen(filename)+1);
 	AGIDL_TIMSetICPEncoding(tim,ICP_ENCODE_HISTOGRAM);
 	AGIDL_TIMInitAttributes(tim,0,0,0,0);
@@ -766,7 +766,7 @@ void AGIDL_ExportTIM(AGIDL_TIM *tim){
 	
 	if(tim->icp == TRUE){
 		if(AGIDL_GetBitCount(AGIDL_TIMGetClrFmt(tim)) == 32){
-			COLOR* buf = (COLOR*)AGIDL_AllocImgDataMMU(AGIDL_TIMGetWidth(tim),AGIDL_TIMGetHeight(tim),AGIDL_TIMGetClrFmt(tim));
+			COLOR* buf = AGIDL_AllocImgDataMMU(AGIDL_TIMGetWidth(tim),AGIDL_TIMGetHeight(tim),AGIDL_TIMGetClrFmt(tim));
 			AGIDL_ClrMemcpy(buf,tim->pixels.pix32,AGIDL_TIMGetSize(tim));
 			AGIDL_CLR_FMT src = AGIDL_TIMGetClrFmt(tim);
 			AGIDL_ColorConvertTIM(tim,AGIDL_BGR_555);
@@ -831,7 +831,7 @@ void AGIDL_ExportTIM(AGIDL_TIM *tim){
 		}
 	}else{
 		if(AGIDL_GetBitCount(AGIDL_TIMGetClrFmt(tim)) == 32){
-			COLOR* buf = (COLOR*)AGIDL_AllocImgDataMMU(AGIDL_TIMGetWidth(tim),AGIDL_TIMGetHeight(tim),AGIDL_TIMGetClrFmt(tim));
+			COLOR* buf = AGIDL_AllocImgDataMMU(AGIDL_TIMGetWidth(tim),AGIDL_TIMGetHeight(tim),AGIDL_TIMGetClrFmt(tim));
 			AGIDL_ClrMemcpy(buf,tim->pixels.pix32,AGIDL_TIMGetSize(tim));
 			AGIDL_CLR_FMT src = AGIDL_TIMGetClrFmt(tim);
 			AGIDL_ColorConvertTIM(tim,AGIDL_BGR_555);

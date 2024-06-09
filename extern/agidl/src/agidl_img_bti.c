@@ -98,7 +98,7 @@ void AGIDL_ClearBTI(AGIDL_BTI *bti, COLOR clr){
 		AGIDL_ClrMemset(bti->pixels.pix32,clr,AGIDL_BTIGetSize(bti));
 	}
 	else{
-		AGIDL_ClrMemset16(bti->pixels.pix16,(COLOR16)clr,AGIDL_BTIGetSize(bti));
+		AGIDL_ClrMemset16(bti->pixels.pix16,clr,AGIDL_BTIGetSize(bti));
 	}
 }
 
@@ -256,7 +256,7 @@ void AGIDL_BTICopyPix16(AGIDL_BTI* bti, COLOR16* clrs, u32 count){
 }
 
 AGIDL_BTI* AGIDL_CreateBTI(const char* filename, int width, int height, AGIDL_CLR_FMT fmt){
-	AGIDL_BTI* bti = (AGIDL_BTI*)malloc(sizeof(AGIDL_BTI));
+	AGIDL_BTI* bti = malloc(sizeof(AGIDL_BTI));
 	bti->filename = (char*)malloc(strlen(filename)+1);
 	AGIDL_FilenameCpy(bti->filename,filename);
 	AGIDL_BTISetWidth(bti,width);
@@ -738,7 +738,7 @@ AGIDL_BTI* AGIDL_LoadBTI(char* filename){
 		printf("Could not open/locate Nintendo Gamecube BTI image - %s!\n",filename);
 	}
 	
-	AGIDL_BTI* bti = (AGIDL_BTI*)malloc(sizeof(AGIDL_BTI));
+	AGIDL_BTI* bti = malloc(sizeof(AGIDL_BTI));
 	bti->filename = (char*)malloc(strlen(filename)+1);
 	AGIDL_FilenameCpy(bti->filename,filename);
 	AGIDL_BTISetICPEncoding(bti,ICP_ENCODE_THRESHOLD);

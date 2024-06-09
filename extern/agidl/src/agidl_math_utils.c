@@ -79,7 +79,7 @@ int AGIDL_Floor(int a){
 }
 
 float AGIDL_FModf(float a, float b){
-	int result = (int)AGIDL_Floor( a / b);
+	int result = AGIDL_Floor( a / b);
 	return a - result * b;
 }
 
@@ -161,7 +161,7 @@ char* AGIDL_Dec2Bin(u32 num){
 		num_of_bits = 17;
 	}
 	
-	char* bin = (char*)malloc(sizeof(char)*num_of_bits+1);
+	char* bin = malloc(sizeof(char)*num_of_bits+1);
 	
 	int i;
 	for(i = num_of_bits-1; i >= 0; i--){
@@ -266,7 +266,7 @@ u32 AGIDL_Bin2Dec(char* bin){
 }
 
 u32 AGIDL_BitReverse(char* bin){
-	char* reverse = (char*)malloc(strlen(bin)+1);
+	char* reverse = malloc(strlen(bin)+1);
 	reverse[strlen(bin)] = '\0';
 	
 	int i;
@@ -292,7 +292,7 @@ u32 AGIDL_BitInterleave(u32 a, u32 b){
 	int lenA = strlen(binA);
 	int lenB = strlen(binB);
 	
-	char* binC = (char*)malloc(lenA+lenB+1);
+	char* binC = malloc(lenA+lenB+1);
 	
 	int i;
 	for(i = 0; i < lenA+lenB; i += 2){

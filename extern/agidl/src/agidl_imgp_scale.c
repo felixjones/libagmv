@@ -29,8 +29,8 @@ void * AGIDL_HalfImgDataNearest(void* data, u16* width, u16* height, AGIDL_CLR_F
 		u16 w = worg >> 1;
 		u16 h = horg >> 1;
 		
-		COLOR16* org_data = (COLOR16*)data;
-		COLOR16* clr_data = (COLOR16*)malloc(sizeof(COLOR16)*w*h);
+		COLOR16* org_data = data;
+		COLOR16* clr_data = malloc(sizeof(COLOR16)*w*h);
 		
 		u16 x,y;
 		for(y = 0; y < h; y++){
@@ -57,8 +57,8 @@ void * AGIDL_HalfImgDataNearest(void* data, u16* width, u16* height, AGIDL_CLR_F
 		u16 w = worg >> 1;
 		u16 h = horg >> 1;
 		
-		COLOR* org_data = (COLOR*)data;
-		COLOR* clr_data = (COLOR*)malloc(sizeof(COLOR)*w*h);
+		COLOR* org_data = data;
+		COLOR* clr_data = malloc(sizeof(COLOR)*w*h);
 		
 		u16 x,y;
 		for(y = 0; y < h; y++){
@@ -88,8 +88,8 @@ void * AGIDL_DoubleImgDataNearest(void* data, u16* width, u16* height, AGIDL_CLR
 		u16 w = worg << 1;
 		u16 h = horg << 1;
 		
-		COLOR16* org_data = (COLOR16*)data;
-		COLOR16* clr_data = (COLOR16*)malloc(sizeof(COLOR16)*w*h);
+		COLOR16* org_data = data;
+		COLOR16* clr_data = malloc(sizeof(COLOR16)*w*h);
 		
 		u16 x,y;
 		for(y = 0; y < h; y++){
@@ -116,8 +116,8 @@ void * AGIDL_DoubleImgDataNearest(void* data, u16* width, u16* height, AGIDL_CLR
 		u16 w = worg << 1;
 		u16 h = horg << 1;
 		
-		COLOR* org_data = (COLOR*)data;
-		COLOR* clr_data = (COLOR*)malloc(sizeof(COLOR)*w*h);
+		COLOR* org_data = data;
+		COLOR* clr_data = malloc(sizeof(COLOR)*w*h);
 		
 		u16 x,y;
 		for(y = 0; y < h; y++){
@@ -147,8 +147,8 @@ void * AGIDL_HalfImgDataBilerp(void* data, u16* width, u16* height, AGIDL_CLR_FM
 		u16 w = worg >> 1;
 		u16 h = horg >> 1;
 		
-		COLOR16* org_data = (COLOR16*)data;
-		COLOR16* clr_data = (COLOR16*)malloc(sizeof(COLOR16)*w*h);
+		COLOR16* org_data = data;
+		COLOR16* clr_data = malloc(sizeof(COLOR16)*w*h);
 		
 		u16 x,y;
 		for(y = 0; y < h; y++){
@@ -207,8 +207,8 @@ void * AGIDL_HalfImgDataBilerp(void* data, u16* width, u16* height, AGIDL_CLR_FM
 		u16 w = worg >> 1;
 		u16 h = horg >> 1;
 		
-		COLOR* org_data = (COLOR*)data;
-		COLOR* clr_data = (COLOR*)malloc(sizeof(COLOR)*w*h);
+		COLOR* org_data = data;
+		COLOR* clr_data = malloc(sizeof(COLOR)*w*h);
 		
 		u16 x,y;
 		for(y = 0; y < h; y++){
@@ -267,11 +267,11 @@ void * AGIDL_ScaleImgDataNearest(void* data, u16* width, u16* height, float sx, 
 		u16 worg = *width;
 		u16 horg = *height;
 		
-		COLOR* clrs = (COLOR*)data;
+		COLOR* clrs = data;
 		
 		u16 newwidth = (u16)(worg*sx), newheight = (u16)(horg*sy);
 		
-		COLOR* scale = (COLOR*)malloc(sizeof(COLOR)*newwidth*newheight);
+		COLOR* scale = malloc(sizeof(COLOR)*newwidth*newheight);
 		
 		float xscale = (float)(worg-1)/newwidth;
 		float yscale = (float)(horg-1)/newheight;
@@ -298,11 +298,11 @@ void * AGIDL_ScaleImgDataNearest(void* data, u16* width, u16* height, float sx, 
 		u16 worg = *width;
 		u16 horg = *height;
 		
-		COLOR16* clrs = (COLOR16*)data;
+		COLOR16* clrs = data;
 		
 		u16 newwidth = (u16)(worg*sx), newheight = (u16)(horg*sy);
 		
-		COLOR16* scale = (COLOR16*)malloc(sizeof(COLOR16)*newwidth*newheight);
+		COLOR16* scale = malloc(sizeof(COLOR16)*newwidth*newheight);
 		
 		float xscale = (float)(worg-1)/newwidth;
 		float yscale = (float)(horg-1)/newheight;
@@ -335,11 +335,11 @@ void * AGIDL_ScaleImgDataBilerp(void* data, u16* width, u16* height, float sx, f
 		u16 worg = *width;
 		u16 horg = *height;
 		
-		COLOR* clrs = (COLOR*)data;
+		COLOR* clrs = data;
 		
 		u16 newwidth = (u16)(worg*sx), newheight = (u16)(horg*sy);
 		
-		COLOR* scale = (COLOR*)malloc(sizeof(COLOR)*newwidth*newheight);
+		COLOR* scale = malloc(sizeof(COLOR)*newwidth*newheight);
 		
 		float xscale = (float)(worg-1)/newwidth;
 		float yscale = (float)(horg-1)/newheight;
@@ -443,11 +443,11 @@ void * AGIDL_ScaleImgDataBilerp(void* data, u16* width, u16* height, float sx, f
 		u16 worg = *width;
 		u16 horg = *height;
 		
-		COLOR16* clrs = (COLOR16*)data;
+		COLOR16* clrs = data;
 		
 		u16 newwidth = (u16)(worg*sx), newheight = (u16)(horg*sy);
 		
-		COLOR16* scale = (COLOR16*)malloc(sizeof(COLOR16)*newwidth*newheight);
+		COLOR16* scale = malloc(sizeof(COLOR16)*newwidth*newheight);
 		
 		float xscale = (float)(worg-1)/newwidth;
 		float yscale = (float)(horg-1)/newheight;
@@ -556,11 +556,11 @@ void * AGIDL_FastScaleImgDataBilerp(void* data, u16* width, u16* height, float s
 		u16 worg = *width;
 		u16 horg = *height;
 		
-		COLOR* clrs = (COLOR*)data;
+		COLOR* clrs = data;
 		
 		u16 newwidth = (u16)(worg*sx), newheight = (u16)(horg*sy);
 		
-		COLOR* scale = (COLOR*)malloc(sizeof(COLOR)*newwidth*newheight);
+		COLOR* scale = malloc(sizeof(COLOR)*newwidth*newheight);
 		
 		float xscale = (float)(worg-1)/newwidth;
 		float yscale = (float)(horg-1)/newheight;
@@ -621,11 +621,11 @@ void * AGIDL_FastScaleImgDataBilerp(void* data, u16* width, u16* height, float s
 		u16 worg = *width;
 		u16 horg = *height;
 		
-		COLOR16* clrs = (COLOR16*)data;
+		COLOR16* clrs = data;
 		
 		u16 newwidth = (u16)(worg*sx), newheight = (u16)(horg*sy);
 		
-		COLOR16* scale = (COLOR16*)malloc(sizeof(COLOR16)*newwidth*newheight);
+		COLOR16* scale = malloc(sizeof(COLOR16)*newwidth*newheight);
 		
 		float xscale = (float)(worg-1)/newwidth;
 		float yscale = (float)(horg-1)/newheight;
@@ -693,15 +693,15 @@ void * AGIDL_ScaleImgDataTrilerp(void* data, u16* width, u16* height, float sx, 
 		u16 whalf = worg;
 		u16 hhalf = horg;
 		
-		COLOR* clrs = (COLOR*)data;
+		COLOR* clrs = data;
 		
 		u16 newwidth = (u16)(worg*sx), newheight = (u16)(horg*sy);
 		
-		COLOR* datacpy = (COLOR*)malloc(sizeof(COLOR)*worg*horg);
+		COLOR* datacpy = malloc(sizeof(COLOR)*worg*horg);
 		AGIDL_ClrMemcpy(datacpy,clrs,worg*horg);
 		
-		COLOR* scale = (COLOR*)malloc(sizeof(COLOR)*newwidth*newheight);
-		COLOR* scalehalf = (COLOR*)malloc(sizeof(COLOR)*whalf*hhalf);
+		COLOR* scale = malloc(sizeof(COLOR)*newwidth*newheight);
+		COLOR* scalehalf = malloc(sizeof(COLOR)*whalf*hhalf);
 		
 		scalehalf = (COLOR*)AGIDL_ScaleImgDataBilerp(datacpy,&whalf,&hhalf,0.5f,0.5f,fmt);
 		
@@ -898,15 +898,15 @@ void * AGIDL_ScaleImgDataTrilerp(void* data, u16* width, u16* height, float sx, 
 		u16 whalf = worg;
 		u16 hhalf = horg;
 		
-		COLOR16* clrs = (COLOR16*)data;
+		COLOR16* clrs = data;
 		
 		u16 newwidth = (u16)(worg*sx), newheight = (u16)(horg*sy);
 		
-		COLOR16* datacpy = (COLOR16*)malloc(sizeof(COLOR16)*worg*horg);
+		COLOR16* datacpy = malloc(sizeof(COLOR16)*worg*horg);
 		AGIDL_ClrMemcpy16(datacpy,clrs,worg*horg);
 		
-		COLOR16* scale = (COLOR16*)malloc(sizeof(COLOR16)*newwidth*newheight);
-		COLOR16* scalehalf = (COLOR16*)malloc(sizeof(COLOR16)*whalf*hhalf);
+		COLOR16* scale = malloc(sizeof(COLOR16)*newwidth*newheight);
+		COLOR16* scalehalf = malloc(sizeof(COLOR16)*whalf*hhalf);
 		
 		scalehalf = (COLOR16*)AGIDL_ScaleImgDataBilerp(datacpy,&whalf,&hhalf,0.5f,0.5f,fmt);
 		
@@ -1106,15 +1106,15 @@ void * AGIDL_FastScaleImgDataTrilerp(void* data, u16* width, u16* height, float 
 		u16 whalf = worg;
 		u16 hhalf = horg;
 		
-		COLOR* clrs = (COLOR*)data;
+		COLOR* clrs = data;
 		
 		u16 newwidth = (u16)(worg*sx), newheight = (u16)(horg*sy);
 		
-		COLOR* datacpy = (COLOR*)malloc(sizeof(COLOR)*worg*horg);
+		COLOR* datacpy = malloc(sizeof(COLOR)*worg*horg);
 		AGIDL_ClrMemcpy(datacpy,clrs,worg*horg);
 		
-		COLOR* scale = (COLOR*)malloc(sizeof(COLOR)*newwidth*newheight);
-		COLOR* scalehalf = (COLOR*)malloc(sizeof(COLOR)*whalf*hhalf);
+		COLOR* scale = malloc(sizeof(COLOR)*newwidth*newheight);
+		COLOR* scalehalf = malloc(sizeof(COLOR)*whalf*hhalf);
 		
 		scalehalf = (COLOR*)AGIDL_FastScaleImgDataBilerp(datacpy,&whalf,&hhalf,0.5f,0.5f,fmt);
 		
@@ -1224,15 +1224,15 @@ void * AGIDL_FastScaleImgDataTrilerp(void* data, u16* width, u16* height, float 
 		u16 whalf = worg;
 		u16 hhalf = horg;
 		
-		COLOR16* clrs = (COLOR16*)data;
+		COLOR16* clrs = data;
 		
 		u16 newwidth = (u16)(worg*sx), newheight = (u16)(horg*sy);
 		
-		COLOR16* datacpy = (COLOR16*)malloc(sizeof(COLOR16)*worg*horg);
+		COLOR16* datacpy = malloc(sizeof(COLOR16)*worg*horg);
 		AGIDL_ClrMemcpy16(datacpy,clrs,worg*horg);
 		
-		COLOR16* scale = (COLOR16*)malloc(sizeof(COLOR16)*newwidth*newheight);
-		COLOR16* scalehalf = (COLOR16*)malloc(sizeof(COLOR16)*whalf*hhalf);
+		COLOR16* scale = malloc(sizeof(COLOR16)*newwidth*newheight);
+		COLOR16* scalehalf = malloc(sizeof(COLOR16)*whalf*hhalf);
 		
 		scalehalf = (COLOR16*)AGIDL_ScaleImgDataBilerp(datacpy,&whalf,&hhalf,0.5f,0.5f,fmt);
 		
@@ -1369,16 +1369,16 @@ void * AGIDL_FastScaleImgData(void* data, u16* width, u16* height, float sx, flo
 
 void * AGIDL_NearestPow2ScaleImgData(void* data, u16* width, u16* height, u16 max_pow, AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 16){
-		COLOR16* clr_data = (COLOR16*)data;
+		COLOR16* clr_data = data;
 		
 		u16 worg = *width;
 		u16 horg = *height;
 		
-		u16 w = AGIDL_NearestPow2((int)worg), h = AGIDL_NearestPow2((int)horg);
+		u16 w = AGIDL_NearestPow2(worg), h = AGIDL_NearestPow2(horg);
 		
 		w = AGIDL_Clamp(1,w,max_pow); h = AGIDL_Clamp(1,h,max_pow);
 		
-		COLOR16* scale = (COLOR16*)malloc(sizeof(COLOR16)*w*h);
+		COLOR16* scale = malloc(sizeof(COLOR16)*w*h);
 		
 		float xscale = (float)(worg-1)/w;
 		float yscale = (float)(horg-1)/h;
@@ -1404,16 +1404,16 @@ void * AGIDL_NearestPow2ScaleImgData(void* data, u16* width, u16* height, u16 ma
 		return scale;
 	}
 	else{
-		COLOR* clr_data = (COLOR*)data;
+		COLOR* clr_data = data;
 		
 		u16 worg = *width;
 		u16 horg = *height;
 		
-		u16 w = AGIDL_NearestPow2((int)worg), h = AGIDL_NearestPow2((int)horg);
+		u16 w = AGIDL_NearestPow2(worg), h = AGIDL_NearestPow2(horg);
 		
 		w = AGIDL_Clamp(1,w,max_pow); h = AGIDL_Clamp(1,h,max_pow);
 		
-		COLOR* scale = (COLOR*)malloc(sizeof(COLOR)*w*h);
+		COLOR* scale = malloc(sizeof(COLOR)*w*h);
 		
 		float xscale = (float)(worg-1)/w;
 		float yscale = (float)(horg-1)/h;

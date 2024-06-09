@@ -29,11 +29,11 @@ void AGIDL_QuickExport(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt, AGI
 			AGIDL_BMP* bmp = AGIDL_CreateBMP(filename,width,height,fmt);
 			
 			if(AGIDL_GetBitCount(fmt) == 16){
-				u16* img_data = (u16*)data;
+				u16* img_data = data;
 				AGIDL_BMPSyncPix16(bmp,img_data);
 			}
 			else{
-				u32* img_data = (u32*)data;
+				u32* img_data = data;
 				AGIDL_BMPSyncPix(bmp,img_data);
 			}
 			
@@ -47,11 +47,11 @@ void AGIDL_QuickExport(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt, AGI
 			AGIDL_TGA* tga = AGIDL_CreateTGA(filename,width,height,fmt);
 			
 			if(AGIDL_GetBitCount(fmt) == 16){
-				u16* img_data = (u16*)data;
+				u16* img_data = data;
 				AGIDL_TGASyncPix16(tga,img_data);
 			}
 			else{
-				u32* img_data = (u32*)data;
+				u32* img_data = data;
 				AGIDL_TGASyncPix(tga,img_data);
 			}
 			
@@ -65,11 +65,11 @@ void AGIDL_QuickExport(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt, AGI
 			AGIDL_TIM* tim = AGIDL_CreateTIM(filename,width,height,fmt);
 			
 			if(AGIDL_GetBitCount(fmt) == 16){
-				u16* img_data = (u16*)data;
+				u16* img_data = data;
 				AGIDL_TIMSyncPix16(tim,img_data);
 			}
 			else{
-				u32* img_data = (u32*)data;
+				u32* img_data = data;
 				AGIDL_TIMSyncPix(tim,img_data);
 			}
 			
@@ -83,11 +83,11 @@ void AGIDL_QuickExport(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt, AGI
 			AGIDL_PCX* pcx = AGIDL_CreatePCX(filename,width,height,fmt);
 			
 			if(AGIDL_GetBitCount(fmt) == 16){
-				u16* img_data = (u16*)data;
+				u16* img_data = data;
 				AGIDL_PCXSyncPix16(pcx,img_data);
 			}
 			else{
-				u32* img_data = (u32*)data;
+				u32* img_data = data;
 				AGIDL_PCXSyncPix(pcx,img_data);
 			}
 			
@@ -101,11 +101,11 @@ void AGIDL_QuickExport(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt, AGI
 			AGIDL_LMP* lmp = AGIDL_CreateLMP(filename,width,height,fmt);
 			
 			if(AGIDL_GetBitCount(fmt) == 16){
-				u16* img_data = (u16*)data;
+				u16* img_data = data;
 				AGIDL_LMPSyncPix16(lmp,img_data);
 			}
 			else{
-				u32* img_data = (u32*)data;
+				u32* img_data = data;
 				AGIDL_LMPSyncPix(lmp,img_data);
 			}
 			
@@ -119,11 +119,11 @@ void AGIDL_QuickExport(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt, AGI
 			AGIDL_PVR* pvr = AGIDL_CreatePVR(filename,width,height,fmt);
 			
 			if(AGIDL_GetBitCount(fmt) == 16){
-				u16* img_data = (u16*)data;
+				u16* img_data = data;
 				AGIDL_PVRSyncPix16(pvr,img_data);
 			}
 			else{
-				u32* img_data = (u32*)data;
+				u32* img_data = data;
 				AGIDL_PVRSyncPix(pvr,img_data);
 			}
 			
@@ -137,11 +137,11 @@ void AGIDL_QuickExport(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt, AGI
 			AGIDL_GXT* gxt = AGIDL_CreateGXT(filename,width,height,fmt);
 			
 			if(AGIDL_GetBitCount(fmt) == 16){
-				u16* img_data = (u16*)data;
+				u16* img_data = data;
 				AGIDL_GXTSyncPix16(gxt,img_data);
 			}
 			else{
-				u32* img_data = (u32*)data;
+				u32* img_data = data;
 				AGIDL_GXTSyncPix(gxt,img_data);
 			}
 			
@@ -155,11 +155,11 @@ void AGIDL_QuickExport(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt, AGI
 			AGIDL_BTI* bti = AGIDL_CreateBTI(filename,width,height,fmt);
 			
 			if(AGIDL_GetBitCount(fmt) == 16){
-				u16* img_data = (u16*)data;
+				u16* img_data = data;
 				AGIDL_BTISyncPix16(bti,img_data);
 			}
 			else{
-				u32* img_data = (u32*)data;
+				u32* img_data = data;
 				AGIDL_BTISyncPix(bti,img_data);
 			}
 			
@@ -173,11 +173,11 @@ void AGIDL_QuickExport(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt, AGI
 			AGIDL_3DF* glide = AGIDL_Create3DF(filename,width,height,fmt);
 			
 			if(AGIDL_GetBitCount(fmt) == 16){
-				u16* img_data = (u16*)data;
+				u16* img_data = data;
 				AGIDL_3DFSyncPix16(glide,img_data);
 			}
 			else{
-				u32* img_data = (u32*)data;
+				u32* img_data = data;
 				AGIDL_3DFSyncPix(glide,img_data);
 			}
 			
@@ -191,11 +191,11 @@ void AGIDL_QuickExport(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt, AGI
 			AGIDL_PPM* ppm = AGIDL_CreatePPM(filename,width,height,fmt);
 			
 			if(AGIDL_GetBitCount(fmt) == 16){
-				u16* img_data = (u16*)data;
+				u16* img_data = data;
 				AGIDL_PPMSyncPix16(ppm,img_data);
 			}
 			else{
-				u32* img_data = (u32*)data;
+				u32* img_data = data;
 				AGIDL_PPMSyncPix(ppm,img_data);
 			}
 			
@@ -209,11 +209,11 @@ void AGIDL_QuickExport(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt, AGI
 			AGIDL_LBM* lbm = AGIDL_CreateLBM(filename,width,height,fmt);
 			
 			if(AGIDL_GetBitCount(fmt) == 16){
-				u16* img_data = (u16*)data;
+				u16* img_data = data;
 				AGIDL_LBMSyncPix16(lbm,img_data);
 			}
 			else{
-				u32* img_data = (u32*)data;
+				u32* img_data = data;
 				AGIDL_LBMSyncPix(lbm,img_data);
 			}
 			

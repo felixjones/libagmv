@@ -20,10 +20,10 @@
 
 void AGIDL_BlendChromaImg(void* data, void* chromadata, u32 width, u32 height, u32 width2, u32 height2, AGIDL_CLR_FMT fmt1, AGIDL_CLR_FMT fmt2, u16 x_off, u16 y_off, COLOR chromaclr){
 	if(AGIDL_GetBitCount(fmt1) == 24 || AGIDL_GetBitCount(fmt1) == 32){
-		COLOR* clrs = (COLOR*)data;
+		COLOR* clrs = data;
 		
 		if(AGIDL_GetBitCount(fmt2) == 24 || AGIDL_GetBitCount(fmt2) == 32){
-			COLOR* chroma = (COLOR*)chromadata;
+			COLOR* chroma = chromadata;
 			u32 x,y;
 			for(y = 0; y < height2; y++){
 				for(x = 0; x < width2; x++){
@@ -36,7 +36,7 @@ void AGIDL_BlendChromaImg(void* data, void* chromadata, u32 width, u32 height, u
 			}
 		}
 		else{
-			COLOR16* chroma = (COLOR16*)chromadata;
+			COLOR16* chroma = chromadata;
 			u32 x,y;
 			for(y = 0; y < height2; y++){
 				for(x = 0; x < width2; x++){
@@ -50,10 +50,10 @@ void AGIDL_BlendChromaImg(void* data, void* chromadata, u32 width, u32 height, u
 		}
 	}
 	else{
-		COLOR16* clrs = (COLOR16*)data;
+		COLOR16* clrs = data;
 		
 		if(AGIDL_GetBitCount(fmt2) == 24 || AGIDL_GetBitCount(fmt2) == 32){
-			COLOR* chroma = (COLOR*)chromadata;
+			COLOR* chroma = chromadata;
 			u32 x,y;
 			for(y = 0; y < height2; y++){
 				for(x = 0; x < width2; x++){
@@ -66,7 +66,7 @@ void AGIDL_BlendChromaImg(void* data, void* chromadata, u32 width, u32 height, u
 			}
 		}
 		else{
-			COLOR16* chroma = (COLOR16*)chromadata;
+			COLOR16* chroma = chromadata;
 			u32 x,y;
 			for(y = 0; y < height2; y++){
 				for(x = 0; x < width2; x++){
@@ -82,8 +82,8 @@ void AGIDL_BlendChromaImg(void* data, void* chromadata, u32 width, u32 height, u
 
 void AGIDL_BlendImgAlpha(void* spr1, u32 width, u32 height, int tx, int ty, void* spr2, u32 width2, u32 height2, AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 32){
-		COLOR* sprpix1 = (COLOR*)spr1;
-		COLOR* sprpix2 = (COLOR*)spr2;
+		COLOR* sprpix1 = spr1;
+		COLOR* sprpix2 = spr2;
 		
 		u32 x,y;
 		for(y = 0; y < height2; y++){

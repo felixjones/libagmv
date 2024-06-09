@@ -26,15 +26,15 @@ void AGIDL_HalftoneImgData(void* data, u16 width, u16 height, AGIDL_CLR_FMT fmt,
 	AGIDL_GrayscaleImgData(data,width,height,fmt);
 	
 	if(fmt == 16){
-		COLOR16* clr_data = (COLOR16*)data;
+		COLOR16* clr_data = data;
 		
 		float c[2][3], sump = 0, t = 0;
 		
 		c[0][0] = 0.0f; c[0][1] = 0.2f; c[0][2] = 0.0f;
 		c[1][0] = 0.6f; c[1][1] = 0.1f; c[1][2] = 0.1f;
 		
-		float* ep = (float*)malloc(sizeof(float)*width*height);
-		float* eg = (float*)malloc(sizeof(float)*width*height);
+		float* ep = malloc(sizeof(float)*width*height);
+		float* eg = malloc(sizeof(float)*width*height);
 		
 		memset(ep,0,width*height);
 		memset(eg,0,width*height);
@@ -86,15 +86,15 @@ void AGIDL_HalftoneImgData(void* data, u16 width, u16 height, AGIDL_CLR_FMT fmt,
 		
 	}
 	else{
-		COLOR* clr_data = (COLOR*)data;
+		COLOR* clr_data = data;
 		
 		float c[2][3], sump = 0, t = 0;
 		
 		c[0][0] = 0.0f; c[0][1] = 0.2f; c[0][2] = 0.0f;
 		c[1][0] = 0.6f; c[1][1] = 0.1f; c[1][2] = 0.1f;
 		
-		float* ep = (float*)malloc(sizeof(float)*width*height);
-		float* eg = (float*)malloc(sizeof(float)*width*height);
+		float* ep = malloc(sizeof(float)*width*height);
+		float* eg = malloc(sizeof(float)*width*height);
 		
 		memset(ep,0,width*height);
 		memset(eg,0,width*height);

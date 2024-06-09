@@ -361,7 +361,7 @@ int AGMV_DecodeVideo(const char* filename, u8 img_type){
 	
 	int err, err1, i, num_of_frames;
 	
-	AGMV* agmv = (AGMV*)malloc(sizeof(AGMV));
+	AGMV* agmv = malloc(sizeof(AGMV));
 	agmv->frame_chunk = (AGMV_FRAME_CHUNK*)malloc(sizeof(AGMV_FRAME_CHUNK));
 	agmv->audio_chunk = (AGMV_AUDIO_CHUNK*)malloc(sizeof(AGMV_AUDIO_CHUNK));
 	agmv->bitstream = (AGMV_BITSTREAM*)malloc(sizeof(AGMV_BITSTREAM));
@@ -423,7 +423,7 @@ int AGMV_DecodeAGMV(const char* filename, u8 img_type, AGMV_AUDIO_TYPE audio_typ
 	FILE* file, *audio;
 	int err, err1, err2, i, num_of_frames;
 	
-	AGMV* agmv = (AGMV*)malloc(sizeof(AGMV));
+	AGMV* agmv = malloc(sizeof(AGMV));
 	agmv->frame_chunk = (AGMV_FRAME_CHUNK*)malloc(sizeof(AGMV_FRAME_CHUNK));
 	agmv->audio_chunk = (AGMV_AUDIO_CHUNK*)malloc(sizeof(AGMV_AUDIO_CHUNK));
 	agmv->bitstream = (AGMV_BITSTREAM*)malloc(sizeof(AGMV_BITSTREAM));
@@ -570,7 +570,7 @@ int AGMV_DecodeAudio(const char* filename, AGMV_AUDIO_TYPE audio_type){
 	FILE* file, *audio;
 	int err, err1, i, num_of_frames;
 	
-	AGMV* agmv = (AGMV*)malloc(sizeof(AGMV));
+	AGMV* agmv = malloc(sizeof(AGMV));
 	agmv->frame_chunk = (AGMV_FRAME_CHUNK*)malloc(sizeof(AGMV_FRAME_CHUNK));
 	agmv->audio_chunk = (AGMV_AUDIO_CHUNK*)malloc(sizeof(AGMV_AUDIO_CHUNK));
 	agmv->bitstream = (AGMV_BITSTREAM*)malloc(sizeof(AGMV_BITSTREAM));

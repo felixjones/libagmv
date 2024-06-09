@@ -160,7 +160,7 @@ void AGIDL_ClearLBM(AGIDL_LBM *lbm, COLOR clr){
 		AGIDL_ClrMemset(lbm->pixels.pix32,clr,AGIDL_LBMGetSize(lbm));
 	}
 	else{
-		AGIDL_ClrMemset16(lbm->pixels.pix16,(COLOR16)clr,AGIDL_LBMGetSize(lbm));
+		AGIDL_ClrMemset16(lbm->pixels.pix16,clr,AGIDL_LBMGetSize(lbm));
 	}
 }
 
@@ -591,7 +591,7 @@ void AGIDL_FreeLBM(AGIDL_LBM* lbm){
 }
 
 AGIDL_LBM * AGIDL_CreateLBM(const char* filename, int width, int height, AGIDL_CLR_FMT fmt){
-	AGIDL_LBM* lbm = (AGIDL_LBM*)malloc(sizeof(AGIDL_LBM));
+	AGIDL_LBM* lbm = malloc(sizeof(AGIDL_LBM));
 	AGIDL_LBMSetWidth(lbm,width);
 	AGIDL_LBMSetHeight(lbm,height);
 	AGIDL_LBMSetClrFmt(lbm,fmt);
@@ -638,7 +638,7 @@ AGIDL_LBM * AGIDL_LoadLBM(char* filename){
 		return NULL;
 	}
 	
-	AGIDL_LBM* lbm = (AGIDL_LBM*)malloc(sizeof(AGIDL_LBM));
+	AGIDL_LBM* lbm = malloc(sizeof(AGIDL_LBM));
 	lbm->filename = (char*)malloc(strlen(filename)+1);
 	AGIDL_FilenameCpy(lbm->filename,filename);
 	

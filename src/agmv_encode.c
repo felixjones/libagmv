@@ -734,8 +734,8 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 		}break;
 	}
 	
-	u32* colorgram = (u32*)malloc(sizeof(u32)*max_clr);
-	u32* histogram = (u32*)malloc(sizeof(u32)*max_clr);
+	u32* colorgram = malloc(sizeof(u32)*max_clr);
+	u32* histogram = malloc(sizeof(u32)*max_clr);
 	
 	switch(opt){
 		case AGMV_OPT_I:{
@@ -1162,7 +1162,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					f32 ratio = AGMV_CompareFrameSimilarity(frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 					
 					if(ratio >= AGMV_GetLeniency(agmv)){
-						u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 						
@@ -1194,7 +1194,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					f32 ratio = AGMV_CompareFrameSimilarity(frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 					
 					if(ratio >= AGMV_GetLeniency(agmv)){
-						u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 						
@@ -1261,7 +1261,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					f32 ratio = AGMV_CompareFrameSimilarity(frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 					
 					if(ratio >= AGMV_GetLeniency(agmv)){
-						u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 						
@@ -1293,7 +1293,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					f32 ratio = AGMV_CompareFrameSimilarity(frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 					
 					if(ratio >= AGMV_GetLeniency(agmv)){
-						u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 						
@@ -1360,7 +1360,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					f32 ratio = AGMV_CompareFrameSimilarity(frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 					
 					if(ratio >= AGMV_GetLeniency(agmv)){
-						u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 						
@@ -1392,7 +1392,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					f32 ratio = AGMV_CompareFrameSimilarity(frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 					
 					if(ratio >= AGMV_GetLeniency(agmv)){
-						u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 						
@@ -1459,7 +1459,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					f32 ratio = AGMV_CompareFrameSimilarity(frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 					
 					if(ratio >= AGMV_GetLeniency(agmv)){
-						u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 						
@@ -1491,7 +1491,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					f32 ratio = AGMV_CompareFrameSimilarity(frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 					
 					if(ratio >= AGMV_GetLeniency(agmv)){
-						u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 						
@@ -1558,7 +1558,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					f32 ratio = AGMV_CompareFrameSimilarity(frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 					
 					if(ratio >= AGMV_GetLeniency(agmv)){
-						u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 						
@@ -1590,7 +1590,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					f32 ratio = AGMV_CompareFrameSimilarity(frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 					
 					if(ratio >= AGMV_GetLeniency(agmv)){
-						u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 						
@@ -1657,7 +1657,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					f32 ratio = AGMV_CompareFrameSimilarity(frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 					
 					if(ratio >= AGMV_GetLeniency(agmv)){
-						u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 						
@@ -1689,7 +1689,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					f32 ratio = AGMV_CompareFrameSimilarity(frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 					
 					if(ratio >= AGMV_GetLeniency(agmv)){
-						u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 						
@@ -1756,7 +1756,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					f32 ratio = AGMV_CompareFrameSimilarity(frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 					
 					if(ratio >= AGMV_GetLeniency(agmv)){
-						u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 						
@@ -1788,7 +1788,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					f32 ratio = AGMV_CompareFrameSimilarity(frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 					
 					if(ratio >= AGMV_GetLeniency(agmv)){
-						u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 						
@@ -1855,7 +1855,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					f32 ratio = AGMV_CompareFrameSimilarity(frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 					
 					if(ratio >= AGMV_GetLeniency(agmv)){
-						u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 						
@@ -1887,7 +1887,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					f32 ratio = AGMV_CompareFrameSimilarity(frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 					
 					if(ratio >= AGMV_GetLeniency(agmv)){
-						u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 						
@@ -1954,7 +1954,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					f32 ratio = AGMV_CompareFrameSimilarity(frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 					
 					if(ratio >= AGMV_GetLeniency(agmv)){
-						u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 						
@@ -1986,7 +1986,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					f32 ratio = AGMV_CompareFrameSimilarity(frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 					
 					if(ratio >= AGMV_GetLeniency(agmv)){
-						u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 						
@@ -2053,7 +2053,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					f32 ratio = AGMV_CompareFrameSimilarity(frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 					
 					if(ratio >= AGMV_GetLeniency(agmv)){
-						u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 						
@@ -2085,7 +2085,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					f32 ratio = AGMV_CompareFrameSimilarity(frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 					
 					if(ratio >= AGMV_GetLeniency(agmv)){
-						u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 						
@@ -2152,7 +2152,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					f32 ratio = AGMV_CompareFrameSimilarity(frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 					
 					if(ratio >= AGMV_GetLeniency(agmv)){
-						u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 						
@@ -2184,7 +2184,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 					f32 ratio = AGMV_CompareFrameSimilarity(frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 					
 					if(ratio >= AGMV_GetLeniency(agmv)){
-						u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+						u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 						AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 						
@@ -2235,7 +2235,7 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 		fseek(file,0,SEEK_END);
 		u32 file_size = ftell(file);
 		fseek(file,0,SEEK_SET);
-		u8* data = (u8*)malloc(sizeof(u8)*file_size);
+		u8* data = malloc(sizeof(u8)*file_size);
 		fread(data,1,file_size,file);
 		fclose(file);
 		
@@ -2285,8 +2285,8 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 		}break;
 	}
 	
-	u32* colorgram = (u32*)malloc(sizeof(u32)*max_clr);
-	u32* histogram = (u32*)malloc(sizeof(u32)*max_clr);
+	u32* colorgram = malloc(sizeof(u32)*max_clr);
+	u32* histogram = malloc(sizeof(u32)*max_clr);
 	
 	switch(opt){
 		case AGMV_OPT_I:{
@@ -2725,7 +2725,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 					
-					u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 					
@@ -2750,7 +2750,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 					
-					u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 					
@@ -2808,7 +2808,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 
-					u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 					
@@ -2833,7 +2833,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 
-					u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 					
@@ -2891,7 +2891,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 
-					u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 					
@@ -2916,7 +2916,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 					
-					u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 					
@@ -2975,7 +2975,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 
-					u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 					
@@ -3000,7 +3000,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 
-					u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 					
@@ -3058,7 +3058,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 
-					u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 					
@@ -3083,7 +3083,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 
-					u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 					
@@ -3141,7 +3141,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 					
-					u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 					
@@ -3166,7 +3166,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 					
-					u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 					
@@ -3224,7 +3224,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 					
-					u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 					
@@ -3249,7 +3249,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 					
-					u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 					
@@ -3307,7 +3307,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 					
-					u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 					
@@ -3332,7 +3332,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 
-					u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 					
@@ -3390,7 +3390,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 
-					u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 					
@@ -3415,7 +3415,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 					
-					u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 					
@@ -3473,7 +3473,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 	
-					u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 					
@@ -3498,7 +3498,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 
-					u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 					
@@ -3556,7 +3556,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+3);
 
-					u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame2->pixels.pix32,frame3->pixels.pix32,w,h);
 					
@@ -3581,7 +3581,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 				else{
 					printf("Performing Progressive Differential Interpolated Frame Skipping - %ld - %ld...\n",i,i+1);
 					
-					u32* interp = (u32*)malloc(sizeof(u32)*num_of_pix);
+					u32* interp = malloc(sizeof(u32)*num_of_pix);
 
 					AGMV_InterpFrame(interp,frame1->pixels.pix32,frame2->pixels.pix32,w,h);
 					
@@ -3626,7 +3626,7 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 		fseek(file,0,SEEK_END);
 		u32 file_size = ftell(file);
 		fseek(file,0,SEEK_SET);
-		u8* data = (u8*)malloc(sizeof(u8)*file_size);
+		u8* data = malloc(sizeof(u8)*file_size);
 		fread(data,1,file_size,file);
 		fclose(file);
 		
@@ -3676,8 +3676,8 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 		}break;
 	}
 	
-	u32* colorgram = (u32*)malloc(sizeof(u32)*max_clr);
-	u32* histogram = (u32*)malloc(sizeof(u32)*max_clr);
+	u32* colorgram = malloc(sizeof(u32)*max_clr);
+	u32* histogram = malloc(sizeof(u32)*max_clr);
 	
 	switch(opt){
 		case AGMV_OPT_GBA_I:{
@@ -4383,7 +4383,7 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 		fseek(file,0,SEEK_END);
 		u32 file_size = ftell(file);
 		fseek(file,0,SEEK_SET);
-		u8* data = (u8*)malloc(sizeof(u8)*file_size);
+		u8* data = malloc(sizeof(u8)*file_size);
 		fread(data,1,file_size,file);
 		fclose(file);
 		

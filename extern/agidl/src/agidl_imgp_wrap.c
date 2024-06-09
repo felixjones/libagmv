@@ -22,8 +22,8 @@ void * AGIDL_WrapImgData(void* data, u16* width, u16 height, AGIDL_CLR_FMT fmt, 
 	if(AGIDL_GetBitCount(fmt) == 24 || AGIDL_GetBitCount(fmt) == 32){
 		u16 w = *width;
 		
-		COLOR* clrs = (COLOR*)data;
-		COLOR* wrap = (COLOR*)malloc(sizeof(COLOR)*(w*num_of_wraps)*height);
+		COLOR* clrs = data;
+		COLOR* wrap = malloc(sizeof(COLOR)*(w*num_of_wraps)*height);
 		
 		u32 i;
 		for(i = 0; i < num_of_wraps; i++){
@@ -45,8 +45,8 @@ void * AGIDL_WrapImgData(void* data, u16* width, u16 height, AGIDL_CLR_FMT fmt, 
 	else{
 		u16 w = *width;
 		
-		COLOR16* clrs = (COLOR16*)data;
-		COLOR16* wrap = (COLOR16*)malloc(sizeof(COLOR16)*(w*num_of_wraps)*height);
+		COLOR16* clrs = data;
+		COLOR16* wrap = malloc(sizeof(COLOR16)*(w*num_of_wraps)*height);
 		
 		u32 i;
 		for(i = 0; i < num_of_wraps; i++){
@@ -69,14 +69,14 @@ void * AGIDL_WrapImgData(void* data, u16* width, u16 height, AGIDL_CLR_FMT fmt, 
 
 void * AGIDL_WrapAndMirrorImgData(void* data, u16* width, u16* height, AGIDL_CLR_FMT fmt, u8 num_of_wraps, AGIDL_MIRROR mirror){
 	if(AGIDL_GetBitCount(fmt) == 24 || AGIDL_GetBitCount(fmt) == 32){
-		COLOR* clrs = (COLOR*)data;
+		COLOR* clrs = data;
 		
 		u16 glacew = *width;
 		u16 glaceh = *height;
 		
-		COLOR* glace = (COLOR*)AGIDL_MirrorImgData(clrs,&glacew,&glaceh,fmt,mirror);
+		COLOR* glace = AGIDL_MirrorImgData(clrs,&glacew,&glaceh,fmt,mirror);
 		
-		COLOR* wrap = (COLOR*)malloc(sizeof(COLOR)*(glacew*num_of_wraps)*glaceh);
+		COLOR* wrap = malloc(sizeof(COLOR)*(glacew*num_of_wraps)*glaceh);
 		
 		u32 i;
 		for(i = 0; i < num_of_wraps; i++){
@@ -97,14 +97,14 @@ void * AGIDL_WrapAndMirrorImgData(void* data, u16* width, u16* height, AGIDL_CLR
 		return wrap;
 	}
 	else{
-		COLOR16* clrs = (COLOR16*)data;
+		COLOR16* clrs = data;
 		
 		u16 glacew = *width;
 		u16 glaceh = *height;
 		
-		COLOR16* glace = (COLOR16*)AGIDL_MirrorImgData(clrs,&glacew,&glaceh,fmt,mirror);
+		COLOR16* glace = AGIDL_MirrorImgData(clrs,&glacew,&glaceh,fmt,mirror);
 		
-		COLOR16* wrap = (COLOR16*)malloc(sizeof(COLOR16)*(glacew*num_of_wraps)*glaceh);
+		COLOR16* wrap = malloc(sizeof(COLOR16)*(glacew*num_of_wraps)*glaceh);
 		
 		u32 i;
 		for(i = 0; i < num_of_wraps; i++){

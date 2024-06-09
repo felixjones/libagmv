@@ -1309,7 +1309,7 @@ void quickSort(u32* data, u32* gram, int low, int high)
 
 void AGIDL_EncodeHistogramICP(AGIDL_ICP* palette, void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 16){
-		u16* clr_data = (u16*)data;
+		u16* clr_data = data;
 		
 		u32 histogram[MAX_HIGH_CLR];
 		u32 colorgram[MAX_HIGH_CLR];
@@ -1384,7 +1384,7 @@ void AGIDL_EncodeHistogramICP(AGIDL_ICP* palette, void* data, u32 width, u32 hei
 		palette->fmt = fmt;
 	}
 	else{
-		u32* clr_data = (u32*)data;
+		u32* clr_data = data;
 		
 		u32 histogram[32767];
 		u32 colorgram[32767];
