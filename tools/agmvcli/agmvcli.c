@@ -285,8 +285,11 @@ AGMV_OPT GetAGMVOpt(const char* opt){
 	if(opt[0] == 'O' &&  opt[1] == 'P' && opt[2] == 'T' && opt[3] == '_' && opt[4] == 'G' && opt[5] == 'B' && opt[6] == 'A' && opt[7] == '_' && opt[8] == 'I' && opt[9] != 'I'){
 		return AGMV_OPT_GBA_I;
 	}
-	if(opt[0] == 'O' &&  opt[1] == 'P' && opt[2] == 'T' && opt[3] == '_' && opt[4] == 'G' && opt[5] == 'B' && opt[6] == 'A' && opt[7] == '_' && opt[8] == 'I' && opt[9] == 'I' && opt[10] == 'I'){
+	if(opt[0] == 'O' &&  opt[1] == 'P' && opt[2] == 'T' && opt[3] == '_' && opt[4] == 'G' && opt[5] == 'B' && opt[6] == 'A' && opt[7] == '_' && opt[8] == 'I' && opt[9] == 'I' && opt[10] != 'I'){
 		return AGMV_OPT_GBA_II;
+	}
+	if(opt[0] == 'O' &&  opt[1] == 'P' && opt[2] == 'T' && opt[3] == '_' && opt[4] == 'G' && opt[5] == 'B' && opt[6] == 'A' && opt[7] == '_' && opt[8] == 'I' && opt[9] == 'I' && opt[10] == 'I'){
+		return AGMV_OPT_GBA_III;
 	}
 	if(opt[0] == 'O' &&  opt[1] == 'P' && opt[2] == 'T' && opt[3] == '_' && opt[4] == 'A' && opt[5] == 'N' && opt[6] == 'I' && opt[7] == 'M'){
 		return AGMV_OPT_ANIM;
