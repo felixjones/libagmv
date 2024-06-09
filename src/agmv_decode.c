@@ -170,8 +170,7 @@ int AGMV_DecodeFrameChunk(FILE* file, AGMV* agmv){
 					}
 					
 					palette = fbit ? agmv->header.palette1 : agmv->header.palette0;
-					color;
-			
+
 					if(bot < 127){
 						color = palette[bot];
 					}
@@ -212,8 +211,7 @@ int AGMV_DecodeFrameChunk(FILE* file, AGMV* agmv){
 							bot = index & 0x7f;
 							
 							palette = fbit ? agmv->header.palette1 : agmv->header.palette0;
-							color;
-					
+
 							if(bot < 127){
 								color = palette[bot];
 							}
@@ -544,20 +542,20 @@ void to_80bitfloat(u32 num, u8 bytes[10])
 		bytes [1] = 0xFF ;
 		bytes [2] = 0x80 ;
 		return ;
-		} ;
+		}
 
 	bytes [0] = 0x40 ;
 
 	if (num >= mask)
 	{	bytes [1] = 0x1D ;
 		return ;
-		} ;
+		}
 
 	for (count = 0 ; count < 32 ; count ++)
 	{	if (num & mask)
 			break ;
 		mask >>= 1 ;
-		} ;
+		}
 
 	num = count < 31 ? num << count + 1 : 0 ;
 	bytes [1] = 29 - count ;

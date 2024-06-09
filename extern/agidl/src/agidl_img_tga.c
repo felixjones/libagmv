@@ -386,7 +386,6 @@ void AGIDL_TGADecodeIMG(AGIDL_TGA *tga, FILE* file, TGA_ICP_TYPE icp, TGA_IMG_TY
 			AGIDL_TGASetClrFmt(tga,AGIDL_RGB_555);
 			tga->pixels.pix16 = (COLOR16*)malloc(sizeof(COLOR16)*(AGIDL_TGAGetWidth(tga)*AGIDL_TGAGetHeight(tga)));
 			AGIDL_ReadBufRGB16(file,tga->pixels.pix16,AGIDL_TGAGetWidth(tga),AGIDL_TGAGetHeight(tga));
-			return;
 		}
 		else if(img_type == TGA_IMG_TYPE_DEEP_CLR){
 			AGIDL_TGASetClrFmt(tga,AGIDL_RGBA_8888);

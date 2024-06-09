@@ -582,7 +582,7 @@ void AGIDL_BTIDecodeIMG(AGIDL_BTI* bti, FILE* file){
 							for(i = 0; i < 8; i++){	
 								u8 rgb = AGIDL_ReadByte(file);
 								
-								AGIDL_BTISetClr(bti,x+i,y+j,AGIDL_RGB(rgb,rgb,rgb,AGIDL_BTIGetClrFmt(bti)));;
+								AGIDL_BTISetClr(bti,x+i,y+j,AGIDL_RGB(rgb,rgb,rgb,AGIDL_BTIGetClrFmt(bti)));
 							}
 						}
 					}
@@ -603,7 +603,7 @@ void AGIDL_BTIDecodeIMG(AGIDL_BTI* bti, FILE* file){
 								u8 alpha = (byte >> 4 & 0xf) * 0x11;
 								u8 rgb = (byte & 0xf) * 0x11;
 								
-								AGIDL_BTISetClr(bti,x+i,y+j,AGIDL_RGBA(rgb,rgb,rgb,alpha,AGIDL_BTIGetClrFmt(bti)));;
+								AGIDL_BTISetClr(bti,x+i,y+j,AGIDL_RGBA(rgb,rgb,rgb,alpha,AGIDL_BTIGetClrFmt(bti)));
 							}
 						}
 					}
@@ -625,7 +625,7 @@ void AGIDL_BTIDecodeIMG(AGIDL_BTI* bti, FILE* file){
 								u8 alpha = byte1;
 								u8 rgb = byte2;
 								
-								AGIDL_BTISetClr(bti,x+i,y+j,AGIDL_RGBA(rgb,rgb,rgb,alpha,AGIDL_BTIGetClrFmt(bti)));;
+								AGIDL_BTISetClr(bti,x+i,y+j,AGIDL_RGBA(rgb,rgb,rgb,alpha,AGIDL_BTIGetClrFmt(bti)));
 							}
 						}
 					}
