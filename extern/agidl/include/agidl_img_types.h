@@ -53,7 +53,7 @@ typedef enum AGIDL_ARR_TYPE{
 }AGIDL_ARR_TYPE;
 
 void AGIDL_FilenameCpy(char *filedest, const char *filesrc);
-char* AGIDL_StrCpy(char* a, char*b);
+char* AGIDL_StrCpy(const char* a, const char*b);
 void AGIDL_StrCpy2(char* dest, char *a, char *b);
 char* AGIDL_GetImgExtension(AGIDL_IMG_TYPE img);
 char* AGIDL_GetImgName(char* filename);

@@ -42,7 +42,7 @@ void AGIDL_StrCpy2(char* dest, char *a, char *b){
 	dest[lenA+lenB] = '\0';
 }
 
-char* AGIDL_StrCpy(char *a, char *b){
+char* AGIDL_StrCpy(const char *a, const char *b){
 	int lenA = strlen(a);
 	int lenB = strlen(b);
 	
