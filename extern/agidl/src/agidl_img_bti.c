@@ -416,13 +416,8 @@ void AGIDL_BTIDecodeIMG(AGIDL_BTI* bti, FILE* file){
 							for(i = 0; i < 4; i++){
 								u8 byte1 = AGIDL_ReadByte(file);
 								u8 byte2 = AGIDL_ReadByte(file);
-								
-								u8 r = 0, g = 0, b = 0;
-								
+
 								if((byte1 >> 7 & 0x1) == 0){
-									//r = (byte1 & 0xf);
-									//g = (byte2 >> 4) & 0xf;
-									//b = (byte2 & 0xf);
 									u8 a = (byte1 >> 4 & 0x0C) << 4;
 									
 									COLOR clr = AGIDL_RGBA(155,155,155,a,AGIDL_RGBA_8888);							
@@ -649,13 +644,8 @@ void AGIDL_BTIDecodeIMG(AGIDL_BTI* bti, FILE* file){
 			for(i = 0; i < bti->header.num_of_icps; i++){
 				u8 byte1 = AGIDL_ReadByte(file);
 				u8 byte2 = AGIDL_ReadByte(file);
-				
-				u8 r = 0, g = 0, b = 0;
-				
+
 				if((byte1 >> 7 & 0x1) == 0){
-					//r = (byte1 & 0xf);
-					//g = (byte2 >> 4) & 0xf;
-					//b = (byte2 & 0xf);
 					u8 a = (byte1 >> 4 & 0x0C) << 4;
 					
 					COLOR clr = AGIDL_RGBA(155,155,155,a,AGIDL_RGBA_8888);	

@@ -739,7 +739,7 @@ void AGIDL_PCXEncodeImg(AGIDL_PCX* pcx, FILE* file){
 	if(pcx->icp != 1){
 		int scanlinelength = AGIDL_PCXGetWidth(pcx) * 3;
 		
-		int roffset = 0, goffset = AGIDL_PCXGetWidth(pcx), boffset = goffset*2;
+		int goffset = AGIDL_PCXGetWidth(pcx), boffset = goffset*2;
 		
 		int scanline, x;
 		for(scanline = 0; scanline <= AGIDL_PCXGetHeight(pcx); scanline++){

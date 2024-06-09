@@ -1064,7 +1064,6 @@ void AGIDL_TGAEncodeRLE(AGIDL_TGA* tga, FILE* file){
 							free(rle);
 						}
 						else{
-							u8 zero = 0;
 							AGIDL_WriteByte(file,0);
 							AGIDL_WriteRGB(file,clr,AGIDL_BGR_888,AGIDL_BGR_888);
 						}

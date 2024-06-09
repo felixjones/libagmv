@@ -612,9 +612,7 @@ void AGIDL_PVREncodeHeader(AGIDL_PVR* pvr, FILE* file){
 		
 		u32 clr_fmt = 1;
 		u32 channel_type = 0;
-		
-		u32 one = 1, zero = 0;
-		
+
 		u16 w = pvr->mheader.width;
 		u16 h = pvr->mheader.height;
 		
@@ -971,9 +969,7 @@ void AGIDL_PVRDecodeTwiddledImg(AGIDL_PVR* pvr, PVRClrFmt fmt, PVRImgType img, F
 		u16 h = 1;
 		
 		fseek(file,4,SEEK_CUR);
-		
-		COLOR16 clr = 0x7C00;
-		
+
 		pvr->mipmap = AGIDL_CreateMipmapMMU(AGIDL_PVRGetWidth(pvr),AGIDL_PVRGetHeight(pvr),AGIDL_PVRGetClrFmt(pvr),FALSE);
 		
 		int count = 0;
@@ -1021,9 +1017,7 @@ void AGIDL_PVRDecodeTwiddledImg(AGIDL_PVR* pvr, PVRClrFmt fmt, PVRImgType img, F
 		u16 h = 1;
 		
 		fseek(file,4,SEEK_CUR);
-		
-		COLOR16 clr = 0x7C00;
-		
+
 		pvr->mipmap = AGIDL_CreateMipmapMMU(AGIDL_PVRGetWidth(pvr),AGIDL_PVRGetHeight(pvr),AGIDL_PVRGetClrFmt(pvr),FALSE);
 		
 		int count = 0;

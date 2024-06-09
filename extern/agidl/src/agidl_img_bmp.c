@@ -411,7 +411,6 @@ void AGIDL_BMPEncodeNearestICP(AGIDL_BMP* bmp, AGIDL_ICP palette, FILE* file){
 }
 
 void AGIDL_BMPEncodeRLE(AGIDL_BMP* bmp, FILE* file){
-	int counter = 0;
 	int x,y;
 	for(y = 0; y < AGIDL_BMPGetHeight(bmp); y++){
 		for(x = 0; x < AGIDL_BMPGetWidth(bmp); x++){
@@ -627,7 +626,6 @@ void AGIDL_BMPDecodeIMG(AGIDL_BMP* bmp, FILE* file, BMP_IMG_TYPE img_type){
 					AGIDL_ReadBufRGB16(file,bmp->pixels.pix16,AGIDL_BMPGetWidth(bmp),AGIDL_BMPGetHeight(bmp));
 				}
 				else{
-					int padding = AGIDL_BMPGetWidth(bmp) % 4;
 					int i, count;
 					for(i = 0, count = 1; i < AGIDL_BMPGetSize(bmp); i++, count++){
 						COLOR16 clr = AGIDL_ReadShort(file);
@@ -799,9 +797,7 @@ void AGIDL_BMPDecodeRLE(AGIDL_BMP* bmp, FILE* file, BMP_IMG_TYPE img_type){
 				}
 				
 				bmp->pixels.pix32 = (COLOR*)malloc(sizeof(COLOR)*(AGIDL_BMPGetWidth(bmp)*AGIDL_BMPGetHeight(bmp)));
-				
-				u32 count = 0;
-				
+
 				int x,y;
 				for(y = 0; y < AGIDL_BMPGetHeight(bmp); y++){
 					for(x = 0; x < AGIDL_BMPGetWidth(bmp); x++){
