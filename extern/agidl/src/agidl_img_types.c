@@ -172,7 +172,7 @@ void AGIDL_CopyTile(void* dest, void* src, u32 destw, u32 desth, u32 srcw, u32 s
 		u32 maxh = dy + dyy;
 
 		if(AGIDL_InsideClipBounds(dxx,dyy,srcw,srch) && AGIDL_InsideClipBounds(maxw,maxh,destw,desth)){
-			int x,y,incrx = 0, incry = 0;
+			int x,y,incrx, incry = 0;
 			for(y = ystart; y < yend; y++){
 				incrx = 0;
 				for(x = xstart; x < xend; x++){
@@ -195,7 +195,7 @@ void AGIDL_CopyTile(void* dest, void* src, u32 destw, u32 desth, u32 srcw, u32 s
 		u32 maxh = dy + dyy;
 
 		if(AGIDL_InsideClipBounds(dxx,dyy,srcw,srch) && AGIDL_InsideClipBounds(maxw,maxh,destw,desth)){
-			int x,y,incrx = 0, incry = 0;
+			int x,y,incrx, incry = 0;
 			for(y = ystart; y < yend; y++){
 				incrx = 0;
 				for(x = xstart; x < xend; x++){
@@ -218,7 +218,7 @@ void AGIDL_CopyTile(void* dest, void* src, u32 destw, u32 desth, u32 srcw, u32 s
 		u32 maxh = dy + dyy;
 
 		if(AGIDL_InsideClipBounds(dxx,dyy,srcw,srch) && AGIDL_InsideClipBounds(maxw,maxh,destw,desth)){
-			int x,y,incrx = 0, incry = 0;
+			int x,y,incrx, incry = 0;
 			for(y = ystart; y < yend; y++){
 				incrx = 0;
 				for(x = xstart; x < xend; x++){
@@ -242,7 +242,7 @@ void AGIDL_CopyTile(void* dest, void* src, u32 destw, u32 desth, u32 srcw, u32 s
 		u32 maxh = dy + dyy;
 
 		if(AGIDL_InsideClipBounds(dxx,dyy,srcw,srch) && AGIDL_InsideClipBounds(maxw,maxh,destw,desth)){
-			int x,y,incrx = 0, incry = 0;
+			int x,y,incrx, incry = 0;
 			for(y = ystart; y < yend; y++){
 				incrx = 0;
 				for(x = xstart; x < xend; x++){

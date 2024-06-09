@@ -420,7 +420,7 @@ void AGIDL_BMPEncodeRLE(AGIDL_BMP* bmp, FILE* file){
 			
 			x += count - 1;
 			
-			u8 index = 0;
+			u8 index;
 			if(AGIDL_GetBitCount(AGIDL_BMPGetClrFmt(bmp)) == 32){
 				u8 r = AGIDL_GetR(clr,AGIDL_BMPGetClrFmt(bmp));
 				u8 g = AGIDL_GetG(clr,AGIDL_BMPGetClrFmt(bmp));

@@ -186,16 +186,6 @@ void AGIDL_BTIConvert16BPPTO24BPP(AGIDL_BTI* bti){
 }
 
 void AGIDL_BTIRGBATORGB(AGIDL_BTI* bti){
-	int x,y;
-	for(y = 0; y < AGIDL_BTIGetHeight(bti); y++){
-		for(x = 0; x < AGIDL_BTIGetWidth(bti); x++){
-			COLOR clr = AGIDL_BTIGetClr(bti,x,y);
-			u8 r = AGIDL_GetR(clr,bti->fmt);
-			u8 g = AGIDL_GetG(clr,bti->fmt);
-			u8 b = AGIDL_GetB(clr,bti->fmt);
-			clr = AGIDL_RGB(r,g,b,AGIDL_RGB_888);
-		}
-	}
 	bti->fmt = AGIDL_RGB_888;
 }
 
