@@ -514,7 +514,6 @@ void AGMV_EncodeFrame(FILE* file, AGMV* agmv, const u32* img_data){
 	}
 
 	const int size = AGMV_GetWidth(agmv) * AGMV_GetHeight(agmv);
-	int max_size = size * 0.8f;
 
 	AGMV_ENTRY* iframe_entries = agmv->iframe_entries;
 	AGMV_ENTRY* img_entry = malloc(sizeof(AGMV_ENTRY) * size);

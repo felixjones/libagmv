@@ -72,7 +72,7 @@ int AGMV_DecodeHeader(FILE* file, AGMV* agmv){
 }
 
 int AGMV_DecodeFrameChunk(FILE* file, AGMV* agmv){
-	u32 pos, i, bitpos = 0, bits = 0, num_of_bits, width, height, bpos = 0, usize, csize, indice;
+	u32 pos, i, bitpos = 0, bits = 0, num_of_bits, width, height, bpos, csize, indice;
 	u32* img_data = agmv->frame->img_data, *iframe_data = agmv->iframe->img_data, *palette, color, offset;
 	u8 byte, len, org, index, fbit, bot, *bitstream_data = agmv->bitstream->data;
 	Bool escape = FALSE;
@@ -86,8 +86,7 @@ int AGMV_DecodeFrameChunk(FILE* file, AGMV* agmv){
 	
 	width  = agmv->frame->width;
 	height = agmv->frame->height;
-	
-	usize = agmv->frame_chunk->uncompressed_size;
+
 	csize = agmv->frame_chunk->compressed_size;
 	
 	num_of_bits = agmv->frame_chunk->compressed_size * 8;
