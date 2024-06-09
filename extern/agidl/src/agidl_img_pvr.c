@@ -555,7 +555,7 @@ void AGIDL_PVREncodeHeader(AGIDL_PVR* pvr, FILE* file){
 		pvr->header.id2 = t << 24 | r << 16 | v << 8 | p;
 		pvr->header.file_size = 30 + 2 * AGIDL_PVRGetWidth(pvr) * AGIDL_PVRGetHeight(pvr);
 		
-		if(pvr->fmt == AGIDL_RGB_565 && pvr->fmt == AGIDL_BGR_565){
+		if(pvr->fmt == AGIDL_RGB_565 || pvr->fmt == AGIDL_BGR_565){
 			pvr->header.pvr_clr_fmt = PVR_RGB_565;
 		}
 		else{
