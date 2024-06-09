@@ -1011,7 +1011,7 @@ u32 AGMV_GetNumberOfBytesRead(u32 bits){
 
 void AGMV_WavToAudioTrack(const char* filename, AGMV* agmv){
 	u32 riff, chunk_size, wave, fmt, sub_chunk_size, audio_fmt, num_of_channels, sample_rate, byte_rate, block_align, bits_per_sample, data_chunk, sub_chunk_size2, i;
-	u16* pcm, *pcm8;
+	u16* pcm = NULL, *pcm8 = NULL;
 	FILE* wav;
 	
 	wav = fopen(filename,"rb");
@@ -1051,7 +1051,7 @@ void AGMV_WavToAudioTrack(const char* filename, AGMV* agmv){
 		AGMV_SyncAudioTrack(agmv,pcm);
 		free(pcm);
 	}
-	else{
+	else if (pcm8) {
 		AGMV_SetAudioSize(agmv,chunk_size);
 		agmv->audio_chunk->atsample = (u8*)malloc(sizeof(u8)*agmv->header.audio_size);
 		

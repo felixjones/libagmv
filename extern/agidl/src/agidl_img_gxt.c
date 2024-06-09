@@ -377,14 +377,14 @@ u32 bsr_bin_2_dec(char* binary){
 		if(binary[i] == '0'){
 			bin = 0;
 		}
-		if(binary[i] == '1'){
+		else if(binary[i] == '1'){
 			bin = 1;
 		}
 		else {
 			fprintf(stderr, "%s: Unexpected binary digit", __FUNCTION__);
 			abort();
 		}
-		
+
 		u8 mul = strlen(binary)-1 - i;
 		
 		if(mul == 0 && bin == 1){

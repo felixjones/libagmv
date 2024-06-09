@@ -302,7 +302,7 @@ u16 bin2dec(char *binary){
 		if(binary[i] == '0'){
 			bin = 0;
 		}
-		if(binary[i] == '1'){
+		else if(binary[i] == '1'){
 			bin = 1;
 		}
 		else {
