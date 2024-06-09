@@ -13,6 +13,7 @@
 ********************************************/
 
 #include <agidl_imgp_grayscale.h>
+
 #include <agidl_cc_mixer.h>
 #include <agidl_img_types.h>
 

@@ -13,6 +13,7 @@
 ********************************************/
 
 #include <agidl_gd_display.h>
+
 #include <agidl_cc_manager.h>
 #include <agidl_cc_mixer.h>
 
@@ -891,4 +892,3 @@ void AGIDL_DispScaleLBM(void* vram, u32 width, u32 height, f32 sx, f32 sy, int t
 		AGIDL_DispScaleImgData(vram,width,height,sx,sy,tx,ty,lbm->pixels.pix32,AGIDL_LBMGetWidth(lbm),AGIDL_LBMGetHeight(lbm),AGIDL_LBMGetClrFmt(lbm));
 	}
 }
-
