@@ -27,29 +27,29 @@ u32 AGIDL_AcquireRedMask(AGIDL_CLR_FMT fmt){
 	switch(fmt){
 		case AGIDL_RGBA_8888:{
 			return 0xff000000;
-		}break;
+		}
 		case AGIDL_ARGB_8888:{
 			return  0xff0000;
 		}break;
 		case AGIDL_RGB_888:{
 			return 0xff0000;
-		}break;
+		}
 		case AGIDL_BGR_888:{
 			return 0xff;
-		}break;
+		}
 		case AGIDL_RGB_555:{
 			return 0x7c00;
-		}break;
+		}
 		case AGIDL_BGR_555:{
 			return 0x1f;
-		}break;
+		}
 		case AGIDL_RGB_565:{
 			return 0xf800;
-		}break;
+		}
 		case AGIDL_BGR_565:{
 			return 0x1f;
-		}break;
-		default: return 0; break;
+		}
+		default: return 0;
 	}
 }
 
@@ -57,29 +57,29 @@ u32 AGIDL_AcquireGreenMask(AGIDL_CLR_FMT fmt){
 	switch(fmt){
 		case AGIDL_RGBA_8888:{
 			return 0xff0000;
-		}break;
+		}
 		case AGIDL_ARGB_8888:{
 			return 0xff00;
-		}break;
+		}
 		case AGIDL_RGB_888:{
 			return 0xff00;
-		}break;
+		}
 		case AGIDL_BGR_888:{
 			return 0xff00;
-		}break;
+		}
 		case AGIDL_RGB_555:{
 			return 0x3e0;
-		}break;
+		}
 		case AGIDL_BGR_555:{
 			return 0x3e0;
-		}break;
+		}
 		case AGIDL_RGB_565:{
 			return 0x7e0;
-		}break;
+		}
 		case AGIDL_BGR_565:{
 			return 0x7e0;
-		}break;
-		default: return 0; break;
+		}
+		default: return 0;
 	}
 }
 
@@ -87,29 +87,29 @@ u32 AGIDL_AcquireBlueMask(AGIDL_CLR_FMT fmt){
 	switch(fmt){
 		case AGIDL_RGBA_8888:{
 			return 0xff00;
-		}break;
+		}
 		case AGIDL_ARGB_8888:{
 			return 0xff000000;
-		}break;
+		}
 		case AGIDL_RGB_888:{
 			return 0xff;
-		}break;
+		}
 		case AGIDL_BGR_888:{
 			return 0xff0000;
-		}break;
+		}
 		case AGIDL_RGB_555:{
 			return 0x1f;
-		}break;
+		}
 		case AGIDL_BGR_555:{
 			return 0x7c00;
-		}break;
+		}
 		case AGIDL_RGB_565:{
 			return 0x1f;
-		}break;
+		}
 		case AGIDL_BGR_565:{
 			return 0xf800;
-		}break;
-		default: return 0; break;
+		}
+		default: return 0;
 	}
 }
 
@@ -124,7 +124,7 @@ u32 AGIDL_AcquireColorMask(AGIDL_CLR_FMT fmt, AGIDL_CLR_COMPONENT component){
 		case CC_B:{
 			return AGIDL_AcquireBlueMask(fmt);
 		}break;
-		default: return 0; break;
+		default: return 0;
 	}
 }
 
@@ -154,7 +154,7 @@ u8 AGIDL_GetR(COLOR clr, AGIDL_CLR_FMT fmt){
 		case AGIDL_BGR_565:{
 			return clr & 0x001F;
 		}break;
-		default: return 0; break;
+		default: return 0;
 	}
 }
 
@@ -184,7 +184,7 @@ u8 AGIDL_GetG(COLOR clr, AGIDL_CLR_FMT fmt){
 		case AGIDL_BGR_565:{
 			return(clr & 0x7E0) >> 5;
 		}break;
-		default: return 0; break;
+		default: return 0;
 	}
 }
 
@@ -214,7 +214,7 @@ u8 AGIDL_GetB(COLOR clr, AGIDL_CLR_FMT fmt){
 		case AGIDL_BGR_565:{
 			return (clr & 0xF800) >> 11;
 		}break;
-		default: return 0; break;
+		default: return 0;
 	}
 }
 
@@ -280,7 +280,7 @@ COLOR AGIDL_SetR(COLOR clr, u8 newR, AGIDL_CLR_FMT fmt){
 			u8 b = AGIDL_GetB(clr,fmt);
 			return AGIDL_RGB(r,g,b,fmt);
 		}break;
-		default: return clr; break;
+		default: return clr;
 	}
 }
 
@@ -336,7 +336,7 @@ COLOR AGIDL_SetG(COLOR clr, u8 newG, AGIDL_CLR_FMT fmt){
 			u8 b = AGIDL_GetB(clr,fmt);
 			return AGIDL_RGB(r,g,b,fmt);
 		}break;
-		default: return clr; break;
+		default: return clr;
 	}
 }
 
@@ -392,7 +392,7 @@ COLOR AGIDL_SetB(COLOR clr, u8 newB, AGIDL_CLR_FMT fmt){
 			u8 b = AGIDL_Clamp(0,newB,31);
 			return AGIDL_RGB(r,g,b,fmt);
 		}break;
-		default: return clr; break;
+		default: return clr;
 	}
 }
 
@@ -410,7 +410,7 @@ COLOR AGIDL_SetA(COLOR clr, u8 newA, AGIDL_CLR_FMT fmt){
 			u8 b = AGIDL_GetB(clr,fmt);
 			return AGIDL_RGBA(r,g,b,newA,fmt);
 		}break;
-		default: return clr; break;
+		default: return clr;
 	}
 }
 
@@ -452,7 +452,7 @@ COLOR AGIDL_RGB(u8 r, u8 g, u8 b, AGIDL_CLR_FMT fmt){
 		case AGIDL_ARGB_8888:{
 			return AGIDL_RGBA(r,g,b,0xff,fmt);
 		}break;
-		default: return 0; break;
+		default: return 0;
 	}
 }
 
@@ -489,7 +489,7 @@ COLOR16 AGIDL_RGB16(u8 r, u8 g, u8 b, AGIDL_CLR_FMT fmt){
 			b = AGIDL_Clamp(0,b,31);
 			return b << 11 | g << 5 | r;
 		}break;
-		default: return 0; break;
+		default: return 0;
 	}
 }
 
@@ -1693,7 +1693,7 @@ u8 AGIDL_FindNearestColor(AGIDL_ICP palette, COLOR clr, AGIDL_CLR_FMT fmt){
 				}
 			}
 			return index;
-		}break;
+		}
 		case AGIDL_ICP_16:{
 			u32 min = 255*255 + 255*255 + 255*255 + 1;
 			u8 index = 0;
@@ -1718,7 +1718,7 @@ u8 AGIDL_FindNearestColor(AGIDL_ICP palette, COLOR clr, AGIDL_CLR_FMT fmt){
 				}
 			}
 			return index;
-		}break;
+		}
 		case AGIDL_ICP_16b_256:{
 			u32 min = 31*31 + 31*31 + 31*31 + 1;
 			u8 index = 0;
@@ -1743,7 +1743,7 @@ u8 AGIDL_FindNearestColor(AGIDL_ICP palette, COLOR clr, AGIDL_CLR_FMT fmt){
 				}
 			}
 			return index;
-		}break;
+		}
 		case AGIDL_ICP_16b_16:{
 			u32 min = 31*31 + 31*31 + 31*31 + 1;
 			u8 index = 0;
@@ -1769,7 +1769,7 @@ u8 AGIDL_FindNearestColor(AGIDL_ICP palette, COLOR clr, AGIDL_CLR_FMT fmt){
 			}
 			
 			return index;
-		}break;
+		}
 	}
 	
 	return 0;

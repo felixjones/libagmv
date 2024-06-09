@@ -430,29 +430,29 @@ u8 AGIDL_GetBitCount(AGIDL_CLR_FMT fmt){
 	switch(fmt){
 		case AGIDL_RGB_888:{
 			return 24;
-		}break;
+		}
 		case AGIDL_BGR_888:{
 			return 24;
-		}break;
+		}
 		case AGIDL_RGB_555:{
 			return 16;
-		}break;
+		}
 		case AGIDL_BGR_555:{
 			return 16;
-		}break;
+		}
 		case AGIDL_RGB_565:{
 			return 16;
-		}break;
+		}
 		case AGIDL_BGR_565:{
 			return 16;
-		}break;
+		}
 		case AGIDL_RGBA_8888:{
 			return 32;
-		}break;
+		}
 		case AGIDL_ARGB_8888:{
 			return 32;
-		}break;
-	    default: return 24; break;
+		}
+	    default: return 24;
 	}
 }
 

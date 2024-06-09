@@ -295,20 +295,20 @@ GXT_TEXTURE_TYPE AGIDL_GXTGetTextureType(u8 type){
 	switch(type){
 		case 0x00:{
 			return SWIZZLED;
-		}break;
+		}
 		case 0x40:{
 			return CUBE;
-		}break;
+		}
 		case 0x60:{
 			return LINEAR;
-		}break;
+		}
 		case 0x80:{
 			return TILED;
-		}break;
+		}
 		case 0x0C:{
 			return LINEAR_STRIDDED;
-		}break;
-		default: return LINEAR; break;
+		}
+		default: return LINEAR;
 	}
 	return UNSUPPORTED_PVRT;
 }
@@ -317,29 +317,29 @@ GXT_CLR_FMT AGIDL_GetGXTClrFmt(u8 type){
 	switch(type){
 		case 0x98:{
 			return GXT_RGB_888;
-		}break;
+		}
 		case 0x95:{
 			return GXT_ICP_256;
-		}break;
+		}
 		case 0x05:{
 			return GXT_RGB_565;
-		}break;
+		}
 		case 0x04:{
 			return GXT_RGB_555;
-		}break;
+		}
 		case 0x02:{
 			return GXT_RGB_4444;
-		}break;
+		}
 		case 0x10:{
 			return GXT_ARGB_8888;
-		}break;
+		}
 		case 0x80:{
 			return GXT_PVRT2BPP;
-		}break;
+		}
 		case 0x81:{
 			return GXT_PVRT4BPP;
-		}break;
-		default: return UNSUPPORTED_PVRT; break;
+		}
+		default: return UNSUPPORTED_PVRT;
 	}
 }
 

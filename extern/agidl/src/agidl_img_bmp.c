@@ -278,25 +278,25 @@ BMP_IMG_TYPE AGIDL_BMPGetImgType(int bits){
 	switch(bits){
 		case 4:{
 			return BMP_IMG_TYPE_ICP_16;
-		}break;
+		}
 		case 8:{
 			return BMP_IMG_TYPE_ICP_256;
-		}break;
+		}
 		case 16:{
 			return BMP_IMG_TYPE_HIGH_CLR;
-		}break;
+		}
 		case 24:{
 			return BMP_IMG_TYPE_TRUE_CLR;
-		}break;
+		}
 		case 32:{
 			return BMP_IMG_TYPE_DEEP_CLR;
-		}break;
+		}
 		case 1:{
 			return BMP_IMG_TYPE_RLE;
-		}break;
+		}
 		case 2:{
 			return BMP_IMG_TYPE_2BPP_ICP;
-		}break;
+		}
 	}
 	fprintf(stderr, "%s: Unsupported bits type", __FUNCTION__);
 	abort();

@@ -315,16 +315,16 @@ TGA_ICP_TYPE AGIDL_TGAGetICPType(int num){
 	switch(num){
 		case 1:{
 			return TGA_IMG_TYPE_ICP;
-		}break;
+		}
 		case 2:{
 			return TGA_IMG_TYPE_NO_ICP;
-		}break;
+		}
 		case 9:{
 			return TGA_IMG_TYPE_RLE_ICP;
-		}break;
+		}
 		case 10:{
 			return TGA_IMG_TYPE_RLE_NO_ICP;
-		}break;
+		}
 		default:{
 			fprintf(stderr, "%s: Unsupported num code", __FUNCTION__);
 			abort();
@@ -336,19 +336,19 @@ TGA_IMG_TYPE AGIDL_TGAGetIMGType(int bits){
 	switch(bits){
 		case 8:{
 			return TGA_IMG_TYPE_ICP_CLR;
-		}break;
+		}
 		case 15:{
 			return TGA_IMG_TYPE_HIGH_CLR;
-		}break;
+		}
 		case 16:{
 			return TGA_IMG_TYPE_HIGH_CLR;
-		}break;
+		}
 		case 24:{
 			return TGA_IMG_TYPE_TRUE_CLR;
-		}break;
+		}
 		case 32:{
 			return TGA_IMG_TYPE_DEEP_CLR;
-		}break;
+		}
 		default:{
 			fprintf(stderr, "%s: Unsupported bit size", __FUNCTION__);
 			abort();

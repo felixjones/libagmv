@@ -513,7 +513,7 @@ GLIDE_3DF_CLR_FMT AGIDL_3DFGetGlideClrFmt(char format[10]){
 				return GLIDE_RGB_565;
 			}
 			return GLIDE_UNKNOWN_FMT;
-		}break;
+		}
 		case 'a':{
 			if(format[1] == '8'){
 				return GLIDE_A8;
@@ -540,26 +540,26 @@ GLIDE_3DF_CLR_FMT AGIDL_3DFGetGlideClrFmt(char format[10]){
 				return GLIDE_ARGB_8888;
 			}
 			return GLIDE_UNKNOWN_FMT;
-		}break;
+		}
 		case 'i':{
 			if(format[1] == '8'){
 				return GLIDE_I8;
 			}
 			return GLIDE_UNKNOWN_FMT;
-		}break;
+		}
 		case 'y':{
 			if(format[1] == 'y' && format[2] == 'i' && format[3] == 'q'){
 				return GLIDE_YIQ;
 			}
 			return GLIDE_UNKNOWN_FMT;
-		}break;
+		}
 		case 'p':{
 			if(format[1] == '8'){
 				return GLIDE_P8;
 			}
 			return GLIDE_UNKNOWN_FMT;
-		}break;
-		default: return GLIDE_UNKNOWN_FMT; break;
+		}
+		default: return GLIDE_UNKNOWN_FMT;
 	}	
 }
 
@@ -567,35 +567,35 @@ u8 AGIDL_GetCharNum(char num){
 	switch(num){
 		case '0':{
 			return 0;
-		}break;
+		}
 		case '1':{
 			return 1;
-		}break;
+		}
 		case '2':{
 			return 2;
-		}break;
+		}
 		case '3':{
 			return 3;
-		}break;
+		}
 		case '4':{
 			return 4;
-		}break;
+		}
 		case '5':{
 			return 5;
-		}break;
+		}
 		case '6':{
 			return 6;
-		}break;
+		}
 		case '7':{
 			return 7;
-		}break;
+		}
 		case '8':{
 			return 8;
-		}break;
+		}
 		case '9':{
 			return 9;
-		}break;
-		default: return 0; break;
+		}
+		default: return 0;
 	}
 }
 

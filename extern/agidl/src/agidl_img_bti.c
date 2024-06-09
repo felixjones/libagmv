@@ -307,37 +307,37 @@ BTI_CLR_FMT AGIDL_GetBTIClrFmt(u8 type){
 	switch(type){
 		case 0x00:{
 			return BTI_I4;
-		}break;
+		}
 		case 0x01:{
 			return BTI_I8;
-		}break;
+		}
 		case 0x02:{
 			return BTI_IA4;
-		}break;
+		}
 		case 0x03:{
 			return BTI_IA8;
-		}break;
+		}
 		case 0x04:{
 			return BTI_RGB_565;
-		}break;
+		}
 		case 0x05:{
 			return BTI_RGB5A3;
-		}break;
+		}
 		case 0x06:{
 			return BTI_RGBA32;
-		}break;
+		}
 		case 0x08:{
 			return BTI_CI4;
-		}break;
+		}
 		case 0x09:{
 			return BTI_CI8;
-		}break;
+		}
 		case 0x0A:{
 			return BTI_C14X2;
-		}break;
+		}
 		case 0x0E:{
 			return BTI_CMPR;
-		}break;
+		}
 	}
 	return 44;
 }
@@ -346,14 +346,14 @@ BTI_ICP_FMT AGIDL_BTIGetICPFmt(u8 type){
 	switch(type){
 		case 0x00:{
 			return BTI_ICP_IA8;
-		}break;
+		}
 		case 0x01:{
 			return BTI_ICP_565;
-		}break;
+		}
 		case 0x02:{
 			return BTI_ICP_5A3;
-		}break;
-		default: return 44; break;
+		}
+		default: return 44;
 	}
 }
 

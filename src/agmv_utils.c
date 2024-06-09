@@ -465,56 +465,56 @@ u8 AGMV_GetVersionFromOPT(AGMV_OPT opt, AGMV_COMPRESSION compression){
 		switch(opt){
 			case AGMV_OPT_I:{
 				return 1;
-			}break;
+			}
 			case AGMV_OPT_II:{
 				return 2;
-			}break;
+			}
 			case AGMV_OPT_III:{
 				return 1;
-			}break;
+			}
 			case AGMV_OPT_ANIM:{
 				return 2;
-			}break;
+			}
 			case AGMV_OPT_GBA_I:{
 				return 1;
-			}break;
+			}
 			case AGMV_OPT_GBA_II:{
 				return 2;
-			}break;
+			}
 			case AGMV_OPT_GBA_III:{
 				return 1;
-			}break;
+			}
 			case AGMV_OPT_NDS:{
 				return 1;
-			}break;
+			}
 		}
 	}
 	else{
 		switch(opt){
 			case AGMV_OPT_I:{
 				return 3;
-			}break;
+			}
 			case AGMV_OPT_II:{
 				return 4;
-			}break;
+			}
 			case AGMV_OPT_III:{
 				return 3;
-			}break;
+			}
 			case AGMV_OPT_ANIM:{
 				return 4;
-			}break;
+			}
 			case AGMV_OPT_GBA_I:{
 				return 3;
-			}break;
+			}
 			case AGMV_OPT_GBA_II:{
 				return 4;
-			}break;
+			}
 			case AGMV_OPT_GBA_III:{
 				return 3;
-			}break;
+			}
 			case AGMV_OPT_NDS:{
 				return 3;
-			}break;
+			}
 		}
 	}
 	fprintf(stderr, "%s: Unsupported opt compression combination", __FUNCTION__);

@@ -354,23 +354,23 @@ PVRClrFmt AGIDL_GetPVRClrFmt(u8 byte){
 	switch(byte){
 		case 0x00:{
 			return PVR_RGB_555;
-		}break;
+		}
 		case 0x01:{
 			return PVR_RGB_565;
-		}break;
+		}
 		case 0x02:{
 			return PVR_ARGB_4444;
-		}break;
+		}
 		case 0x03:{
 			return PVR_YUV_442;
-		}break;
+		}
 		case 0x05:{
 			return PVR_ICP_16;
-		}break;
+		}
 		case 0x06:{
 			return PVR_ICP_256;
-		}break;
-		default: return PVR_RGB_565; break;
+		}
+		default: return PVR_RGB_565;
 	}
 }
 
@@ -378,29 +378,29 @@ PVRImgType AGIDL_PVRGetImgType(u8 byte){
 	switch(byte){
 		case 0x01:{
 			return PVR_IMG_SQUARE_TWIDDLED;
-		}break;
+		}
 		case 0x02:{
 			return PVR_IMG_SQUARE_TWIDDLED_AND_MIPMAPPED;
-		}break;
+		}
 		case 0x05:{
 			return PVR_IMG_ICP_256_TWIDDLED;
-		}break;
+		}
 		case 0x06:{
 			return PVR_IMG_ICP_16_TWIDDLED;
-		}break;
+		}
 		case 0x07:{
 			return PVR_IMG_ICP_256;
-		}break;
+		}
 		case 0x08:{
 			return PVR_IMG_ICP_16;
-		}break;
+		}
 		case 0x09:{
 			return PVR_IMG_RECTANGLE;
-		}break;
+		}
 		case 0x0D:{
 			return PVR_IMG_RECTANGLE_TWIDDLED;
-		}break;
-		default: return PVR_IMG_SQUARE_TWIDDLED; break;
+		}
+		default: return PVR_IMG_SQUARE_TWIDDLED;
 	}
 }
 
@@ -429,22 +429,22 @@ PVRPxlFmt AGIDL_GetPVRPxlFmt(u8 long2[8]){
 		switch(long2[0]){
 			case 0:{
 				return PVRTC_2BPP_RGB;
-			}break;
+			}
 			case 1:{
 				return PVRTC_2BPP_RGBA;
-			}break;
+			}
 			case 2:{
 				return PVRTC_4BPP_RGB;
-			}break;
+			}
 			case 3:{
 				return PVRTC_4BPP_RGBA;
-			}break;
+			}
 			case 4:{
 				return PVRTC_II_2BPP_RGB;
-			}break;
+			}
 			case 5:{
 				return PVRTC_II_4BPP_RGB;
-			}break;
+			}
 		}
 	}
 	return 100;
