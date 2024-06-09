@@ -14,7 +14,6 @@
 
 #include <agidl_gd_display.h>
 
-#include <agidl_cc_manager.h>
 #include <agidl_cc_mixer.h>
 
 void AGIDL_DispImgData(void* vram, u32 width, u32 height, AGIDL_ATTR table, void* spr, u32 widths, u32 heights, AGIDL_CLR_FMT fmt){
