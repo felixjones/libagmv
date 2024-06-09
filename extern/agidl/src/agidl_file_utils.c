@@ -38,10 +38,7 @@ u16 AGIDL_ReadShort(FILE* file){
 	if(useBigEndArch == TRUE){
 		return msb << 8 | lsb;
 	}
-	else{
-		return lsb << 8 | msb;
-	}
-	
+	return lsb << 8 | msb;
 }
 
 u32 AGIDL_ReadLong(FILE* file){
@@ -54,9 +51,7 @@ u32 AGIDL_ReadLong(FILE* file){
 	if(useBigEndArch == TRUE){
 		return dword[0] << 24 | dword[1] << 16 | dword[2] << 8 | dword[3];
 	}
-	else{
-		return dword[3] << 24 | dword[2] << 16 | dword[1] << 8 | dword[0];
-	}
+	return dword[3] << 24 | dword[2] << 16 | dword[1] << 8 | dword[0];
 }
 
 void AGIDL_WriteByte(FILE* file, u8 byte){
@@ -105,13 +100,11 @@ u32 AGIDL_ReadRGB(FILE* file, AGIDL_CLR_FMT fmt){
 		
 		return AGIDL_RGB(r,g,b,fmt);
 	}
-	else{
-		u8 b = AGIDL_ReadByte(file);
-		u8 g = AGIDL_ReadByte(file);
-		u8 r = AGIDL_ReadByte(file);
+	u8 b = AGIDL_ReadByte(file);
+	u8 g = AGIDL_ReadByte(file);
+	u8 r = AGIDL_ReadByte(file);
 		
-		return AGIDL_RGB(r,g,b,fmt);
-	}
+	return AGIDL_RGB(r,g,b,fmt);
 }
 
 void AGIDL_WriteRGB(FILE* file, COLOR clr, AGIDL_CLR_FMT fmt, AGIDL_CLR_FMT write){

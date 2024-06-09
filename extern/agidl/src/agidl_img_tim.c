@@ -165,15 +165,13 @@ int AGIDL_IsTIM(AGIDL_TIM* tim){
 		&& tim->clut_header.num_clrs <= 256){
 			return 1;
 		}
-		else return 0;
+		return 0;
 	}
-	else{
-		if(AGIDL_IsTIMHeader(tim) && AGIDL_TIMGetWidth(tim) > 0 && AGIDL_TIMGetHeight(tim) > 0 && AGIDL_TIMGetWidth(tim) < 1024
-		&& AGIDL_TIMGetHeight(tim) < 1024){
-			return 1;
-		}
-		else return 0;
+	if(AGIDL_IsTIMHeader(tim) && AGIDL_TIMGetWidth(tim) > 0 && AGIDL_TIMGetHeight(tim) > 0 && AGIDL_TIMGetWidth(tim) < 1024
+	   && AGIDL_TIMGetHeight(tim) < 1024){
+		return 1;
 	}
+	return 0;
 }
 
 int AGIDL_IsTIMHeader(AGIDL_TIM* tim){
@@ -181,7 +179,7 @@ int AGIDL_IsTIMHeader(AGIDL_TIM* tim){
 		|| tim->header.version == 0x03 || tim->header.version == 0x08 || tim->header.version == 0x09)){
 			return 1;
 		}
-		else return 0;
+	return 0;
 }
 
 void AGIDL_FreeTIM(AGIDL_TIM *tim){
@@ -339,7 +337,7 @@ int AGIDL_TIMDecodeHeader(AGIDL_TIM* tim, FILE* file){
 	if(!AGIDL_IsTIMHeader(tim)){
 		return INVALID_HEADER_FORMATTING_ERROR;
 	}
-	else return NO_IMG_ERROR;
+	return NO_IMG_ERROR;
 }
 
 int AGIDL_TIMDecodeIMG(AGIDL_TIM* tim, FILE* file){

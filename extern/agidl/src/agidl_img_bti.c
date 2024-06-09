@@ -397,7 +397,7 @@ int AGIDL_BTIDecodeHeader(AGIDL_BTI* bti, FILE* file){
 	if(bti->header.fmt == 44 || bti->header.icp_fmt == 44){
 		return INVALID_HEADER_FORMATTING_ERROR;
 	}
-	else return NO_IMG_ERROR;
+	return NO_IMG_ERROR;
 }
 
 void AGIDL_BTIDecodeIMG(AGIDL_BTI* bti, FILE* file){

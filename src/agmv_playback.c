@@ -31,7 +31,7 @@ Bool AGMV_IsVideoDone(AGMV* agmv){
 	if(agmv->frame_count >= AGMV_GetNumberOfFrames(agmv)){
 		return TRUE;
 	}
-	else return FALSE;
+	return FALSE;
 }
 
 void AGMV_SkipForwards(FILE* file, AGMV* agmv, int n){

@@ -123,14 +123,14 @@ COLOR AGIDL_PPMGetClr(AGIDL_PPM* ppm, int x, int y){
 	if(x >= 0 && y >= 0 && x < AGIDL_PPMGetWidth(ppm) && y < AGIDL_PPMGetHeight(ppm)){
 		return ppm->pixels.pix32[x+y*AGIDL_PPMGetWidth(ppm)];
 	}
-	else return 0;
+	return 0;
 }
 
 COLOR16 AGIDL_PPMGetClr16(AGIDL_PPM* ppm, int x, int y){
 	if(x >= 0 && y >= 0 && x < AGIDL_PPMGetWidth(ppm) && y < AGIDL_PPMGetHeight(ppm)){
 		return ppm->pixels.pix16[x+y*AGIDL_PPMGetWidth(ppm)];
 	}
-	else return 0;
+	return 0;
 }
 
 void AGIDL_ClearPPM(AGIDL_PPM *ppm, COLOR clr){
@@ -400,10 +400,10 @@ AGIDL_PPM_TYPE AGIDL_PPMGetType(u8 byte1, u8 byte2){
 	if(byte1 == 'P' && byte2 == '6'){
 		return PPM_BIN;
 	}
-	else if(byte1 == 'P' && byte2 == '3'){
+	if(byte1 == 'P' && byte2 == '3'){
 		return PPM_ASCII;
 	}
-	else return PPM_UNKNOWN;
+	return PPM_UNKNOWN;
 }
 
 u8 AGIDL_PPMGetNum(char c){

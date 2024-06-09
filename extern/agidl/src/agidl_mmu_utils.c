@@ -24,10 +24,8 @@ void* AGIDL_AllocImgDataMMU(u32 width, u32 height, AGIDL_CLR_FMT fmt){
 		COLOR16* clr = malloc(sizeof(COLOR16)*width*height);
 		return clr;
 	}
-	else{
-		COLOR* clr = malloc(sizeof(COLOR)*width*height);
-		return clr;
-	}
+	COLOR* clr = malloc(sizeof(COLOR)*width*height);
+	return clr;
 	return NULL;
 }
 

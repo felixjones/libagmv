@@ -652,8 +652,7 @@ void roundUpOdd(u8* num){
 f32 AGMV_Round(f32 x) {
     if (x >= 0.0)
         return floor(x + 0.5);
-    else
-        return ceil(x - 0.5);
+    return ceil(x - 0.5);
 }
 
 void AGMV_CompressAudio(AGMV* agmv){

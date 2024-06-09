@@ -157,7 +157,7 @@ int AGIDL_InsideClipBounds(u32 x, u32 y, u32 width, u32 height){
 	if(x >= 0 && y >= 0 && x < width && y < height){
 		return 1;
 	}
-	else return 0;
+	return 0;
 }
 
 void AGIDL_CopyTile(void* dest, void* src, u32 destw, u32 desth, u32 srcw, u32 srch, AGIDL_CLR_FMT destfmt, AGIDL_CLR_FMT srcfmt, u16 xstart, u16 xend, u16 ystart, u16 yend, u16 dx, u16 dy){
@@ -806,21 +806,19 @@ u8 * AGIDL_GenerateImgDataFromICP(void* data, u32 width, u32 height, AGIDL_ICP i
 
 		return buffer;
 	}
-	else{
-		COLOR16* clrdata = data;
-		u8* buffer = malloc(sizeof(u8)*(width*height));
+	COLOR16* clrdata = data;
+	u8* buffer = malloc(sizeof(u8)*(width*height));
 
-		u32 x,y;
-		for(y = 0; y < height; y++){
-			for(x = 0; x < width; x++){
-				COLOR16 clr = AGIDL_GetClr16(clrdata,x,y,width,height);
-				u8 clricp = AGIDL_FindClosestColor(icp,clr,icp.fmt,max_diff);
-				buffer[x+y*width] = clricp;
-			}
+	u32 x,y;
+	for(y = 0; y < height; y++){
+		for(x = 0; x < width; x++){
+			COLOR16 clr = AGIDL_GetClr16(clrdata,x,y,width,height);
+			u8 clricp = AGIDL_FindClosestColor(icp,clr,icp.fmt,max_diff);
+			buffer[x+y*width] = clricp;
 		}
-
-		return buffer;
 	}
+
+	return buffer;
 }
 
 COLOR AGIDL_GetClr(COLOR* clrs, int x, int y, int width, int height){
@@ -1037,21 +1035,19 @@ u8* AGIDL_GenerateRGBBuffer(void* data, int width, int height, AGIDL_CLR_FMT fmt
 		}
 		return rgbbuf;
 	}
-	else{
-		COLOR16* clr_data = data;
-		u8* rgbbuf = malloc(sizeof(u8)*(width*height*3));
-		int i,j;
-		for(i = 0; i < width * height; i++){
-			COLOR16 clr = clr_data[i];
-			u8 r = AGIDL_GetR(clr,fmt);
-			u8 g = AGIDL_GetG(clr,fmt);
-			u8 b = AGIDL_GetB(clr,fmt);
-			for(j = i * 3; j < i * 3 + 1; j++){
-				rgbbuf[j] = r; rgbbuf[j+1] = g; rgbbuf[j+2] = b;
-			}
+	COLOR16* clr_data = data;
+	u8* rgbbuf = malloc(sizeof(u8)*(width*height*3));
+	int i,j;
+	for(i = 0; i < width * height; i++){
+		COLOR16 clr = clr_data[i];
+		u8 r = AGIDL_GetR(clr,fmt);
+		u8 g = AGIDL_GetG(clr,fmt);
+		u8 b = AGIDL_GetB(clr,fmt);
+		for(j = i * 3; j < i * 3 + 1; j++){
+			rgbbuf[j] = r; rgbbuf[j+1] = g; rgbbuf[j+2] = b;
 		}
-		return rgbbuf;
 	}
+	return rgbbuf;
 }
 
 u8* AGIDL_GenerateBGRBuffer(COLOR* clrs, int width, int height, AGIDL_CLR_FMT fmt){

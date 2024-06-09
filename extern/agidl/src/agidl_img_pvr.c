@@ -158,7 +158,7 @@ int AGIDL_PVRGetWidth(AGIDL_PVR* pvr){
 	if(pvr->pvr_type == DREAMCAST_PVR){
 		return pvr->header.width;
 	}
-	else return pvr->mheader.width;
+	return pvr->mheader.width;
 }
 
 u32 AGIDL_PVRGetSize(AGIDL_PVR* pvr){
@@ -169,7 +169,7 @@ int AGIDL_PVRGetHeight(AGIDL_PVR* pvr){
 	if(pvr->pvr_type == DREAMCAST_PVR){
 		return pvr->header.height;
 	}
-	else return pvr->mheader.height;
+	return pvr->mheader.height;
 }
 
 AGIDL_CLR_FMT AGIDL_PVRGetClrFmt(AGIDL_PVR* pvr){
@@ -405,10 +405,10 @@ PVRPxlFmt AGIDL_GetPVRPxlFmt(u8 long2[8]){
 		if(long2[4] == 8 && long2[5] == 8 && long2[6] == 8){
 			return PVRTC_RGB_888;
 		}
-		else if(long2[4] == 5 && long2[5] == 5 && long2[6] == 5){
+		if(long2[4] == 5 && long2[5] == 5 && long2[6] == 5){
 			return PVRTC_RGB_555;
 		}
-		else if(long2[4] == 5 && long2[5] == 6 && long2[6] == 5){
+		if(long2[4] == 5 && long2[5] == 6 && long2[6] == 5){
 			return PVRTC_RGB_565;
 		}
 	}
@@ -416,12 +416,10 @@ PVRPxlFmt AGIDL_GetPVRPxlFmt(u8 long2[8]){
 		if(long2[0] == 'r' && long2[4] != 5){
 			return PVRTC_RGBA_8888;
 		}
-		else if(long2[4] == 5){
+		if(long2[4] == 5){
 			return PVRTC_RGB_555;
 		}
-		else{
-			return PVRTC_BGRA_8888;
-		}
+		return PVRTC_BGRA_8888;
 	}
 	else{
 		switch(long2[0]){
@@ -462,10 +460,10 @@ int isImgPVR(u32 gbix, u32 pvrt){
 	if(g != 'G' || b != 'B' || i != 'I' || x != 'X'){
 		return 0;
 	}
-	else if(p != 'P' || v != 'V' || r != 'R' || t != 'T'){
+	if(p != 'P' || v != 'V' || r != 'R' || t != 'T'){
 		return 0;
 	}
-	else return 1;
+	return 1;
 }
 
 int AGIDL_IsModernPVR(PVRPxlFmt fmt){
@@ -473,7 +471,7 @@ int AGIDL_IsModernPVR(PVRPxlFmt fmt){
 	fmt == 0x7 || fmt == 0x8 || fmt == 0x9 || fmt == 0x10){
 		return TRUE;
 	}
-	else return FALSE;
+	return FALSE;
 }
 
 int AGIDL_PVRDecodeHeader(AGIDL_PVR* pvr, FILE* file){
@@ -502,11 +500,11 @@ int AGIDL_PVRDecodeHeader(AGIDL_PVR* pvr, FILE* file){
 		if(!isImgPVR(pvr->header.id1,pvr->header.id2)){
 			return INVALID_HEADER_FORMATTING_ERROR;
 		}
-		else return NO_IMG_ERROR;
+		return NO_IMG_ERROR;
 	}
-	else if(ulong[0] == 'P' && ulong[1] == 'V' && ulong[2] == 'R'){
+	if(ulong[0] == 'P' && ulong[1] == 'V' && ulong[2] == 'R'){
 		pvr->mheader.version = ulong[0] << 24 | ulong[1] << 16 | ulong[2] << 8 | ulong[3];
-		
+
 		pvr->mheader.flags = AGIDL_ReadLong(file);
 		fread(&pvr->mheader.ulong2,1,8,file);
 		pvr->mheader.clr_fmt = AGIDL_ReadLong(file);
@@ -518,7 +516,7 @@ int AGIDL_PVRDecodeHeader(AGIDL_PVR* pvr, FILE* file){
 		pvr->mheader.num_of_faces = AGIDL_ReadLong(file);
 		pvr->mheader.num_of_mipmaps = AGIDL_ReadLong(file);
 		pvr->mheader.meta_data_size = AGIDL_ReadLong(file);
-		
+
 		if(pvr->mheader.meta_data_size != 0){
 			pvr->mheader.fourcc[0] = AGIDL_ReadByte(file);
 			pvr->mheader.fourcc[1] = AGIDL_ReadByte(file);
@@ -528,18 +526,17 @@ int AGIDL_PVRDecodeHeader(AGIDL_PVR* pvr, FILE* file){
 			pvr->mheader.data_size = AGIDL_ReadLong(file);
 			fseek(file,pvr->mheader.data_size,SEEK_CUR);
 		}
-		
+
 		pvr->pxl_fmt = AGIDL_GetPVRPxlFmt(pvr->mheader.ulong2);
-		
+
 		pvr->pvr_type = MODERN_PVR;
-		
+
 		if(AGIDL_IsModernPVR(pvr->pxl_fmt) && (pvr->mheader.clr_fmt == 0 || pvr->mheader.clr_fmt == 1)){
 			return NO_IMG_ERROR;
 		}
-		else return INVALID_HEADER_FORMATTING_ERROR;
-		
+		return INVALID_HEADER_FORMATTING_ERROR;
 	}
-	else return INVALID_HEADER_FORMATTING_ERROR;
+	return INVALID_HEADER_FORMATTING_ERROR;
 }
 
 void AGIDL_PVREncodeHeader(AGIDL_PVR* pvr, FILE* file){

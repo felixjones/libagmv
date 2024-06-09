@@ -365,7 +365,7 @@ int AGIDL_TGADecodeHeader(AGIDL_TGA* tga, FILE* file){
 	if(AGIDL_IsTGA(tga) == TRUE){
 		return NO_IMG_ERROR;
 	}
-	else return INVALID_HEADER_FORMATTING_ERROR;
+	return INVALID_HEADER_FORMATTING_ERROR;
 }
 
 int AGIDL_IsTGA(AGIDL_TGA* tga){
@@ -377,7 +377,7 @@ int AGIDL_IsTGA(AGIDL_TGA* tga){
 	&& (tga->header.flip == 0 || tga->header.flip == 1)){
 		return 1;
 	}
-	else return 0;
+	return 0;
 }
 
 void AGIDL_TGADecodeIMG(AGIDL_TGA *tga, FILE* file, TGA_ICP_TYPE icp, TGA_IMG_TYPE img_type){

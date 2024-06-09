@@ -277,7 +277,7 @@ AGIDL_Bool AGIDL_EOF(FILE* file){
 	if(pos >= file_size){
 		return TRUE;
 	}
-	else return FALSE;
+	return FALSE;
 }
 
 u32 mdec_count = 0;
@@ -311,7 +311,7 @@ int AGIDL_IsMDECVideoFrame(AGIDL_MDEC_FRAME* frame){
 	|| !(frame->version == 1 || frame->version == 2 || frame->version == 3) || frame->quant_scale > 63){
 		return INVALID_HEADER_FORMATTING_ERROR;
 	}
-	else return NO_IMG_ERROR;
+	return NO_IMG_ERROR;
 }
 
 void AGIDL_EnsureDimMul16(AGIDL_MDEC_FRAME* frame){
@@ -421,7 +421,7 @@ float C(int u){
 	if(u == 0){
 		return 0.3536f;
 	}
-	else return 0.5f;
+	return 0.5f;
 }
 
 int AGIDL_SingleIDCT(int x, int y, s16 macroblock[8][8]){
@@ -545,40 +545,38 @@ int AGIDL_MDEC(const char* filename, AGIDL_IMG_TYPE img_type){
 		
 		return error;
 	}
-	else{
-		AGIDL_FindNextVideoFrame(file);
-		AGIDL_MDEC_FRAME* frame = malloc(sizeof(AGIDL_MDEC_FRAME));
+	AGIDL_FindNextVideoFrame(file);
+	AGIDL_MDEC_FRAME* frame = malloc(sizeof(AGIDL_MDEC_FRAME));
 	
-		frame->no_audio = FALSE;
+	frame->no_audio = FALSE;
 		
-		AGIDL_ReadMDECVideoFrame(file,frame);
-		int error = AGIDL_IsMDECVideoFrame(frame);
+	AGIDL_ReadMDECVideoFrame(file,frame);
+	int error = AGIDL_IsMDECVideoFrame(frame);
 	
-		if(error == NO_IMG_ERROR){
-			AGIDL_MDECAllocResources(frame);
-			AGIDL_ReadMultiplexStream(file,frame);
+	if(error == NO_IMG_ERROR){
+		AGIDL_MDECAllocResources(frame);
+		AGIDL_ReadMultiplexStream(file,frame);
 			
+		if(print == TRUE){
+			AGIDL_PrintMDECBitstream(frame);
+		}
+			
+		while(AGIDL_EOF(file) != TRUE){
+			AGIDL_FindNextVideoFrame(file);
+			AGIDL_ReadMDECVideoFrame(file,frame);
+			AGIDL_ReadMultiplexStream(file,frame);
+				
 			if(print == TRUE){
 				AGIDL_PrintMDECBitstream(frame);
 			}
-			
-			while(AGIDL_EOF(file) != TRUE){
-				AGIDL_FindNextVideoFrame(file);
-				AGIDL_ReadMDECVideoFrame(file,frame);
-				AGIDL_ReadMultiplexStream(file,frame);
-				
-				if(print == TRUE){
-					AGIDL_PrintMDECBitstream(frame);
-				}
-			}
 		}
-
-		free(frame->data);
-		free(frame);
-		
-		return error;
 	}
-	
+
+	free(frame->data);
+	free(frame);
+		
+	return error;
+
 	fclose(file);
 	
 	return NO_IMG_ERROR;

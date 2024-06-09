@@ -568,30 +568,28 @@ int AGIDL_BMPDecodeHeader(AGIDL_BMP* bmp, FILE* file){
 		
 		return NO_IMG_ERROR;
 	}
-	else{
-		bmp->IsOS2 = FALSE;
-		bmp->header.width = AGIDL_ReadLong(file);
-		bmp->header.height = AGIDL_ReadLong(file);
-		bmp->header.num_of_planes = AGIDL_ReadShort(file);
-		bmp->header.bits = AGIDL_ReadShort(file);
-		bmp->header.compress = AGIDL_ReadLong(file);
-		bmp->header.img_size = AGIDL_ReadLong(file);
-		bmp->header.x_resolution = AGIDL_ReadLong(file);
-		bmp->header.y_resolution = AGIDL_ReadLong(file);
-		bmp->header.num_of_colors = AGIDL_ReadLong(file);
-		bmp->header.important_colors = AGIDL_ReadLong(file);
-	}
+	bmp->IsOS2 = FALSE;
+	bmp->header.width = AGIDL_ReadLong(file);
+	bmp->header.height = AGIDL_ReadLong(file);
+	bmp->header.num_of_planes = AGIDL_ReadShort(file);
+	bmp->header.bits = AGIDL_ReadShort(file);
+	bmp->header.compress = AGIDL_ReadLong(file);
+	bmp->header.img_size = AGIDL_ReadLong(file);
+	bmp->header.x_resolution = AGIDL_ReadLong(file);
+	bmp->header.y_resolution = AGIDL_ReadLong(file);
+	bmp->header.num_of_colors = AGIDL_ReadLong(file);
+	bmp->header.important_colors = AGIDL_ReadLong(file);
 
 	if(bmp->header.magic != 0x4d42 || bmp->header.file_size > 64000000 || bmp->header.num_of_colors > 512 || !(bmp->header.bits == 1 || bmp->header.bits == 2 || 
-	bmp->header.bits == 4 || bmp->header.bits == 8 || bmp->header.bits == 16 || bmp->header.bits == 24 || bmp->header.bits == 32) ||
-	bmp->header.reserved1 != 0 || bmp->header.reserved2 != 0){
+	                                                                                                           bmp->header.bits == 4 || bmp->header.bits == 8 || bmp->header.bits == 16 || bmp->header.bits == 24 || bmp->header.bits == 32) ||
+	   bmp->header.reserved1 != 0 || bmp->header.reserved2 != 0){
 		return INVALID_HEADER_FORMATTING_ERROR;
 	}
-	else if((bmp->header.compress == 1 && bmp->header.num_of_colors == 0) || (bmp->header.bits == 1 && bmp->header.num_of_colors > 2) || (bmp->header.bits == 2 && bmp->header.num_of_colors > 4) ||
-	(bmp->header.bits == 4 && bmp->header.num_of_colors > 16)){
+	if((bmp->header.compress == 1 && bmp->header.num_of_colors == 0) || (bmp->header.bits == 1 && bmp->header.num_of_colors > 2) || (bmp->header.bits == 2 && bmp->header.num_of_colors > 4) ||
+	   (bmp->header.bits == 4 && bmp->header.num_of_colors > 16)){
 		return INVALID_IMG_FORMATTING_ERROR;
 	}
-	else return NO_IMG_ERROR;
+	return NO_IMG_ERROR;
 }
 
 void AGIDL_BMPDecodeIMG(AGIDL_BMP* bmp, FILE* file, BMP_IMG_TYPE img_type){
@@ -881,7 +879,7 @@ void AGIDL_BMPDecodeRLE(AGIDL_BMP* bmp, FILE* file, BMP_IMG_TYPE img_type){
 									u8 frontindex = (index & 0xff) >> 4, backindex = index & 0xf;
 									int i;
 									for(i = 0; i < rle; i++){
-										if(i % 2 == 0){	
+										if(i % 2 == 0){
 											AGIDL_BMPSetClr(bmp,x+i,y,bmp->palette.icp.palette_16[frontindex]);
 										}
 										else{

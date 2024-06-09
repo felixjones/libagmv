@@ -34,7 +34,7 @@ COLOR AGIDL_CLR16_TO_CLR(COLOR16 clr, AGIDL_CLR_FMT srcfmt, AGIDL_CLR_FMT destfm
 		
 		return AGIDL_RGB(newR,newG,newB,destfmt);
 	}
-	else if(AGIDL_GetBitCount(destfmt) != 32){
+	if(AGIDL_GetBitCount(destfmt) != 32){
 		newR = r << 3;
 		newG = g << 3;
 		newB = b << 3;
@@ -45,19 +45,15 @@ COLOR AGIDL_CLR16_TO_CLR(COLOR16 clr, AGIDL_CLR_FMT srcfmt, AGIDL_CLR_FMT destfm
 		
 		return AGIDL_RGB(newR,newG,newB,destfmt);
 	}
-	else{
-		newR = r << 3;
-		newG = g << 3;
-		newB = b << 3;
+	newR = r << 3;
+	newG = g << 3;
+	newB = b << 3;
 		
-		newR |= newR >> 5;
-		newG |= newG >> 5;
-		newB |= newB >> 5;
+	newR |= newR >> 5;
+	newG |= newG >> 5;
+	newB |= newB >> 5;
 		
-		return AGIDL_RGBA(newR,newG,newB,0x55,destfmt);
-	}
-	
-	
+	return AGIDL_RGBA(newR,newG,newB,0x55,destfmt);
 }
 
 COLOR16 AGIDL_CLR_TO_CLR16(COLOR clr, AGIDL_CLR_FMT srcfmt, AGIDL_CLR_FMT destfmt){
@@ -98,13 +94,13 @@ COLOR AGIDL_RGB_TO_BGR(COLOR rgb, AGIDL_CLR_FMT fmt){
 	if(fmt == AGIDL_RGB_888){
 		return AGIDL_RGB(r,g,b,AGIDL_BGR_888);
 	}
-	else if(fmt == AGIDL_RGB_555){
+	if(fmt == AGIDL_RGB_555){
 		return a << 15 | AGIDL_RGB16(r,g,b,AGIDL_BGR_555);
 	}
-	else if(fmt == AGIDL_RGB_565){
+	if(fmt == AGIDL_RGB_565){
 		return AGIDL_RGB16(r,g,b,AGIDL_BGR_565);
 	}
-	else return 0;
+	return 0;
 }
 
 COLOR AGIDL_BGR_TO_RGB(COLOR bgr, AGIDL_CLR_FMT fmt){
@@ -116,13 +112,13 @@ COLOR AGIDL_BGR_TO_RGB(COLOR bgr, AGIDL_CLR_FMT fmt){
 	if(fmt == AGIDL_BGR_888){
 		return AGIDL_RGB(r,g,b,AGIDL_RGB_888);
 	}
-	else if(fmt == AGIDL_BGR_555){
+	if(fmt == AGIDL_BGR_555){
 		return a << 15 | AGIDL_RGB16(r,g,b,AGIDL_RGB_555);
 	}
-	else if(fmt == AGIDL_BGR_565){
+	if(fmt == AGIDL_BGR_565){
 		return AGIDL_RGB16(r,g,b,AGIDL_RGB_565);
 	}
-	else return 0;
+	return 0;
 }
 
 COLOR16 AGIDL_555_TO_565(COLOR16 clr, AGIDL_CLR_FMT fmt){
@@ -136,7 +132,7 @@ COLOR16 AGIDL_555_TO_565(COLOR16 clr, AGIDL_CLR_FMT fmt){
 	if(fmt == AGIDL_RGB_555){
 		return AGIDL_RGB16(r,g,b,AGIDL_RGB_565);
 	}
-	else return AGIDL_RGB16(r,g,b,AGIDL_BGR_565);
+	return AGIDL_RGB16(r,g,b,AGIDL_BGR_565);
 }
 
 COLOR16 AGIDL_565_TO_555(COLOR16 clr, AGIDL_CLR_FMT fmt){
@@ -150,7 +146,7 @@ COLOR16 AGIDL_565_TO_555(COLOR16 clr, AGIDL_CLR_FMT fmt){
 	if(fmt == AGIDL_RGB_565){
 		return AGIDL_RGB16(r,g,b,AGIDL_RGB_555);
 	}
-	else return AGIDL_RGB16(r,g,b,AGIDL_BGR_555);
+	return AGIDL_RGB16(r,g,b,AGIDL_BGR_555);
 }
 
 AGIDL_YCbCr AGIDL_CLR_TO_YCbCr(COLOR clr, AGIDL_CLR_FMT fmt){
@@ -169,9 +165,7 @@ COLOR AGIDL_RGBA_TO_RGB(COLOR rgba, AGIDL_CLR_FMT src, AGIDL_CLR_FMT dest){
 	if(AGIDL_GetBitCount(dest) == 24){
 		return AGIDL_RGB(r,g,b,dest);
 	}
-	else{
-		return AGIDL_CLR_TO_CLR16(rgba,src,dest);
-	}
+	return AGIDL_CLR_TO_CLR16(rgba,src,dest);
 }
 
 COLOR AGIDL_RGB_TO_RGBA(COLOR rgb, AGIDL_CLR_FMT src, AGIDL_CLR_FMT dest){
@@ -186,9 +180,7 @@ COLOR AGIDL_RGB_TO_RGBA(COLOR rgb, AGIDL_CLR_FMT src, AGIDL_CLR_FMT dest){
 		b = AGIDL_GetB(clr,AGIDL_RGB_888);
 		return AGIDL_RGBA(r,g,b,0xff,dest);
 	}
-	else{
-		return AGIDL_RGBA(r,g,b,0xff,dest);
-	}
+	return AGIDL_RGBA(r,g,b,0xff,dest);
 }
 
 COLOR AGIDL_ColorConvert(COLOR src, AGIDL_CLR_FMT sfmt, AGIDL_CLR_FMT dfmt){
@@ -208,48 +200,44 @@ COLOR AGIDL_ColorConvert(COLOR src, AGIDL_CLR_FMT sfmt, AGIDL_CLR_FMT dfmt){
 		if(dbits == 24 || (dbits == 16 && sfmt == AGIDL_RGB_555 && dfmt == AGIDL_BGR_555) || (dbits == 16 && sfmt == AGIDL_RGB_565 && dfmt == AGIDL_BGR_565)){
 			return AGIDL_RGB(r,g,b,dfmt);
 		}
-		else if(dbits == 32){
+		if(dbits == 32){
 			return AGIDL_RGBA(r,g,b,a,dfmt);
 		}
-		else{
-			if((sfmt == AGIDL_RGB_555 || sfmt == AGIDL_BGR_555) && (dfmt == AGIDL_BGR_565 || dfmt == AGIDL_RGB_565)){
+		if((sfmt == AGIDL_RGB_555 || sfmt == AGIDL_BGR_555) && (dfmt == AGIDL_BGR_565 || dfmt == AGIDL_RGB_565)){
 				
-				COLOR16 dest = AGIDL_555_TO_565(src,sfmt);
+			COLOR16 dest = AGIDL_555_TO_565(src,sfmt);
 				
-				if(sfmt == AGIDL_RGB_555 && dfmt == AGIDL_BGR_565){
-					return AGIDL_RGB_TO_BGR(dest,AGIDL_RGB_565);
-				}
-				else if(sfmt == AGIDL_BGR_555 && dfmt == AGIDL_RGB_565){
-					return AGIDL_BGR_TO_RGB(dest,AGIDL_BGR_565);
-				}
-				else return dest;
+			if(sfmt == AGIDL_RGB_555 && dfmt == AGIDL_BGR_565){
+				return AGIDL_RGB_TO_BGR(dest,AGIDL_RGB_565);
 			}
-			else{
-				COLOR16 dest = AGIDL_565_TO_555(src,sfmt);
-				
-				if(sfmt == AGIDL_RGB_565 && dfmt == AGIDL_BGR_555){
-					return AGIDL_RGB_TO_BGR(dest,AGIDL_RGB_555);
-				}
-				else if(sfmt == AGIDL_BGR_565 && dfmt == AGIDL_RGB_555){
-					return AGIDL_BGR_TO_RGB(dest,AGIDL_BGR_555);
-				}
-				else return dest;
+			if(sfmt == AGIDL_BGR_555 && dfmt == AGIDL_RGB_565){
+				return AGIDL_BGR_TO_RGB(dest,AGIDL_BGR_565);
 			}
+			return dest;
 		}
+		COLOR16 dest = AGIDL_565_TO_555(src,sfmt);
+				
+		if(sfmt == AGIDL_RGB_565 && dfmt == AGIDL_BGR_555){
+			return AGIDL_RGB_TO_BGR(dest,AGIDL_RGB_555);
+		}
+		if(sfmt == AGIDL_BGR_565 && dfmt == AGIDL_RGB_555){
+			return AGIDL_BGR_TO_RGB(dest,AGIDL_BGR_555);
+		}
+		return dest;
 	}
-	else if(sbits == 24 && dbits == 32){
+	if(sbits == 24 && dbits == 32){
 		return AGIDL_RGBA(r,g,b,0xff,dfmt);
 	}
-	else if(sbits == 32 && dbits == 24){
+	if(sbits == 32 && dbits == 24){
 		return AGIDL_RGB(r,g,b,dfmt);
 	}
-	else if((sbits == 24 || sbits == 32) && dbits == 16){
+	if((sbits == 24 || sbits == 32) && dbits == 16){
 		return AGIDL_CLR_TO_CLR16(src,sfmt,dfmt);
 	}
-	else if(sbits == 16 && (dbits == 24 || dbits == 32)){
+	if(sbits == 16 && (dbits == 24 || dbits == 32)){
 		return AGIDL_CLR16_TO_CLR(src,sfmt,dfmt);
 	}
-	else return src;
+	return src;
 }
 
 AGIDL_YCbCr AGIDL_RGB_TO_YCbCr(u8 r, u8 g, u8 b){

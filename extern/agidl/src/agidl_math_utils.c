@@ -24,21 +24,21 @@ int AGIDL_Min(int a, int b){
 	if(a < b){
 		return a;
 	}
-	else return b;
+	return b;
 }
 
 int AGIDL_Max(int a, int b){
 	if(a > b){
 		return a;
 	}
-	else return b;
+	return b;
 }
 
 int AGIDL_Abs(int a){
 	if(a < 0){
 		return -a;
 	}
-	else return a;
+	return a;
 }
 
 int AGIDL_Clamp(int minVal, int targetVal, int maxVal){
@@ -53,21 +53,21 @@ float AGIDL_Minf(float a, float b){
 	if(a < b){
 		return a;
 	}
-	else return b;
+	return b;
 }
 
 float AGIDL_Maxf(float a, float b){
 	if(a > b){
 		return a;
 	}
-	else return b;
+	return b;
 }
 
 float AGIDL_Absf(float a){
 	if(a < 0){
 		return -a;
 	}
-	else return a;
+	return a;
 }
 
 float AGIDL_Clampf(float minVal, float targetVal, float maxVal){
@@ -341,9 +341,7 @@ u8 AGIDL_GetPow2Index(u32 num){
 			if(i > 1){
 				return i - 1;
 			}
-			else{
-				return i;
-			}
+			return i;
 		}
 	}
 	

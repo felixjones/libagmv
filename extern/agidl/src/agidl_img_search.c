@@ -437,9 +437,7 @@ void AGIDL_TGASearchFileOnDisk(const char* filename, AGIDL_IMG_TYPE img_type){
 				fclose(file);
 				return;
 			}
-			else{
-				fseek(file,curr_coord,SEEK_SET);
-			}
+			fseek(file,curr_coord,SEEK_SET);
 			fseek(file,curr_coord-17,SEEK_SET);
 			AGIDL_TGADecodeHeader(tga,file);
 		}

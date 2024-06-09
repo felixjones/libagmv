@@ -145,14 +145,14 @@ COLOR AGIDL_LBMGetClr(AGIDL_LBM* lbm, int x, int y){
 	if(x >= 0 && y >= 0 && x < AGIDL_LBMGetWidth(lbm) && y < AGIDL_LBMGetHeight(lbm)){
 		return lbm->pixels.pix32[x+y*AGIDL_LBMGetWidth(lbm)];
 	}
-	else return 0;
+	return 0;
 }
 
 COLOR16 AGIDL_LBMGetClr16(AGIDL_LBM* lbm, int x, int y){
 	if(x >= 0 && y >= 0 && x < AGIDL_LBMGetWidth(lbm) && y < AGIDL_LBMGetHeight(lbm)){
 		return lbm->pixels.pix16[x+y*AGIDL_LBMGetWidth(lbm)];
 	}
-	else return 0;
+	return 0;
 }
 
 void AGIDL_ClearLBM(AGIDL_LBM *lbm, COLOR clr){
@@ -438,14 +438,14 @@ int AGIDL_LBMDecodeHeader(AGIDL_LBM* lbm, FILE* file){
 	  lbm->header.form.ilbmid[0] == 'P' || lbm->header.form.ilbmid[1] == 'B' || lbm->header.form.ilbmid[2] == 'M' || lbm->header.form.ilbmid[3] == ' ')){
 		return INVALID_HEADER_FORMATTING_ERROR;
 	}
-	else if(lbm->header.bmhd.bmhdid[0] != 'B' || lbm->header.bmhd.bmhdid[1] != 'M' || lbm->header.bmhd.bmhdid[2] != 'H' || lbm->header.bmhd.bmhdid[3] != 'D' ||
-	lbm->header.bmhd.size != 0x14){
+	if(lbm->header.bmhd.bmhdid[0] != 'B' || lbm->header.bmhd.bmhdid[1] != 'M' || lbm->header.bmhd.bmhdid[2] != 'H' || lbm->header.bmhd.bmhdid[3] != 'D' ||
+	   lbm->header.bmhd.size != 0x14){
 		return INVALID_HEADER_FORMATTING_ERROR;
 	}
-	else if(lbm->header.bmhd.bpp > 8 || lbm->header.bmhd.bpp < 1 || !(lbm->header.bmhd.compress == 0 || lbm->header.bmhd.compress == 1)){
+	if(lbm->header.bmhd.bpp > 8 || lbm->header.bmhd.bpp < 1 || !(lbm->header.bmhd.compress == 0 || lbm->header.bmhd.compress == 1)){
 		return INVALID_HEADER_FORMATTING_ERROR;
 	}
-	else return NO_IMG_ERROR;
+	return NO_IMG_ERROR;
 }
 
 void AGIDL_LBMDecompressData(AGIDL_LBM* lbm, u8* src, u8* dest){

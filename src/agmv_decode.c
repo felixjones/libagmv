@@ -398,21 +398,19 @@ int AGMV_DecodeVideo(const char* filename, u8 img_type){
 		DestroyAGMV(agmv);
 		return err;
 	}
-	else{
-		for(i = 0; i < num_of_frames; i++){
-			AGMV_FindNextFrameChunk(file);
-			err1 = AGMV_DecodeFrameChunk(file,agmv);
+	for(i = 0; i < num_of_frames; i++){
+		AGMV_FindNextFrameChunk(file);
+		err1 = AGMV_DecodeFrameChunk(file,agmv);
 				
-			if(err1 != NO_ERR){
-				fclose(file);
-				DestroyAGMV(agmv);
-				return err1;
-			}
-			
-			AGIDL_QuickExport(agmv->frame->img_data,agmv->frame->width,agmv->frame->height,AGIDL_RGB_888,img_type);
+		if(err1 != NO_ERR){
+			fclose(file);
+			DestroyAGMV(agmv);
+			return err1;
 		}
+			
+		AGIDL_QuickExport(agmv->frame->img_data,agmv->frame->width,agmv->frame->height,AGIDL_RGB_888,img_type);
 	}
-	
+
 	fclose(file);
 	DestroyAGMV(agmv);
 	
@@ -460,73 +458,71 @@ int AGMV_DecodeAGMV(const char* filename, u8 img_type, AGMV_AUDIO_TYPE audio_typ
 		DestroyAGMV(agmv);
 		return err;
 	}
-	else{
-		if(agmv->header.total_audio_duration != 0){
-			agmv->audio_track->start_point = 0;
-			agmv->audio_track->pcm = (u16*)malloc(sizeof(u16)*agmv->header.audio_size);
+	if(agmv->header.total_audio_duration != 0){
+		agmv->audio_track->start_point = 0;
+		agmv->audio_track->pcm = (u16*)malloc(sizeof(u16)*agmv->header.audio_size);
 	
-			agmv->audio_chunk->size = agmv->header.audio_size / (f32)agmv->header.num_of_frames;
+		agmv->audio_chunk->size = agmv->header.audio_size / (f32)agmv->header.num_of_frames;
 			
-			for(i = 0; i < num_of_frames; i++){
-				AGMV_FindNextFrameChunk(file);
-				err1 = AGMV_DecodeFrameChunk(file,agmv);
-				AGMV_FindNextAudioChunk(file);
-				err2 = AGMV_DecodeAudioChunk(file,agmv);
+		for(i = 0; i < num_of_frames; i++){
+			AGMV_FindNextFrameChunk(file);
+			err1 = AGMV_DecodeFrameChunk(file,agmv);
+			AGMV_FindNextAudioChunk(file);
+			err2 = AGMV_DecodeAudioChunk(file,agmv);
 				
-				if(err1 != NO_ERR){
-					fclose(file);
-					DestroyAGMV(agmv);
-					return err1;
-				}
-				
-				if(err2 != NO_ERR){
-					fclose(file);
-					DestroyAGMV(agmv);
-					return err1;
-				}
-				
-				AGIDL_QuickExport(agmv->frame->img_data,agmv->frame->width,agmv->frame->height,AGIDL_RGB_888,img_type);
+			if(err1 != NO_ERR){
+				fclose(file);
+				DestroyAGMV(agmv);
+				return err1;
 			}
-
-			switch(audio_type){
-				case AGMV_AUDIO_WAV:{
-					audio = fopen("quick_export.wav","wb");
-					AGMV_ExportAudioType(audio,agmv,AGMV_AUDIO_WAV);
-					fclose(audio);
-				}break;
-				case AGMV_AUDIO_AIFC:{
-					audio = fopen("quick_export.aiff","wb");
-					AGMV_ExportAudioType(audio,agmv,AGMV_AUDIO_AIFC);
-					fclose(audio);
-				}break;
-				case AGMV_AUDIO_AIFF:{
-					audio = fopen("quick_export.aiff","wb");
-					AGMV_ExportAudioType(audio,agmv,AGMV_AUDIO_AIFF);
-					fclose(audio);
-				}break;
-				default:{
-					audio = fopen("quick_export.wav","wb");
-					AGMV_ExportAudioType(audio,agmv,AGMV_AUDIO_WAV);	
-					fclose(audio);
-				}break;
+				
+			if(err2 != NO_ERR){
+				fclose(file);
+				DestroyAGMV(agmv);
+				return err1;
 			}
+				
+			AGIDL_QuickExport(agmv->frame->img_data,agmv->frame->width,agmv->frame->height,AGIDL_RGB_888,img_type);
 		}
-		else{
-			for(i = 0; i < num_of_frames; i++){
-				AGMV_FindNextFrameChunk(file);
-				err1 = AGMV_DecodeFrameChunk(file,agmv);
-					
-				if(err1 != NO_ERR){
-					fclose(file);
-					DestroyAGMV(agmv);
-					return err1;
-				}
-				
-				AGIDL_QuickExport(agmv->frame->img_data,agmv->frame->width,agmv->frame->height,AGIDL_RGB_888,img_type);
-			}
+
+		switch(audio_type){
+			case AGMV_AUDIO_WAV:{
+				audio = fopen("quick_export.wav","wb");
+				AGMV_ExportAudioType(audio,agmv,AGMV_AUDIO_WAV);
+				fclose(audio);
+			}break;
+			case AGMV_AUDIO_AIFC:{
+				audio = fopen("quick_export.aiff","wb");
+				AGMV_ExportAudioType(audio,agmv,AGMV_AUDIO_AIFC);
+				fclose(audio);
+			}break;
+			case AGMV_AUDIO_AIFF:{
+				audio = fopen("quick_export.aiff","wb");
+				AGMV_ExportAudioType(audio,agmv,AGMV_AUDIO_AIFF);
+				fclose(audio);
+			}break;
+			default:{
+				audio = fopen("quick_export.wav","wb");
+				AGMV_ExportAudioType(audio,agmv,AGMV_AUDIO_WAV);	
+				fclose(audio);
+			}break;
 		}
 	}
-	
+	else{
+		for(i = 0; i < num_of_frames; i++){
+			AGMV_FindNextFrameChunk(file);
+			err1 = AGMV_DecodeFrameChunk(file,agmv);
+					
+			if(err1 != NO_ERR){
+				fclose(file);
+				DestroyAGMV(agmv);
+				return err1;
+			}
+				
+			AGIDL_QuickExport(agmv->frame->img_data,agmv->frame->width,agmv->frame->height,AGIDL_RGB_888,img_type);
+		}
+	}
+
 	fclose(file);
 	DestroyAGMV(agmv);
 	
@@ -594,51 +590,49 @@ int AGMV_DecodeAudio(const char* filename, AGMV_AUDIO_TYPE audio_type){
 		DestroyAGMV(agmv);
 		return err;
 	}
-	else{
-		if(agmv->header.total_audio_duration != 0){
-			agmv->audio_track->start_point = 0;
-			agmv->audio_track->pcm = (u16*)malloc(sizeof(u16)*agmv->header.audio_size);
+	if(agmv->header.total_audio_duration != 0){
+		agmv->audio_track->start_point = 0;
+		agmv->audio_track->pcm = (u16*)malloc(sizeof(u16)*agmv->header.audio_size);
 	
-			agmv->audio_chunk->size = agmv->header.audio_size / (f32)agmv->header.num_of_frames;
+		agmv->audio_chunk->size = agmv->header.audio_size / (f32)agmv->header.num_of_frames;
 			
-			for(i = 0; i < num_of_frames; i++){
-				AGMV_FindNextFrameChunk(file);
-				AGMV_SkipFrameChunk(file);
-				AGMV_FindNextAudioChunk(file);
-				err1 = AGMV_DecodeAudioChunk(file,agmv);
+		for(i = 0; i < num_of_frames; i++){
+			AGMV_FindNextFrameChunk(file);
+			AGMV_SkipFrameChunk(file);
+			AGMV_FindNextAudioChunk(file);
+			err1 = AGMV_DecodeAudioChunk(file,agmv);
 
-				if(err1 != NO_ERR){
-					fclose(file);
-					DestroyAGMV(agmv);
-					return err1;
-				}
-			}
-			
-			switch(audio_type){
-				case AGMV_AUDIO_WAV:{
-					audio = fopen("quick_export.wav","wb");
-					AGMV_ExportAudioType(audio,agmv,AGMV_AUDIO_WAV);
-					fclose(audio);
-				}break;
-				case AGMV_AUDIO_AIFC:{
-					audio = fopen("quick_export.aiff","wb");
-					AGMV_ExportAudioType(audio,agmv,AGMV_AUDIO_AIFC);
-					fclose(audio);
-				}break;
-				case AGMV_AUDIO_AIFF:{
-					audio = fopen("quick_export.aiff","wb");
-					AGMV_ExportAudioType(audio,agmv,AGMV_AUDIO_AIFF);
-					fclose(audio);
-				}break;
-				default:{
-					audio = fopen("quick_export.wav","wb");
-					AGMV_ExportAudioType(audio,agmv,AGMV_AUDIO_WAV);	
-					fclose(audio);
-				}break;
+			if(err1 != NO_ERR){
+				fclose(file);
+				DestroyAGMV(agmv);
+				return err1;
 			}
 		}
+			
+		switch(audio_type){
+			case AGMV_AUDIO_WAV:{
+				audio = fopen("quick_export.wav","wb");
+				AGMV_ExportAudioType(audio,agmv,AGMV_AUDIO_WAV);
+				fclose(audio);
+			}break;
+			case AGMV_AUDIO_AIFC:{
+				audio = fopen("quick_export.aiff","wb");
+				AGMV_ExportAudioType(audio,agmv,AGMV_AUDIO_AIFC);
+				fclose(audio);
+			}break;
+			case AGMV_AUDIO_AIFF:{
+				audio = fopen("quick_export.aiff","wb");
+				AGMV_ExportAudioType(audio,agmv,AGMV_AUDIO_AIFF);
+				fclose(audio);
+			}break;
+			default:{
+				audio = fopen("quick_export.wav","wb");
+				AGMV_ExportAudioType(audio,agmv,AGMV_AUDIO_WAV);	
+				fclose(audio);
+			}break;
+		}
 	}
-	
+
 	fclose(file);
 	DestroyAGMV(agmv);
 	

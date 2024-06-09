@@ -463,7 +463,7 @@ int AGIDL_GXTDecodeHeader(AGIDL_GXT* gxt, FILE* file){
 	if(g != 'G' || x != 'X' || t != 'T'){
 		return INVALID_HEADER_FORMATTING_ERROR;
 	}
-	else return NO_IMG_ERROR;
+	return NO_IMG_ERROR;
 }
 
 int AGIDL_GXTDecodeTextureHeader(AGIDL_GXT* gxt, FILE* file){
@@ -493,7 +493,7 @@ int AGIDL_GXTDecodeTextureHeader(AGIDL_GXT* gxt, FILE* file){
 	if(gxt->header.header.type == UNSUPPORTED_PVRT || gxt->header.header.fmt == UNSUPPORTED_PVRT){
 		return INVALID_HEADER_FORMATTING_ERROR;
 	}
-	else return NO_IMG_ERROR;
+	return NO_IMG_ERROR;
 }
 
 void AGIDL_GXTDecodeIMG(AGIDL_GXT* gxt, FILE* file){

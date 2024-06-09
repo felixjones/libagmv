@@ -222,7 +222,7 @@ int IsInXRange(float bias, u16 x, u8 size, u16 width){
 	if(x + size >= max_width_span){
 		return 0;
 	}
-	else return 1;
+	return 1;
 }
 
 int IsInYRange(float bias, u16 y, u8 size, u16 height){
@@ -231,7 +231,7 @@ int IsInYRange(float bias, u16 y, u8 size, u16 height){
 	if(y + size >= max_height_span){
 		return 0;
 	}
-	else return 1;
+	return 1;
 }
 
 int IsInInvXRange(float bias, u16 x, u8 size, u16 width){
@@ -243,7 +243,7 @@ int IsInInvXRange(float bias, u16 x, u8 size, u16 width){
 	if(x - size <= 0){
 		return 0;
 	}
-	else return 0;
+	return 0;
 }
 
 int IsInInvYRange(float bias, u16 y, u8 size, u16 height){
@@ -252,10 +252,10 @@ int IsInInvYRange(float bias, u16 y, u8 size, u16 height){
 	if(y - size <= 0){
 		return 0;
 	}
-	else if(y - size >= max_height_span){
+	if(y - size >= max_height_span){
 		return 1;
 	}
-	else return 0;
+	return 0;
 }
 
 void AGIDL_FloodLightRectNE(COLOR* clrs, COLOR clr, float clrfactor, AGIDL_CLR_FMT fmt, u16 x, u16 y, u16 width, u16 height, float bias, u8 size){
@@ -461,60 +461,58 @@ void * AGIDL_GenerateLightmapImgData(AGIDL_LIGHTMAP lightmap){
 			
 		return lightdata;
 	}
-	else{
-		u16 w = lightmap.width, h = lightmap.height;
-		
-		COLOR16* lightdata = malloc(sizeof(COLOR16)*w*h);
+	u16 w = lightmap.width, h = lightmap.height;
 
-		COLOR16 defacto = AGIDL_RGB16(30,30,30,lightmap.fmt);
-		AGIDL_ClrMemset16(lightdata,defacto,w*h);
-		
-		u16 x,y,i;
-		for(y = 0; y < h; y++){
-			for(x = 0; x < w; x++){
-				for(i = 0; i < lightmap.num_of_points; i++){
-					AGIDL_Point p = lightmap.points[i];
-					if(p.x == x && p.y == y){
-						AGIDL_CLR_FMT fmt = lightmap.fmt;
-						if(p.inv == 1){
-							switch(p.dir){
-								case LIGHT_DIR_NE:{
-									AGIDL_FloodInvLightRectNE16(lightdata,AGIDL_GrayscaleColor(p.clr,fmt),0.0f,lightmap.fmt,x,y,w,h,p.bias,p.size);
-								}break;
-								case LIGHT_DIR_SE:{
-									AGIDL_FloodInvLightRectSE16(lightdata,AGIDL_GrayscaleColor(p.clr,fmt),0.0f,lightmap.fmt,x,y,w,h,p.bias,p.size);
-								}break;
-								case LIGHT_DIR_NW_TO_SE:{
-									AGIDL_FloodInvLightRectNWTOSE16(lightdata,AGIDL_GrayscaleColor(p.clr,fmt),0.0f,lightmap.fmt,x,y,w,h,p.bias,p.size);
-								}break;
-								case LIGHT_DIR_SE_TO_NW:{
-									AGIDL_FloodInvLightRectSETONE16(lightdata,AGIDL_GrayscaleColor(p.clr,fmt),0.0f,lightmap.fmt,x,y,w,h,p.bias,p.size);
-								}break;
-							}
+	COLOR16* lightdata = malloc(sizeof(COLOR16)*w*h);
+
+	COLOR16 defacto = AGIDL_RGB16(30,30,30,lightmap.fmt);
+	AGIDL_ClrMemset16(lightdata,defacto,w*h);
+
+	u16 x,y,i;
+	for(y = 0; y < h; y++){
+		for(x = 0; x < w; x++){
+			for(i = 0; i < lightmap.num_of_points; i++){
+				AGIDL_Point p = lightmap.points[i];
+				if(p.x == x && p.y == y){
+					AGIDL_CLR_FMT fmt = lightmap.fmt;
+					if(p.inv == 1){
+						switch(p.dir){
+							case LIGHT_DIR_NE:{
+								AGIDL_FloodInvLightRectNE16(lightdata,AGIDL_GrayscaleColor(p.clr,fmt),0.0f,lightmap.fmt,x,y,w,h,p.bias,p.size);
+							}break;
+							case LIGHT_DIR_SE:{
+								AGIDL_FloodInvLightRectSE16(lightdata,AGIDL_GrayscaleColor(p.clr,fmt),0.0f,lightmap.fmt,x,y,w,h,p.bias,p.size);
+							}break;
+							case LIGHT_DIR_NW_TO_SE:{
+								AGIDL_FloodInvLightRectNWTOSE16(lightdata,AGIDL_GrayscaleColor(p.clr,fmt),0.0f,lightmap.fmt,x,y,w,h,p.bias,p.size);
+							}break;
+							case LIGHT_DIR_SE_TO_NW:{
+								AGIDL_FloodInvLightRectSETONE16(lightdata,AGIDL_GrayscaleColor(p.clr,fmt),0.0f,lightmap.fmt,x,y,w,h,p.bias,p.size);
+							}break;
 						}
-						else{
-							switch(p.dir){
-								case LIGHT_DIR_NE:{
-									AGIDL_FloodLightRectNE16(lightdata,AGIDL_GrayscaleColor(p.clr,fmt),1.0f,lightmap.fmt,x,y,w,h,p.bias,p.size);
-								}break;
-								case LIGHT_DIR_SE:{
-									AGIDL_FloodLightRectSE16(lightdata,AGIDL_GrayscaleColor(p.clr,fmt),1.0f,lightmap.fmt,x,y,w,h,p.bias,p.size);
-								}break;
-								case LIGHT_DIR_NW_TO_SE:{
-									AGIDL_FloodLightRectNWTOSE16(lightdata,AGIDL_GrayscaleColor(p.clr,fmt),1.0f,lightmap.fmt,x,y,w,h,p.bias,p.size);
-								}break;
-								case LIGHT_DIR_SE_TO_NW:{
-									AGIDL_FloodLightRectSETONE16(lightdata,AGIDL_GrayscaleColor(p.clr,fmt),1.0f,lightmap.fmt,x,y,w,h,p.bias,p.size);
-								}break;
-							}
-						}	
+					}
+					else{
+						switch(p.dir){
+							case LIGHT_DIR_NE:{
+								AGIDL_FloodLightRectNE16(lightdata,AGIDL_GrayscaleColor(p.clr,fmt),1.0f,lightmap.fmt,x,y,w,h,p.bias,p.size);
+							}break;
+							case LIGHT_DIR_SE:{
+								AGIDL_FloodLightRectSE16(lightdata,AGIDL_GrayscaleColor(p.clr,fmt),1.0f,lightmap.fmt,x,y,w,h,p.bias,p.size);
+							}break;
+							case LIGHT_DIR_NW_TO_SE:{
+								AGIDL_FloodLightRectNWTOSE16(lightdata,AGIDL_GrayscaleColor(p.clr,fmt),1.0f,lightmap.fmt,x,y,w,h,p.bias,p.size);
+							}break;
+							case LIGHT_DIR_SE_TO_NW:{
+								AGIDL_FloodLightRectSETONE16(lightdata,AGIDL_GrayscaleColor(p.clr,fmt),1.0f,lightmap.fmt,x,y,w,h,p.bias,p.size);
+							}break;
+						}
 					}
 				}
 			}
 		}
-			
-		//AGIDL_LightInvScan(lightdata,w,h,lightmap.fmt);
-			
-		return lightdata;
 	}
+
+	//AGIDL_LightInvScan(lightdata,w,h,lightmap.fmt);
+
+	return lightdata;
 }

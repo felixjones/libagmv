@@ -29,7 +29,7 @@ Bool AGMV_EOF(FILE* file){
 	if(pos >= file_size){
 		return TRUE;
 	}
-	else return FALSE;
+	return FALSE;
 }
 
 u32 matchlength = 0,
@@ -134,7 +134,7 @@ Bool AGMV_IsCorrectFourCC(char fourcc[4], char f, char o, char u, char r){
 	if(f != fourcc[0] || o != fourcc[1] || u != fourcc[2] || r != fourcc[3]){
 		return FALSE;
 	}
-	else return TRUE;
+	return TRUE;
 }
 
 void AGMV_FindNextFrameChunk(FILE* file){
@@ -567,14 +567,14 @@ int AGMV_Abs(int a){
 	if(a < 0){
 		return -a;
 	}
-	else return a;
+	return a;
 }
 
 int AGMV_Min(int a, int b){
 	if(a < b){
 		return a;
 	}
-	else return b;
+	return b;
 }
 
 u8 AGMV_GetR(u32 color){
@@ -1079,13 +1079,13 @@ u32 AGMV_80BitFloat(FILE* file){
 	if(buf[0] == 0x40 && buf[1] == 0x0E && buf[2] == 0xAC && buf[3] == 0x44){
 		return 44100;
 	}
-	else if(buf[0] == 0x40 && buf[1] == 0x0D && buf[2] == 0x93 && buf[3] == 0xA8){
+	if(buf[0] == 0x40 && buf[1] == 0x0D && buf[2] == 0x93 && buf[3] == 0xA8){
 		return 18900;
 	}
-	else if(buf[0] == 0x40 && buf[1] == 0x0E && buf[2] == 0x93 && buf[3] == 0xA8){
+	if(buf[0] == 0x40 && buf[1] == 0x0E && buf[2] == 0x93 && buf[3] == 0xA8){
 		return 37800;
 	}
-	
+
 	u32 freq = 0;
 
     int sign = buf[0] >> 7 & 1;

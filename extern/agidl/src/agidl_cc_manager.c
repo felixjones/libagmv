@@ -222,10 +222,10 @@ u8 AGIDL_GetA(COLOR clr, AGIDL_CLR_FMT fmt){
 	if(fmt == AGIDL_RGBA_8888){
 		return clr & 0xff;
 	}
-	else if(fmt == AGIDL_ARGB_8888){
+	if(fmt == AGIDL_ARGB_8888){
 		return clr >> 24;
 	}
-	else return 0;
+	return 0;
 }
 
 COLOR AGIDL_SetR(COLOR clr, u8 newR, AGIDL_CLR_FMT fmt){
@@ -460,7 +460,7 @@ COLOR AGIDL_RGBA(u8 r, u8 g, u8 b, u8 a, AGIDL_CLR_FMT fmt){
 	if(fmt == AGIDL_RGBA_8888){
 		return r << 24 | g << 16 | b << 8 | a;
 	}
-	else return a << 24 | r << 16 | g << 8 | b;
+	return a << 24 | r << 16 | g << 8 | b;
 }
 
 COLOR16 AGIDL_RGB16(u8 r, u8 g, u8 b, AGIDL_CLR_FMT fmt){
@@ -501,17 +501,13 @@ COLOR AGIDL_Color3f(float r, float g, float b, AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 24){
 		return AGIDL_RGB(r*255.0f,g*255.0f,b*255.0f,fmt);
 	}
-	else if(AGIDL_GetBitCount(fmt) == 32){
+	if(AGIDL_GetBitCount(fmt) == 32){
 		return AGIDL_RGBA(r*255.0f,g*255.0f,b*255.0f,0xff,fmt);
 	}
-	else{
-		if(fmt == AGIDL_RGB_565 || fmt == AGIDL_BGR_565){
-			return AGIDL_RGB16(r*31.0f,g*63.0f,b*31.0f,fmt);
-		}
-		else{
-			return AGIDL_RGB16(r*31.0f,g*31.0f,b*31.0f,fmt);
-		}
+	if(fmt == AGIDL_RGB_565 || fmt == AGIDL_BGR_565){
+		return AGIDL_RGB16(r*31.0f,g*63.0f,b*31.0f,fmt);
 	}
+	return AGIDL_RGB16(r*31.0f,g*31.0f,b*31.0f,fmt);
 }
 
 COLOR AGIDL_Color4f(float r, float g, float b, float a, AGIDL_CLR_FMT fmt){
@@ -523,9 +519,7 @@ COLOR AGIDL_Color4f(float r, float g, float b, float a, AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 32){
 		return AGIDL_RGBA(r*255.0f,g*255.0f,b*255.0f,a*255.0f,fmt);
 	}
-	else{
-		return AGIDL_Color3f(r,g,b,fmt);
-	}
+	return AGIDL_Color3f(r,g,b,fmt);
 }
 
 COLOR AGIDL_GetColor(AGIDL_CLR clr, AGIDL_CLR_FMT fmt){
@@ -894,18 +888,16 @@ COLOR AGIDL_DarkenColor(COLOR clr, AGIDL_CLR_FMT fmt){
 
 		return AGIDL_RGB(r,g,b,fmt);
 	}
-	else{
-		u8 r = AGIDL_GetR(clr,fmt);
-		u8 g = AGIDL_GetG(clr,fmt);
-		u8 b = AGIDL_GetB(clr,fmt);
-		u8 a = AGIDL_GetA(clr,fmt);
+	u8 r = AGIDL_GetR(clr,fmt);
+	u8 g = AGIDL_GetG(clr,fmt);
+	u8 b = AGIDL_GetB(clr,fmt);
+	u8 a = AGIDL_GetA(clr,fmt);
 
-		r *= 0.75;
-		g *= 0.75;
-		b *= 0.75;
+	r *= 0.75;
+	g *= 0.75;
+	b *= 0.75;
 
-		return AGIDL_RGBA(r,g,b,a,fmt);
-	}
+	return AGIDL_RGBA(r,g,b,a,fmt);
 }
 
 COLOR AGIDL_BrightenColor(COLOR clr, AGIDL_CLR_FMT fmt){
@@ -920,18 +912,16 @@ COLOR AGIDL_BrightenColor(COLOR clr, AGIDL_CLR_FMT fmt){
 
 		return AGIDL_RGB(r,g,b,fmt);
 	}
-	else{
-		u8 r = AGIDL_GetR(clr,fmt);
-		u8 g = AGIDL_GetG(clr,fmt);
-		u8 b = AGIDL_GetB(clr,fmt);
-		u8 a = AGIDL_GetA(clr,fmt);
+	u8 r = AGIDL_GetR(clr,fmt);
+	u8 g = AGIDL_GetG(clr,fmt);
+	u8 b = AGIDL_GetB(clr,fmt);
+	u8 a = AGIDL_GetA(clr,fmt);
 
-		r *= 1.25;
-		g *= 1.25;
-		b *= 1.25;
+	r *= 1.25;
+	g *= 1.25;
+	b *= 1.25;
 
-		return AGIDL_RGBA(r,g,b,a,fmt);
-	}
+	return AGIDL_RGBA(r,g,b,a,fmt);
 }
 
 int AGIDL_IsInThreshold(COLOR clr1, COLOR clr2, AGIDL_CLR_FMT fmt, AGIDL_CLR_FMT fmt2, u8 max_diff){
@@ -947,9 +937,9 @@ int AGIDL_IsInThreshold(COLOR clr1, COLOR clr2, AGIDL_CLR_FMT fmt, AGIDL_CLR_FMT
 		if(AGIDL_Abs(r-r2) <= max_diff && AGIDL_Abs(g-g2) <= max_diff && AGIDL_Abs(b-b2) <= max_diff){
 			return 0;
 		}
-		else return 1;
+		return 1;
 	}
-	else if(AGIDL_GetBitCount(fmt) == 16 && (AGIDL_GetBitCount(fmt2) == 24 || AGIDL_GetBitCount(fmt2) == 32)){
+	if(AGIDL_GetBitCount(fmt) == 16 && (AGIDL_GetBitCount(fmt2) == 24 || AGIDL_GetBitCount(fmt2) == 32)){
 		clr2 = AGIDL_CLR_TO_CLR16(clr2,fmt2,fmt);
 
 		u8 r = AGIDL_GetR(clr1,fmt);
@@ -963,24 +953,22 @@ int AGIDL_IsInThreshold(COLOR clr1, COLOR clr2, AGIDL_CLR_FMT fmt, AGIDL_CLR_FMT
 		if(AGIDL_Abs(r-r2) <= max_diff && AGIDL_Abs(g-g2) <= max_diff && AGIDL_Abs(b-b2) <= max_diff){
 			return 0;
 		}
-		else return 1;
+		return 1;
 	}
-	else{
-		clr1 = AGIDL_CLR_TO_CLR16(clr1,fmt,fmt2);
+	clr1 = AGIDL_CLR_TO_CLR16(clr1,fmt,fmt2);
 
-		u8 r = AGIDL_GetR(clr1,fmt2);
-		u8 g = AGIDL_GetG(clr1,fmt2);
-		u8 b = AGIDL_GetB(clr1,fmt2);
+	u8 r = AGIDL_GetR(clr1,fmt2);
+	u8 g = AGIDL_GetG(clr1,fmt2);
+	u8 b = AGIDL_GetB(clr1,fmt2);
 
-		u8 r2 = AGIDL_GetR(clr2,fmt2);
-		u8 g2 = AGIDL_GetG(clr2,fmt2);
-		u8 b2 = AGIDL_GetB(clr2,fmt2);
+	u8 r2 = AGIDL_GetR(clr2,fmt2);
+	u8 g2 = AGIDL_GetG(clr2,fmt2);
+	u8 b2 = AGIDL_GetB(clr2,fmt2);
 
-		if(AGIDL_Abs(r-r2) <= max_diff && AGIDL_Abs(g-g2) <= max_diff && AGIDL_Abs(b-b2) <= max_diff){
-			return 0;
-		}
-		else return 1;
+	if(AGIDL_Abs(r-r2) <= max_diff && AGIDL_Abs(g-g2) <= max_diff && AGIDL_Abs(b-b2) <= max_diff){
+		return 0;
 	}
+	return 1;
 }
 
 void AGIDL_SetICPMode(AGIDL_ICP* palette, int mode, AGIDL_CLR_FMT fmt){
@@ -1079,42 +1067,38 @@ AGIDL_CLR_MDL AGIDL_GetClrMDL(AGIDL_CLR_FMT fmt){
 	if(fmt == AGIDL_RGB_888 || fmt == AGIDL_RGB_555 || fmt == AGIDL_RGB_565){
 		return AGIDL_CLR_RGB;
 	}
-	else if(fmt == AGIDL_BGR_888 || fmt == AGIDL_BGR_555 || fmt == AGIDL_BGR_565){
+	if(fmt == AGIDL_BGR_888 || fmt == AGIDL_BGR_555 || fmt == AGIDL_BGR_565){
 		return AGIDL_CLR_BGR;
 	}
-	else if(fmt == AGIDL_RGBA_8888){
+	if(fmt == AGIDL_RGBA_8888){
 		return AGIDL_CLR_RGBA;
 	}
-	else{
-		return AGIDL_CLR_ARGB;
-	}
+	return AGIDL_CLR_ARGB;
 }
 
 AGIDL_CLR_FMT AGIDL_GetClrFmt(AGIDL_CLR_MDL mdl, AGIDL_BITS bits){
 	if(mdl == AGIDL_CLR_RGB && bits == 16){
 		return AGIDL_RGB_565;
 	}
-	else if(mdl == AGIDL_CLR_RGB && bits == 15){
+	if(mdl == AGIDL_CLR_RGB && bits == 15){
 		return AGIDL_RGB_555;
 	}
-	else if(mdl == AGIDL_CLR_BGR && bits == 16){
+	if(mdl == AGIDL_CLR_BGR && bits == 16){
 		return AGIDL_BGR_565;
 	}
-	else if(mdl == AGIDL_CLR_RGB && bits == 15){
+	if(mdl == AGIDL_CLR_RGB && bits == 15){
 		return AGIDL_BGR_555;
 	}
-	else if(mdl == AGIDL_CLR_RGB && bits == 24){
+	if(mdl == AGIDL_CLR_RGB && bits == 24){
 		return AGIDL_RGB_888;
 	}
-	else if(mdl == AGIDL_CLR_BGR && bits == 24){
+	if(mdl == AGIDL_CLR_BGR && bits == 24){
 		return AGIDL_BGR_888;
 	}
-	else if(mdl == AGIDL_CLR_RGBA && bits == 32){
+	if(mdl == AGIDL_CLR_RGBA && bits == 32){
 		return AGIDL_RGBA_8888;
 	}
-	else{
-		return AGIDL_ARGB_8888;
-	}
+	return AGIDL_ARGB_8888;
 }
 
 void AGIDL_ExportICP(const char* name, AGIDL_ICP icp){

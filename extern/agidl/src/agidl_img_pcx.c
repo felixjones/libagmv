@@ -379,7 +379,7 @@ int contains_icp(FILE *file, u32 *pal_coord){
 	if(byte == 12){
 		return 1;
 	}
-	else return 0;
+	return 0;
 }
 
 int AGIDL_PCXDecodeHeader(AGIDL_PCX* pcx, FILE* file){
@@ -432,10 +432,10 @@ int AGIDL_PCXDecodeHeader(AGIDL_PCX* pcx, FILE* file){
 	   || pcx->header.version == 5) || !(pcx->header.pal_type == 1 || pcx->header.pal_type == 2)){
 		return INVALID_HEADER_FORMATTING_ERROR;
 	}
-	else if(pcx->header.x_end > 4096 || pcx->header.y_end > 4096){
+	if(pcx->header.x_end > 4096 || pcx->header.y_end > 4096){
 		return CORRUPED_IMG_ERROR;
 	}
-	else return NO_IMG_ERROR;
+	return NO_IMG_ERROR;
 }
 
 void AGIDL_PCXDecodeIMG(AGIDL_PCX* pcx, FILE* file){

@@ -132,14 +132,14 @@ COLOR AGIDL_3DFGetClr(AGIDL_3DF* glide, int x, int y){
 	if(x >= 0 && y >= 0 && x < AGIDL_3DFGetWidth(glide) && y < AGIDL_3DFGetHeight(glide)){
 		return glide->pixels.pix32[x+y*AGIDL_3DFGetWidth(glide)];
 	}
-	else return 0;
+	return 0;
 }
 
 COLOR16 AGIDL_3DFGetClr16(AGIDL_3DF* glide, int x, int y){
 	if(x >= 0 && y >= 0 && x < AGIDL_3DFGetWidth(glide) && y < AGIDL_3DFGetHeight(glide)){
 		return glide->pixels.pix16[x+y*AGIDL_3DFGetWidth(glide)];
 	}
-	else return 0;
+	return 0;
 }
 
 void AGIDL_Clear3DF(AGIDL_3DF *glide, COLOR clr){
@@ -363,10 +363,10 @@ int AGIDL_3DFDecodePartialHeader(AGIDL_3DF* glide, FILE* file){
 	if(glide->header.magic[0] != '3' || glide->header.magic[1] != 'd' || glide->header.magic[2] != 'f'){
 		return INVALID_HEADER_FORMATTING_ERROR;
 	}
-	else if(glide->header.version[0] != 'v' || glide->header.version[1] != '1' || glide->header.version[2] != '.'){
+	if(glide->header.version[0] != 'v' || glide->header.version[1] != '1' || glide->header.version[2] != '.'){
 		return INVALID_HEADER_FORMATTING_ERROR;
 	}
-	else return NO_IMG_ERROR;
+	return NO_IMG_ERROR;
 }
 
 int AGIDL_3DFDecodeHeader(AGIDL_3DF* glide, FILE* file){
@@ -493,10 +493,10 @@ int AGIDL_3DFDecodeHeader(AGIDL_3DF* glide, FILE* file){
 	if(glide->header.magic[0] != '3' || glide->header.magic[1] != 'd' || glide->header.magic[2] != 'f'){
 		return INVALID_HEADER_FORMATTING_ERROR;
 	}
-	else if(glide->header.fmt == GLIDE_UNKNOWN_FMT || glide->header.aspect == GLIDE_UNKNOWN_ASPECT){
+	if(glide->header.fmt == GLIDE_UNKNOWN_FMT || glide->header.aspect == GLIDE_UNKNOWN_ASPECT){
 		return INVALID_IMG_FORMATTING_ERROR;
 	}
-	else return NO_IMG_ERROR;
+	return NO_IMG_ERROR;
 }
 
 
@@ -506,60 +506,58 @@ GLIDE_3DF_CLR_FMT AGIDL_3DFGetGlideClrFmt(char format[10]){
 			if(format[1] != 'g' || format[2] != 'b'){
 				return GLIDE_UNKNOWN_FMT;
 			}
-			else{
-				if(format[3] == '3' && format[4] == '3' && format[5] == '2'){
-					return GLIDE_RGB_332;
-				}
-				else if(format[3] == '5' && format[4] == '6' && format[5] == '5'){
-					return GLIDE_RGB_565;
-				}
-				else return GLIDE_UNKNOWN_FMT;
+			if(format[3] == '3' && format[4] == '3' && format[5] == '2'){
+				return GLIDE_RGB_332;
 			}
+			if(format[3] == '5' && format[4] == '6' && format[5] == '5'){
+				return GLIDE_RGB_565;
+			}
+			return GLIDE_UNKNOWN_FMT;
 		}break;
 		case 'a':{
 			if(format[1] == '8'){
 				return GLIDE_A8;
 			}
-			else if(format[1] == 'i' && format[2] == '4' && format[3] == '4'){
+			if(format[1] == 'i' && format[2] == '4' && format[3] == '4'){
 				return GLIDE_AI44;
 			}
-			else if(format[0] == 'a' && format[1] == 'r' && format[2] == 'g' && format[3] == 'b' && format[4] == '1' && format[5] == '5' && format[6] == '5' && format[7] == '5'){
+			if(format[0] == 'a' && format[1] == 'r' && format[2] == 'g' && format[3] == 'b' && format[4] == '1' && format[5] == '5' && format[6] == '5' && format[7] == '5'){
 				return GLIDE_ARGB_1555;
 			}
-			else if(format[0] == 'a' && format[1] == 'y' && format[2] == 'i' && format[3] == 'q' && format[4] == '8' && format[5] == '4' && format[6] == '4' && format[7] == '2'){
+			if(format[0] == 'a' && format[1] == 'y' && format[2] == 'i' && format[3] == 'q' && format[4] == '8' && format[5] == '4' && format[6] == '4' && format[7] == '2'){
 				return GLIDE_AYIQ8_422;
 			}
-			else if(format[0] == 'a' && format[1] == 'r' && format[2] == 'g' && format[3] == 'b' && format[4] == '4' && format[5] == '4' && format[6] == '4' && format[7] == '4'){
+			if(format[0] == 'a' && format[1] == 'r' && format[2] == 'g' && format[3] == 'b' && format[4] == '4' && format[5] == '4' && format[6] == '4' && format[7] == '4'){
 				return GLIDE_ARGB_4444;
 			}
-			else if(format[1] == 'r' && format[2] == 'g' && format[3] == 'b' && format[4] == '8' && format[5] == '3' && format[6] == '3' && format[7] == '2'){
-					return GLIDE_ARGB_8332;
+			if(format[1] == 'r' && format[2] == 'g' && format[3] == 'b' && format[4] == '8' && format[5] == '3' && format[6] == '3' && format[7] == '2'){
+				return GLIDE_ARGB_8332;
 			}
-			else if(format[0] == 'a' && format[1] == 'i' && format[2] == '8' && format[3] == '8'){
+			if(format[0] == 'a' && format[1] == 'i' && format[2] == '8' && format[3] == '8'){
 				return GLIDE_AI_88;
 			}
-			else if(format[0] == 'a' && format[1] == 'r' && format[2] == 'g' && format[3] == 'b' && format[4] == '8' && format[5] == '8' && format[6] == '8' && format[7] == '8'){
+			if(format[0] == 'a' && format[1] == 'r' && format[2] == 'g' && format[3] == 'b' && format[4] == '8' && format[5] == '8' && format[6] == '8' && format[7] == '8'){
 				return GLIDE_ARGB_8888;
 			}
-			else return GLIDE_UNKNOWN_FMT;
+			return GLIDE_UNKNOWN_FMT;
 		}break;
 		case 'i':{
 			if(format[1] == '8'){
 				return GLIDE_I8;
 			}
-			else return GLIDE_UNKNOWN_FMT;
+			return GLIDE_UNKNOWN_FMT;
 		}break;
 		case 'y':{
 			if(format[1] == 'y' && format[2] == 'i' && format[3] == 'q'){
 				return GLIDE_YIQ;
 			}
-			else return GLIDE_UNKNOWN_FMT;
+			return GLIDE_UNKNOWN_FMT;
 		}break;
 		case 'p':{
 			if(format[1] == '8'){
 				return GLIDE_P8;
 			}
-			else return GLIDE_UNKNOWN_FMT;
+			return GLIDE_UNKNOWN_FMT;
 		}break;
 		default: return GLIDE_UNKNOWN_FMT; break;
 	}	
@@ -641,25 +639,25 @@ GLIDE_ASPECT_TABLE AGIDL_3DFGetAspect(char aspect[3]){
 	if(aspect[0] == '1' && aspect[2] == '1'){
 		return GLIDE_ASPECT_1x1;
 	}
-	else if(aspect[0] == '1' && aspect[2] == '2'){
+	if(aspect[0] == '1' && aspect[2] == '2'){
 		return GLIDE_ASPECT_1x2;
 	}
-	else if(aspect[0] == '1' && aspect[2] == '4'){
+	if(aspect[0] == '1' && aspect[2] == '4'){
 		return GLIDE_ASPECT_1x4;
 	}
-	else if(aspect[0] == '1' && aspect[2] == '8'){
+	if(aspect[0] == '1' && aspect[2] == '8'){
 		return GLIDE_ASPECT_1x8;
 	}
-	else if(aspect[0] == '2' && aspect[2] == '1'){
+	if(aspect[0] == '2' && aspect[2] == '1'){
 		return GLIDE_ASPECT_2x1;
 	}
-	else if(aspect[0] == '4' && aspect[2] == '1'){
+	if(aspect[0] == '4' && aspect[2] == '1'){
 		return GLIDE_ASPECT_4x1;
 	}
-	else if(aspect[0] == '8' && aspect[2] == '1'){
+	if(aspect[0] == '8' && aspect[2] == '1'){
 		return GLIDE_ASPECT_8x1;
 	}
-	else return GLIDE_UNKNOWN_ASPECT;
+	return GLIDE_UNKNOWN_ASPECT;
 }
 
 void AGIDL_3DFDecodeIMG(AGIDL_3DF* glide, FILE* file){
