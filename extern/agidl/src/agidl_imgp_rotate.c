@@ -11,10 +11,12 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
+
+#include <agidl_imgp_rotate.h>
+
 #include <stdlib.h>
-#include "agidl_imgp_rotate.h"
-#include "agidl_math_utils.h"
-#include "agidl_img_bmp.h"
+
+#include <agidl_img_bmp.h>
 
 void AGIDL_FlipImgDataHorz(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 24 || AGIDL_GetBitCount(fmt) == 32){

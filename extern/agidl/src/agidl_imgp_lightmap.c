@@ -11,11 +11,15 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
+
+#include <agidl_imgp_lightmap.h>
+
 #include <stdlib.h>
-#include "agidl_imgp_lightmap.h"
-#include "agidl_imgp_scale.h"
-#include "agidl_cc_core.h"
-#include "agidl_math_utils.h"
+
+#include <agidl_cc_core.h>
+#include <agidl_imgp_scale.h>
+#include <agidl_img_types.h>
+#include <agidl_math_utils.h>
 
 void AGIDL_BindLightmapAndImg(void* data, void* lightdata, u16 width, u16 height, u16 widthl, u16 heightl, AGIDL_CLR_FMT imgfmt, AGIDL_CLR_FMT lightfmt, AGIDL_LIGHT light, COLOR blend){
 	if((AGIDL_GetBitCount(imgfmt) == 24 && AGIDL_GetBitCount(lightfmt) == 24) || (AGIDL_GetBitCount(imgfmt) == 32 && AGIDL_GetBitCount(lightfmt) == 32)){

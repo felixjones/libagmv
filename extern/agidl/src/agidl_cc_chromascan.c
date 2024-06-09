@@ -11,8 +11,9 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
-#include "agidl_cc_chromascan.h"
-#include "agidl_cc_manager.h"
+
+#include <agidl_cc_chromascan.h>
+#include <agidl_cc_manager.h>
 
 void AGIDL_ChromaScan1555(u16* clr_data, u32 width, u32 height, AGIDL_CLR_FMT fmt, COLOR16 chromakey, AGIDL_Bool on){
 	int i;

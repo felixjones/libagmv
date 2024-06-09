@@ -11,12 +11,14 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
-#include <math.h>
+
+#include <agmv_encode.h>
+
 #include <agidl.h>
 #include <stdlib.h>
-#include <string.h>
-#include "agmv_encode.h"
-#include "agmv_utils.h"
+#include <tgmath.h>
+
+#include <agmv_utils.h>
 
 void AGMV_EncodeHeader(FILE* file, AGMV* agmv){
 	u32 i;

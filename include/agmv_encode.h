@@ -15,8 +15,9 @@
 *
 ********************************************/
 
+#include <agmv_defines.h>
+
 #include <stdio.h>
-#include "agmv_defines.h"
 
 #define AGMV_GBA_W   120
 #define AGMV_GBA_H    80

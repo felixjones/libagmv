@@ -15,10 +15,11 @@
 *
 ********************************************/
 
+#include <agidl_cc_types.h>
+#include <agidl_img_types.h>
+#include <agidl_types.h>
+
 #include <stdio.h>
-#include "agidl_types.h"
-#include "agidl_cc_types.h"
-#include "agidl_img_types.h"
 
 #define MAX_PICS 300
 

@@ -15,11 +15,12 @@
 *
 ********************************************/
 
+#include <agidl_cc_manager.h>
+#include <agidl_cc_types.h>
+#include <agidl_img_types.h>
+#include <agidl_types.h>
+
 #include <stdio.h>
-#include "agidl_types.h"
-#include "agidl_cc_types.h"
-#include "agidl_img_types.h"
-#include "agidl_cc_manager.h"
 
 typedef enum AGIDL_ILBM_TYPE{
 	TYPE_ILBM = 0x1,

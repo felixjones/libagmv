@@ -11,14 +11,17 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
+
+#include <agidl_img_ppm.h>
+
 #include <stdlib.h>
 #include <string.h>
-#include "agidl_img_ppm.h"
-#include "agidl_img_error.h"
-#include "agidl_file_utils.h"
-#include "agidl_mmu_utils.h"
-#include "agidl_cc_manager.h"
-#include "agidl_cc_converter.h"
+
+#include <agidl_cc_converter.h>
+#include <agidl_cc_manager.h>
+#include <agidl_file_utils.h>
+#include <agidl_img_error.h>
+#include <agidl_mmu_utils.h>
 
 void AGIDL_SetPPMFilename(AGIDL_PPM* ppm, const char* filename){
 	ppm->filename = (char*)realloc(ppm->filename,strlen(filename));

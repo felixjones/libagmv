@@ -11,10 +11,10 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
-#include <stdio.h>
+
+#include <agidl_img_converter.h>
+
 #include <stdlib.h>
-#include <string.h>
-#include "agidl_img_converter.h"
 
 AGIDL_TGA* AGIDL_ConvertBMP2TGA(AGIDL_BMP* bmp){
 	char* imgname = AGIDL_GetImgName(bmp->filename);

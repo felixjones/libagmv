@@ -1,8 +1,8 @@
 #ifndef AGIDL_CC_MANAGER
 #define AGIDL_CC_MANAGER
 
-#include "agidl_types.h"
-#include "agidl_cc_types.h"
+#include <agidl_cc_types.h>
+#include <agidl_types.h>
 
 #define MAX_HIGH_CLR 65535
 

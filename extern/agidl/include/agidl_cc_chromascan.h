@@ -15,8 +15,8 @@
 *
 ********************************************/
 
-#include "agidl_types.h"
-#include "agidl_cc_types.h"
+#include <agidl_cc_types.h>
+#include <agidl_types.h>
 
 void AGIDL_ChromaScan1555(u16* clr_data, u32 width, u32 height, AGIDL_CLR_FMT fmt, COLOR16 chromakey, AGIDL_Bool on);
 void AGIDL_SetAlpha1555(u16* clr_data, u32 width, u32 height, AGIDL_CLR_FMT fmt, AGIDL_Bool on);

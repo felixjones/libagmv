@@ -1,4 +1,4 @@
-#include "agidl_cc_mixer.h"
+#include <agidl_cc_mixer.h>
 
 /********************************************
 *   Adaptive Graphics Image Display Library
@@ -13,9 +13,9 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
-#include <stdio.h>
-#include "agidl_img_types.h"
-#include "agidl_math_utils.h"
+
+#include <agidl_img_types.h>
+#include <agidl_math_utils.h>
 
 float AGIDL_FindRBDivisor(AGIDL_CLR_FMT fmt){
 	switch(fmt){

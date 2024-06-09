@@ -12,9 +12,14 @@
 *
 ********************************************/
 
-#include "agidl_imgp_impl.h"
+#include <agidl_imgp_impl.h>
 
 #include <stdlib.h>
+
+#include <agidl_imgp_filter.h>
+#include <agidl_imgp_grayscale.h>
+#include <agidl_imgp_halftone.h>
+#include <agidl_imgp_wrap.h>
 
 void AGIDL_GrayscaleBMP(AGIDL_BMP* bmp){
 	if(AGIDL_GetBitCount(AGIDL_BMPGetClrFmt(bmp)) == 16){

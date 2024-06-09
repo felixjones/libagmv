@@ -12,9 +12,9 @@
 *
 ********************************************/
 
-#include "agidl_imgp_grayscale.h"
-#include "agidl_cc_mixer.h"
-#include "agidl_img_types.h"
+#include <agidl_imgp_grayscale.h>
+#include <agidl_cc_mixer.h>
+#include <agidl_img_types.h>
 
 void AGIDL_GrayscaleImgData(void *data, u32 width, u32 height, AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 24 || AGIDL_GetBitCount(fmt) == 32){

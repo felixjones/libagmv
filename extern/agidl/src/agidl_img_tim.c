@@ -1,14 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "agidl_cc_core.h"
-#include "agidl_img_tim.h"
-
-#include <agidl_mmu_utils.h>
-
-#include "agidl_img_error.h"
-#include "agidl_file_utils.h"
-#include "agidl_imgp_scale.h"
 /********************************************
 *   Adaptive Graphics Image Display Library
 *
@@ -22,6 +11,17 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
+
+#include <agidl_img_tim.h>
+
+#include <stdlib.h>
+#include <string.h>
+
+#include <agidl_cc_core.h>
+#include <agidl_file_utils.h>
+#include <agidl_imgp_scale.h>
+#include <agidl_img_error.h>
+#include <agidl_mmu_utils.h>
 
 void AGIDL_SetTIMFilename(AGIDL_TIM *tim, const char *filename){
 	tim->filename = (char*)realloc(tim->filename,strlen(filename));

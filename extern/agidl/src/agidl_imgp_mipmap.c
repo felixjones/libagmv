@@ -11,13 +11,17 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
+
+#include <agidl_imgp_mipmap.h>
+
 #include <stdlib.h>
-#include "agidl_imgp_mipmap.h"
-#include "agidl_cc_manager.h"
-#include "agidl_img_core.h"
-#include "agidl_imgp_impl.h"
-#include "agidl_mmu_utils.h"
-#include "agidl_file_utils.h"
+
+#include <agidl_cc_manager.h>
+#include <agidl_file_utils.h>
+#include <agidl_imgp_filter.h>
+#include <agidl_imgp_impl.h>
+#include <agidl_img_core.h>
+#include <agidl_mmu_utils.h>
 
 AGIDL_MIPMAP* AGIDL_CreateMipmapMMU(u16 width, u16 height, AGIDL_CLR_FMT fmt, AGIDL_Bool IsLinear){
 	u16 w = width;

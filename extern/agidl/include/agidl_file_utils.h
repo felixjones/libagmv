@@ -15,9 +15,10 @@
 *
 ********************************************/
 
+#include <agidl_cc_types.h>
+#include <agidl_types.h>
+
 #include <stdio.h>
-#include "agidl_types.h"
-#include "agidl_cc_types.h"
 
 void AGIDL_InitBigEndArch();
 void AGIDL_DisableBigEndArch();

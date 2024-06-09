@@ -11,15 +11,18 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
+
+#include <agidl_img_lbm.h>
+
 #include <stdlib.h>
 #include <string.h>
-#include "agidl_img_lbm.h"
-#include "agidl_img_error.h"
-#include "agidl_file_utils.h"
-#include "agidl_mmu_utils.h"
-#include "agidl_cc_converter.h"
-#include "agidl_math_utils.h"
-#include "agidl_img_compression.h"
+
+#include <agidl_cc_converter.h>
+#include <agidl_file_utils.h>
+#include <agidl_img_compression.h>
+#include <agidl_img_error.h>
+#include <agidl_math_utils.h>
+#include <agidl_mmu_utils.h>
 
 void AGIDL_SetLBMFilename(AGIDL_LBM* lbm, const char* filename){
 	lbm->filename = (char*)realloc(lbm->filename,strlen(filename));

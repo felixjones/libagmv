@@ -11,8 +11,9 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
-#include "agidl_file_utils.h"
-#include "agidl_cc_manager.h"
+
+#include <agidl_file_utils.h>
+#include <agidl_cc_manager.h>
 
 AGIDL_Bool useBigEndArch = FALSE;
 

@@ -1,10 +1,3 @@
-#include <stdlib.h>
-#include <string.h>
-#include "agidl_math_utils.h"
-#include "agidl_math_trig_tables.h"
-
-#include <stdio.h>
-
 /********************************************
 *   Adaptive Graphics Image Display Library
 *
@@ -19,6 +12,13 @@
 *
 ********************************************/
 
+#include <agidl_math_utils.h>
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include <agidl_math_trig_tables.h>
 
 int AGIDL_Min(int a, int b){
 	if(a < b){

@@ -1,15 +1,3 @@
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-#include "agidl_img_pvr.h"
-
-#include <agidl_mmu_utils.h>
-
-#include "agidl_cc_core.h"
-#include "agidl_math_utils.h"
-#include "agidl_img_error.h"
-#include "agidl_file_utils.h"
-
 /********************************************
 *   Adaptive Graphics Image Display Library
 *
@@ -23,6 +11,17 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
+
+#include <agidl_img_pvr.h>
+
+#include <stdlib.h>
+#include <string.h>
+
+#include <agidl_cc_core.h>
+#include <agidl_file_utils.h>
+#include <agidl_img_error.h>
+#include <agidl_math_utils.h>
+#include <agidl_mmu_utils.h>
 
 void AGIDL_SetPVRFilename(AGIDL_PVR* pvr, const char* filename){
 	pvr->filename = (char*)realloc(pvr->filename,strlen(filename));

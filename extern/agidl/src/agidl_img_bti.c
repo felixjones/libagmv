@@ -1,11 +1,3 @@
-#include <stdlib.h>
-#include <string.h>
-#include "agidl_img_bti.h"
-#include "agidl_cc_core.h"
-#include "agidl_img_error.h"
-#include "agidl_file_utils.h"
-#include "agidl_mmu_utils.h"
-
 /********************************************
 *   Adaptive Graphics Image Display Library
 *
@@ -19,6 +11,16 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
+
+#include <agidl_img_bti.h>
+
+#include <stdlib.h>
+#include <string.h>
+
+#include <agidl_cc_core.h>
+#include <agidl_file_utils.h>
+#include <agidl_img_error.h>
+#include <agidl_mmu_utils.h>
 
 void AGIDL_SetBTIFilename(AGIDL_BTI* bti, const char* filename){
 	bti->filename = (char*)realloc(bti->filename,strlen(filename));

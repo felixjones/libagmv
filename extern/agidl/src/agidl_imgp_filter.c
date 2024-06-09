@@ -11,13 +11,16 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
+
+#include <agidl_imgp_filter.h>
+
 #include <stdlib.h>
-#include <math.h>
-#include "agidl_imgp_filter.h"
-#include "agidl_imgp_scale.h"
-#include "agidl_img_bmp.h"
-#include "agidl_cc_mixer.h"
-#include "agidl_math_utils.h"
+#include <tgmath.h>
+
+#include <agidl_cc_mixer.h>
+#include <agidl_imgp_scale.h>
+#include <agidl_img_bmp.h>
+#include <agidl_math_utils.h>
 
 COLOR AGIDL_SamplePointNearest(void* data, float u, float v, u32 width, u32 height, AGIDL_CLR_FMT fmt){
 	u = AGIDL_Clampf(0.0f,u,1.0f);

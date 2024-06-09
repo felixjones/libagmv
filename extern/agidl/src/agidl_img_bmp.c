@@ -1,14 +1,3 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include "agidl_cc_core.h"
-#include "agidl_img_bmp.h"
-#include "agidl_math_utils.h"
-#include "agidl_img_compression.h"
-#include "agidl_img_error.h"
-#include "agidl_file_utils.h"
-#include "agidl_mmu_utils.h"
-
 /********************************************
 *   Adaptive Graphics Image Display Library
 *
@@ -22,6 +11,18 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
+
+#include <agidl_img_bmp.h>
+
+#include <stdlib.h>
+#include <string.h>
+
+#include <agidl_cc_core.h>
+#include <agidl_file_utils.h>
+#include <agidl_img_compression.h>
+#include <agidl_img_error.h>
+#include <agidl_mmu_utils.h>
+
 void AGIDL_SetBMPFilename(AGIDL_BMP *bmp, const char *filename){
 	bmp->filename = (char*)realloc(bmp->filename,strlen(filename));
 	AGIDL_FilenameCpy(bmp->filename,filename);

@@ -15,11 +15,12 @@
 *
 ********************************************/
 
+#include <agidl_cc_manager.h>
+#include <agidl_cc_types.h>
+#include <agidl_img_types.h>
+#include <agidl_types.h>
+
 #include <stdio.h>
-#include "agidl_types.h"
-#include "agidl_cc_types.h"
-#include "agidl_img_types.h"
-#include "agidl_cc_manager.h"
 
 typedef enum TGA_ICP_TYPE{
 	TGA_IMG_TYPE_ICP = 1,

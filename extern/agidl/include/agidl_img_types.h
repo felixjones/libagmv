@@ -15,8 +15,9 @@
 *
 ********************************************/
 
+#include <agidl_cc_types.h>
+
 #include <stdio.h>
-#include "agidl_cc_types.h"
 
 #define NO_ICP 0
 #define YES_ICP 1

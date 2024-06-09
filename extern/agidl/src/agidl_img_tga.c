@@ -1,15 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "agidl_img_tga.h"
-
-#include <agidl_mmu_utils.h>
-
-#include "agidl_cc_core.h"
-#include "agidl_img_compression.h"
-#include "agidl_img_error.h"
-#include "agidl_file_utils.h"
-
 /********************************************
 *   Adaptive Graphics Image Display Library
 *
@@ -23,6 +11,17 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
+
+#include <agidl_img_tga.h>
+
+#include <stdlib.h>
+#include <string.h>
+
+#include <agidl_cc_core.h>
+#include <agidl_file_utils.h>
+#include <agidl_img_compression.h>
+#include <agidl_img_error.h>
+#include <agidl_mmu_utils.h>
 
 void AGIDL_SetTGAFilename(AGIDL_TGA *tga, const char *filename){
 	tga->filename = (char*)realloc(tga->filename,strlen(filename));

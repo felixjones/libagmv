@@ -15,8 +15,9 @@
 *
 ********************************************/
 
+#include <agmv_defines.h>
+
 #include <stdio.h>
-#include "agmv_defines.h"
 
 /*-------------AGMV PLAYBACK UTILITY FUNCTIONS-------------------*/
 

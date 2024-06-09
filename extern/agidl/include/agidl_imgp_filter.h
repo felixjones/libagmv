@@ -13,9 +13,9 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
-#include "agidl_types.h"
-#include "agidl_cc_types.h"
-#include "agidl_img_types.h"
+
+#include <agidl_cc_types.h>
+#include <agidl_types.h>
 
 COLOR AGIDL_SamplePointNearest(void* data, float u, float v, u32 width, u32 height, AGIDL_CLR_FMT fmt);
 COLOR AGIDL_SamplePointBilerp(void* data, float u, float v, u32 width, u32 height, AGIDL_CLR_FMT fmt);

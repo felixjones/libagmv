@@ -1,13 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include "agidl_cc_manager.h"
-#include "agidl_math_utils.h"
-#include "agidl_img_types.h"
-#include "agidl_cc_converter.h"
-#include "agidl_file_utils.h"
-#include "agidl_img_error.h"
-
 /********************************************
 *   Adaptive Graphics Image Display Library
 *
@@ -21,6 +11,17 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
+
+#include <agidl_cc_manager.h>
+
+#include <stdlib.h>
+#include <tgmath.h>
+
+#include <agidl_cc_converter.h>
+#include <agidl_file_utils.h>
+#include <agidl_img_error.h>
+#include <agidl_img_types.h>
+#include <agidl_math_utils.h>
 
 u32 AGIDL_AcquireRedMask(AGIDL_CLR_FMT fmt){
 	switch(fmt){

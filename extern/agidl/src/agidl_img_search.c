@@ -1,14 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "agidl_img_search.h"
-
-#include <agidl_imgp_impl.h>
-
-#include "agidl_img_error.h"
-#include "agidl_file_utils.h"
-#include "agidl_img_converter.h"
-
 /********************************************
 *   Adaptive Graphics Image Display Library
 *
@@ -22,6 +11,16 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
+
+#include <agidl_img_search.h>
+
+#include <stdlib.h>
+#include <string.h>
+
+#include <agidl_file_utils.h>
+#include <agidl_imgp_impl.h>
+#include <agidl_img_converter.h>
+#include <agidl_img_error.h>
 
 void AGIDL_TIMSearchFileOnDisk(const char* filename, AGIDL_IMG_TYPE type, int flip){
 	FILE* file = fopen(filename,"rb");

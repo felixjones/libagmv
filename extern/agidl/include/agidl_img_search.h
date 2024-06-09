@@ -15,7 +15,7 @@
 *
 ********************************************/
 
-#include "agidl_img_types.h"
+#include <agidl_img_types.h>
 
 void AGIDL_TIMSearchFileOnDisk(const char* filename, AGIDL_IMG_TYPE img_type, int flip);
 void AGIDL_TGASearchFileOnDisk(const char* filename, AGIDL_IMG_TYPE img_type);

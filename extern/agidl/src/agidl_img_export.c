@@ -11,9 +11,10 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
-#include <stdio.h>
-#include "agidl_img_export.h"
-#include "agidl_img_converter.h"
+
+#include <agidl_img_export.h>
+
+#include <agidl_img_converter.h>
 
 u32 expcount = 0;
 

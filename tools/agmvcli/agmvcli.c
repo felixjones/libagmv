@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <string.h>
-#include <agmv.h>
-
 /********************************************
 *   Adaptive Graphics Motion Video
 *
@@ -15,6 +11,10 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
+
+#include <agmv.h>
+
+#include <string.h>
 
 Bool IsAGIDLImage(char* ext);
 AGMV_IMG_TYPE GetImageType(char* ext);

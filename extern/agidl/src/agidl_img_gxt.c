@@ -1,15 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-#include "agidl_img_gxt.h"
-
-#include <agidl_mmu_utils.h>
-
-#include "agidl_cc_core.h"
-#include "agidl_math_utils.h"
-#include "agidl_img_error.h"
-
 /********************************************
 *   Adaptive Graphics Image Display Library
 *
@@ -23,6 +11,17 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
+
+#include <agidl_img_gxt.h>
+
+#include <stdlib.h>
+#include <string.h>
+#include <tgmath.h>
+
+#include <agidl_cc_core.h>
+#include <agidl_img_error.h>
+#include <agidl_math_utils.h>
+#include <agidl_mmu_utils.h>
 
 void AGIDL_SetGXTFilename(AGIDL_GXT* gxt, const char* filename){
 	gxt->filename = (char*)realloc(gxt->filename,strlen(filename));

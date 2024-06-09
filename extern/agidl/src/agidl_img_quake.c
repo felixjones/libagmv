@@ -1,11 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "agidl_cc_core.h"
-#include "agidl_img_quake.h"
-#include "agidl_file_utils.h"
-#include "agidl_mmu_utils.h"
-
 /********************************************
 *   Adaptive Graphics Image Display Library
 *
@@ -19,6 +11,15 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
+
+#include <agidl_img_quake.h>
+
+#include <stdlib.h>
+#include <string.h>
+
+#include <agidl_cc_core.h>
+#include <agidl_file_utils.h>
+#include <agidl_mmu_utils.h>
 
 void AGIDL_SetLMPFilename(AGIDL_LMP *lmp, const char *filename){
 	lmp->filename = (char*)realloc(lmp->filename,strlen(filename));

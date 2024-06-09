@@ -11,9 +11,13 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
+
+#include <agidl_imgp_mirror.h>
+
 #include <stdlib.h>
-#include "agidl_imgp_mirror.h"
-#include "agidl_imgp_rotate.h"
+
+#include <agidl_imgp_rotate.h>
+#include <agidl_img_types.h>
 
 void * AGIDL_MirrorImgData(void* data, u16* width, u16* height, AGIDL_CLR_FMT fmt, AGIDL_MIRROR mirror){
 	if(AGIDL_GetBitCount(fmt) == 24 || AGIDL_GetBitCount(fmt) == 32){

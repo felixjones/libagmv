@@ -15,7 +15,8 @@
 *
 ********************************************/
 
-#include "agmv_defines.h"
+#include <agmv_defines.h>
+
 #include <stdio.h>
 
 int AGMV_DecodeHeader(FILE* file, AGMV* agmv);

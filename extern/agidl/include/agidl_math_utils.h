@@ -15,7 +15,7 @@
 *
 ********************************************/
 
-#include "agidl_types.h"
+#include <agidl_types.h>
 
 #define AGIDL_PI 3.141592
 

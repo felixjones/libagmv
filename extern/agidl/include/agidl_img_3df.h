@@ -14,12 +14,14 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
+
+#include <agidl_cc_manager.h>
+#include <agidl_cc_types.h>
+#include <agidl_imgp_mipmap.h>
+#include <agidl_img_types.h>
+#include <agidl_types.h>
+
 #include <stdio.h>
-#include "agidl_types.h"
-#include "agidl_cc_types.h"
-#include "agidl_img_types.h"
-#include "agidl_cc_manager.h"
-#include "agidl_imgp_mipmap.h"
 
 typedef enum GLIDE_3DF_CLR_FMT{
 	GLIDE_I8 = 0x1,

@@ -11,9 +11,11 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
-#include "agmv_playback.h"
-#include "agmv_utils.h"
-#include "agmv_decode.h"
+
+#include <agmv_playback.h>
+
+#include <agmv_decode.h>
+#include <agmv_utils.h>
 
 void AGMV_ResetVideo(FILE* file, AGMV* agmv){
 	if(AGMV_GetVersion(agmv) == 1){

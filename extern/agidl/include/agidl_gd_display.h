@@ -14,11 +14,10 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
-#include "agidl_types.h"
-#include "agidl_cc_types.h"
-#include "agidl_imgp_scale.h"
-#include "agidl_imgp_rotate.h"
-#include "agidl_img_core.h"
+
+#include <agidl_cc_types.h>
+#include <agidl_img_core.h>
+#include <agidl_types.h>
 
 typedef struct AGIDL_ATTR{
 	int tx, ty;

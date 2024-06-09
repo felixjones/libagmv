@@ -11,8 +11,12 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
+
+#include <agidl_imgp_wrap.h>
+
 #include <stdlib.h>
-#include "agidl_imgp_wrap.h"
+
+#include <agidl_img_types.h>
 
 void * AGIDL_WrapImgData(void* data, u16* width, u16 height, AGIDL_CLR_FMT fmt, u8 num_of_wraps){
 	if(AGIDL_GetBitCount(fmt) == 24 || AGIDL_GetBitCount(fmt) == 32){

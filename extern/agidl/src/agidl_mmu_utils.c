@@ -11,10 +11,13 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
+
+#include <agidl_mmu_utils.h>
+
 #include <stdlib.h>
-#include "agidl_img_types.h"
-#include "agidl_mmu_utils.h"
-#include "agidl_cc_converter.h"
+
+#include <agidl_cc_converter.h>
+#include <agidl_img_types.h>
 
 void* AGIDL_AllocImgDataMMU(u32 width, u32 height, AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 16){

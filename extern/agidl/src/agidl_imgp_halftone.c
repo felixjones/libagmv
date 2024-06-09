@@ -12,12 +12,15 @@
 *
 ********************************************/
 
+#include <agidl_imgp_halftone.h>
+
 #include <stdlib.h>
 #include <string.h>
-#include "agidl_imgp_grayscale.h"
-#include "agidl_imgp_halftone.h"
-#include "agidl_math_utils.h"
-#include "agidl_cc_manager.h"
+
+#include <agidl_cc_manager.h>
+#include <agidl_imgp_grayscale.h>
+#include <agidl_img_types.h>
+#include <agidl_math_utils.h>
 
 void AGIDL_HalftoneImgData(void* data, u16 width, u16 height, AGIDL_CLR_FMT fmt, u8 threshold){
 	AGIDL_GrayscaleImgData(data,width,height,fmt);

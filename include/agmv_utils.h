@@ -15,8 +15,9 @@
 *
 ********************************************/
 
+#include <agmv_defines.h>
+
 #include <stdio.h>
-#include "agmv_defines.h"
 
 /*-------FILE READING UTILITY FUNCTIONS------*/
 
@@ -129,4 +130,4 @@ int AGMV_ResetFrameRate(const char* filename, u32 frames_per_second);
 void AGMV_ExportAudioType(FILE* audio, AGMV* agmv, AGMV_AUDIO_TYPE audio_type);
 void AGMV_ExportAGMVToHeader(const char* filename);
 
- #endif
+#endif

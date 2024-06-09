@@ -11,10 +11,15 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
+
+#include <agidl_imgp_font.h>
+
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "agidl_imgp_font.h"
-#include "agidl_cc_core.h"
+
+#include <agidl_cc_core.h>
+#include <agidl_img_types.h>
 
 AGIDL_GlyphList* AGIDL_CreateGlyphList(){
 	AGIDL_GlyphList* list = (AGIDL_GlyphList*)malloc(sizeof(AGIDL_GlyphList));

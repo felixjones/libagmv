@@ -11,11 +11,13 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
+
+#include <agmv_decode.h>
+
 #include <agidl.h>
 #include <stdlib.h>
-#include <time.h>
-#include "agmv_decode.h"
-#include "agmv_utils.h"
+
+#include <agmv_utils.h>
 
 int AGMV_DecodeHeader(FILE* file, AGMV* agmv){
 	

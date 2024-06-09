@@ -1,5 +1,5 @@
-#include "agidl_img_compression.h"
-#include "agidl_img_types.h"
+#include <agidl_img_compression.h>
+#include <agidl_img_types.h>
 
 /********************************************
 *   Adaptive Graphics Image Display Library

@@ -14,9 +14,9 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
-#include "agidl_types.h"
-#include "agidl_cc_types.h"
-#include "agidl_img_types.h"
+
+#include <agidl_cc_types.h>
+#include <agidl_types.h>
 
 typedef enum AGIDL_MIRROR{
 	MIRROR_LEFT_TO_RIGHT = 0x1,

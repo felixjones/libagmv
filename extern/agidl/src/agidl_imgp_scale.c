@@ -11,14 +11,15 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
-#include <stdlib.h>
-#include <string.h>
-#include "agidl_imgp_scale.h"
 
+#include <agidl_imgp_scale.h>
+
+#include <stdlib.h>
 #include <tgmath.h>
 
-#include "agidl_cc_mixer.h"
-#include "agidl_math_utils.h"
+#include <agidl_cc_mixer.h>
+#include <agidl_img_types.h>
+#include <agidl_math_utils.h>
 
 void * AGIDL_HalfImgDataNearest(void* data, u16* width, u16* height, AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 16){

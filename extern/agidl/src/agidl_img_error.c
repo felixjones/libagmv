@@ -11,7 +11,8 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
-#include "agidl_img_error.h"
+
+#include <agidl_img_error.h>
 
 const char* AGIDL_Error2Str(AGIDL_IMG_ERROR error){
 	switch(error){

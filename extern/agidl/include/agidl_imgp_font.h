@@ -14,9 +14,9 @@
 *   Author: Ryandracus Chapman
 *
 ********************************************/
-#include "agidl_types.h"
-#include "agidl_cc_types.h"
-#include "agidl_img_types.h"
+
+#include <agidl_cc_types.h>
+#include <agidl_types.h>
 
 #define FONT_MODE_IMAGE = 0x1
 #define FONT_MODE_FILE = 0x2

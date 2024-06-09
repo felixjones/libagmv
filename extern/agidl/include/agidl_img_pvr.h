@@ -15,11 +15,12 @@
 *
 ********************************************/
 
+#include <agidl_cc_types.h>
+#include <agidl_imgp_mipmap.h>
+#include <agidl_img_types.h>
+#include <agidl_types.h>
+
 #include <stdio.h>
-#include "agidl_types.h"
-#include "agidl_cc_types.h"
-#include "agidl_img_types.h"
-#include "agidl_imgp_mipmap.h"
 
 typedef enum PVR_TYPE{
 	DREAMCAST_PVR = 0x0,
