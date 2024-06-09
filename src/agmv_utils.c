@@ -797,7 +797,7 @@ u8 AGMV_FindSmallestColor(u32 palette[256], u32 color){
 }
 
 AGMV_ENTRY AGMV_FindNearestEntry(u32 palette0[256], u32 palette1[256], u32 color){
-	AGMV_ENTRY entry;
+	AGMV_ENTRY entry = {};
 	u32 color1, color2, dist1, dist2;
 	int index1, index2, r, g, b, r1, g1, b1, r2, g2, b2;
 	int rdiff1, gdiff1, bdiff1, rdiff2, gdiff2, bdiff2;
@@ -843,7 +843,7 @@ AGMV_ENTRY AGMV_FindNearestEntry(u32 palette0[256], u32 palette1[256], u32 color
 }
 
 AGMV_ENTRY AGMV_FindSmallestEntry(u32 palette0[256], u32 palette1[256], u32 color){
-	AGMV_ENTRY entry;
+	AGMV_ENTRY entry = {};
 	u8 index1, index2;
 
 	index1 = AGMV_FindSmallestColor(palette0,color);

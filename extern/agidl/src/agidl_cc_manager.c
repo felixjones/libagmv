@@ -1160,7 +1160,7 @@ void AGIDL_ExportICP(const char* name, AGIDL_ICP icp){
 AGIDL_ICP AGIDL_LoadICP(const char* filename){
 	FILE* file = fopen(filename,"rb");
 
-	AGIDL_ICP icp;
+	AGIDL_ICP icp = {};
 
 	if(file == NULL){
 		printf("%s - %s!\n",AGIDL_Error2Str(FILE_NOT_LOCATED_IMG_ERROR),filename);
