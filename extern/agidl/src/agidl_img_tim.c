@@ -19,7 +19,6 @@
 
 #include <agidl_cc_core.h>
 #include <agidl_file_utils.h>
-#include <agidl_imgp_scale.h>
 #include <agidl_img_error.h>
 #include <agidl_mmu_utils.h>
 
