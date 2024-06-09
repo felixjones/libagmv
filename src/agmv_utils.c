@@ -1035,7 +1035,7 @@ void AGMV_WavToAudioTrack(const char* filename, AGMV* agmv){
 		fread(pcm,2,chunk_size/2,wav);
 	}
 	else{
-		pcm8 = (u8*)malloc(sizeof(u8)*chunk_size);
+		pcm8 = malloc(sizeof(u8)*chunk_size);
 		fread(pcm8,1,chunk_size,wav);
 	}
 	
