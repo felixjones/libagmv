@@ -426,7 +426,7 @@ int AGIDL_LBMDecodeHeader(AGIDL_LBM* lbm, FILE* file){
 	
 	AGIDL_DisableBigEndArch();
 	
-	if(lbm->header.form.ilbmid[0] == 'I' && lbm->header.form.ilbmid[1] == 'L' && lbm->header.form.ilbmid[2] == 'B' && lbm->header.form.ilbmid[3] && 'M'){
+	if(lbm->header.form.ilbmid[0] == 'I' && lbm->header.form.ilbmid[1] == 'L' && lbm->header.form.ilbmid[2] == 'B' && lbm->header.form.ilbmid[3]){
 		AGIDL_LBMSetType(lbm,TYPE_ILBM);
 	}
 	else{
