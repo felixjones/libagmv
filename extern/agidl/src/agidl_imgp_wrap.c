@@ -18,19 +18,17 @@
 
 #include <agidl_img_types.h>
 
-void * AGIDL_WrapImgData(void* data, u16* width, u16 height, AGIDL_CLR_FMT fmt, u8 num_of_wraps){
+void * AGIDL_WrapImgData(void* data, u16* width, const u16 height, const AGIDL_CLR_FMT fmt, const u8 num_of_wraps){
 	if(AGIDL_GetBitCount(fmt) == 24 || AGIDL_GetBitCount(fmt) == 32){
-		u16 w = *width;
+		const u16 w = *width;
 		
 		COLOR* clrs = data;
 		COLOR* wrap = malloc(sizeof(COLOR)*(w*num_of_wraps)*height);
-		
-		u32 i;
-		for(i = 0; i < num_of_wraps; i++){
-			u32 x,y;
-			for(y = 0; y < height; y++){
-				for(x = w*i; x < w*i+w; x++){
-					COLOR clr = AGIDL_GetClr(clrs,x-w*i,y,w,height);
+
+		for(u32 i = 0; i < num_of_wraps; i++){
+			for(u32 y = 0; y < height; y++){
+				for(u32 x = w * i; x < w*i+w; x++){
+					const COLOR clr = AGIDL_GetClr(clrs,x-w*i,y,w,height);
 					AGIDL_SetClr(wrap,clr,x,y,w*num_of_wraps,height);
 				}
 			}
@@ -42,17 +40,15 @@ void * AGIDL_WrapImgData(void* data, u16* width, u16 height, AGIDL_CLR_FMT fmt, 
 		
 		return wrap;
 	}
-	u16 w = *width;
+	const u16 w = *width;
 		
 	COLOR16* clrs = data;
 	COLOR16* wrap = malloc(sizeof(COLOR16)*(w*num_of_wraps)*height);
-		
-	u32 i;
-	for(i = 0; i < num_of_wraps; i++){
-		u32 x,y;
-		for(y = 0; y < height; y++){
-			for(x = w*i; x < w*i+w; x++){
-				COLOR16 clr = AGIDL_GetClr16(clrs,x-w*i,y,w,height);
+
+	for(u32 i = 0; i < num_of_wraps; i++){
+		for(u32 y = 0; y < height; y++){
+			for(u32 x = w * i; x < w*i+w; x++){
+				const COLOR16 clr = AGIDL_GetClr16(clrs,x-w*i,y,w,height);
 				AGIDL_SetClr16(wrap,clr,x,y,w*num_of_wraps,height);
 			}
 		}
@@ -65,7 +61,7 @@ void * AGIDL_WrapImgData(void* data, u16* width, u16 height, AGIDL_CLR_FMT fmt, 
 	return wrap;
 }
 
-void * AGIDL_WrapAndMirrorImgData(void* data, u16* width, u16* height, AGIDL_CLR_FMT fmt, u8 num_of_wraps, AGIDL_MIRROR mirror){
+void * AGIDL_WrapAndMirrorImgData(void* data, u16* width, u16* height, const AGIDL_CLR_FMT fmt, const u8 num_of_wraps, const AGIDL_MIRROR mirror){
 	if(AGIDL_GetBitCount(fmt) == 24 || AGIDL_GetBitCount(fmt) == 32){
 		COLOR* clrs = data;
 		
@@ -75,13 +71,11 @@ void * AGIDL_WrapAndMirrorImgData(void* data, u16* width, u16* height, AGIDL_CLR
 		COLOR* glace = AGIDL_MirrorImgData(clrs,&glacew,&glaceh,fmt,mirror);
 		
 		COLOR* wrap = malloc(sizeof(COLOR)*(glacew*num_of_wraps)*glaceh);
-		
-		u32 i;
-		for(i = 0; i < num_of_wraps; i++){
-			u32 x,y;
-			for(y = 0; y < glaceh; y++){
-				for(x = glacew*i; x < glacew*i+glacew; x++){
-					COLOR clr = AGIDL_GetClr(glace,x-glacew*i,y,glacew,glaceh);
+
+		for(u32 i = 0; i < num_of_wraps; i++){
+			for(u32 y = 0; y < glaceh; y++){
+				for(u32 x = glacew * i; x < glacew*i+glacew; x++){
+					const COLOR clr = AGIDL_GetClr(glace,x-glacew*i,y,glacew,glaceh);
 					AGIDL_SetClr(wrap,clr,x,y,glacew*num_of_wraps,glaceh);
 				}
 			}
@@ -102,13 +96,11 @@ void * AGIDL_WrapAndMirrorImgData(void* data, u16* width, u16* height, AGIDL_CLR
 	COLOR16* glace = AGIDL_MirrorImgData(clrs,&glacew,&glaceh,fmt,mirror);
 		
 	COLOR16* wrap = malloc(sizeof(COLOR16)*(glacew*num_of_wraps)*glaceh);
-		
-	u32 i;
-	for(i = 0; i < num_of_wraps; i++){
-		u32 x,y;
-		for(y = 0; y < glaceh; y++){
-			for(x = glacew*i; x < glacew*i+glacew; x++){
-				COLOR16 clr = AGIDL_GetClr16(glace,x-glacew*i,y,glacew,glaceh);
+
+	for(u32 i = 0; i < num_of_wraps; i++){
+		for(u32 y = 0; y < glaceh; y++){
+			for(u32 x = glacew * i; x < glacew*i+glacew; x++){
+				const COLOR16 clr = AGIDL_GetClr16(glace,x-glacew*i,y,glacew,glaceh);
 				AGIDL_SetClr16(wrap,clr,x,y,glacew*num_of_wraps,glaceh);
 			}
 		}

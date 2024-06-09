@@ -20,15 +20,12 @@
 
 #include <agmv_utils.h>
 
-void AGMV_EncodeHeader(FILE* file, AGMV* agmv){
+void AGMV_EncodeHeader(FILE* file, const AGMV* agmv){
 	u32 i;
 	u8  r, g, b;
 
-	AGMV_OPT opt;
-	AGMV_COMPRESSION compression;
-	
-	opt = AGMV_GetOPT(agmv);
-	compression = AGMV_GetCompression(agmv);
+	const AGMV_OPT opt = AGMV_GetOPT(agmv);
+	const AGMV_COMPRESSION compression = AGMV_GetCompression(agmv);
 
 	AGMV_WriteFourCC(file,'A','G','M','V');
 	AGMV_WriteLong(file,AGMV_GetNumberOfFrames(agmv));
@@ -47,7 +44,7 @@ void AGMV_EncodeHeader(FILE* file, AGMV* agmv){
 		AGMV_WriteShort(file,AGMV_GetNumberOfChannels(agmv));
 
 		for(i = 0; i < 256; i++){
-			u32 color = agmv->header.palette0[i];
+			const u32 color = agmv->header.palette0[i];
 
 			r = AGMV_GetR(color);
 			g = AGMV_GetG(color);
@@ -59,7 +56,7 @@ void AGMV_EncodeHeader(FILE* file, AGMV* agmv){
 		}
 
 		for(i = 0; i < 256; i++){
-			u32 color = agmv->header.palette1[i];
+			const u32 color = agmv->header.palette1[i];
 
 			r = AGMV_GetR(color);
 			g = AGMV_GetG(color);
@@ -80,7 +77,7 @@ void AGMV_EncodeHeader(FILE* file, AGMV* agmv){
 		AGMV_WriteShort(file,AGMV_GetNumberOfChannels(agmv));
 
 		for(i = 0; i < 256; i++){
-			u32 color = agmv->header.palette0[i];
+			const u32 color = agmv->header.palette0[i];
 
 			r = AGMV_GetR(color);
 			g = AGMV_GetG(color);
@@ -103,30 +100,27 @@ LZSS
 #define	FRONT_WINDOW	15
 #define	FRONT_BITS		4
 
-u32 AGMV_LZSS (FILE* file, AGMV_BITSTREAM* in)
+u32 AGMV_LZSS (FILE* file, const AGMV_BITSTREAM* in)
 {
-	int		i;
-	int		val;
-	int		j, start, max;
-	int		bestlength, beststart;
+	int		j;
 	int		outbits = 0;
-	int     pos = in->pos;
-	u8*     data = in->data;
+	const int     pos = in->pos;
+	const u8*     data = in->data;
 
 	outbits = 0;
-	for (i=0 ; i<pos ; )
+	for (int i = 0 ; i<pos ; )
 	{
-		val = data[i];
+		const int val = data[i];
 
-		max = FRONT_WINDOW;
+		int max = FRONT_WINDOW;
 		if (i + max > pos)
 			max = pos - i;
 
-		start = i - BACK_WINDOW;
+		int start = i - BACK_WINDOW;
 		if (start < 0)
 			start = 0;
-		bestlength = 0;
-		beststart = 0;
+		int bestlength = 0;
+		int beststart = 0;
 		for ( ; start < i ; start++)
 		{
 			if (data[start] != val)
@@ -176,30 +170,27 @@ u32 AGMV_LZSS (FILE* file, AGMV_BITSTREAM* in)
 	return outbits / 8.0f;
 }
 
-u32 AGMV_LZ77(FILE* file, AGMV_BITSTREAM* in)
+u32 AGMV_LZ77(FILE* file, const AGMV_BITSTREAM* in)
 {
-	int		i;
-	int		val;
-	int		j, start, max;
-	int		bestlength, beststart;
+	int		j;
 	int		outbits = 0;
-	int     pos = in->pos;
-	u8*     data = in->data;
+	const int     pos = in->pos;
+	const u8*     data = in->data;
 
 	outbits = 0;
-	for (i=0 ; i<pos ; )
+	for (int i = 0 ; i<pos ; )
 	{
-		val = data[i];
+		const int val = data[i];
 
-		max = 255;
+		int max = 255;
 		if (i + max > pos)
 			max = in->pos - i;
 
-		start = i - BACK_WINDOW;
+		int start = i - BACK_WINDOW;
 		if (start < 0)
 			start = 0;
-		bestlength = 0;
-		beststart = 0;
+		int bestlength = 0;
+		int beststart = 0;
 		for ( ; start < i ; start++)
 		{
 			if (data[start] != val)
@@ -237,20 +228,18 @@ u32 AGMV_LZ77(FILE* file, AGMV_BITSTREAM* in)
 	return outbits / 8.0f;
 }
 
-u8 AGMV_ComparePFrameBlock(AGMV* agmv, u32 x, u32 y, AGMV_ENTRY* entry){
-	u32 i, j, width, color1, color2;
-	int r1, g1, b1, r2, g2, b2, rdiff, gdiff, bdiff;
-	u8 count;
+u8 AGMV_ComparePFrameBlock(const AGMV* agmv, const u32 x, const u32 y, const AGMV_ENTRY* entry){
+	u32 color1, color2;
+
+	const u32 width = agmv->frame->width;
+	u8 count = 0;
+
+	const AGMV_ENTRY* iframe_entries = agmv->iframe_entries;
 	
-	width = agmv->frame->width;
-	count = 0;
-	
-	AGMV_ENTRY* iframe_entries = agmv->iframe_entries;
-	
-	for(j = 0; j < 4; j++){
-		for(i = 0; i < 4; i++){
-			AGMV_ENTRY ent1 = entry[x+i+(y+j)*width];
-			AGMV_ENTRY ent2 = iframe_entries[x+i+(y+j)*width];
+	for(u32 j = 0; j < 4; j++){
+		for(u32 i = 0; i < 4; i++){
+			const AGMV_ENTRY ent1 = entry[x+i+(y+j)*width];
+			const AGMV_ENTRY ent2 = iframe_entries[x+i+(y+j)*width];
 
 			if(ent1.pal_num == 0){
 				color1 = agmv->header.palette0[ent1.index];
@@ -266,17 +255,17 @@ u8 AGMV_ComparePFrameBlock(AGMV* agmv, u32 x, u32 y, AGMV_ENTRY* entry){
 				color2 = agmv->header.palette1[ent2.index];
 			}
 
-			r1 = AGMV_GetR(color1);
-			g1 = AGMV_GetG(color1);
-			b1 = AGMV_GetB(color1);
+			const int r1 = AGMV_GetR(color1);
+			const int g1 = AGMV_GetG(color1);
+			const int b1 = AGMV_GetB(color1);
 
-			r2 = AGMV_GetR(color2);
-			g2 = AGMV_GetG(color2);
-			b2 = AGMV_GetB(color2);
+			const int r2 = AGMV_GetR(color2);
+			const int g2 = AGMV_GetG(color2);
+			const int b2 = AGMV_GetB(color2);
 
-			rdiff = r1-r2;
-			gdiff = g1-g2;
-			bdiff = b1-b2;
+			int rdiff = r1 - r2;
+			int gdiff = g1 - g2;
+			int bdiff = b1 - b2;
 
 			if(rdiff < 0){
 				rdiff = AGIDL_Abs(rdiff);
@@ -299,17 +288,13 @@ u8 AGMV_ComparePFrameBlock(AGMV* agmv, u32 x, u32 y, AGMV_ENTRY* entry){
 	return count;
 }
 
-u8 AGMV_CompareIFrameBlock(AGMV* agmv, u32 x, u32 y, u32 color, AGMV_ENTRY* img_entry){
-	u32 i, j, width;
-	int r1, g1, b1, r2, g2, b2, rdiff, gdiff, bdiff;
-	u8 count;
+u8 AGMV_CompareIFrameBlock(const AGMV* agmv, const u32 x, const u32 y, const u32 color, const AGMV_ENTRY* img_entry){
+	const u32 width = agmv->frame->width;
+	u8 count = 0;
 
-	width = agmv->frame->width;
-	count = 0;
-
-	for(j = 0; j < 4; j++){
-		for(i = 0; i < 4; i++){
-			AGMV_ENTRY entry = img_entry[x+i+(y+j)*width];
+	for(u32 j = 0; j < 4; j++){
+		for(u32 i = 0; i < 4; i++){
+			const AGMV_ENTRY entry = img_entry[x+i+(y+j)*width];
 			u32 bc;
 			if(entry.pal_num == 0){
 				bc = agmv->header.palette0[entry.index];
@@ -318,17 +303,17 @@ u8 AGMV_CompareIFrameBlock(AGMV* agmv, u32 x, u32 y, u32 color, AGMV_ENTRY* img_
 				bc = agmv->header.palette1[entry.index];
 			}
 
-			r1 = AGMV_GetR(color);
-			g1 = AGMV_GetG(color);
-			b1 = AGMV_GetB(color);
+			const int r1 = AGMV_GetR(color);
+			const int g1 = AGMV_GetG(color);
+			const int b1 = AGMV_GetB(color);
 
-			r2 = AGMV_GetR(bc);
-			g2 = AGMV_GetG(bc);
-			b2 = AGMV_GetB(bc);
+			const int r2 = AGMV_GetR(bc);
+			const int g2 = AGMV_GetG(bc);
+			const int b2 = AGMV_GetB(bc);
 
-			rdiff = r1-r2;
-			gdiff = g1-g2;
-			bdiff = b1-b2;
+			int rdiff = r1 - r2;
+			int gdiff = g1 - g2;
+			int bdiff = b1 - b2;
 
 			if(rdiff < 0){
 				rdiff = AGIDL_Abs(rdiff);
@@ -351,22 +336,20 @@ u8 AGMV_CompareIFrameBlock(AGMV* agmv, u32 x, u32 y, u32 color, AGMV_ENTRY* img_
 	return count;
 }
 
-void AGMV_AssembleIFrameBitstream(AGMV* agmv, AGMV_ENTRY* img_entry){
-	AGMV_OPT opt;
-	u32 width, height, x, y, i, j;
+void AGMV_AssembleIFrameBitstream(const AGMV* agmv, const AGMV_ENTRY* img_entry){
+	u32 x, y, i, j;
 	u8* data = agmv->bitstream->data;
 
-	width = agmv->frame->width;
-	height = agmv->frame->height;
+	const u32 width = agmv->frame->width;
+	const u32 height = agmv->frame->height;
 
-	opt = AGMV_GetOPT(agmv);
+	const AGMV_OPT opt = AGMV_GetOPT(agmv);
 
 	if(opt != AGMV_OPT_II && opt != AGMV_OPT_ANIM && opt != AGMV_OPT_GBA_II){
 		for(y = 0; y < height; y += 4){
 			for(x = 0; x < width; x += 4){
-				u8 count;
 				u32 color;
-				AGMV_ENTRY entry = img_entry[x+y*width];
+				const AGMV_ENTRY entry = img_entry[x+y*width];
 
 				if(entry.pal_num == 0){
 					color = agmv->header.palette0[entry.index];
@@ -375,7 +358,7 @@ void AGMV_AssembleIFrameBitstream(AGMV* agmv, AGMV_ENTRY* img_entry){
 					color = agmv->header.palette1[entry.index];
 				}
 
-				count = AGMV_CompareIFrameBlock(agmv,x,y,color,img_entry);
+				const u8 count = AGMV_CompareIFrameBlock(agmv, x, y, color, img_entry);
 
 				if(count >= AGMV_FILL_COUNT){
 					data[agmv->bitstream->pos++] = AGMV_FILL_FLAG;
@@ -391,7 +374,7 @@ void AGMV_AssembleIFrameBitstream(AGMV* agmv, AGMV_ENTRY* img_entry){
 					data[agmv->bitstream->pos++] = AGMV_NORMAL_FLAG;
 					for(j = 0; j < 4; j++){
 						for(i = 0; i < 4; i++){
-							AGMV_ENTRY norm = img_entry[x+i+(y+j)*width];
+							const AGMV_ENTRY norm = img_entry[x+i+(y+j)*width];
 							if(norm.index < 127){
 								data[agmv->bitstream->pos++] = norm.pal_num << 7 | norm.index;
 							}
@@ -408,13 +391,10 @@ void AGMV_AssembleIFrameBitstream(AGMV* agmv, AGMV_ENTRY* img_entry){
 	else{
 		for(y = 0; y < height; y += 4){
 			for(x = 0; x < width; x += 4){
-
-				u8 count;
-				u32 color;
 				AGMV_ENTRY entry = img_entry[x+y*width];
 
-				color = agmv->header.palette0[entry.index];
-				count = AGMV_CompareIFrameBlock(agmv,x,y,color,img_entry);
+				const u32 color = agmv->header.palette0[entry.index];
+				const u8 count = AGMV_CompareIFrameBlock(agmv, x, y, color, img_entry);
 
 				if(count >= AGMV_FILL_COUNT){
 					data[agmv->bitstream->pos++] = AGMV_FILL_FLAG;
@@ -435,22 +415,20 @@ void AGMV_AssembleIFrameBitstream(AGMV* agmv, AGMV_ENTRY* img_entry){
 	}
 }
 
-void AGMV_AssemblePFrameBitstream(AGMV* agmv, AGMV_ENTRY* img_entry){
-	AGMV_OPT opt;
-	u32 width, height, x, y, i, j;
+void AGMV_AssemblePFrameBitstream(const AGMV* agmv, const AGMV_ENTRY* img_entry){
+	u32 x, y, i, j;
 	u8* data = agmv->bitstream->data;
 
-	width = agmv->frame->width;
-	height = agmv->frame->height;
+	const u32 width = agmv->frame->width;
+	const u32 height = agmv->frame->height;
 
-	opt = AGMV_GetOPT(agmv);
+	const AGMV_OPT opt = AGMV_GetOPT(agmv);
 
 	if(opt != AGMV_OPT_II && opt != AGMV_OPT_ANIM && opt != AGMV_OPT_GBA_II){
 		for(y = 0; y < height; y += 4){
 			for(x = 0; x < width; x += 4){
-				u8 count1,count2;
 				u32 color;
-				AGMV_ENTRY entry = img_entry[x+y*width];
+				const AGMV_ENTRY entry = img_entry[x+y*width];
 
 				if(entry.pal_num == 0){
 					color = agmv->header.palette0[entry.index];
@@ -459,8 +437,8 @@ void AGMV_AssemblePFrameBitstream(AGMV* agmv, AGMV_ENTRY* img_entry){
 					color = agmv->header.palette1[entry.index];
 				}
 
-				count1 = AGMV_CompareIFrameBlock(agmv,x,y,color,img_entry);
-				count2 = AGMV_ComparePFrameBlock(agmv,x,y,img_entry);
+				const u8 count1 = AGMV_CompareIFrameBlock(agmv, x, y, color, img_entry);
+				const u8 count2 = AGMV_ComparePFrameBlock(agmv, x, y, img_entry);
 
 				if(count2 >= AGMV_COPY_COUNT){
 					data[agmv->bitstream->pos++] = AGMV_COPY_FLAG;
@@ -479,7 +457,7 @@ void AGMV_AssemblePFrameBitstream(AGMV* agmv, AGMV_ENTRY* img_entry){
 					data[agmv->bitstream->pos++] = AGMV_NORMAL_FLAG;
 					for(j = 0; j < 4; j++){
 						for(i = 0; i < 4; i++){
-							AGMV_ENTRY norm = img_entry[x+i+(y+j)*width];
+							const AGMV_ENTRY norm = img_entry[x+i+(y+j)*width];
 							if(norm.index < 127){
 								data[agmv->bitstream->pos++] = norm.pal_num << 7 | norm.index;
 							}
@@ -496,13 +474,11 @@ void AGMV_AssemblePFrameBitstream(AGMV* agmv, AGMV_ENTRY* img_entry){
 	else{
 		for(y = 0; y < height; y += 4){
 			for(x = 0; x < width; x += 4){
-				u8 count1,count2;
-				u32 color;
 				AGMV_ENTRY entry = img_entry[x+y*width];
 
-				color  = agmv->header.palette0[entry.index];
-				count1 = AGMV_CompareIFrameBlock(agmv,x,y,color,img_entry);
-				count2 = AGMV_ComparePFrameBlock(agmv,x,y,img_entry);
+				const u32 color = agmv->header.palette0[entry.index];
+				const u8 count1 = AGMV_CompareIFrameBlock(agmv, x, y, color, img_entry);
+				const u8 count2 = AGMV_ComparePFrameBlock(agmv, x, y, img_entry);
 
 				if(count2 >= AGMV_COPY_COUNT){
 					data[agmv->bitstream->pos++] = AGMV_COPY_FLAG;
@@ -526,11 +502,10 @@ void AGMV_AssemblePFrameBitstream(AGMV* agmv, AGMV_ENTRY* img_entry){
 	}
 }
 
-void AGMV_EncodeFrame(FILE* file, AGMV* agmv, u32* img_data){
-	AGMV_OPT opt = AGMV_GetOPT(agmv);
-	AGMV_ENTRY* iframe_entries, *img_entry;
+void AGMV_EncodeFrame(FILE* file, AGMV* agmv, const u32* img_data){
+	const AGMV_OPT opt = AGMV_GetOPT(agmv);
 
-	int i, csize, pos, size, max_size;
+	int i, csize, pos;
 	u32 palette0[256], palette1[256];
 
 	for(i = 0; i < 256; i++){
@@ -538,11 +513,11 @@ void AGMV_EncodeFrame(FILE* file, AGMV* agmv, u32* img_data){
 		palette1[i] = agmv->header.palette1[i];
 	}
 
-	size     = AGMV_GetWidth(agmv)*AGMV_GetHeight(agmv);
-	max_size = size * 0.8f;
+	const int size = AGMV_GetWidth(agmv) * AGMV_GetHeight(agmv);
+	int max_size = size * 0.8f;
 
-	iframe_entries = agmv->iframe_entries;
-	img_entry = (AGMV_ENTRY*)malloc(sizeof(AGMV_ENTRY)*size);
+	AGMV_ENTRY* iframe_entries = agmv->iframe_entries;
+	AGMV_ENTRY* img_entry = (AGMV_ENTRY*) malloc(sizeof(AGMV_ENTRY) * size);
 
 	AGMV_SyncFrameAndImage(agmv,img_data);
 	AGMV_WriteFourCC(file,'A','G','F','C');
@@ -648,19 +623,18 @@ void roundUpOdd(u8* num){
 	*num = temp;
 }
 
-f32 AGMV_Round(f32 x) {
+f32 AGMV_Round(const f32 x) {
     if (x >= 0.0)
         return floor(x + 0.5);
     return ceil(x - 0.5);
 }
 
-void AGMV_CompressAudio(AGMV* agmv){
-	int i, resamp1, resamp2, resamp3, size = AGMV_GetAudioSize(agmv);
-	u32 dist1, dist2, dist3, dist;
+void AGMV_CompressAudio(const AGMV* agmv){
+	const int size = AGMV_GetAudioSize(agmv);
 	u8 ssqrt1, ssqrt2, shift, *atsample = agmv->audio_chunk->atsample;
-	u16* pcm = agmv->audio_track->pcm;
+	const u16* pcm = agmv->audio_track->pcm;
 
-	for(i = 0; i < size; i++){
+	for(int i = 0; i < size; i++){
 		int samp = pcm[i];
 
 		ssqrt1 = sqrt(samp);
@@ -671,15 +645,15 @@ void AGMV_CompressAudio(AGMV* agmv){
 	    roundUpEven(&ssqrt2);
 	    roundUpOdd(&shift);
 
-		resamp1 = ssqrt1 * ssqrt1;
-		resamp2 = ssqrt2 * ssqrt2;
-		resamp3 = shift << 8;
+		const int resamp1 = ssqrt1 * ssqrt1;
+		const int resamp2 = ssqrt2 * ssqrt2;
+		const int resamp3 = shift << 8;
 
-	    dist1 = AGMV_Abs(resamp1-samp);
-	    dist2 = AGMV_Abs(resamp2-samp);
-	    dist3 = AGMV_Abs(resamp3-samp);
+		const u32 dist1 = AGMV_Abs(resamp1 - samp);
+		const u32 dist2 = AGMV_Abs(resamp2 - samp);
+		const u32 dist3 = AGMV_Abs(resamp3 - samp);
 
-	    dist = AGMV_Min(dist1,dist2);
+	    u32 dist = AGMV_Min(dist1, dist2);
 	    dist = AGMV_Min(dist1,dist3);
 
 	    if(dist == dist1){
@@ -694,16 +668,16 @@ void AGMV_CompressAudio(AGMV* agmv){
 	}
 }
 
-void AGMV_EncodeAudioChunk(FILE* file, AGMV* agmv){
-	int i, size = agmv->audio_chunk->size;
-	u8* atsample = agmv->audio_chunk->atsample;
+void AGMV_EncodeAudioChunk(FILE* file, const AGMV* agmv){
+	const int size = agmv->audio_chunk->size;
+	const u8* atsample = agmv->audio_chunk->atsample;
 
 	if(AGMV_GetOPT(agmv) != AGMV_OPT_GBA_I && AGMV_GetOPT(agmv) != AGMV_OPT_GBA_II && AGMV_GetOPT(agmv) != AGMV_OPT_GBA_III){
 
 		AGMV_WriteFourCC(file,'A','G','A','C');
 		AGMV_WriteLong(file,agmv->audio_chunk->size);
 
-		for(i = 0; i < size; i++){
+		for(int i = 0; i < size; i++){
 			AGMV_WriteByte(file,atsample[agmv->audio_track->start_point++]);
 		}
 	}

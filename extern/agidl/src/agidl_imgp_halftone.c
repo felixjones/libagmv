@@ -22,7 +22,7 @@
 #include <agidl_img_types.h>
 #include <agidl_math_utils.h>
 
-void AGIDL_HalftoneImgData(void* data, u16 width, u16 height, AGIDL_CLR_FMT fmt, u8 threshold){
+void AGIDL_HalftoneImgData(void* data, const u16 width, const u16 height, const AGIDL_CLR_FMT fmt, const u8 threshold){
 	AGIDL_GrayscaleImgData(data,width,height,fmt);
 	
 	if(fmt == 16){
@@ -38,18 +38,15 @@ void AGIDL_HalftoneImgData(void* data, u16 width, u16 height, AGIDL_CLR_FMT fmt,
 		
 		memset(ep,0,width*height);
 		memset(eg,0,width*height);
-		
-		int i,j,xx,yy;
-		
-		int x,y;
-		for(y = 0; y < height; y++){
-			for(x = 0; x < width; x++){
+
+		for(int y = 0; y < height; y++){
+			for(int x = 0; x < width; x++){
 				sump = 0;
 				
-				for(i = 0; i < 2; i++){
-					for(j = 0; j < 3; j++){
-						xx = x-i+1;
-						yy = y-j+1;
+				for(int i = 0; i < 2; i++){
+					for(int j = 0; j < 3; j++){
+						int xx = x - i + 1;
+						int yy = y - j + 1;
 						
 						xx = AGIDL_Clamp(0,xx,width-1);
 						yy = AGIDL_Clamp(0,yy,height-1);
@@ -59,8 +56,8 @@ void AGIDL_HalftoneImgData(void* data, u16 width, u16 height, AGIDL_CLR_FMT fmt,
 				}
 				
 				ep[x+y*width] = sump;
-				
-				COLOR16 clr = AGIDL_GetClr16(clr_data,x,y,width,height);
+
+				const COLOR16 clr = AGIDL_GetClr16(clr_data,x,y,width,height);
 				
 				t = AGIDL_GetR(clr,fmt) + ep[x+y*width];
 				
@@ -98,18 +95,15 @@ void AGIDL_HalftoneImgData(void* data, u16 width, u16 height, AGIDL_CLR_FMT fmt,
 		
 		memset(ep,0,width*height);
 		memset(eg,0,width*height);
-		
-		int i,j,xx,yy;
-		
-		int x,y;
-		for(y = 0; y < height; y++){
-			for(x = 0; x < width; x++){
+
+		for(int y = 0; y < height; y++){
+			for(int x = 0; x < width; x++){
 				sump = 0;
 				
-				for(i = 0; i < 2; i++){
-					for(j = 0; j < 3; j++){
-						xx = x-i+1;
-						yy = y-j+1;
+				for(int i = 0; i < 2; i++){
+					for(int j = 0; j < 3; j++){
+						int xx = x - i + 1;
+						int yy = y - j + 1;
 						
 						xx = AGIDL_Clamp(0,xx,width-1);
 						yy = AGIDL_Clamp(0,yy,height-1);
@@ -119,8 +113,8 @@ void AGIDL_HalftoneImgData(void* data, u16 width, u16 height, AGIDL_CLR_FMT fmt,
 				}
 				
 				ep[x+y*width] = sump;
-				
-				COLOR clr = AGIDL_GetClr(clr_data,x,y,width,height);
+
+				const COLOR clr = AGIDL_GetClr(clr_data,x,y,width,height);
 				
 				t = AGIDL_GetR(clr,fmt) + ep[x+y*width];
 				

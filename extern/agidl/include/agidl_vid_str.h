@@ -66,14 +66,14 @@ typedef struct AGIDL_MDEC_FRAME{
 void AGIDL_ReadMDECVideoFrame(FILE* file, AGIDL_MDEC_FRAME* frame);
 void AGIDL_ReadMultiplexStream(FILE* file, AGIDL_MDEC_FRAME* frame);
 u16 AGIDL_GetNext16Bits(AGIDL_MDEC_FRAME* frame);
-u16 AGIDL_PeekNext16Bits(AGIDL_MDEC_FRAME* frame);
-u16 AGIDL_GetCur16Bits(AGIDL_MDEC_FRAME* frame);
+u16 AGIDL_PeekNext16Bits(const AGIDL_MDEC_FRAME* frame);
+u16 AGIDL_GetCur16Bits(const AGIDL_MDEC_FRAME* frame);
 void AGIDL_SkipNWords(AGIDL_MDEC_FRAME* frame, int n);
 AGIDL_Bool AGIDL_EOF(FILE* file);
-void AGIDL_PrintMDECBitstream(AGIDL_MDEC_FRAME* frame);
+void AGIDL_PrintMDECBitstream(const AGIDL_MDEC_FRAME* frame);
 
 /* UTILITY FUNCTIONS */
-int AGIDL_IsMDECVideoFrame(AGIDL_MDEC_FRAME* frame);
+int AGIDL_IsMDECVideoFrame(const AGIDL_MDEC_FRAME* frame);
 void AGIDL_EnsureDimMul16(AGIDL_MDEC_FRAME* frame);
 u32 AGIDL_CalcMacroblockDim(u32 size);
 void AGIDL_FindNextVideoFrame(FILE* file);

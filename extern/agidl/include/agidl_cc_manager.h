@@ -60,7 +60,7 @@ typedef struct AGIDL_Hist{
 }AGIDL_Hist;
 
 AGIDL_Bool AGIDL_IsClrInHistogram(AGIDL_Hist hist, COLOR clr);
-void AGIDL_EncodeHistogramICP(AGIDL_ICP* palette, void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt);
+void AGIDL_EncodeHistogramICP(AGIDL_ICP* palette, const void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt);
 
 void AGIDL_SetICPMode(AGIDL_ICP* palette, int mode, AGIDL_CLR_FMT fmt);
 void AGIDL_ClearICP(AGIDL_ICP* palette, COLOR clr);

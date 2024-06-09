@@ -353,42 +353,39 @@ void AGIDL_DispImgData(void* vram, u32 width, u32 height, AGIDL_ATTR table, void
 	}
 }
 
-void AGIDL_DrawImgData(void* vram, u32 width, u32 height, int tx, int ty, void* spr, u32 widths, u32 heights, AGIDL_CLR_FMT fmt){
+void AGIDL_DrawImgData(void* vram, const u32 width, const u32 height, const int tx, const int ty, const void* spr, const u32 widths, const u32 heights, const AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 16){
 		COLOR16* vram16 = vram;
-		COLOR16* spr16 = spr;
+		const COLOR16* spr16 = spr;
 
-		u32 x,y;
-		for(y = 0; y < heights; y++){
-			for(x = 0; x < widths; x++){
-				COLOR16 clr = AGIDL_GetClr16(spr16,x,y,widths,heights);
+		for(u32 y = 0; y < heights; y++){
+			for(u32 x = 0; x < widths; x++){
+				const COLOR16 clr = AGIDL_GetClr16(spr16,x,y,widths,heights);
 				AGIDL_SetClr16(vram16,clr,x+tx,y+ty,width,height);
 			}
 		}
 	}
 	else if(AGIDL_GetBitCount(fmt) == 24){
 		COLOR* vram24 = vram;
-		COLOR* spr24 = spr;
+		const COLOR* spr24 = spr;
 
-		u32 x,y;
-		for(y = 0; y < heights; y++){
-			for(x = 0; x < widths; x++){
-				COLOR clr = AGIDL_GetClr(spr24,x,y,widths,heights);
+		for(u32 y = 0; y < heights; y++){
+			for(u32 x = 0; x < widths; x++){
+				const COLOR clr = AGIDL_GetClr(spr24,x,y,widths,heights);
 				AGIDL_SetClr(vram24,clr,x+tx,y+ty,width,height);
 			}
 		}
 	}
 	else{
 		COLOR* vram32 = vram;
-		COLOR* spr32 = spr;
+		const COLOR* spr32 = spr;
 
-		u32 x,y;
-		for(y = 0; y < heights; y++){
-			for(x = 0; x < widths; x++){
-				COLOR clr = AGIDL_GetClr(spr32,x,y,widths,heights);
-				COLOR vramclr = AGIDL_GetClr(vram32,x+tx,y+ty,width,height);
+		for(u32 y = 0; y < heights; y++){
+			for(u32 x = 0; x < widths; x++){
+				const COLOR clr = AGIDL_GetClr(spr32,x,y,widths,heights);
+				const COLOR vramclr = AGIDL_GetClr(vram32,x+tx,y+ty,width,height);
 
-				COLOR blend = AGIDL_BlendColor(vramclr,clr,0,CC_BLEND_CLR_DESTINV,fmt);
+				const COLOR blend = AGIDL_BlendColor(vramclr,clr,0,CC_BLEND_CLR_DESTINV,fmt);
 
 				AGIDL_SetClr(vram32,blend,x+tx,y+ty,width,height);
 			}
@@ -396,69 +393,66 @@ void AGIDL_DrawImgData(void* vram, u32 width, u32 height, int tx, int ty, void* 
 	}
 }
 
-void AGIDL_DispScaleImgData(void* vram, u32 width, u32 height, f32 sx, f32 sy, int tx, int ty, void* spr, u32 widths, u32 heights, AGIDL_CLR_FMT fmt){
+void AGIDL_DispScaleImgData(void* vram, const u32 width, const u32 height, const f32 sx, const f32 sy, const int tx, const int ty, const void* spr, const u32 widths, const u32 heights, const AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 16){
 		COLOR16* vram16 = vram;
-		COLOR16* spr16 = spr;
+		const COLOR16* spr16 = spr;
 
-		u32 w = widths*sx;
-		u32 h = heights*sy;
+		const u32 w = widths*sx;
+		const u32 h = heights*sy;
 
-		f32 xscale = (widths-1)/(float)w;
-		f32 yscale = (heights-1)/(float)h;
+		const f32 xscale = (widths-1)/(float)w;
+		const f32 yscale = (heights-1)/(float)h;
 
-		u32 x,y;
-		for(y = 0; y < h; y++){
-			for(x = 0; x < w; x++){
-				u32 x2 = x*xscale;
-				u32 y2 = y*yscale;
+		for(u32 y = 0; y < h; y++){
+			for(u32 x = 0; x < w; x++){
+				const u32 x2 = x*xscale;
+				const u32 y2 = y*yscale;
 
-				COLOR16 clr = AGIDL_GetClr16(spr16,x2,y2,widths,heights);
+				const COLOR16 clr = AGIDL_GetClr16(spr16,x2,y2,widths,heights);
 				AGIDL_SetClr16(vram16,clr,x+tx,y+ty,width,height);
 			}
 		}
 	}
 	else if(AGIDL_GetBitCount(fmt) == 24){
 		COLOR* vram24 = vram;
-		COLOR* spr24 = spr;
+		const COLOR* spr24 = spr;
 
-		u32 w = widths*sx;
-		u32 h = heights*sy;
+		const u32 w = widths*sx;
+		const u32 h = heights*sy;
 
-		f32 xscale = (widths-1)/(float)w;
-		f32 yscale = (heights-1)/(float)h;
+		const f32 xscale = (widths-1)/(float)w;
+		const f32 yscale = (heights-1)/(float)h;
 
-		u32 x,y;
-		for(y = 0; y < h; y++){
-			for(x = 0; x < w; x++){
-				u32 x2 = x*xscale;
-				u32 y2 = y*yscale;
+		for(u32 y = 0; y < h; y++){
+			for(u32 x = 0; x < w; x++){
+				const u32 x2 = x*xscale;
+				const u32 y2 = y*yscale;
 
-				COLOR clr = AGIDL_GetClr(spr24,x2,y2,widths,heights);
+				const COLOR clr = AGIDL_GetClr(spr24,x2,y2,widths,heights);
 				AGIDL_SetClr(vram24,clr,x+tx,y+ty,width,height);
 			}
 		}
 	}
 	else{
 		COLOR* vram32 = vram;
-		COLOR* spr32 = spr;
+		const COLOR* spr32 = spr;
 
-		u32 w = widths*sx;
-		u32 h = heights*sy;
+		const u32 w = widths*sx;
+		const u32 h = heights*sy;
 
-		f32 xscale = (widths-1)/(float)w;
-		f32 yscale = (heights-1)/(float)h;
+		const f32 xscale = (widths-1)/(float)w;
+		const f32 yscale = (heights-1)/(float)h;
 
-		u32 x,y;
-		for(y = 0; y < h; y++){
-			for(x = 0; x < w; x++){
-				u32 x2 = x*xscale;
-				u32 y2 = y*yscale;
+		for(u32 y = 0; y < h; y++){
+			for(u32 x = 0; x < w; x++){
+				const u32 x2 = x*xscale;
+				const u32 y2 = y*yscale;
 
-				COLOR clr = AGIDL_GetClr(spr32,x2,y2,widths,heights);
-				COLOR vramclr = AGIDL_GetClr(vram32,x+tx,y+ty,width,height);
+				const COLOR clr = AGIDL_GetClr(spr32,x2,y2,widths,heights);
+				const COLOR vramclr = AGIDL_GetClr(vram32,x+tx,y+ty,width,height);
 
-				COLOR blend = AGIDL_BlendColor(vramclr,clr,0,CC_BLEND_CLR_DESTINV,fmt);
+				const COLOR blend = AGIDL_BlendColor(vramclr,clr,0,CC_BLEND_CLR_DESTINV,fmt);
 
 				AGIDL_SetClr(vram32,blend,x+tx,y+ty,width,height);
 			}
@@ -466,42 +460,39 @@ void AGIDL_DispScaleImgData(void* vram, u32 width, u32 height, f32 sx, f32 sy, i
 	}
 }
 
-void AGIDL_DispFlipHorzImgData(void* vram, u32 width, u32 height, int tx, int ty, void* spr, u32 widths, u32 heights, AGIDL_CLR_FMT fmt){
+void AGIDL_DispFlipHorzImgData(void* vram, const u32 width, const u32 height, const int tx, const int ty, const void* spr, const u32 widths, const u32 heights, const AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 16){
 		COLOR16* vram16 = vram;
-		COLOR16* spr16 = spr;
+		const COLOR16* spr16 = spr;
 
-		int x,y;
-		for(y = 0; y < heights; y++){
-			for(x = 0; x < widths; x++){
-				COLOR16 clr = AGIDL_GetClr16(spr16,x,heights-y-1,widths,heights);
+		for(int y = 0; y < heights; y++){
+			for(int x = 0; x < widths; x++){
+				const COLOR16 clr = AGIDL_GetClr16(spr16,x,heights-y-1,widths,heights);
 				AGIDL_SetClr16(vram16,clr,x+tx,y+ty,width,height);
 			}
 		}
 	}
 	else if(AGIDL_GetBitCount(fmt) == 24){
 		COLOR* vram24 = vram;
-		COLOR* spr24 = spr;
+		const COLOR* spr24 = spr;
 
-		int x,y;
-		for(y = 0; y < heights; y++){
-			for(x = 0; x < widths; x++){
-				COLOR clr = AGIDL_GetClr(spr24,x,heights-y-1,widths,heights);
+		for(int y = 0; y < heights; y++){
+			for(int x = 0; x < widths; x++){
+				const COLOR clr = AGIDL_GetClr(spr24,x,heights-y-1,widths,heights);
 				AGIDL_SetClr(vram24,clr,x+tx,y+ty,width,height);
 			}
 		}
 	}
 	else{
 		COLOR* vram32 = vram;
-		COLOR* spr32 = spr;
+		const COLOR* spr32 = spr;
 
-		int x,y;
-		for(y = 0; y < heights; y++){
-			for(x = 0; x < widths; x++){
-				COLOR clr = AGIDL_GetClr(spr32,x,heights-y-1,widths,heights);
-				COLOR vramclr = AGIDL_GetClr(vram32,x+tx,y+ty,width,height);
+		for(int y = 0; y < heights; y++){
+			for(int x = 0; x < widths; x++){
+				const COLOR clr = AGIDL_GetClr(spr32,x,heights-y-1,widths,heights);
+				const COLOR vramclr = AGIDL_GetClr(vram32,x+tx,y+ty,width,height);
 
-				COLOR blend = AGIDL_BlendColor(vramclr,clr,0,CC_BLEND_CLR_DESTINV,fmt);
+				const COLOR blend = AGIDL_BlendColor(vramclr,clr,0,CC_BLEND_CLR_DESTINV,fmt);
 
 				AGIDL_SetClr(vram32,blend,x+tx,y+ty,width,height);
 			}
@@ -509,42 +500,39 @@ void AGIDL_DispFlipHorzImgData(void* vram, u32 width, u32 height, int tx, int ty
 	}
 }
 
-void AGIDL_DispFlipVertImgData(void* vram, u32 width, u32 height, int tx, int ty, void* spr, u32 widths, u32 heights, AGIDL_CLR_FMT fmt){
+void AGIDL_DispFlipVertImgData(void* vram, const u32 width, const u32 height, const int tx, const int ty, const void* spr, const u32 widths, const u32 heights, const AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 16){
 		COLOR16* vram16 = vram;
-		COLOR16* spr16 = spr;
+		const COLOR16* spr16 = spr;
 
-		int x,y;
-		for(y = 0; y < heights; y++){
-			for(x = 0; x < widths; x++){
-				COLOR16 clr = AGIDL_GetClr16(spr16,widths-x-1,y,widths,heights);
+		for(int y = 0; y < heights; y++){
+			for(int x = 0; x < widths; x++){
+				const COLOR16 clr = AGIDL_GetClr16(spr16,widths-x-1,y,widths,heights);
 				AGIDL_SetClr16(vram16,clr,x+tx,y+ty,width,height);
 			}
 		}
 	}
 	else if(AGIDL_GetBitCount(fmt) == 24){
 		COLOR* vram24 = vram;
-		COLOR* spr24 = spr;
+		const COLOR* spr24 = spr;
 
-		int x,y;
-		for(y = 0; y < heights; y++){
-			for(x = 0; x < widths; x++){
-				COLOR clr = AGIDL_GetClr(spr24,widths-x-1,y,widths,heights);
+		for(int y = 0; y < heights; y++){
+			for(int x = 0; x < widths; x++){
+				const COLOR clr = AGIDL_GetClr(spr24,widths-x-1,y,widths,heights);
 				AGIDL_SetClr(vram24,clr,x+tx,y+ty,width,height);
 			}
 		}
 	}
 	else{
 		COLOR* vram32 = vram;
-		COLOR* spr32 = spr;
+		const COLOR* spr32 = spr;
 
-		int x,y;
-		for(y = 0; y < heights; y++){
-			for(x = 0; x < widths; x++){
-				COLOR clr = AGIDL_GetClr(spr32,widths-x-1,y,widths,heights);
-				COLOR vramclr = AGIDL_GetClr(vram32,x+tx,y+ty,width,height);
+		for(int y = 0; y < heights; y++){
+			for(int x = 0; x < widths; x++){
+				const COLOR clr = AGIDL_GetClr(spr32,widths-x-1,y,widths,heights);
+				const COLOR vramclr = AGIDL_GetClr(vram32,x+tx,y+ty,width,height);
 
-				COLOR blend = AGIDL_BlendColor(vramclr,clr,0,CC_BLEND_CLR_DESTINV,fmt);
+				const COLOR blend = AGIDL_BlendColor(vramclr,clr,0,CC_BLEND_CLR_DESTINV,fmt);
 
 				AGIDL_SetClr(vram32,blend,x+tx,y+ty,width,height);
 			}
@@ -552,42 +540,39 @@ void AGIDL_DispFlipVertImgData(void* vram, u32 width, u32 height, int tx, int ty
 	}
 }
 
-void AGIDL_DispFlipHorzAndVertImgData(void* vram, u32 width, u32 height, int tx, int ty, void* spr, u32 widths, u32 heights, AGIDL_CLR_FMT fmt){
+void AGIDL_DispFlipHorzAndVertImgData(void* vram, const u32 width, const u32 height, const int tx, const int ty, const void* spr, const u32 widths, const u32 heights, const AGIDL_CLR_FMT fmt){
 	if(AGIDL_GetBitCount(fmt) == 16){
 		COLOR16* vram16 = vram;
-		COLOR16* spr16 = spr;
+		const COLOR16* spr16 = spr;
 
-		int x,y;
-		for(y = 0; y < heights; y++){
-			for(x = 0; x < widths; x++){
-				COLOR16 clr = AGIDL_GetClr16(spr16,widths-x-1,heights-y-1,widths,heights);
+		for(int y = 0; y < heights; y++){
+			for(int x = 0; x < widths; x++){
+				const COLOR16 clr = AGIDL_GetClr16(spr16,widths-x-1,heights-y-1,widths,heights);
 				AGIDL_SetClr16(vram16,clr,x+tx,y+ty,width,height);
 			}
 		}
 	}
 	else if(AGIDL_GetBitCount(fmt) == 24){
 		COLOR* vram24 = vram;
-		COLOR* spr24 = spr;
+		const COLOR* spr24 = spr;
 
-		int x,y;
-		for(y = 0; y < heights; y++){
-			for(x = 0; x < widths; x++){
-				COLOR clr = AGIDL_GetClr(spr24,widths-x-1,heights-y-1,widths,heights);
+		for(int y = 0; y < heights; y++){
+			for(int x = 0; x < widths; x++){
+				const COLOR clr = AGIDL_GetClr(spr24,widths-x-1,heights-y-1,widths,heights);
 				AGIDL_SetClr(vram24,clr,x+tx,y+ty,width,height);
 			}
 		}
 	}
 	else{
 		COLOR* vram32 = vram;
-		COLOR* spr32 = spr;
+		const COLOR* spr32 = spr;
 
-		int x,y;
-		for(y = 0; y < heights; y++){
-			for(x = 0; x < widths; x++){
-				COLOR clr = AGIDL_GetClr(spr32,widths-x-1,heights-y-1,widths,heights);
-				COLOR vramclr = AGIDL_GetClr(vram32,x+tx,y+ty,width,height);
-						
-				COLOR blend = AGIDL_BlendColor(vramclr,clr,0,CC_BLEND_CLR_DESTINV,fmt);
+		for(int y = 0; y < heights; y++){
+			for(int x = 0; x < widths; x++){
+				const COLOR clr = AGIDL_GetClr(spr32,widths-x-1,heights-y-1,widths,heights);
+				const COLOR vramclr = AGIDL_GetClr(vram32,x+tx,y+ty,width,height);
+
+				const COLOR blend = AGIDL_BlendColor(vramclr,clr,0,CC_BLEND_CLR_DESTINV,fmt);
 						
 				AGIDL_SetClr(vram32,blend,x+tx,y+ty,width,height);
 			}
@@ -595,7 +580,7 @@ void AGIDL_DispFlipHorzAndVertImgData(void* vram, u32 width, u32 height, int tx,
 	}
 }
 
-void AGIDL_DispBMP(void* vram, u32 width, u32 height, AGIDL_ATTR table, AGIDL_BMP* bmp){
+void AGIDL_DispBMP(void* vram, const u32 width, const u32 height, const AGIDL_ATTR table, const AGIDL_BMP* bmp){
 	if(AGIDL_GetBitCount(AGIDL_BMPGetClrFmt(bmp)) == 16){
 		AGIDL_DispImgData(vram,width,height,table,bmp->pixels.pix16,AGIDL_BMPGetWidth(bmp),AGIDL_BMPGetHeight(bmp),AGIDL_BMPGetClrFmt(bmp));
 	}
@@ -604,7 +589,7 @@ void AGIDL_DispBMP(void* vram, u32 width, u32 height, AGIDL_ATTR table, AGIDL_BM
 	}
 }
 
-void AGIDL_DispTGA(void* vram, u32 width, u32 height, AGIDL_ATTR table, AGIDL_TGA* tga){
+void AGIDL_DispTGA(void* vram, const u32 width, const u32 height, const AGIDL_ATTR table, const AGIDL_TGA* tga){
 	if(AGIDL_GetBitCount(AGIDL_TGAGetClrFmt(tga)) == 16){
 		AGIDL_DispImgData(vram,width,height,table,tga->pixels.pix16,AGIDL_TGAGetWidth(tga),AGIDL_TGAGetHeight(tga),AGIDL_TGAGetClrFmt(tga));
 	}
@@ -613,7 +598,7 @@ void AGIDL_DispTGA(void* vram, u32 width, u32 height, AGIDL_ATTR table, AGIDL_TG
 	}
 }
 
-void AGIDL_DispTIM(void* vram, u32 width, u32 height, AGIDL_ATTR table, AGIDL_TIM* tim){
+void AGIDL_DispTIM(void* vram, const u32 width, const u32 height, const AGIDL_ATTR table, const AGIDL_TIM* tim){
 	if(AGIDL_GetBitCount(AGIDL_TIMGetClrFmt(tim)) == 16){
 		AGIDL_DispImgData(vram,width,height,table,tim->pixels.pix16,AGIDL_TIMGetWidth(tim),AGIDL_TIMGetHeight(tim),AGIDL_TIMGetClrFmt(tim));
 	}
@@ -622,7 +607,7 @@ void AGIDL_DispTIM(void* vram, u32 width, u32 height, AGIDL_ATTR table, AGIDL_TI
 	}
 }
 
-void AGIDL_DispPCX(void* vram, u32 width, u32 height, AGIDL_ATTR table, AGIDL_PCX* pcx){
+void AGIDL_DispPCX(void* vram, const u32 width, const u32 height, const AGIDL_ATTR table, const AGIDL_PCX* pcx){
 	if(AGIDL_GetBitCount(AGIDL_PCXGetClrFmt(pcx)) == 16){
 		AGIDL_DispImgData(vram,width,height,table,pcx->pixels.pix16,AGIDL_PCXGetWidth(pcx),AGIDL_PCXGetHeight(pcx),AGIDL_PCXGetClrFmt(pcx));
 	}
@@ -631,7 +616,7 @@ void AGIDL_DispPCX(void* vram, u32 width, u32 height, AGIDL_ATTR table, AGIDL_PC
 	}
 }
 
-void AGIDL_DispLMP(void* vram, u32 width, u32 height, AGIDL_ATTR table, AGIDL_LMP* lmp){
+void AGIDL_DispLMP(void* vram, const u32 width, const u32 height, const AGIDL_ATTR table, const AGIDL_LMP* lmp){
 	if(AGIDL_GetBitCount(AGIDL_LMPGetClrFmt(lmp)) == 16){
 		AGIDL_DispImgData(vram,width,height,table,lmp->pixels.pix16,AGIDL_LMPGetWidth(lmp),AGIDL_LMPGetHeight(lmp),AGIDL_LMPGetClrFmt(lmp));
 	}
@@ -640,7 +625,7 @@ void AGIDL_DispLMP(void* vram, u32 width, u32 height, AGIDL_ATTR table, AGIDL_LM
 	}
 }
 
-void AGIDL_DispPVR(void* vram, u32 width, u32 height, AGIDL_ATTR table, AGIDL_PVR* pvr){
+void AGIDL_DispPVR(void* vram, const u32 width, const u32 height, const AGIDL_ATTR table, const AGIDL_PVR* pvr){
 	if(AGIDL_GetBitCount(AGIDL_PVRGetClrFmt(pvr)) == 16){
 		AGIDL_DispImgData(vram,width,height,table,pvr->pixels.pix16,AGIDL_PVRGetWidth(pvr),AGIDL_PVRGetHeight(pvr),AGIDL_PVRGetClrFmt(pvr));
 	}
@@ -649,7 +634,7 @@ void AGIDL_DispPVR(void* vram, u32 width, u32 height, AGIDL_ATTR table, AGIDL_PV
 	}
 }
 
-void AGIDL_DispGXT(void* vram, u32 width, u32 height, AGIDL_ATTR table, AGIDL_GXT* gxt){
+void AGIDL_DispGXT(void* vram, const u32 width, const u32 height, const AGIDL_ATTR table, const AGIDL_GXT* gxt){
 	if(AGIDL_GetBitCount(AGIDL_GXTGetClrFmt(gxt)) == 16){
 		AGIDL_DispImgData(vram,width,height,table,gxt->pixels.pix16,AGIDL_GXTGetWidth(gxt),AGIDL_GXTGetHeight(gxt),AGIDL_GXTGetClrFmt(gxt));
 	}
@@ -658,7 +643,7 @@ void AGIDL_DispGXT(void* vram, u32 width, u32 height, AGIDL_ATTR table, AGIDL_GX
 	}
 }
 
-void AGIDL_DispBTI(void* vram, u32 width, u32 height, AGIDL_ATTR table, AGIDL_BTI* bti){
+void AGIDL_DispBTI(void* vram, const u32 width, const u32 height, const AGIDL_ATTR table, const AGIDL_BTI* bti){
 	if(AGIDL_GetBitCount(AGIDL_BTIGetClrFmt(bti)) == 16){
 		AGIDL_DispImgData(vram,width,height,table,bti->pixels.pix16,AGIDL_BTIGetWidth(bti),AGIDL_BTIGetHeight(bti),AGIDL_BTIGetClrFmt(bti));
 	}
@@ -667,7 +652,7 @@ void AGIDL_DispBTI(void* vram, u32 width, u32 height, AGIDL_ATTR table, AGIDL_BT
 	}
 }
 
-void AGIDL_Disp3DF(void* vram, u32 width, u32 height, AGIDL_ATTR table, AGIDL_3DF* glide){
+void AGIDL_Disp3DF(void* vram, const u32 width, const u32 height, const AGIDL_ATTR table, const AGIDL_3DF* glide){
 	if(AGIDL_GetBitCount(AGIDL_3DFGetClrFmt(glide)) == 16){
 		AGIDL_DispImgData(vram,width,height,table,glide->pixels.pix16,AGIDL_3DFGetWidth(glide),AGIDL_3DFGetHeight(glide),AGIDL_3DFGetClrFmt(glide));
 	}
@@ -676,7 +661,7 @@ void AGIDL_Disp3DF(void* vram, u32 width, u32 height, AGIDL_ATTR table, AGIDL_3D
 	}
 }
 
-void AGIDL_DispPPM(void* vram, u32 width, u32 height, AGIDL_ATTR table, AGIDL_PPM* ppm){
+void AGIDL_DispPPM(void* vram, const u32 width, const u32 height, const AGIDL_ATTR table, const AGIDL_PPM* ppm){
 	if(AGIDL_GetBitCount(AGIDL_PPMGetClrFmt(ppm)) == 16){
 		AGIDL_DispImgData(vram,width,height,table,ppm->pixels.pix16,AGIDL_PPMGetWidth(ppm),AGIDL_PPMGetHeight(ppm),AGIDL_PPMGetClrFmt(ppm));
 	}
@@ -685,7 +670,7 @@ void AGIDL_DispPPM(void* vram, u32 width, u32 height, AGIDL_ATTR table, AGIDL_PP
 	}
 }
 
-void AGIDL_DispLBM(void* vram, u32 width, u32 height, AGIDL_ATTR table, AGIDL_LBM* lbm){
+void AGIDL_DispLBM(void* vram, const u32 width, const u32 height, const AGIDL_ATTR table, const AGIDL_LBM* lbm){
 	if(AGIDL_GetBitCount(AGIDL_LBMGetClrFmt(lbm)) == 16){
 		AGIDL_DispImgData(vram,width,height,table,lbm->pixels.pix16,AGIDL_LBMGetWidth(lbm),AGIDL_LBMGetHeight(lbm),AGIDL_LBMGetClrFmt(lbm));
 	}
@@ -694,7 +679,7 @@ void AGIDL_DispLBM(void* vram, u32 width, u32 height, AGIDL_ATTR table, AGIDL_LB
 	}
 }
 
-void AGIDL_DrawBMP(void* vram, u32 width, u32 height, int tx, int ty, AGIDL_BMP* bmp){
+void AGIDL_DrawBMP(void* vram, const u32 width, const u32 height, const int tx, const int ty, const AGIDL_BMP* bmp){
 	if(AGIDL_GetBitCount(AGIDL_BMPGetClrFmt(bmp)) == 16){
 		AGIDL_DrawImgData(vram,width,height,tx,ty,bmp->pixels.pix16,AGIDL_BMPGetWidth(bmp),AGIDL_BMPGetHeight(bmp),AGIDL_BMPGetClrFmt(bmp));
 	}
@@ -703,7 +688,7 @@ void AGIDL_DrawBMP(void* vram, u32 width, u32 height, int tx, int ty, AGIDL_BMP*
 	}
 }
 
-void AGIDL_DrawTGA(void* vram, u32 width, u32 height, int tx, int ty, AGIDL_TGA* tga){
+void AGIDL_DrawTGA(void* vram, const u32 width, const u32 height, const int tx, const int ty, const AGIDL_TGA* tga){
 	if(AGIDL_GetBitCount(AGIDL_TGAGetClrFmt(tga)) == 16){
 		AGIDL_DrawImgData(vram,width,height,tx,ty,tga->pixels.pix16,AGIDL_TGAGetWidth(tga),AGIDL_TGAGetHeight(tga),AGIDL_TGAGetClrFmt(tga));
 	}
@@ -712,7 +697,7 @@ void AGIDL_DrawTGA(void* vram, u32 width, u32 height, int tx, int ty, AGIDL_TGA*
 	}
 }
 
-void AGIDL_DrawTIM(void* vram, u32 width, u32 height, int tx, int ty, AGIDL_TIM* tim){
+void AGIDL_DrawTIM(void* vram, const u32 width, const u32 height, const int tx, const int ty, const AGIDL_TIM* tim){
 	if(AGIDL_GetBitCount(AGIDL_TIMGetClrFmt(tim)) == 16){
 		AGIDL_DrawImgData(vram,width,height,tx,ty,tim->pixels.pix16,AGIDL_TIMGetWidth(tim),AGIDL_TIMGetHeight(tim),AGIDL_TIMGetClrFmt(tim));
 	}
@@ -721,7 +706,7 @@ void AGIDL_DrawTIM(void* vram, u32 width, u32 height, int tx, int ty, AGIDL_TIM*
 	}
 }
 
-void AGIDL_DrawPCX(void* vram, u32 width, u32 height, int tx, int ty, AGIDL_PCX* pcx){
+void AGIDL_DrawPCX(void* vram, const u32 width, const u32 height, const int tx, const int ty, const AGIDL_PCX* pcx){
 	if(AGIDL_GetBitCount(AGIDL_PCXGetClrFmt(pcx)) == 16){
 		AGIDL_DrawImgData(vram,width,height,tx,ty,pcx->pixels.pix16,AGIDL_PCXGetWidth(pcx),AGIDL_PCXGetHeight(pcx),AGIDL_PCXGetClrFmt(pcx));
 	}
@@ -730,7 +715,7 @@ void AGIDL_DrawPCX(void* vram, u32 width, u32 height, int tx, int ty, AGIDL_PCX*
 	}
 }
 
-void AGIDL_DrawLMP(void* vram, u32 width, u32 height, int tx, int ty, AGIDL_LMP* lmp){
+void AGIDL_DrawLMP(void* vram, const u32 width, const u32 height, const int tx, const int ty, const AGIDL_LMP* lmp){
 	if(AGIDL_GetBitCount(AGIDL_LMPGetClrFmt(lmp)) == 16){
 		AGIDL_DrawImgData(vram,width,height,tx,ty,lmp->pixels.pix16,AGIDL_LMPGetWidth(lmp),AGIDL_LMPGetHeight(lmp),AGIDL_LMPGetClrFmt(lmp));
 	}
@@ -739,7 +724,7 @@ void AGIDL_DrawLMP(void* vram, u32 width, u32 height, int tx, int ty, AGIDL_LMP*
 	}
 }
 
-void AGIDL_DrawPVR(void* vram, u32 width, u32 height, int tx, int ty, AGIDL_PVR* pvr){
+void AGIDL_DrawPVR(void* vram, const u32 width, const u32 height, const int tx, const int ty, const AGIDL_PVR* pvr){
 	if(AGIDL_GetBitCount(AGIDL_PVRGetClrFmt(pvr)) == 16){
 		AGIDL_DrawImgData(vram,width,height,tx,ty,pvr->pixels.pix16,AGIDL_PVRGetWidth(pvr),AGIDL_PVRGetHeight(pvr),AGIDL_PVRGetClrFmt(pvr));
 	}
@@ -748,7 +733,7 @@ void AGIDL_DrawPVR(void* vram, u32 width, u32 height, int tx, int ty, AGIDL_PVR*
 	}
 }
 
-void AGIDL_DrawGXT(void* vram, u32 width, u32 height, int tx, int ty, AGIDL_GXT* gxt){
+void AGIDL_DrawGXT(void* vram, const u32 width, const u32 height, const int tx, const int ty, const AGIDL_GXT* gxt){
 	if(AGIDL_GetBitCount(AGIDL_GXTGetClrFmt(gxt)) == 16){
 		AGIDL_DrawImgData(vram,width,height,tx,ty,gxt->pixels.pix16,AGIDL_GXTGetWidth(gxt),AGIDL_GXTGetHeight(gxt),AGIDL_GXTGetClrFmt(gxt));
 	}
@@ -757,7 +742,7 @@ void AGIDL_DrawGXT(void* vram, u32 width, u32 height, int tx, int ty, AGIDL_GXT*
 	}
 }
 
-void AGIDL_DrawBTI(void* vram, u32 width, u32 height, int tx, int ty, AGIDL_BTI* bti){
+void AGIDL_DrawBTI(void* vram, const u32 width, const u32 height, const int tx, const int ty, const AGIDL_BTI* bti){
 	if(AGIDL_GetBitCount(AGIDL_BTIGetClrFmt(bti)) == 16){
 		AGIDL_DrawImgData(vram,width,height,tx,ty,bti->pixels.pix16,AGIDL_BTIGetWidth(bti),AGIDL_BTIGetHeight(bti),AGIDL_BTIGetClrFmt(bti));
 	}
@@ -766,7 +751,7 @@ void AGIDL_DrawBTI(void* vram, u32 width, u32 height, int tx, int ty, AGIDL_BTI*
 	}
 }
 
-void AGIDL_Draw3DF(void* vram, u32 width, u32 height, int tx, int ty, AGIDL_3DF* glide){
+void AGIDL_Draw3DF(void* vram, const u32 width, const u32 height, const int tx, const int ty, const AGIDL_3DF* glide){
 	if(AGIDL_GetBitCount(AGIDL_3DFGetClrFmt(glide)) == 16){
 		AGIDL_DrawImgData(vram,width,height,tx,ty,glide->pixels.pix16,AGIDL_3DFGetWidth(glide),AGIDL_3DFGetHeight(glide),AGIDL_3DFGetClrFmt(glide));
 	}
@@ -775,7 +760,7 @@ void AGIDL_Draw3DF(void* vram, u32 width, u32 height, int tx, int ty, AGIDL_3DF*
 	}
 }
 
-void AGIDL_DrawPPM(void* vram, u32 width, u32 height, int tx, int ty, AGIDL_PPM* ppm){
+void AGIDL_DrawPPM(void* vram, const u32 width, const u32 height, const int tx, const int ty, const AGIDL_PPM* ppm){
 	if(AGIDL_GetBitCount(AGIDL_PPMGetClrFmt(ppm)) == 16){
 		AGIDL_DrawImgData(vram,width,height,tx,ty,ppm->pixels.pix16,AGIDL_PPMGetWidth(ppm),AGIDL_PPMGetHeight(ppm),AGIDL_PPMGetClrFmt(ppm));
 	}
@@ -784,7 +769,7 @@ void AGIDL_DrawPPM(void* vram, u32 width, u32 height, int tx, int ty, AGIDL_PPM*
 	}
 }
 
-void AGIDL_DrawLBM(void* vram, u32 width, u32 height, int tx, int ty, AGIDL_LBM* lbm){
+void AGIDL_DrawLBM(void* vram, const u32 width, const u32 height, const int tx, const int ty, const AGIDL_LBM* lbm){
 	if(AGIDL_GetBitCount(AGIDL_LBMGetClrFmt(lbm)) == 16){
 		AGIDL_DrawImgData(vram,width,height,tx,ty,lbm->pixels.pix16,AGIDL_LBMGetWidth(lbm),AGIDL_LBMGetHeight(lbm),AGIDL_LBMGetClrFmt(lbm));
 	}
@@ -793,7 +778,7 @@ void AGIDL_DrawLBM(void* vram, u32 width, u32 height, int tx, int ty, AGIDL_LBM*
 	}
 }
 
-void AGIDL_DispScaleBMP(void* vram, u32 width, u32 height, f32 sx, f32 sy, int tx, int ty, AGIDL_BMP* bmp){
+void AGIDL_DispScaleBMP(void* vram, const u32 width, const u32 height, const f32 sx, const f32 sy, const int tx, const int ty, const AGIDL_BMP* bmp){
 	if(AGIDL_GetBitCount(AGIDL_BMPGetClrFmt(bmp)) == 16){
 		AGIDL_DispScaleImgData(vram,width,height,sx,sy,tx,ty,bmp->pixels.pix16,AGIDL_BMPGetWidth(bmp),AGIDL_BMPGetHeight(bmp),AGIDL_BMPGetClrFmt(bmp));
 	}
@@ -802,7 +787,7 @@ void AGIDL_DispScaleBMP(void* vram, u32 width, u32 height, f32 sx, f32 sy, int t
 	}
 }
 
-void AGIDL_DispScaleTGA(void* vram, u32 width, u32 height, f32 sx, f32 sy, int tx, int ty, AGIDL_TGA* tga){
+void AGIDL_DispScaleTGA(void* vram, const u32 width, const u32 height, const f32 sx, const f32 sy, const int tx, const int ty, const AGIDL_TGA* tga){
 	if(AGIDL_GetBitCount(AGIDL_TGAGetClrFmt(tga)) == 16){
 		AGIDL_DispScaleImgData(vram,width,height,sx,sy,tx,ty,tga->pixels.pix16,AGIDL_TGAGetWidth(tga),AGIDL_TGAGetHeight(tga),AGIDL_TGAGetClrFmt(tga));
 	}
@@ -811,7 +796,7 @@ void AGIDL_DispScaleTGA(void* vram, u32 width, u32 height, f32 sx, f32 sy, int t
 	}
 }
 
-void AGIDL_DispScaleTIM(void* vram, u32 width, u32 height, f32 sx, f32 sy, int tx, int ty, AGIDL_TIM* tim){
+void AGIDL_DispScaleTIM(void* vram, const u32 width, const u32 height, const f32 sx, const f32 sy, const int tx, const int ty, const AGIDL_TIM* tim){
 	if(AGIDL_GetBitCount(AGIDL_TIMGetClrFmt(tim)) == 16){
 		AGIDL_DispScaleImgData(vram,width,height,sx,sy,tx,ty,tim->pixels.pix16,AGIDL_TIMGetWidth(tim),AGIDL_TIMGetHeight(tim),AGIDL_TIMGetClrFmt(tim));
 	}
@@ -820,7 +805,7 @@ void AGIDL_DispScaleTIM(void* vram, u32 width, u32 height, f32 sx, f32 sy, int t
 	}
 }
 
-void AGIDL_DispScalePCX(void* vram, u32 width, u32 height, f32 sx, f32 sy, int tx, int ty, AGIDL_PCX* pcx){
+void AGIDL_DispScalePCX(void* vram, const u32 width, const u32 height, const f32 sx, const f32 sy, const int tx, const int ty, const AGIDL_PCX* pcx){
 	if(AGIDL_GetBitCount(AGIDL_PCXGetClrFmt(pcx)) == 16){
 		AGIDL_DispScaleImgData(vram,width,height,sx,sy,tx,ty,pcx->pixels.pix16,AGIDL_PCXGetWidth(pcx),AGIDL_PCXGetHeight(pcx),AGIDL_PCXGetClrFmt(pcx));
 	}
@@ -829,7 +814,7 @@ void AGIDL_DispScalePCX(void* vram, u32 width, u32 height, f32 sx, f32 sy, int t
 	}
 }
 
-void AGIDL_DispScaleLMP(void* vram, u32 width, u32 height, f32 sx, f32 sy, int tx, int ty, AGIDL_LMP* lmp){
+void AGIDL_DispScaleLMP(void* vram, const u32 width, const u32 height, const f32 sx, const f32 sy, const int tx, const int ty, const AGIDL_LMP* lmp){
 	if(AGIDL_GetBitCount(AGIDL_LMPGetClrFmt(lmp)) == 16){
 		AGIDL_DispScaleImgData(vram,width,height,sx,sy,tx,ty,lmp->pixels.pix16,AGIDL_LMPGetWidth(lmp),AGIDL_LMPGetHeight(lmp),AGIDL_LMPGetClrFmt(lmp));
 	}
@@ -838,7 +823,7 @@ void AGIDL_DispScaleLMP(void* vram, u32 width, u32 height, f32 sx, f32 sy, int t
 	}
 }
 
-void AGIDL_DispScalePVR(void* vram, u32 width, u32 height, f32 sx, f32 sy, int tx, int ty, AGIDL_PVR* pvr){
+void AGIDL_DispScalePVR(void* vram, const u32 width, const u32 height, const f32 sx, const f32 sy, const int tx, const int ty, const AGIDL_PVR* pvr){
 	if(AGIDL_GetBitCount(AGIDL_PVRGetClrFmt(pvr)) == 16){
 		AGIDL_DispScaleImgData(vram,width,height,sx,sy,tx,ty,pvr->pixels.pix16,AGIDL_PVRGetWidth(pvr),AGIDL_PVRGetHeight(pvr),AGIDL_PVRGetClrFmt(pvr));
 	}
@@ -847,7 +832,7 @@ void AGIDL_DispScalePVR(void* vram, u32 width, u32 height, f32 sx, f32 sy, int t
 	}
 }
 
-void AGIDL_DispScaleGXT(void* vram, u32 width, u32 height, f32 sx, f32 sy, int tx, int ty, AGIDL_GXT* gxt){
+void AGIDL_DispScaleGXT(void* vram, const u32 width, const u32 height, const f32 sx, const f32 sy, const int tx, const int ty, const AGIDL_GXT* gxt){
 	if(AGIDL_GetBitCount(AGIDL_GXTGetClrFmt(gxt)) == 16){
 		AGIDL_DispScaleImgData(vram,width,height,sx,sy,tx,ty,gxt->pixels.pix16,AGIDL_GXTGetWidth(gxt),AGIDL_GXTGetHeight(gxt),AGIDL_GXTGetClrFmt(gxt));
 	}
@@ -856,7 +841,7 @@ void AGIDL_DispScaleGXT(void* vram, u32 width, u32 height, f32 sx, f32 sy, int t
 	}
 }
 
-void AGIDL_DispScaleBTI(void* vram, u32 width, u32 height, f32 sx, f32 sy, int tx, int ty, AGIDL_BTI* bti){
+void AGIDL_DispScaleBTI(void* vram, const u32 width, const u32 height, const f32 sx, const f32 sy, const int tx, const int ty, const AGIDL_BTI* bti){
 	if(AGIDL_GetBitCount(AGIDL_BTIGetClrFmt(bti)) == 16){
 		AGIDL_DispScaleImgData(vram,width,height,sx,sy,tx,ty,bti->pixels.pix16,AGIDL_BTIGetWidth(bti),AGIDL_BTIGetHeight(bti),AGIDL_BTIGetClrFmt(bti));
 	}
@@ -865,7 +850,7 @@ void AGIDL_DispScaleBTI(void* vram, u32 width, u32 height, f32 sx, f32 sy, int t
 	}
 }
 
-void AGIDL_DispScale3DF(void* vram, u32 width, u32 height, f32 sx, f32 sy, int tx, int ty, AGIDL_3DF* glide){
+void AGIDL_DispScale3DF(void* vram, const u32 width, const u32 height, const f32 sx, const f32 sy, const int tx, const int ty, const AGIDL_3DF* glide){
 	if(AGIDL_GetBitCount(AGIDL_3DFGetClrFmt(glide)) == 16){
 		AGIDL_DispScaleImgData(vram,width,height,sx,sy,tx,ty,glide->pixels.pix16,AGIDL_3DFGetWidth(glide),AGIDL_3DFGetHeight(glide),AGIDL_3DFGetClrFmt(glide));
 	}
@@ -874,7 +859,7 @@ void AGIDL_DispScale3DF(void* vram, u32 width, u32 height, f32 sx, f32 sy, int t
 	}
 }
 
-void AGIDL_DispScalePPM(void* vram, u32 width, u32 height, f32 sx, f32 sy, int tx, int ty, AGIDL_PPM* ppm){
+void AGIDL_DispScalePPM(void* vram, const u32 width, const u32 height, const f32 sx, const f32 sy, const int tx, const int ty, const AGIDL_PPM* ppm){
 	if(AGIDL_GetBitCount(AGIDL_PPMGetClrFmt(ppm)) == 16){
 		AGIDL_DispScaleImgData(vram,width,height,sx,sy,tx,ty,ppm->pixels.pix16,AGIDL_PPMGetWidth(ppm),AGIDL_PPMGetHeight(ppm),AGIDL_PPMGetClrFmt(ppm));
 	}
@@ -883,7 +868,7 @@ void AGIDL_DispScalePPM(void* vram, u32 width, u32 height, f32 sx, f32 sy, int t
 	}
 }
 
-void AGIDL_DispScaleLBM(void* vram, u32 width, u32 height, f32 sx, f32 sy, int tx, int ty, AGIDL_LBM* lbm){
+void AGIDL_DispScaleLBM(void* vram, const u32 width, const u32 height, const f32 sx, const f32 sy, const int tx, const int ty, const AGIDL_LBM* lbm){
 	if(AGIDL_GetBitCount(AGIDL_LBMGetClrFmt(lbm)) == 16){
 		AGIDL_DispScaleImgData(vram,width,height,sx,sy,tx,ty,lbm->pixels.pix16,AGIDL_LBMGetWidth(lbm),AGIDL_LBMGetHeight(lbm),AGIDL_LBMGetClrFmt(lbm));
 	}

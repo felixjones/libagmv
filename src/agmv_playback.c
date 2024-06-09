@@ -27,7 +27,7 @@ void AGMV_ResetVideo(FILE* file, AGMV* agmv){
 	agmv->frame_count = 0;
 }
 
-Bool AGMV_IsVideoDone(AGMV* agmv){
+Bool AGMV_IsVideoDone(const AGMV* agmv){
 	if(agmv->frame_count >= AGMV_GetNumberOfFrames(agmv)){
 		return TRUE;
 	}
@@ -37,8 +37,7 @@ Bool AGMV_IsVideoDone(AGMV* agmv){
 void AGMV_SkipForwards(FILE* file, AGMV* agmv, int n){
 	if(AGMV_GetTotalAudioDuration(agmv) != 0){
 		n = AGMV_NextIFrame(n,agmv->frame_count);
-		int i;
-		for(i = 0; i < n; i++){
+		for(int i = 0; i < n; i++){
 			AGMV_FindNextFrameChunk(file);
 			agmv->offset_table[agmv->frame_count++] = ftell(file);
 			AGMV_SkipFrameChunk(file);
@@ -48,8 +47,7 @@ void AGMV_SkipForwards(FILE* file, AGMV* agmv, int n){
 	}
 	else{
 		n = AGMV_NextIFrame(n,agmv->frame_count);
-		int i;
-		for(i = 0; i < n; i++){
+		for(int i = 0; i < n; i++){
 			AGMV_FindNextFrameChunk(file);
 			agmv->offset_table[agmv->frame_count++] = ftell(file);
 			AGMV_SkipFrameChunk(file);
@@ -60,8 +58,7 @@ void AGMV_SkipForwards(FILE* file, AGMV* agmv, int n){
 void AGMV_SkipForwardsAndDecodeAudio(FILE* file, AGMV* agmv, int n){
 	if(AGMV_GetTotalAudioDuration(agmv) != 0){
 		n = AGMV_NextIFrame(n,agmv->frame_count);
-		int i;
-		for(i = 0; i < n; i++){
+		for(int i = 0; i < n; i++){
 			AGMV_FindNextFrameChunk(file);
 			agmv->offset_table[agmv->frame_count++] = ftell(file);
 			AGMV_SkipFrameChunk(file);
@@ -71,8 +68,7 @@ void AGMV_SkipForwardsAndDecodeAudio(FILE* file, AGMV* agmv, int n){
 	}
 	else{
 		n = AGMV_NextIFrame(n,agmv->frame_count);
-		int i;
-		for(i = 0; i < n; i++){
+		for(int i = 0; i < n; i++){
 			AGMV_FindNextFrameChunk(file);
 			agmv->offset_table[agmv->frame_count++] = ftell(file);
 			AGMV_SkipFrameChunk(file);
@@ -116,20 +112,20 @@ void AGMV_PlayAGMV(FILE* file, AGMV* agmv){
 	}
 }
 
-void PlotPixel(u32* vram, int x, int y, int w, int h, u32 color){
+void PlotPixel(u32* vram, const int x, const int y, const int w, const int h, const u32 color){
 	if(x >= 0 && y >= 0 && x < w && y < h){
 		vram[x+y*w] = color;
 	}
 }
 
-void AGMV_DisplayFrame(u32* vram, u16 width, u16 height, AGMV* agmv){
-	u32 fwidth = agmv->frame->width, fheight = agmv->frame->height, offset;
-	u32* img_data = agmv->frame->img_data;
-	
-	int x,y;
-	for(y = 0; y < fheight; y++){
-		offset = y * fwidth;
-		for(x = 0; x < fwidth; x++){
+void AGMV_DisplayFrame(u32* vram, const u16 width, const u16 height, const AGMV* agmv){
+	const u32 fwidth = agmv->frame->width;
+	const u32 fheight = agmv->frame->height;
+	const u32* img_data = agmv->frame->img_data;
+
+	for(int y = 0; y < fheight; y++){
+		const u32 offset = y * fwidth;
+		for(int x = 0; x < fwidth; x++){
 			PlotPixel(vram,x,y,width,height,img_data[x+offset]);
 		}
 	}

@@ -16,20 +16,20 @@
 
 #include <string.h>
 
-Bool IsAGIDLImage(char* ext);
-AGMV_IMG_TYPE GetImageType(char* ext);
-Bool IsAGMVOpt(char* opt);
-AGMV_OPT GetAGMVOpt(char* opt);
-AGMV_AUDIO_TYPE GetAudioType(char* ext);
-AGMV_AUDIO_TYPE GetAudioTypeToken(char* token);
-Bool IsAGMVQOpt(char* opt);
-AGMV_QUALITY GetQuality(char* opt);
-Bool IsAGMVCompression(char* compression);
-AGMV_COMPRESSION GetCompression(char* compression);
+Bool IsAGIDLImage(const char* ext);
+AGMV_IMG_TYPE GetImageType(const char* ext);
+Bool IsAGMVOpt(const char* opt);
+AGMV_OPT GetAGMVOpt(const char* opt);
+AGMV_AUDIO_TYPE GetAudioType(const char* ext);
+AGMV_AUDIO_TYPE GetAudioTypeToken(const char* token);
+Bool IsAGMVQOpt(const char* opt);
+AGMV_QUALITY GetQuality(const char* opt);
+Bool IsAGMVCompression(const char* compression);
+AGMV_COMPRESSION GetCompression(const char* compression);
 
-int main(int argc, char* argv[]){
-	
-	char* usage = 
+int main(const int argc, char* argv[]){
+
+	char* usage =
 	"\nAGMVCLI Copyright (c) Ryandracus Keith Chapman\n"
 	"........................................................................\n"
 	"Welcome to the Adaptive Graphics Motion Video Command Line Tool! - v1.0\n"
@@ -54,8 +54,8 @@ int main(int argc, char* argv[]){
 	"DEC FMT: $video DEC $(DIRECTORY) $(FILENAME) $(IMG_TYPE) $(AUDIO_TYPE)\n\n"
 	"DEC EXAMPLE: $video DEC input/shinobi SHINOBI.agmv BMP WAV\n"
 	"DEC EXAMPLE 2: $video DEC cur SHINOBI.agmv BMP AIFF";
-	
-	
+
+
 	if(argc == 1){
 		printf("%s",usage);
 		return 1;
@@ -108,9 +108,9 @@ int main(int argc, char* argv[]){
 		}
 
 		if(at[0] == '-' && at[1] == 'v'){
-			AGMV_AUDIO_TYPE audio_type = GetAudioType(track);
+			const AGMV_AUDIO_TYPE audio_type = GetAudioType(track);
 			AGMV* agmv = CreateAGMV(end_frame-start_frame,width,height,fps);
-			AGMV_OPT aopt = GetAGMVOpt(opt);
+			const AGMV_OPT aopt = GetAGMVOpt(opt);
 
 			if(aopt != AGMV_OPT_GBA_I && aopt != AGMV_OPT_GBA_II && aopt != AGMV_OPT_GBA_III){
 
@@ -173,7 +173,7 @@ int main(int argc, char* argv[]){
 	return 0; 
 }
 
-Bool IsAGIDLImage(char* ext){
+Bool IsAGIDLImage(const char* ext){
 	if(ext[0] == 'B' && ext[1] == 'M' && ext[2] == 'P'){
 		return TRUE;
 	}
@@ -210,7 +210,7 @@ Bool IsAGIDLImage(char* ext){
 	return FALSE;
 }
 
-AGMV_IMG_TYPE GetImageType(char* ext){
+AGMV_IMG_TYPE GetImageType(const char* ext){
 	if(ext[0] == 'B' && ext[1] == 'M' && ext[2] == 'P'){
 		return AGMV_IMG_BMP;
 	}
@@ -247,7 +247,7 @@ AGMV_IMG_TYPE GetImageType(char* ext){
 	return AGMV_IMG_BMP;
 }
 
-Bool IsAGMVOpt(char* opt){
+Bool IsAGMVOpt(const char* opt){
 	if(opt[0] == 'O' &&  opt[1] == 'P' && opt[2] == 'T' && opt[3] == '_' && opt[4] == 'I' && opt[5] != 'I'){
 		return TRUE;
 	}
@@ -272,7 +272,7 @@ Bool IsAGMVOpt(char* opt){
 	return FALSE;
 }
 
-AGMV_OPT GetAGMVOpt(char* opt){
+AGMV_OPT GetAGMVOpt(const char* opt){
 	if(opt[0] == 'O' &&  opt[1] == 'P' && opt[2] == 'T' && opt[3] == '_' && opt[4] == 'I' && opt[5] != 'I'){
 		return AGMV_OPT_I;
 	}
@@ -297,9 +297,8 @@ AGMV_OPT GetAGMVOpt(char* opt){
 	return AGMV_OPT_I;
 }
 
-AGMV_AUDIO_TYPE GetAudioType(char* ext){
-	int i;
-	for(i = 0; i < strlen(ext); i++){
+AGMV_AUDIO_TYPE GetAudioType(const char* ext){
+	for(int i = 0; i < strlen(ext); i++){
 		if(ext[i] == '.'){
 			if(ext[i+1] == 'w' && ext[i+2] == 'a' && ext[i+3] == 'v'){
 				return AGMV_AUDIO_WAV;
@@ -315,7 +314,7 @@ AGMV_AUDIO_TYPE GetAudioType(char* ext){
 	return AGMV_AUDIO_WAV;
 }
 
-AGMV_AUDIO_TYPE GetAudioTypeToken(char* token){
+AGMV_AUDIO_TYPE GetAudioTypeToken(const char* token){
 	if(token[0] == 'W' && token[1] == 'A' && token[2] == 'V'){
 		return AGMV_AUDIO_WAV;
 	}
@@ -328,7 +327,7 @@ AGMV_AUDIO_TYPE GetAudioTypeToken(char* token){
 	return AGMV_AUDIO_WAV;
 }
 
-Bool IsAGMVQOpt(char* opt){
+Bool IsAGMVQOpt(const char* opt){
 	if(opt[0] == 'H' && opt[1] == 'I' && opt[2] == 'G' && opt[3] == 'H' && opt[4] == '_' && opt[5] == 'Q'){
 		return TRUE;
 	}
@@ -341,7 +340,7 @@ Bool IsAGMVQOpt(char* opt){
 	return FALSE;
 }
 
-AGMV_QUALITY GetQuality(char* opt){
+AGMV_QUALITY GetQuality(const char* opt){
 	if(opt[0] == 'H' && opt[1] == 'I' && opt[2] == 'G' && opt[3] == 'H' && opt[4] == '_' && opt[5] == 'Q'){
 		return AGMV_HIGH_QUALITY;
 	}
@@ -354,7 +353,7 @@ AGMV_QUALITY GetQuality(char* opt){
 	return AGMV_HIGH_QUALITY;
 }
 
-Bool IsAGMVCompression(char* compression){
+Bool IsAGMVCompression(const char* compression){
 	if(compression[0] == 'L' && compression[1] == 'Z' && compression[2] == 'S' && compression[3] == 'S'){
 		return TRUE;
 	}
@@ -364,7 +363,7 @@ Bool IsAGMVCompression(char* compression){
 	return FALSE;
 }
 
-AGMV_COMPRESSION GetCompression(char* compression){
+AGMV_COMPRESSION GetCompression(const char* compression){
 	if(compression[0] == 'L' && compression[1] == 'Z' && compression[2] == 'S' && compression[3] == 'S'){
 		return AGMV_LZSS_COMPRESSION;
 	}

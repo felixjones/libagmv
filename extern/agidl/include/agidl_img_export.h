@@ -19,6 +19,6 @@
 #include <agidl_img_types.h>
 #include <agidl_types.h>
 
-void AGIDL_QuickExport(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt, AGIDL_IMG_TYPE img_type);
+void AGIDL_QuickExport(const void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt, AGIDL_IMG_TYPE img_type);
 
 #endif
