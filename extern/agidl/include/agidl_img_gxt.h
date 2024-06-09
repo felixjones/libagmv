@@ -80,7 +80,7 @@ typedef struct AGIDL_GXT{
 	char* filename;
 }AGIDL_GXT;
 
-void AGIDL_SetGXTFilename(AGIDL_GXT* gtx, const char* filename);
+void AGIDL_SetGXTFilename(AGIDL_GXT* gxt, const char* filename);
 void AGIDL_GXTSetWidth(AGIDL_GXT* gxt, int width);
 void AGIDL_GXTSetHeight(AGIDL_GXT* gxt, int height);
 void AGIDL_GXTSetClrFmt(AGIDL_GXT* gxt, AGIDL_CLR_FMT fmt);

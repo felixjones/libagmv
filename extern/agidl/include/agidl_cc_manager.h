@@ -78,7 +78,7 @@ void AGIDL_InitICP(AGIDL_ICP *palette, int mode);
 void AGIDL_ForceAddColor(AGIDL_ICP* palette, COLOR clr, u8 index);
 void AGIDL_AddColorICP16(AGIDL_ICP *palette, u8 index, COLOR16 clr, AGIDL_CLR_FMT fmt, int max_diff, int *pass);
 void AGIDL_AddColorICP(AGIDL_ICP *palette, u8 index, COLOR clr, AGIDL_CLR_FMT fmt, int max_diff, int *pass);
-void quickSort(u32* data, u32* gram, int low, int height);
+void quickSort(u32* data, u32* gram, int low, int high);
 u8 AGIDL_FindClosestColor(AGIDL_ICP palette, COLOR clr, AGIDL_CLR_FMT fmt, int max_difference);
 u8 AGIDL_FindNearestColor(AGIDL_ICP palette, COLOR clr, AGIDL_CLR_FMT fmt);
 AGIDL_ICP AGIDL_GenerateVGAICP();

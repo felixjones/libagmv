@@ -22,7 +22,7 @@
 #include <agidl_img_converter.h>
 #include <agidl_img_error.h>
 
-void AGIDL_TIMSearchFileOnDisk(const char* filename, AGIDL_IMG_TYPE type, int flip){
+void AGIDL_TIMSearchFileOnDisk(const char* filename, AGIDL_IMG_TYPE img_type, int flip){
 	FILE* file = fopen(filename,"rb");
 	
 	if(file == NULL){
@@ -59,7 +59,7 @@ void AGIDL_TIMSearchFileOnDisk(const char* filename, AGIDL_IMG_TYPE type, int fl
 		
 		if(AGIDL_IsTIM(tim)){
 			img_count++;
-			switch(type){
+			switch(img_type){
 				case AGIDL_IMG_TIM:{
 					char file_name[25];
 					sprintf(file_name,"tim_%ld.tim",img_count);
