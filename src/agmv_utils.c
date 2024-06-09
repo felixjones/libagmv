@@ -580,16 +580,16 @@ u8 AGMV_GetQuantizedR(const u32 color, const AGMV_QUALITY quality){
 	switch(quality){
 		case AGMV_HIGH_QUALITY:{
 			return(color & 0x7e000) >> 13;
-		}break;
+		}
 		case AGMV_MID_QUALITY:{
 			return (color & 0x1f000) >> 12;
-		}break;
+		}
 		case AGMV_LOW_QUALITY:{
 			return (color & 0xf800) >> 11;
-		}break;
+		}
 		default:{
 			return(color & 0x7e000) >> 13;
-		}break;
+		}
 	}
 }
 
@@ -597,16 +597,16 @@ u8 AGMV_GetQuantizedG(const u32 color, const AGMV_QUALITY quality){
 	switch(quality){
 		case AGMV_HIGH_QUALITY:{
 			return (color & 0x1f80) >> 7;
-		}break;
+		}
 		case AGMV_MID_QUALITY:{
 			return (color & 0xfc0) >> 6;
-		}break;
+		}
 		case AGMV_LOW_QUALITY:{
 			return (color & 0x7e0) >> 5;
-		}break;
+		}
 		default:{
 			return(color & 0x1f80) >> 7;
-		}break;
+		}
 	}
 }
 
@@ -614,16 +614,16 @@ u8 AGMV_GetQuantizedB(const u32 color, const AGMV_QUALITY quality){
 	switch(quality){
 		case AGMV_HIGH_QUALITY:{
 			return color & 0x7f;
-		}break;
+		}
 		case AGMV_MID_QUALITY:{
 			return color & 0x3f;
-		}break;
+		}
 		case AGMV_LOW_QUALITY:{
 			return color & 0x001F;
-		}break;
+		}
 		default:{
 			return color & 0x7f;
-		}break;
+		}
 	}
 }
 
@@ -639,7 +639,7 @@ u32 AGMV_QuantizeColor(const u32 color, const AGMV_QUALITY quality){
 			b >>= 1;
 
 			return r << 13 | g << 7 | b;
-		}break;
+		}
 		case AGMV_MID_QUALITY:{
 			u8 r = AGMV_GetR(color);
 			u8 g = AGMV_GetG(color);
@@ -650,7 +650,7 @@ u32 AGMV_QuantizeColor(const u32 color, const AGMV_QUALITY quality){
 			b >>= 2;
 
 			return r << 12 | g << 6 | b;
-		}break;
+		}
 		case AGMV_LOW_QUALITY:{
 			u8 r = AGMV_GetR(color);
 			u8 g = AGMV_GetG(color);
@@ -661,7 +661,7 @@ u32 AGMV_QuantizeColor(const u32 color, const AGMV_QUALITY quality){
 			b >>= 3;
 
 			return r << 11 | g << 5 | b;
-		}break;
+		}
 		default:{
 			u8 r = AGMV_GetR(color);
 			u8 g = AGMV_GetG(color);
@@ -672,7 +672,7 @@ u32 AGMV_QuantizeColor(const u32 color, const AGMV_QUALITY quality){
 			b >>= 1;
 
 			return r << 13 | g << 7 | b;
-		}break;
+		}
 	}
 }
 
@@ -689,7 +689,7 @@ u32 AGMV_ReverseQuantizeColor(const u32 color, const AGMV_QUALITY quality){
 			b <<= 1;
 
 			return r << 16 | g << 8 | b;
-		}break;
+		}
 		case AGMV_MID_QUALITY:{
 
 			r <<= 3;
@@ -697,7 +697,7 @@ u32 AGMV_ReverseQuantizeColor(const u32 color, const AGMV_QUALITY quality){
 			b <<= 2;
 
 			return r << 16 | g << 8 | b;
-		}break;
+		}
 		case AGMV_LOW_QUALITY:{
 
 			r <<= 3;
@@ -705,7 +705,7 @@ u32 AGMV_ReverseQuantizeColor(const u32 color, const AGMV_QUALITY quality){
 			b <<= 3;
 
 			return r << 16 | g << 8 | b;
-		}break;
+		}
 		default:{
 
 			r <<= 2;
@@ -713,7 +713,7 @@ u32 AGMV_ReverseQuantizeColor(const u32 color, const AGMV_QUALITY quality){
 			b <<= 1;
 
 			return r << 16 | g << 8 | b;
-		}break;
+		}
 	}
 }
 
@@ -963,16 +963,16 @@ char* AGMV_Error2Str(const Error error){
 	switch(error){
 		case NO_ERR:{
 			return "NO ERROR";
-		}break;
+		}
 		case FILE_NOT_FOUND_ERR:{
 			return "FILE NOT FOUND ERROR";
-		}break;
+		}
 		case INVALID_HEADER_FORMATTING_ERR:{
 			return "INVALID HEADER FORMATTING ERROR";
-		}break;
+		}
 		case MEMORY_CORRUPTION_ERR:{
 			return "MEMORY CORRUPTION ERROR";
-		}break;
+		}
 	}
 	return "INVALID ERROR CODE";
 }
