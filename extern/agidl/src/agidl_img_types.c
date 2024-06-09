@@ -154,7 +154,7 @@ void AGIDL_ClearColorBuffer(void* data, float r, float g, float b, AGIDL_CLR_FMT
 }
 
 int AGIDL_InsideClipBounds(u32 x, u32 y, u32 width, u32 height){
-	if(x >= 0 && y >= 0 && x < width && y < height){
+	if(x < width && y < height){
 		return 1;
 	}
 	return 0;

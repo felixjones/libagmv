@@ -58,7 +58,7 @@ void AGIDL_SetAlpha1555(u16* clr_data, u32 width, u32 height, AGIDL_Bool on){
 }
 
 void AGIDL_SetCoordAlpha1555(u16* clr_data, u32 x, u32 y, u32 width, u32 height, AGIDL_Bool on){
-	if(x >= 0 && y >= 0 && x < width && y < height){
+	if(x < width && y < height){
 		u32 index = x + y * width;
 		
 		u16 clr = clr_data[index];
@@ -135,7 +135,7 @@ void AGIDL_SetAlpha8888(u32* clr_data, u32 width, u32 height, AGIDL_CLR_FMT fmt,
 }
 
 void AGIDL_SetCoordAlpha8888(u32* clr_data, u32 x, u32 y, u32 width, u32 height, AGIDL_CLR_FMT fmt, AGIDL_Bool on){
-	if(x >= 0 && y >= 0 && x < width && y < height){
+	if(x < width && y < height){
 		u32 index = x + y * width;
 		
 		u32 color = clr_data[index];
