@@ -509,9 +509,6 @@ void AGIDL_TIMEncodeICP(AGIDL_TIM* tim){
 				COLOR16 clr16;
 				if(AGIDL_GetBitCount(AGIDL_TIMGetClrFmt(tim)) == 32){
 					COLOR clr = AGIDL_TIMGetClr(tim,x,y);
-					u8 r = AGIDL_GetR(clr,AGIDL_TIMGetClrFmt(tim));
-					u8 g = AGIDL_GetG(clr,AGIDL_TIMGetClrFmt(tim));
-					u8 b = AGIDL_GetB(clr,AGIDL_TIMGetClrFmt(tim));
 					clr16 = AGIDL_CLR_TO_CLR16(clr,AGIDL_TIMGetClrFmt(tim),AGIDL_BGR_555);
 				}
 				else{

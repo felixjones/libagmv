@@ -528,7 +528,6 @@ void AGMV_AssemblePFrameBitstream(AGMV* agmv, AGMV_ENTRY* img_entry){
 
 void AGMV_EncodeFrame(FILE* file, AGMV* agmv, u32* img_data){
 	AGMV_OPT opt = AGMV_GetOPT(agmv);
-	AGMV_COMPRESSION compression = AGMV_GetCompression(agmv);
 	AGMV_ENTRY* iframe_entries, *img_entry;
 
 	int i, csize, pos, size, max_size;

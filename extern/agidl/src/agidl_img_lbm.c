@@ -374,7 +374,7 @@ int AGIDL_LBMDecodeHeader(AGIDL_LBM* lbm, FILE* file){
 			}
 			else if(fourcc[0] == 'C' && fourcc[1] == 'L' && fourcc[2] == 'U' && fourcc[3] == 'T'){
 				u32 cluttype = AGIDL_ReadLong(file);
-				u32 reserved = AGIDL_ReadLong(file);
+				AGIDL_ReadLong(file);
 				
 				lbm->clut = TRUE;
 				
