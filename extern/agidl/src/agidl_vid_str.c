@@ -206,7 +206,7 @@ void AGIDL_ReadMDECVideoFrame(FILE* file, AGIDL_MDEC_FRAME* frame){
 	frame->version = AGIDL_ReadShort(file);
 	frame->pad = AGIDL_ReadLong(file);
 	
-	frame->size = (MDEC_BLOCK_SIZE/2)*frame->total_multi_chunk_num;
+	frame->size = MDEC_BLOCK_SIZE /2*frame->total_multi_chunk_num;
 	
 	AGIDL_EnsureDimMul16(frame);
 }
@@ -298,8 +298,8 @@ void AGIDL_PrintMDECBitstream(AGIDL_MDEC_FRAME* frame){
 
 /* UTILITY FUNCTIONS */
 s32 extend_sign(u16 bit_size, u64 n){
-    u32 mask = ((1LL << (bit_size - 1)) - 1);
-    AGIDL_Bool sign = (n & (1LL << (bit_size - 1))) != 0;
+    u32 mask = (1LL << bit_size - 1) - 1;
+    AGIDL_Bool sign = (n & 1LL << bit_size - 1) != 0;
 
     s32 val = n & mask;
     if (sign) val |= ~mask;
@@ -346,7 +346,7 @@ void AGIDL_FindNextVideoFrame(FILE* file){
 
 void AGIDL_MDECAllocResources(AGIDL_MDEC_FRAME* frame){
 	frame->point = 0;
-	frame->size = (MDEC_BLOCK_SIZE/2)*frame->total_multi_chunk_num;
+	frame->size = MDEC_BLOCK_SIZE /2*frame->total_multi_chunk_num;
 	frame->data = (u16*)malloc(sizeof(u16)*MDEC_BLOCK_SIZE*frame->total_multi_chunk_num);
 }
 
@@ -430,7 +430,7 @@ int AGIDL_SingleIDCT(int x, int y, s16 macroblock[8][8]){
 	int u,v;
 	for(v = 0; v < 8; v++){
 		for(u = 0; u < 8; u++){
-			summation += (C(u) * C(v)) * macroblock[u][v] * PSX_IDCT_TABLE[x][u] * PSX_IDCT_TABLE[y][v];
+			summation += C(u) * C(v) * macroblock[u][v] * PSX_IDCT_TABLE[x][u] * PSX_IDCT_TABLE[y][v];
 		}
 	}
 	
@@ -463,7 +463,7 @@ void AGIDL_DecodeMacroblock(AGIDL_MDEC_FRAME* frame, s16 block[64], const int ta
 	u16 word = AGIDL_GetNext16Bits(frame);
 	
 	s16 dc = extend_sign(10,word & BOTTOM_10_BITS);
-	s16 quant = (word >> 10) & 0x3f;
+	s16 quant = word >> 10 & 0x3f;
 	
 	s16 val = dc * table[0];
 	
@@ -483,12 +483,12 @@ void AGIDL_DecodeMacroblock(AGIDL_MDEC_FRAME* frame, s16 block[64], const int ta
         }
 
         u16 rle = AGIDL_GetNext16Bits(frame);
-		u16 zeros = (word >> 10) & 0x3f;
+		u16 zeros = word >> 10 & 0x3f;
 		
         dc = extend_sign(10, rle & BOTTOM_10_BITS);
         n += zeros + 1;
 
-        val = (dc * table[n] * quant + 4) >> 3;
+        val = dc * table[n] * quant + 4 >> 3;
     }
 
 

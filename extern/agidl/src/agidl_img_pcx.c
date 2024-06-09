@@ -334,25 +334,25 @@ char* pcxrlebits(char *binary){
 }
 
 u16 little_endianify(u16 number){
-	u8 lsb = (number & 0xff);
+	u8 lsb = number & 0xff;
 	u8 msb = (number & 0xff00) >> 8;
 	
 	printf("Little Endianifying - %d\n",number);
 	printf("lsb - %d\n",lsb);
 	printf("msb - %d\n",msb);
-	printf("Little Endianified - %d\n",(lsb << 8 | msb));
+	printf("Little Endianified - %d\n",lsb << 8 | msb);
 	
 	return lsb << 8 | msb;
 }
 
 u16 big_endianify(u16 number){
-	u8 msb = (number & 0xff);
+	u8 msb = number & 0xff;
 	u8 lsb = (number & 0xff00) >> 8;
 	
 	printf("Big Endianifying - %d\n",number);
 	printf("lsb - %d\n",lsb);
 	printf("msb - %d\n",msb);
-	printf("Big Endianified - %d\n",(msb << 8 | lsb));
+	printf("Big Endianified - %d\n",msb << 8 | lsb);
 	
 	return msb << 8 | lsb;
 }
@@ -412,7 +412,7 @@ int AGIDL_PCXDecodeHeader(AGIDL_PCX* pcx, FILE* file){
 		pcx->header.blanks[i] = blank;
 	}
 	
-	if((pcx->header.x_end - pcx->header.x_start) == 0){
+	if(pcx->header.x_end - pcx->header.x_start == 0){
 		AGIDL_PCXSetWidth(pcx, AGIDL_PCXGetWidth(pcx)+1);
 		AGIDL_PCXSetHeight(pcx, AGIDL_PCXGetHeight(pcx)+1);
 		
@@ -424,8 +424,8 @@ int AGIDL_PCXDecodeHeader(AGIDL_PCX* pcx, FILE* file){
 		}
 	}
 	else{
-		AGIDL_PCXSetWidth(pcx,(pcx->header.x_end - pcx->header.x_start) + 1);
-		AGIDL_PCXSetHeight(pcx,(pcx->header.y_end - pcx->header.y_start) + 1);
+		AGIDL_PCXSetWidth(pcx,pcx->header.x_end - pcx->header.x_start + 1);
+		AGIDL_PCXSetHeight(pcx,pcx->header.y_end - pcx->header.y_start + 1);
 	}
 	
 	if(pcx->header.id != 10 || !(pcx->header.version == 0 || pcx->header.version == 2 || pcx->header.version == 3 || pcx->header.version == 4 
@@ -446,11 +446,11 @@ void AGIDL_PCXDecodeIMG(AGIDL_PCX* pcx, FILE* file){
 		AGIDL_PCXSetClrFmt(pcx,AGIDL_RGB_555);
 	}
 	
-	int scanlinelength = (pcx->header.bytesperline * pcx->header.numbitplanes);
+	int scanlinelength = pcx->header.bytesperline * pcx->header.numbitplanes;
 	
 //	printf("scanlinelength - %d\n",scanlinelength);
 	
-	u16 roffset = 0, goffset = pcx->header.bytesperline, boffset = (goffset * 2);
+	u16 roffset = 0, goffset = pcx->header.bytesperline, boffset = goffset * 2;
 	
 //	printf("roffset - %d\n",roffset);
 //	printf("goffset - %d\n",goffset);
@@ -755,7 +755,7 @@ void AGIDL_PCXEncodeImg(AGIDL_PCX* pcx, FILE* file){
 			
 			for(x = 0; x < goffset; x++){
 				int count = 1, x_count = x+1;
-				while((buf[x] == buf[x_count]) && count < 63){
+				while(buf[x] == buf[x_count] && count < 63){
 					count++;
 					x_count++;
 				}
@@ -805,14 +805,14 @@ void AGIDL_PCXEncodeImg(AGIDL_PCX* pcx, FILE* file){
 			
 			for(x = goffset; x < boffset; x++){
 				int count = 1, x_count = x+1;
-				while((buf[x] == buf[x_count]) && count < 63){
+				while(buf[x] == buf[x_count] && count < 63){
 					count++;
 					x_count++;
 				}
 				
 				if(x_count >= boffset){
 				
-					count = (AGIDL_PCXGetWidth(pcx)*2) - x;
+					count = AGIDL_PCXGetWidth(pcx)*2 - x;
 					
 					char* bin = dec2bin(count);
 			
@@ -848,7 +848,7 @@ void AGIDL_PCXEncodeImg(AGIDL_PCX* pcx, FILE* file){
 			
 			for(x = boffset; x < scanlinelength; x++){
 				int count = 1, x_count = x+1;
-				while((buf[x] == buf[x_count]) && count < 63){
+				while(buf[x] == buf[x_count] && count < 63){
 					count++;
 					x_count++;
 				}

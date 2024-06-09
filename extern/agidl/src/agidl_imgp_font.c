@@ -274,7 +274,7 @@ void AGIDL_BlitFont(AGIDL_FONT* font, char c, void* data, u32 x, u32 y, u32 widt
 }
 
 void AGIDL_FontPrint(char* string, void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt, AGIDL_FONT* font){
-	int i, x = 0, y = height - (font->height) - 1;
+	int i, x = 0, y = height - font->height - 1;
 	for(i = 0; i < strlen(string); i++){
 		char c = string[i];
 		if(AGIDL_FindNode(font->list,c) == 1){

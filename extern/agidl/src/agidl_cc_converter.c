@@ -93,7 +93,7 @@ COLOR AGIDL_RGB_TO_BGR(COLOR rgb, AGIDL_CLR_FMT fmt){
 	u8 r = AGIDL_GetR(rgb,fmt);
 	u8 g = AGIDL_GetG(rgb,fmt);
 	u8 b = AGIDL_GetB(rgb,fmt);
-	u8 a = (rgb >> 15) & 0x1;
+	u8 a = rgb >> 15 & 0x1;
 	
 	if(fmt == AGIDL_RGB_888){
 		return AGIDL_RGB(r,g,b,AGIDL_BGR_888);
@@ -111,7 +111,7 @@ COLOR AGIDL_BGR_TO_RGB(COLOR bgr, AGIDL_CLR_FMT fmt){
 	u8 r = AGIDL_GetR(bgr,fmt);
 	u8 g = AGIDL_GetG(bgr,fmt);
 	u8 b = AGIDL_GetB(bgr,fmt);
-	u8 a = (bgr >> 15) & 0x1;
+	u8 a = bgr >> 15 & 0x1;
 	
 	if(fmt == AGIDL_BGR_888){
 		return AGIDL_RGB(r,g,b,AGIDL_RGB_888);

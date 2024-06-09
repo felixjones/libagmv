@@ -29,8 +29,8 @@ void * AGIDL_WrapImgData(void* data, u16* width, u16 height, AGIDL_CLR_FMT fmt, 
 		for(i = 0; i < num_of_wraps; i++){
 			u32 x,y;
 			for(y = 0; y < height; y++){
-				for(x = w*i; x < (w*i)+w; x++){
-					COLOR clr = AGIDL_GetClr(clrs,x-(w*i),y,w,height);
+				for(x = w*i; x < w*i+w; x++){
+					COLOR clr = AGIDL_GetClr(clrs,x-w*i,y,w,height);
 					AGIDL_SetClr(wrap,clr,x,y,w*num_of_wraps,height);
 				}
 			}
@@ -52,8 +52,8 @@ void * AGIDL_WrapImgData(void* data, u16* width, u16 height, AGIDL_CLR_FMT fmt, 
 		for(i = 0; i < num_of_wraps; i++){
 			u32 x,y;
 			for(y = 0; y < height; y++){
-				for(x = w*i; x < (w*i)+w; x++){
-					COLOR16 clr = AGIDL_GetClr16(clrs,x-(w*i),y,w,height);
+				for(x = w*i; x < w*i+w; x++){
+					COLOR16 clr = AGIDL_GetClr16(clrs,x-w*i,y,w,height);
 					AGIDL_SetClr16(wrap,clr,x,y,w*num_of_wraps,height);
 				}
 			}
@@ -82,8 +82,8 @@ void * AGIDL_WrapAndMirrorImgData(void* data, u16* width, u16* height, AGIDL_CLR
 		for(i = 0; i < num_of_wraps; i++){
 			u32 x,y;
 			for(y = 0; y < glaceh; y++){
-				for(x = glacew*i; x < (glacew*i)+glacew; x++){
-					COLOR clr = AGIDL_GetClr(glace,x-(glacew*i),y,glacew,glaceh);
+				for(x = glacew*i; x < glacew*i+glacew; x++){
+					COLOR clr = AGIDL_GetClr(glace,x-glacew*i,y,glacew,glaceh);
 					AGIDL_SetClr(wrap,clr,x,y,glacew*num_of_wraps,glaceh);
 				}
 			}
@@ -110,8 +110,8 @@ void * AGIDL_WrapAndMirrorImgData(void* data, u16* width, u16* height, AGIDL_CLR
 		for(i = 0; i < num_of_wraps; i++){
 			u32 x,y;
 			for(y = 0; y < glaceh; y++){
-				for(x = glacew*i; x < (glacew*i)+glacew; x++){
-					COLOR16 clr = AGIDL_GetClr16(glace,x-(glacew*i),y,glacew,glaceh);
+				for(x = glacew*i; x < glacew*i+glacew; x++){
+					COLOR16 clr = AGIDL_GetClr16(glace,x-glacew*i,y,glacew,glaceh);
 					AGIDL_SetClr16(wrap,clr,x,y,glacew*num_of_wraps,glaceh);
 				}
 			}

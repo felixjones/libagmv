@@ -31,7 +31,7 @@ u32 AGIDL_EncodeRLE(void* data, u32 bit_count, u32 x, u32 y, u32 width, u32 heig
 	else{
 		COLOR16* clrdata = (COLOR16*)data;
 		u32 x_count = x + 1;
-		while((AGIDL_GetClr16(clrdata,x,y,width,height) == AGIDL_GetClr16(clrdata,x_count,y,width,height)) && count < max_rle){
+		while(AGIDL_GetClr16(clrdata,x,y,width,height) == AGIDL_GetClr16(clrdata,x_count,y,width,height) && count < max_rle){
 			count++;
 			x_count++;
 		}

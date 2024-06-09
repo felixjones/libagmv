@@ -419,11 +419,11 @@ void AGIDL_BTIDecodeIMG(AGIDL_BTI* bti, FILE* file){
 								
 								u8 r = 0, g = 0, b = 0;
 								
-								if(((byte1 >> 7) & 0x1) == 0){
+								if((byte1 >> 7 & 0x1) == 0){
 									//r = (byte1 & 0xf);
 									//g = (byte2 >> 4) & 0xf;
 									//b = (byte2 & 0xf);
-									u8 a = ((byte1 >> 4) & 0x0C) << 4;
+									u8 a = (byte1 >> 4 & 0x0C) << 4;
 									
 									COLOR clr = AGIDL_RGBA(155,155,155,a,AGIDL_RGBA_8888);							
 									AGIDL_BTISetClr(bti,x+i,y+j,clr);
@@ -561,10 +561,10 @@ void AGIDL_BTIDecodeIMG(AGIDL_BTI* bti, FILE* file){
 							for(i = 0; i < 8; i+=2){
 								u8 byte = AGIDL_ReadByte(file);
 								
-								u8 rgb1 = ((byte >> 4) & 0xf) * 0x11, rgb2 = (byte & 0xf) * 0x11;
+								u8 rgb1 = (byte >> 4 & 0xf) * 0x11, rgb2 = (byte & 0xf) * 0x11;
 								
 								AGIDL_BTISetClr(bti,x+i,y+j,AGIDL_RGB(rgb1,rgb1,rgb1,AGIDL_BTIGetClrFmt(bti)));
-								AGIDL_BTISetClr(bti,(x+i)+1,y+j,AGIDL_RGB(rgb2,rgb2,rgb2,AGIDL_BTIGetClrFmt(bti)));
+								AGIDL_BTISetClr(bti,x+i+1,y+j,AGIDL_RGB(rgb2,rgb2,rgb2,AGIDL_BTIGetClrFmt(bti)));
 							}
 						}
 					}
@@ -600,7 +600,7 @@ void AGIDL_BTIDecodeIMG(AGIDL_BTI* bti, FILE* file){
 							for(i = 0; i < 8; i++){
 								u8 byte = AGIDL_ReadByte(file);
 								
-								u8 alpha = ((byte >> 4) & 0xf) * 0x11;
+								u8 alpha = (byte >> 4 & 0xf) * 0x11;
 								u8 rgb = (byte & 0xf) * 0x11;
 								
 								AGIDL_BTISetClr(bti,x+i,y+j,AGIDL_RGBA(rgb,rgb,rgb,alpha,AGIDL_BTIGetClrFmt(bti)));;
@@ -652,11 +652,11 @@ void AGIDL_BTIDecodeIMG(AGIDL_BTI* bti, FILE* file){
 				
 				u8 r = 0, g = 0, b = 0;
 				
-				if(((byte1 >> 7) & 0x1) == 0){
+				if((byte1 >> 7 & 0x1) == 0){
 					//r = (byte1 & 0xf);
 					//g = (byte2 >> 4) & 0xf;
 					//b = (byte2 & 0xf);
-					u8 a = ((byte1 >> 4) & 0x0C) << 4;
+					u8 a = (byte1 >> 4 & 0x0C) << 4;
 					
 					COLOR clr = AGIDL_RGBA(155,155,155,a,AGIDL_RGBA_8888);	
 

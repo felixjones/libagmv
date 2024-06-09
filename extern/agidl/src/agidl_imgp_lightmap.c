@@ -43,7 +43,7 @@ void AGIDL_BindLightmapAndImg(void* data, void* lightdata, u16 width, u16 height
 				COLOR clr = AGIDL_GetClr(clrdata,x,y,width,height);
 				
 				u8 avg = (AGIDL_GetR(clrlum,lightfmt)+AGIDL_GetG(clrlum,lightfmt)+AGIDL_GetB(clrlum,lightfmt))/3.0f;
-				float factor = (avg / 255.0f);
+				float factor = avg / 255.0f;
 				float invfactor = 1.0f - factor;
 				
 				if(light != INVLIGHTMAP){
@@ -78,7 +78,7 @@ void AGIDL_BindLightmapAndImg(void* data, void* lightdata, u16 width, u16 height
 				COLOR16 clr = AGIDL_GetClr16(clrdata,x,y,width,height);
 
 				u8 avg = (AGIDL_GetR(clrlum,lightfmt)+AGIDL_GetG(clrlum,lightfmt)+AGIDL_GetB(clrlum,lightfmt))/3.0f;
-				float factor = (avg / 31.0f);
+				float factor = avg / 31.0f;
 				float invfactor = 1.0f - factor;
 				
 				if(light != INVLIGHTMAP){
@@ -113,7 +113,7 @@ void AGIDL_BindLightmapAndImg(void* data, void* lightdata, u16 width, u16 height
 				COLOR clr = AGIDL_GetClr(clrdata,x,y,width,height);
 
 				u8 avg = (AGIDL_GetR(clrlum,lightfmt)+AGIDL_GetG(clrlum,lightfmt)+AGIDL_GetB(clrlum,lightfmt))/3.0f;
-				float factor = (avg / 31.0f);
+				float factor = avg / 31.0f;
 				float invfactor = 1.0f - factor;
 				
 				if(light != INVLIGHTMAP){
@@ -148,7 +148,7 @@ void AGIDL_BindLightmapAndImg(void* data, void* lightdata, u16 width, u16 height
 				COLOR16 clr = AGIDL_GetClr16(clrdata,x,y,width,height);
 
 				u8 avg = (AGIDL_GetR(clrlum,lightfmt)+AGIDL_GetG(clrlum,lightfmt)+AGIDL_GetB(clrlum,lightfmt))/3.0f;
-				float factor = (avg / 255.0f);
+				float factor = avg / 255.0f;
 				float invfactor = 1.0f - factor;
 				
 				if(light != INVLIGHTMAP){
@@ -219,7 +219,7 @@ void AGIDL_FillLightRect16(COLOR16* clrs, u16 x, u16 y, u16 width, u16 height, u
 int IsInXRange(float bias, u16 x, u8 size, u16 width){
 	u32 max_width_span = bias * width;
 	
-	if((x + size) >= max_width_span){
+	if(x + size >= max_width_span){
 		return 0;
 	}
 	else return 1;
@@ -228,19 +228,19 @@ int IsInXRange(float bias, u16 x, u8 size, u16 width){
 int IsInYRange(float bias, u16 y, u8 size, u16 height){
 	u32 max_height_span = bias * height;
 	
-	if((y + size) >= max_height_span){
+	if(y + size >= max_height_span){
 		return 0;
 	}
 	else return 1;
 }
 
 int IsInInvXRange(float bias, u16 x, u8 size, u16 width){
-	u32 max_width_span = (bias * width);
+	u32 max_width_span = bias * width;
 	
-	if((x - size) >= max_width_span){
+	if(x - size >= max_width_span){
 		return 1;
 	}
-	if((x - size) <= 0){
+	if(x - size <= 0){
 		return 0;
 	}
 	else return 0;
@@ -249,10 +249,10 @@ int IsInInvXRange(float bias, u16 x, u8 size, u16 width){
 int IsInInvYRange(float bias, u16 y, u8 size, u16 height){
 	u32 max_height_span = bias * height;
 	
-	if((y - size) <= 0){
+	if(y - size <= 0){
 		return 0;
 	}
-	else if((y - size) >= max_height_span){
+	else if(y - size >= max_height_span){
 		return 1;
 	}
 	else return 0;

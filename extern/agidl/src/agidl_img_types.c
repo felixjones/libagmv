@@ -104,7 +104,7 @@ char* AGIDL_GetImgName(char* filename){
 			break;
 		}
 	}
-	char* name = (char*)malloc((sizeof(char)*(count)+1));
+	char* name = (char*)malloc(sizeof(char)*count+1);
 	memcpy(name,filename,count);
 	name[count] = '\0';
 	return name;
@@ -161,7 +161,7 @@ int AGIDL_InsideClipBounds(u32 x, u32 y, u32 width, u32 height){
 }
 
 void AGIDL_CopyTile(void* dest, void* src, u32 destw, u32 desth, u32 srcw, u32 srch, AGIDL_CLR_FMT destfmt, AGIDL_CLR_FMT srcfmt, u16 xstart, u16 xend, u16 ystart, u16 yend, u16 dx, u16 dy){
-	if((AGIDL_GetBitCount(destfmt) == AGIDL_GetBitCount(srcfmt)) && (AGIDL_GetBitCount(destfmt) == 24 || AGIDL_GetBitCount(destfmt) == 32)){
+	if(AGIDL_GetBitCount(destfmt) == AGIDL_GetBitCount(srcfmt) && (AGIDL_GetBitCount(destfmt) == 24 || AGIDL_GetBitCount(destfmt) == 32)){
 		COLOR* destclr = (COLOR*)dest;
 		COLOR* srcclr = (COLOR*)src;
 		
@@ -184,7 +184,7 @@ void AGIDL_CopyTile(void* dest, void* src, u32 destw, u32 desth, u32 srcw, u32 s
 			}
 		}
 	}
-	else if((AGIDL_GetBitCount(destfmt) == AGIDL_GetBitCount(srcfmt)) && AGIDL_GetBitCount(destfmt) == 16){
+	else if(AGIDL_GetBitCount(destfmt) == AGIDL_GetBitCount(srcfmt) && AGIDL_GetBitCount(destfmt) == 16){
 		COLOR16* destclr = (COLOR16*)dest;
 		COLOR16* srcclr = (COLOR16*)src;
 		
@@ -207,7 +207,7 @@ void AGIDL_CopyTile(void* dest, void* src, u32 destw, u32 desth, u32 srcw, u32 s
 			}
 		}
 	}
-	else if((AGIDL_GetBitCount(destfmt) != AGIDL_GetBitCount(srcfmt)) && (AGIDL_GetBitCount(destfmt) == 24 || AGIDL_GetBitCount(destfmt) == 32) && AGIDL_GetBitCount(srcfmt) == 16){
+	else if(AGIDL_GetBitCount(destfmt) != AGIDL_GetBitCount(srcfmt) && (AGIDL_GetBitCount(destfmt) == 24 || AGIDL_GetBitCount(destfmt) == 32) && AGIDL_GetBitCount(srcfmt) == 16){
 		COLOR* destclr = (COLOR*)dest;
 		COLOR16* srcclr = (COLOR16*)src;
 		
@@ -231,7 +231,7 @@ void AGIDL_CopyTile(void* dest, void* src, u32 destw, u32 desth, u32 srcw, u32 s
 			}
 		}
 	}
-	if((AGIDL_GetBitCount(destfmt) != AGIDL_GetBitCount(srcfmt)) && (AGIDL_GetBitCount(srcfmt) == 24 || AGIDL_GetBitCount(srcfmt) == 32) && AGIDL_GetBitCount(destfmt) == 16){
+	if(AGIDL_GetBitCount(destfmt) != AGIDL_GetBitCount(srcfmt) && (AGIDL_GetBitCount(srcfmt) == 24 || AGIDL_GetBitCount(srcfmt) == 32) && AGIDL_GetBitCount(destfmt) == 16){
 		COLOR16* destclr = (COLOR16*)dest;
 		COLOR* srcclr = (COLOR*)src;
 		
@@ -258,7 +258,7 @@ void AGIDL_CopyTile(void* dest, void* src, u32 destw, u32 desth, u32 srcw, u32 s
 }
 
 void AGIDL_CopyScanline(void* dest, void* src, u32 destw, u32 desth, u32 srcw, u32 srch, AGIDL_CLR_FMT destfmt, AGIDL_CLR_FMT srcfmt, u16 destscanline, u16 srcscanline){
-	if((AGIDL_GetBitCount(destfmt) == AGIDL_GetBitCount(srcfmt)) && (AGIDL_GetBitCount(srcfmt) == 24 || AGIDL_GetBitCount(srcfmt) == 32)){
+	if(AGIDL_GetBitCount(destfmt) == AGIDL_GetBitCount(srcfmt) && (AGIDL_GetBitCount(srcfmt) == 24 || AGIDL_GetBitCount(srcfmt) == 32)){
 		if(AGIDL_InsideClipBounds(0,srcscanline,srcw,srch) && AGIDL_InsideClipBounds(0,destscanline,destw,desth)){
 			COLOR* destclr = (COLOR*)dest;
 			COLOR* srcclr = (COLOR*)src;
@@ -295,7 +295,7 @@ void AGIDL_CopyScanline(void* dest, void* src, u32 destw, u32 desth, u32 srcw, u
 				}
 			}
 		}
-		else if((AGIDL_GetBitCount(destfmt) == AGIDL_GetBitCount(srcfmt)) && AGIDL_GetBitCount(srcfmt) == 16){
+		else if(AGIDL_GetBitCount(destfmt) == AGIDL_GetBitCount(srcfmt) && AGIDL_GetBitCount(srcfmt) == 16){
 			COLOR16* destclr = (COLOR16*)dest;
 			COLOR16* srcclr = (COLOR16*)src;
 			
@@ -521,7 +521,7 @@ u32 count = 0;
 void AGIDL_ExportRawColors(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt, AGIDL_FILE_TYPE ftype, AGIDL_ARR_TYPE arrtype, u8 rgb){
 	if(AGIDL_GetBitCount(fmt) == 24){
 		COLOR* clrs = (COLOR*)data;
-		if((ftype & F_HEADER) && (arrtype & ARR)){
+		if(ftype & F_HEADER && arrtype & ARR){
 			char filename[50];
 			sprintf(filename,"imgdata_%d.h",count);
 			
@@ -548,7 +548,7 @@ void AGIDL_ExportRawColors(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt,
 					u8 r = AGIDL_GetR(clr,fmt);
 					u8 g = AGIDL_GetG(clr,fmt);
 					u8 b = AGIDL_GetB(clr,fmt);
-					if(x > 0 && (x % 15) == 0){
+					if(x > 0 && x % 15 == 0){
 						fputs("\n",file);
 					}
 					
@@ -576,7 +576,7 @@ void AGIDL_ExportRawColors(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt,
 			
 			count++;
 		}
-		if((ftype & F_SOURCE) && (arrtype & ARR)){
+		if(ftype & F_SOURCE && arrtype & ARR){
 			char filename[50];
 			sprintf(filename,"imgdata_%d.c",count);
 			
@@ -601,7 +601,7 @@ void AGIDL_ExportRawColors(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt,
 					u8 r = AGIDL_GetR(clr,fmt);
 					u8 g = AGIDL_GetG(clr,fmt);
 					u8 b = AGIDL_GetB(clr,fmt);
-					if(x > 0 && (x % 15) == 0){
+					if(x > 0 && x % 15 == 0){
 						fputs("\n",file);
 					}
 					
@@ -628,7 +628,7 @@ void AGIDL_ExportRawColors(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt,
 			count++;
 		}
 		
-		if((ftype & F_BIN) && (arrtype & ARR)){
+		if(ftype & F_BIN && arrtype & ARR){
 			char filename[50];
 			sprintf(filename,"imgdata_%d.bin",count);
 			FILE* file = fopen(filename,"wb");
@@ -654,7 +654,7 @@ void AGIDL_ExportRawColors(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt,
 	}
 	else if(AGIDL_GetBitCount(fmt) == 16){
 		COLOR16* clrs = (COLOR16*)data;
-		if((ftype & F_HEADER) && (arrtype & ARR)){
+		if(ftype & F_HEADER && arrtype & ARR){
 			char filename[50];
 			sprintf(filename,"imgdata_%d.h",count);
 			
@@ -682,7 +682,7 @@ void AGIDL_ExportRawColors(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt,
 					u8 r = AGIDL_GetR(clr,fmt);
 					u8 g = AGIDL_GetG(clr,fmt);
 					u8 b = AGIDL_GetB(clr,fmt);
-					if(x > 0 && (x % 15) == 0){
+					if(x > 0 && x % 15 == 0){
 						fputs("\n",file);
 					}
 					
@@ -710,7 +710,7 @@ void AGIDL_ExportRawColors(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt,
 			
 			count++;
 		}
-		if((ftype & F_SOURCE) && (arrtype & ARR)){
+		if(ftype & F_SOURCE && arrtype & ARR){
 			char filename[50];
 			sprintf(filename,"imgdata_%d.c",count);
 			
@@ -735,7 +735,7 @@ void AGIDL_ExportRawColors(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt,
 					u8 r = AGIDL_GetR(clr,fmt);
 					u8 g = AGIDL_GetG(clr,fmt);
 					u8 b = AGIDL_GetB(clr,fmt);
-					if(x > 0 && (x % 15) == 0){
+					if(x > 0 && x % 15 == 0){
 						fputs("\n",file);
 					}
 					
@@ -762,7 +762,7 @@ void AGIDL_ExportRawColors(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt,
 			count++;
 		}
 		
-		if((ftype & F_BIN) && (arrtype & ARR)){
+		if(ftype & F_BIN && arrtype & ARR){
 			char filename[50];
 			sprintf(filename,"imgdata_%d.bin",count);
 			FILE* file = fopen(filename,"wb");
@@ -1031,7 +1031,7 @@ u8* AGIDL_GenerateRGBBuffer(void* data, int width, int height, AGIDL_CLR_FMT fmt
 			u8 r = AGIDL_GetR(clr,fmt);
 			u8 g = AGIDL_GetG(clr,fmt);
 			u8 b = AGIDL_GetB(clr,fmt);
-			for(j = i * 3; j < (i * 3) + 1; j++){
+			for(j = i * 3; j < i * 3 + 1; j++){
 				rgbbuf[j] = r; rgbbuf[j+1] = g; rgbbuf[j+2] = b;
 			}
 		}
@@ -1046,7 +1046,7 @@ u8* AGIDL_GenerateRGBBuffer(void* data, int width, int height, AGIDL_CLR_FMT fmt
 			u8 r = AGIDL_GetR(clr,fmt);
 			u8 g = AGIDL_GetG(clr,fmt);
 			u8 b = AGIDL_GetB(clr,fmt);
-			for(j = i * 3; j < (i * 3) + 1; j++){
+			for(j = i * 3; j < i * 3 + 1; j++){
 				rgbbuf[j] = r; rgbbuf[j+1] = g; rgbbuf[j+2] = b;
 			}
 		}
@@ -1055,14 +1055,14 @@ u8* AGIDL_GenerateRGBBuffer(void* data, int width, int height, AGIDL_CLR_FMT fmt
 }
 
 u8* AGIDL_GenerateBGRBuffer(COLOR* clrs, int width, int height, AGIDL_CLR_FMT fmt){
-	u8* rgbbuf = (u8*)malloc(sizeof(u8)*(width*height)*(3));
+	u8* rgbbuf = (u8*)malloc(sizeof(u8)*(width*height)*3);
 	int i,j;
 	for(i = 0; i < width * height; i++){
 		COLOR clr = clrs[i];
 		u8 r = AGIDL_GetR(clr,fmt);
 		u8 g = AGIDL_GetG(clr,fmt);
 		u8 b = AGIDL_GetB(clr,fmt);
-		for(j = i * 3; j < (i * 3) + 1; j++){
+		for(j = i * 3; j < i * 3 + 1; j++){
 			rgbbuf[j] = b; rgbbuf[j+1] = g; rgbbuf[j+2] = r;
 		}
 	}
@@ -1078,7 +1078,7 @@ u8* AGIDL_GenerateRGBABuffer(COLOR* clrs, int width, int height, AGIDL_CLR_FMT f
 		u8 g = AGIDL_GetG(clr,fmt);
 		u8 b = AGIDL_GetB(clr,fmt);
 		u8 a = AGIDL_GetA(clr,fmt);
-		for(j = i * 4; j < (i * 4) + 1; j++){
+		for(j = i * 4; j < i * 4 + 1; j++){
 			rgbbuf[j] = r; rgbbuf[j+1] = g; rgbbuf[j+2] = b; rgbbuf[j+3] = a;
 		}
 	}

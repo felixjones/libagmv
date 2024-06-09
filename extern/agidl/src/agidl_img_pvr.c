@@ -449,15 +449,15 @@ PVRPxlFmt AGIDL_GetPVRPxlFmt(u8 long2[8]){
 }
 
 int isImgPVR(u32 gbix, u32 pvrt){
-	u8 x = ((gbix & 0xFF));
-	u8 i = ((gbix & 0xFF00) >> 8);
-	u8 b = ((gbix & 0xFF0000) >> 16);
-	u8 g = ((gbix & 0xFF000000) >> 24);
+	u8 x = gbix & 0xFF;
+	u8 i = (gbix & 0xFF00) >> 8;
+	u8 b = (gbix & 0xFF0000) >> 16;
+	u8 g = (gbix & 0xFF000000) >> 24;
 	
-	u8 p = ((pvrt & 0xFF));
-	u8 v = ((pvrt & 0xFF00) >> 8);
-	u8 r = ((pvrt & 0xFF0000) >> 16);
-	u8 t = ((pvrt & 0xFF000000) >> 24);
+	u8 p = pvrt & 0xFF;
+	u8 v = (pvrt & 0xFF00) >> 8;
+	u8 r = (pvrt & 0xFF0000) >> 16;
+	u8 t = (pvrt & 0xFF000000) >> 24;
 	
 	if(g != 'G' || b != 'B' || i != 'I' || x != 'X'){
 		return 0;
@@ -552,7 +552,7 @@ void AGIDL_PVREncodeHeader(AGIDL_PVR* pvr, FILE* file){
 		pvr->header.global_index_1 = 0;
 		pvr->header.global_index_2 = 0;
 		pvr->header.id2 = t << 24 | r << 16 | v << 8 | p;
-		pvr->header.file_size = 30 + (2 * AGIDL_PVRGetWidth(pvr) * AGIDL_PVRGetHeight(pvr));
+		pvr->header.file_size = 30 + 2 * AGIDL_PVRGetWidth(pvr) * AGIDL_PVRGetHeight(pvr);
 		
 		if(pvr->fmt == AGIDL_RGB_565 && pvr->fmt == AGIDL_BGR_565){
 			pvr->header.pvr_clr_fmt = PVR_RGB_565;
@@ -677,9 +677,9 @@ void AGIDL_PVRDecodeImg(AGIDL_PVR* pvr, PVRClrFmt fmt, PVRImgType img, FILE* fil
 				for(x = 0; x < AGIDL_PVRGetWidth(pvr); x++){
 					COLOR16 clr = AGIDL_ReadShort(file);
 					
-					u8 r = ((clr & 0xf00) >> 8);
-					u8 g = ((clr & 0xf0) >> 4);
-					u8 b = ((clr & 0xf));
+					u8 r = (clr & 0xf00) >> 8;
+					u8 g = (clr & 0xf0) >> 4;
+					u8 b = clr & 0xf;
 					
 					r = r << 1; g = g << 1; b = b << 1;
 					
@@ -877,7 +877,7 @@ u32 AGIDL_GetTwiddleValue(u32 i){
 }
 
 u32 AGIDL_GetDetwiddledIndex(u32 x, u32 y){
-	return (AGIDL_GetTwiddleValue(x) << 1) | AGIDL_GetTwiddleValue(y);
+	return AGIDL_GetTwiddleValue(x) << 1 | AGIDL_GetTwiddleValue(y);
 }
 
 void AGIDL_PVRDecodeTwiddledImg(AGIDL_PVR* pvr, PVRClrFmt fmt, PVRImgType img, FILE* file){
@@ -943,9 +943,9 @@ void AGIDL_PVRDecodeTwiddledImg(AGIDL_PVR* pvr, PVRClrFmt fmt, PVRImgType img, F
 				
 				COLOR16 clr = buf[index];
 				
-				u8 r = ((clr & 0xf00) >> 8);
-				u8 g = ((clr & 0xf0) >> 4);
-				u8 b = ((clr & 0xf));
+				u8 r = (clr & 0xf00) >> 8;
+				u8 g = (clr & 0xf0) >> 4;
+				u8 b = clr & 0xf;
 				
 				r = r << 1; g = g << 1; b = b << 1;
 				

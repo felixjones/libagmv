@@ -35,8 +35,8 @@ void * AGIDL_HalfImgDataNearest(void* data, u16* width, u16* height, AGIDL_CLR_F
 		u16 x,y;
 		for(y = 0; y < h; y++){
 			for(x = 0; x < w; x++){
-				u16 x2 = (x << 1);
-				u16 y2 = (y << 1);
+				u16 x2 = x << 1;
+				u16 y2 = y << 1;
 				
 				COLOR16 clr = AGIDL_GetClr16(org_data,x2,y2,worg,horg);
 				AGIDL_SetClr16(clr_data,clr,x,y,w,h);
@@ -63,8 +63,8 @@ void * AGIDL_HalfImgDataNearest(void* data, u16* width, u16* height, AGIDL_CLR_F
 		u16 x,y;
 		for(y = 0; y < h; y++){
 			for(x = 0; x < w; x++){
-				u16 x2 = (x << 1);
-				u16 y2 = (y << 1);
+				u16 x2 = x << 1;
+				u16 y2 = y << 1;
 				
 				COLOR clr = AGIDL_GetClr(org_data,x2,y2,worg,horg);
 				AGIDL_SetClr(clr_data,clr,x,y,w,h);
@@ -94,8 +94,8 @@ void * AGIDL_DoubleImgDataNearest(void* data, u16* width, u16* height, AGIDL_CLR
 		u16 x,y;
 		for(y = 0; y < h; y++){
 			for(x = 0; x < w; x++){
-				u16 x2 = (x >> 1);
-				u16 y2 = (y >> 1);
+				u16 x2 = x >> 1;
+				u16 y2 = y >> 1;
 				
 				COLOR16 clr = AGIDL_GetClr16(org_data,x2,y2,worg,horg);
 				AGIDL_SetClr16(clr_data,clr,x,y,w,h);
@@ -122,8 +122,8 @@ void * AGIDL_DoubleImgDataNearest(void* data, u16* width, u16* height, AGIDL_CLR
 		u16 x,y;
 		for(y = 0; y < h; y++){
 			for(x = 0; x < w; x++){
-				u16 x2 = (x >> 1);
-				u16 y2 = (y >> 1);
+				u16 x2 = x >> 1;
+				u16 y2 = y >> 1;
 				
 				COLOR clr = AGIDL_GetClr(org_data,x2,y2,worg,horg);
 				AGIDL_SetClr(clr_data,clr,x,y,w,h);
@@ -153,8 +153,8 @@ void * AGIDL_HalfImgDataBilerp(void* data, u16* width, u16* height, AGIDL_CLR_FM
 		u16 x,y;
 		for(y = 0; y < h; y++){
 			for(x = 0; x < w; x++){
-				u16 x2 = (x << 1);
-				u16 y2 = (y << 1);
+				u16 x2 = x << 1;
+				u16 y2 = y << 1;
 				
 				COLOR16 clr1 = AGIDL_GetClr16(org_data,x2,y2,worg,horg);
 				COLOR16 clr2 = AGIDL_GetClr16(org_data,x2+1,y2,worg,horg);
@@ -177,17 +177,17 @@ void * AGIDL_HalfImgDataBilerp(void* data, u16* width, u16* height, AGIDL_CLR_FM
 				u8 g4 = AGIDL_GetG(clr4,fmt);
 				u8 b4 = AGIDL_GetB(clr4,fmt);
 				
-				u8 rtop = r1 + ((r2 - r1) >> 1);
-				u8 gtop = g1 + ((g2 - g1) >> 1);
-				u8 btop = b1 + ((b2 - b1) >> 1);
+				u8 rtop = r1 + (r2 - r1 >> 1);
+				u8 gtop = g1 + (g2 - g1 >> 1);
+				u8 btop = b1 + (b2 - b1 >> 1);
 				
-				u8 rbottom = r3 + ((r4 - r3) >> 1);
-				u8 gbottom = g3 + ((g4 - g3) >> 1);
-				u8 bbottom = b3 + ((b4 - b3) >> 1);
+				u8 rbottom = r3 + (r4 - r3 >> 1);
+				u8 gbottom = g3 + (g4 - g3 >> 1);
+				u8 bbottom = b3 + (b4 - b3 >> 1);
 				
-				u8 rfinal = rtop + ((rbottom - rtop) >> 1);
-				u8 gfinal = gtop + ((gbottom - gtop) >> 1);
-				u8 bfinal = btop + ((bbottom - btop) >> 1);
+				u8 rfinal = rtop + (rbottom - rtop >> 1);
+				u8 gfinal = gtop + (gbottom - gtop >> 1);
+				u8 bfinal = btop + (bbottom - btop >> 1);
 				
 				AGIDL_SetClr16(clr_data,AGIDL_RGB16(rfinal,gfinal,bfinal,fmt),x,y,w,h);
 			}
@@ -213,8 +213,8 @@ void * AGIDL_HalfImgDataBilerp(void* data, u16* width, u16* height, AGIDL_CLR_FM
 		u16 x,y;
 		for(y = 0; y < h; y++){
 			for(x = 0; x < w; x++){
-				u16 x2 = (x << 1);
-				u16 y2 = (y << 1);
+				u16 x2 = x << 1;
+				u16 y2 = y << 1;
 				
 				COLOR clr1 = AGIDL_GetClr(org_data,x2,y2,worg,horg);
 				COLOR clr2 = AGIDL_GetClr(org_data,x2+1,y2,worg,horg);
@@ -237,17 +237,17 @@ void * AGIDL_HalfImgDataBilerp(void* data, u16* width, u16* height, AGIDL_CLR_FM
 				u8 g4 = AGIDL_GetG(clr4,fmt);
 				u8 b4 = AGIDL_GetB(clr4,fmt);
 				
-				u8 rtop = r1 + ((r2 - r1) >> 1);
-				u8 gtop = g1 + ((g2 - g1) >> 1);
-				u8 btop = b1 + ((b2 - b1) >> 1);
+				u8 rtop = r1 + (r2 - r1 >> 1);
+				u8 gtop = g1 + (g2 - g1 >> 1);
+				u8 btop = b1 + (b2 - b1 >> 1);
 				
-				u8 rbottom = r3 + ((r4 - r3) >> 1);
-				u8 gbottom = g3 + ((g4 - g3) >> 1);
-				u8 bbottom = b3 + ((b4 - b3) >> 1);
+				u8 rbottom = r3 + (r4 - r3 >> 1);
+				u8 gbottom = g3 + (g4 - g3 >> 1);
+				u8 bbottom = b3 + (b4 - b3 >> 1);
 				
-				u8 rfinal = rtop + ((rbottom - rtop) >> 1);
-				u8 gfinal = gtop + ((gbottom - gtop) >> 1);
-				u8 bfinal = btop + ((bbottom - btop) >> 1);
+				u8 rfinal = rtop + (rbottom - rtop >> 1);
+				u8 gfinal = gtop + (gbottom - gtop >> 1);
+				u8 bfinal = btop + (bbottom - btop >> 1);
 				
 				AGIDL_SetClr(clr_data,AGIDL_RGB(rfinal,gfinal,bfinal,fmt),x,y,w,h);
 			}
@@ -273,14 +273,14 @@ void * AGIDL_ScaleImgDataNearest(void* data, u16* width, u16* height, float sx, 
 		
 		COLOR* scale = (COLOR*)malloc(sizeof(COLOR)*newwidth*newheight);
 		
-		float xscale = ((float)(worg-1)/newwidth);
-		float yscale = ((float)(horg-1)/newheight);
+		float xscale = (float)(worg-1)/newwidth;
+		float yscale = (float)(horg-1)/newheight;
 		
 		u16 x,y;
 		for(y = 0; y < newheight; y++){
 			for(x = 0; x < newwidth; x++){
-				u16 x2 = (x*xscale);
-				u16 y2 = (y*yscale);
+				u16 x2 = x*xscale;
+				u16 y2 = y*yscale;
 				
 				COLOR clr = AGIDL_GetClr(clrs,x2,y2,worg,horg);
 				AGIDL_SetClr(scale,clr,x,y,newwidth,newheight);
@@ -304,14 +304,14 @@ void * AGIDL_ScaleImgDataNearest(void* data, u16* width, u16* height, float sx, 
 		
 		COLOR16* scale = (COLOR16*)malloc(sizeof(COLOR16)*newwidth*newheight);
 		
-		float xscale = ((float)(worg-1)/newwidth);
-		float yscale = ((float)(horg-1)/newheight);
+		float xscale = (float)(worg-1)/newwidth;
+		float yscale = (float)(horg-1)/newheight;
 		
 		u16 x,y;
 		for(y = 0; y < newheight; y++){
 			for(x = 0; x < newwidth; x++){
-				u16 x2 = (x*xscale);
-				u16 y2 = (y*yscale);
+				u16 x2 = x*xscale;
+				u16 y2 = y*yscale;
 				
 				COLOR16 clr = AGIDL_GetClr16(clrs,x2,y2,worg,horg);
 				AGIDL_SetClr16(scale,clr,x,y,newwidth,newheight);
@@ -341,16 +341,16 @@ void * AGIDL_ScaleImgDataBilerp(void* data, u16* width, u16* height, float sx, f
 		
 		COLOR* scale = (COLOR*)malloc(sizeof(COLOR)*newwidth*newheight);
 		
-		float xscale = ((float)(worg-1)/newwidth);
-		float yscale = ((float)(horg-1)/newheight);
+		float xscale = (float)(worg-1)/newwidth;
+		float yscale = (float)(horg-1)/newheight;
 		
 		float x_diff, y_diff;
 		
 		u16 x,y;
 		for(y = 0; y < newheight; y++){
 			for(x = 0; x < newwidth; x++){
-				float x2 = (x*xscale);
-				float y2 = (y*yscale);
+				float x2 = x*xscale;
+				float y2 = y*yscale;
 				
 				float x_floor = floor(x2);
 				float y_floor = floor(y2);
@@ -384,17 +384,17 @@ void * AGIDL_ScaleImgDataBilerp(void* data, u16* width, u16* height, float sx, f
 					u8 g4 = AGIDL_GetG(clr4,fmt);
 					u8 b4 = AGIDL_GetB(clr4,fmt);
 					
-					u8 rtop = r1 + ((r2-r1) >> 1);
-					u8 gtop = g1 + ((g2-g1) >> 1);
-					u8 btop = b1 + ((b2-b1) >> 1);
+					u8 rtop = r1 + (r2-r1 >> 1);
+					u8 gtop = g1 + (g2-g1 >> 1);
+					u8 btop = b1 + (b2-b1 >> 1);
 					
-					u8 rbot = r3 + ((r4-r3) >> 1);
-					u8 gbot = g3 + ((g4-g3) >> 1);
-					u8 bbot = b3 + ((b4-b3) >> 1);
+					u8 rbot = r3 + (r4-r3 >> 1);
+					u8 gbot = g3 + (g4-g3 >> 1);
+					u8 bbot = b3 + (b4-b3 >> 1);
 					
-					u8 rfinal = rtop + ((rbot-rtop) >> 1);
-					u8 gfinal = gtop + ((gbot-gtop) >> 1);
-					u8 bfinal = btop + ((bbot-btop) >> 1);
+					u8 rfinal = rtop + (rbot-rtop >> 1);
+					u8 gfinal = gtop + (gbot-gtop >> 1);
+					u8 bfinal = btop + (bbot-btop >> 1);
 					
 					AGIDL_SetClr(scale,AGIDL_RGB(rfinal,gfinal,bfinal,fmt),x,y,newwidth,newheight);
 				}
@@ -449,16 +449,16 @@ void * AGIDL_ScaleImgDataBilerp(void* data, u16* width, u16* height, float sx, f
 		
 		COLOR16* scale = (COLOR16*)malloc(sizeof(COLOR16)*newwidth*newheight);
 		
-		float xscale = ((float)(worg-1)/newwidth);
-		float yscale = ((float)(horg-1)/newheight);
+		float xscale = (float)(worg-1)/newwidth;
+		float yscale = (float)(horg-1)/newheight;
 		
 		float x_diff, y_diff;
 		
 		u16 x,y;
 		for(y = 0; y < newheight; y++){
 			for(x = 0; x < newwidth; x++){
-				float x2 = (x*xscale);
-				float y2 = (y*yscale);
+				float x2 = x*xscale;
+				float y2 = y*yscale;
 				
 				float x_floor = floor(x2);
 				float y_floor = floor(y2);
@@ -492,17 +492,17 @@ void * AGIDL_ScaleImgDataBilerp(void* data, u16* width, u16* height, float sx, f
 					u8 g4 = AGIDL_GetG(clr4,fmt);
 					u8 b4 = AGIDL_GetB(clr4,fmt);
 					
-					u8 rtop = r1 + ((r2-r1) >> 1);
-					u8 gtop = g1 + ((g2-g1) >> 1);
-					u8 btop = b1 + ((b2-b1) >> 1);
+					u8 rtop = r1 + (r2-r1 >> 1);
+					u8 gtop = g1 + (g2-g1 >> 1);
+					u8 btop = b1 + (b2-b1 >> 1);
 					
-					u8 rbot = r3 + ((r4-r3) >> 1);
-					u8 gbot = g3 + ((g4-g3) >> 1);
-					u8 bbot = b3 + ((b4-b3) >> 1);
+					u8 rbot = r3 + (r4-r3 >> 1);
+					u8 gbot = g3 + (g4-g3 >> 1);
+					u8 bbot = b3 + (b4-b3 >> 1);
 					
-					u8 rfinal = rtop + ((rbot-rtop) >> 1);
-					u8 gfinal = gtop + ((gbot-gtop) >> 1);
-					u8 bfinal = btop + ((bbot-btop) >> 1);
+					u8 rfinal = rtop + (rbot-rtop >> 1);
+					u8 gfinal = gtop + (gbot-gtop >> 1);
+					u8 bfinal = btop + (bbot-btop >> 1);
 					
 					AGIDL_SetClr16(scale,AGIDL_RGB16(rfinal,gfinal,bfinal,fmt),x,y,newwidth,newheight);
 				}
@@ -562,16 +562,16 @@ void * AGIDL_FastScaleImgDataBilerp(void* data, u16* width, u16* height, float s
 		
 		COLOR* scale = (COLOR*)malloc(sizeof(COLOR)*newwidth*newheight);
 		
-		float xscale = ((float)(worg-1)/newwidth);
-		float yscale = ((float)(horg-1)/newheight);
+		float xscale = (float)(worg-1)/newwidth;
+		float yscale = (float)(horg-1)/newheight;
 		
 		float x_diff, y_diff;
 		
 		u16 x,y;
 		for(y = 0; y < newheight; y++){
 			for(x = 0; x < newwidth; x++){
-				u16 x2 = (x*xscale);
-				u16 y2 = (y*yscale);
+				u16 x2 = x*xscale;
+				u16 y2 = y*yscale;
 				
 				COLOR clr1 = AGIDL_GetClr(clrs,x2,y2,worg,horg);
 				COLOR clr2 = AGIDL_GetClr(clrs,x2+1,y2,worg,horg);
@@ -594,17 +594,17 @@ void * AGIDL_FastScaleImgDataBilerp(void* data, u16* width, u16* height, float s
 				u8 g4 = AGIDL_GetG(clr4,fmt);
 				u8 b4 = AGIDL_GetB(clr4,fmt);
 				
-				u8 rtop = r1 + ((r2-r1) >> 1);
-				u8 gtop = g1 + ((g2-g1) >> 1);
-				u8 btop = b1 + ((b2-b1) >> 1);
+				u8 rtop = r1 + (r2-r1 >> 1);
+				u8 gtop = g1 + (g2-g1 >> 1);
+				u8 btop = b1 + (b2-b1 >> 1);
 				
-				u8 rbot = r3 + ((r4-r3) >> 1);
-				u8 gbot = g3 + ((g4-g3) >> 1);
-				u8 bbot = b3 + ((b4-b3) >> 1);
+				u8 rbot = r3 + (r4-r3 >> 1);
+				u8 gbot = g3 + (g4-g3 >> 1);
+				u8 bbot = b3 + (b4-b3 >> 1);
 				
-				u8 rfinal = rtop + ((rbot-rtop) >> 1);
-				u8 gfinal = gtop + ((gbot-gtop) >> 1);
-				u8 bfinal = btop + ((bbot-btop) >> 1);
+				u8 rfinal = rtop + (rbot-rtop >> 1);
+				u8 gfinal = gtop + (gbot-gtop >> 1);
+				u8 bfinal = btop + (bbot-btop >> 1);
 				
 				AGIDL_SetClr(scale,AGIDL_RGB(rfinal,gfinal,bfinal,fmt),x,y,newwidth,newheight);
 			}
@@ -627,16 +627,16 @@ void * AGIDL_FastScaleImgDataBilerp(void* data, u16* width, u16* height, float s
 		
 		COLOR16* scale = (COLOR16*)malloc(sizeof(COLOR16)*newwidth*newheight);
 		
-		float xscale = ((float)(worg-1)/newwidth);
-		float yscale = ((float)(horg-1)/newheight);
+		float xscale = (float)(worg-1)/newwidth;
+		float yscale = (float)(horg-1)/newheight;
 		
 		float x_diff, y_diff;
 		
 		u16 x,y;
 		for(y = 0; y < newheight; y++){
 			for(x = 0; x < newwidth; x++){
-				u16 x2 = (x*xscale);
-				u16 y2 = (y*yscale);
+				u16 x2 = x*xscale;
+				u16 y2 = y*yscale;
 				
 				COLOR16 clr1 = AGIDL_GetClr16(clrs,x2,y2,worg,horg);
 				COLOR16 clr2 = AGIDL_GetClr16(clrs,x2+1,y2,worg,horg);
@@ -659,17 +659,17 @@ void * AGIDL_FastScaleImgDataBilerp(void* data, u16* width, u16* height, float s
 				u8 g4 = AGIDL_GetG(clr4,fmt);
 				u8 b4 = AGIDL_GetB(clr4,fmt);
 				
-				u8 rtop = r1 + ((r2-r1) >> 1);
-				u8 gtop = g1 + ((g2-g1) >> 1);
-				u8 btop = b1 + ((b2-b1) >> 1);
+				u8 rtop = r1 + (r2-r1 >> 1);
+				u8 gtop = g1 + (g2-g1 >> 1);
+				u8 btop = b1 + (b2-b1 >> 1);
 				
-				u8 rbot = r3 + ((r4-r3) >> 1);
-				u8 gbot = g3 + ((g4-g3) >> 1);
-				u8 bbot = b3 + ((b4-b3) >> 1);
+				u8 rbot = r3 + (r4-r3 >> 1);
+				u8 gbot = g3 + (g4-g3 >> 1);
+				u8 bbot = b3 + (b4-b3 >> 1);
 				
-				u8 rfinal = rtop + ((rbot-rtop) >> 1);
-				u8 gfinal = gtop + ((gbot-gtop) >> 1);
-				u8 bfinal = btop + ((bbot-btop) >> 1);
+				u8 rfinal = rtop + (rbot-rtop >> 1);
+				u8 gfinal = gtop + (gbot-gtop >> 1);
+				u8 bfinal = btop + (bbot-btop >> 1);
 				
 				AGIDL_SetClr16(scale,AGIDL_RGB16(rfinal,gfinal,bfinal,fmt),x,y,newwidth,newheight);
 			}
@@ -705,27 +705,27 @@ void * AGIDL_ScaleImgDataTrilerp(void* data, u16* width, u16* height, float sx, 
 		
 		scalehalf = (COLOR*)AGIDL_ScaleImgDataBilerp(datacpy,&whalf,&hhalf,0.5f,0.5f,fmt);
 		
-		float xscale = ((float)(worg-1)/newwidth);
-		float yscale = ((float)(horg-1)/newheight);
+		float xscale = (float)(worg-1)/newwidth;
+		float yscale = (float)(horg-1)/newheight;
 		
-		float xscalehalf = ((float)(whalf-1)/newwidth);
-		float yscalehalf = ((float)(hhalf-1)/newheight);
+		float xscalehalf = (float)(whalf-1)/newwidth;
+		float yscalehalf = (float)(hhalf-1)/newheight;
 		
 		float x_diff, y_diff, x_half, y_half;
 		
 		u16 x,y;
 		for(y = 0; y < newheight; y++){
 			for(x = 0; x < newwidth; x++){
-				float x2 = (x*xscale);
-				float y2 = (y*yscale);
+				float x2 = x*xscale;
+				float y2 = y*yscale;
 				
 				float x_floor = floor(x2);
 				float y_floor = floor(y2);
 				float x_ceil = ceil(x2);
 				float y_ceil = ceil(y2);
 				
-				float x2half = (x*xscalehalf);
-				float y2half = (y*yscalehalf);
+				float x2half = x*xscalehalf;
+				float y2half = y*yscalehalf;
 				
 				float x_floor2 = floor(x2half);
 				float y_floor2 = floor(y2half);
@@ -769,17 +769,17 @@ void * AGIDL_ScaleImgDataTrilerp(void* data, u16* width, u16* height, float sx, 
 					u8 g4 = AGIDL_GetG(clr4,fmt);
 					u8 b4 = AGIDL_GetB(clr4,fmt);
 					
-					u8 rtop = r1 + ((r2-r1) >> 1);
-					u8 gtop = g1 + ((g2-g1) >> 1);
-					u8 btop = b1 + ((b2-b1) >> 1);
+					u8 rtop = r1 + (r2-r1 >> 1);
+					u8 gtop = g1 + (g2-g1 >> 1);
+					u8 btop = b1 + (b2-b1 >> 1);
 					
-					u8 rbot = r3 + ((r4-r3) >> 1);
-					u8 gbot = g3 + ((g4-g3) >> 1);
-					u8 bbot = b3 + ((b4-b3) >> 1);
+					u8 rbot = r3 + (r4-r3 >> 1);
+					u8 gbot = g3 + (g4-g3 >> 1);
+					u8 bbot = b3 + (b4-b3 >> 1);
 					
-					u8 rbilerp1 = rtop + ((rbot-rtop) >> 1);
-					u8 gbilerp1 = gtop + ((gbot-gtop) >> 1);
-					u8 bbilerp1 = btop + ((bbot-btop) >> 1);
+					u8 rbilerp1 = rtop + (rbot-rtop >> 1);
+					u8 gbilerp1 = gtop + (gbot-gtop >> 1);
+					u8 bbilerp1 = btop + (bbot-btop >> 1);
 					
 					r1 = AGIDL_GetR(clr12,fmt);
 					g1 = AGIDL_GetG(clr12,fmt);
@@ -797,21 +797,21 @@ void * AGIDL_ScaleImgDataTrilerp(void* data, u16* width, u16* height, float sx, 
 					g4 = AGIDL_GetG(clr42,fmt);
 					b4 = AGIDL_GetB(clr42,fmt);
 					
-					rtop = r1 + ((r2-r1) >> 1);
-					gtop = g1 + ((g2-g1) >> 1);
-					btop = b1 + ((b2-b1) >> 1);
+					rtop = r1 + (r2-r1 >> 1);
+					gtop = g1 + (g2-g1 >> 1);
+					btop = b1 + (b2-b1 >> 1);
 					
-					rbot = r3 + ((r4-r3) >> 1);
-					gbot = g3 + ((g4-g3) >> 1);
-					bbot = b3 + ((b4-b3) >> 1);
+					rbot = r3 + (r4-r3 >> 1);
+					gbot = g3 + (g4-g3 >> 1);
+					bbot = b3 + (b4-b3 >> 1);
 					
-					u8 rbilerp2 = rtop + ((rbot-rtop) >> 1);
-					u8 gbilerp2 = gtop + ((gbot-gtop) >> 1);
-					u8 bbilerp2 = btop + ((bbot-btop) >> 1);
+					u8 rbilerp2 = rtop + (rbot-rtop >> 1);
+					u8 gbilerp2 = gtop + (gbot-gtop >> 1);
+					u8 bbilerp2 = btop + (bbot-btop >> 1);
 					
-					u8 rfinal = rbilerp1 + ((rbilerp2-rbilerp1) >> 1);
-					u8 gfinal = gbilerp1 + ((gbilerp2-gbilerp1) >> 1);
-					u8 bfinal = bbilerp1 + ((bbilerp2-bbilerp1) >> 1);
+					u8 rfinal = rbilerp1 + (rbilerp2-rbilerp1 >> 1);
+					u8 gfinal = gbilerp1 + (gbilerp2-gbilerp1 >> 1);
+					u8 bfinal = bbilerp1 + (bbilerp2-bbilerp1 >> 1);
 					
 					AGIDL_SetClr(scale,AGIDL_RGB(rfinal,gfinal,bfinal,fmt),x,y,newwidth,newheight);
 				}
@@ -910,27 +910,27 @@ void * AGIDL_ScaleImgDataTrilerp(void* data, u16* width, u16* height, float sx, 
 		
 		scalehalf = (COLOR16*)AGIDL_ScaleImgDataBilerp(datacpy,&whalf,&hhalf,0.5f,0.5f,fmt);
 		
-		float xscale = ((float)(worg-1)/newwidth);
-		float yscale = ((float)(horg-1)/newheight);
+		float xscale = (float)(worg-1)/newwidth;
+		float yscale = (float)(horg-1)/newheight;
 		
-		float xscalehalf = ((float)(whalf-1)/newwidth);
-		float yscalehalf = ((float)(hhalf-1)/newheight);
+		float xscalehalf = (float)(whalf-1)/newwidth;
+		float yscalehalf = (float)(hhalf-1)/newheight;
 		
 		float x_diff, y_diff, x_half, y_half;
 		
 		u16 x,y;
 		for(y = 0; y < newheight; y++){
 			for(x = 0; x < newwidth; x++){
-				float x2 = (x*xscale);
-				float y2 = (y*yscale);
+				float x2 = x*xscale;
+				float y2 = y*yscale;
 				
 				float x_floor = floor(x2);
 				float y_floor = floor(y2);
 				float x_ceil = ceil(x2);
 				float y_ceil = ceil(y2);
 				
-				float x2half = (x*xscalehalf);
-				float y2half = (y*yscalehalf);
+				float x2half = x*xscalehalf;
+				float y2half = y*yscalehalf;
 				
 				float x_floor2 = floor(x2half);
 				float y_floor2 = floor(y2half);
@@ -974,17 +974,17 @@ void * AGIDL_ScaleImgDataTrilerp(void* data, u16* width, u16* height, float sx, 
 					u8 g4 = AGIDL_GetG(clr4,fmt);
 					u8 b4 = AGIDL_GetB(clr4,fmt);
 					
-					u8 rtop = r1 + ((r2-r1) >> 1);
-					u8 gtop = g1 + ((g2-g1) >> 1);
-					u8 btop = b1 + ((b2-b1) >> 1);
+					u8 rtop = r1 + (r2-r1 >> 1);
+					u8 gtop = g1 + (g2-g1 >> 1);
+					u8 btop = b1 + (b2-b1 >> 1);
 					
-					u8 rbot = r3 + ((r4-r3) >> 1);
-					u8 gbot = g3 + ((g4-g3) >> 1);
-					u8 bbot = b3 + ((b4-b3) >> 1);
+					u8 rbot = r3 + (r4-r3 >> 1);
+					u8 gbot = g3 + (g4-g3 >> 1);
+					u8 bbot = b3 + (b4-b3 >> 1);
 					
-					u8 rbilerp1 = rtop + ((rbot-rtop) >> 1);
-					u8 gbilerp1 = gtop + ((gbot-gtop) >> 1);
-					u8 bbilerp1 = btop + ((bbot-btop) >> 1);
+					u8 rbilerp1 = rtop + (rbot-rtop >> 1);
+					u8 gbilerp1 = gtop + (gbot-gtop >> 1);
+					u8 bbilerp1 = btop + (bbot-btop >> 1);
 					
 					r1 = AGIDL_GetR(clr12,fmt);
 					g1 = AGIDL_GetG(clr12,fmt);
@@ -1002,21 +1002,21 @@ void * AGIDL_ScaleImgDataTrilerp(void* data, u16* width, u16* height, float sx, 
 					g4 = AGIDL_GetG(clr42,fmt);
 					b4 = AGIDL_GetB(clr42,fmt);
 					
-					rtop = r1 + ((r2-r1) >> 1);
-					gtop = g1 + ((g2-g1) >> 1);
-					btop = b1 + ((b2-b1) >> 1);
+					rtop = r1 + (r2-r1 >> 1);
+					gtop = g1 + (g2-g1 >> 1);
+					btop = b1 + (b2-b1 >> 1);
 					
-					rbot = r3 + ((r4-r3) >> 1);
-					gbot = g3 + ((g4-g3) >> 1);
-					bbot = b3 + ((b4-b3) >> 1);
+					rbot = r3 + (r4-r3 >> 1);
+					gbot = g3 + (g4-g3 >> 1);
+					bbot = b3 + (b4-b3 >> 1);
 					
-					u8 rbilerp2 = rtop + ((rbot-rtop) >> 1);
-					u8 gbilerp2 = gtop + ((gbot-gtop) >> 1);
-					u8 bbilerp2 = btop + ((bbot-btop) >> 1);
+					u8 rbilerp2 = rtop + (rbot-rtop >> 1);
+					u8 gbilerp2 = gtop + (gbot-gtop >> 1);
+					u8 bbilerp2 = btop + (bbot-btop >> 1);
 					
-					u8 rfinal = rbilerp1 + ((rbilerp2-rbilerp1) >> 1);
-					u8 gfinal = gbilerp1 + ((gbilerp2-gbilerp1) >> 1);
-					u8 bfinal = bbilerp1 + ((bbilerp2-bbilerp1) >> 1);
+					u8 rfinal = rbilerp1 + (rbilerp2-rbilerp1 >> 1);
+					u8 gfinal = gbilerp1 + (gbilerp2-gbilerp1 >> 1);
+					u8 bfinal = bbilerp1 + (bbilerp2-bbilerp1 >> 1);
 					
 					AGIDL_SetClr16(scale,AGIDL_RGB16(rfinal,gfinal,bfinal,fmt),x,y,newwidth,newheight);
 				}
@@ -1118,22 +1118,22 @@ void * AGIDL_FastScaleImgDataTrilerp(void* data, u16* width, u16* height, float 
 		
 		scalehalf = (COLOR*)AGIDL_FastScaleImgDataBilerp(datacpy,&whalf,&hhalf,0.5f,0.5f,fmt);
 		
-		float xscale = ((float)(worg-1)/newwidth);
-		float yscale = ((float)(horg-1)/newheight);
+		float xscale = (float)(worg-1)/newwidth;
+		float yscale = (float)(horg-1)/newheight;
 		
-		float xscalehalf = ((float)(whalf-1)/newwidth);
-		float yscalehalf = ((float)(hhalf-1)/newheight);
+		float xscalehalf = (float)(whalf-1)/newwidth;
+		float yscalehalf = (float)(hhalf-1)/newheight;
 		
 		float x_diff, y_diff, x_half, y_half;
 		
 		u16 x,y;
 		for(y = 0; y < newheight; y++){
 			for(x = 0; x < newwidth; x++){
-				u16 x2 = (x*xscale);
-				u16 y2 = (y*yscale);
+				u16 x2 = x*xscale;
+				u16 y2 = y*yscale;
 				
-				u16 x2half = (x*xscalehalf);
-				u16 y2half = (y*yscalehalf);
+				u16 x2half = x*xscalehalf;
+				u16 y2half = y*yscalehalf;
 				
 				COLOR clr1 = AGIDL_GetClr(clrs,x2,y2,worg,horg);
 				COLOR clr2 = AGIDL_GetClr(clrs,x2+1,y2,worg,horg);
@@ -1161,17 +1161,17 @@ void * AGIDL_FastScaleImgDataTrilerp(void* data, u16* width, u16* height, float 
 				u8 g4 = AGIDL_GetG(clr4,fmt);
 				u8 b4 = AGIDL_GetB(clr4,fmt);
 				
-				u8 rtop = r1 + ((r2-r1) >> 1);
-				u8 gtop = g1 + ((g2-g1) >> 1);
-				u8 btop = b1 + ((b2-b1) >> 1);
+				u8 rtop = r1 + (r2-r1 >> 1);
+				u8 gtop = g1 + (g2-g1 >> 1);
+				u8 btop = b1 + (b2-b1 >> 1);
 				
-				u8 rbot = r3 + ((r4-r3) >> 1);
-				u8 gbot = g3 + ((g4-g3) >> 1);
-				u8 bbot = b3 + ((b4-b3) >> 1);
+				u8 rbot = r3 + (r4-r3 >> 1);
+				u8 gbot = g3 + (g4-g3 >> 1);
+				u8 bbot = b3 + (b4-b3 >> 1);
 				
-				u8 rbilerp1 = rtop + ((rbot-rtop) >> 1);
-				u8 gbilerp1 = gtop + ((gbot-gtop) >> 1);
-				u8 bbilerp1 = btop + ((bbot-btop) >> 1);
+				u8 rbilerp1 = rtop + (rbot-rtop >> 1);
+				u8 gbilerp1 = gtop + (gbot-gtop >> 1);
+				u8 bbilerp1 = btop + (bbot-btop >> 1);
 				
 				r1 = AGIDL_GetR(clr1half,fmt);
 			    g1 = AGIDL_GetG(clr1half,fmt);
@@ -1189,21 +1189,21 @@ void * AGIDL_FastScaleImgDataTrilerp(void* data, u16* width, u16* height, float 
 				g4 = AGIDL_GetG(clr4half,fmt);
 				b4 = AGIDL_GetB(clr4half,fmt);
 				
-				rtop = r1 + ((r2-r1) >> 1);
-				gtop = g1 + ((g2-g1) >> 1);
-				btop = b1 + ((b2-b1) >> 1);
+				rtop = r1 + (r2-r1 >> 1);
+				gtop = g1 + (g2-g1 >> 1);
+				btop = b1 + (b2-b1 >> 1);
 				
-				rbot = r3 + ((r4-r3) >> 1);
-				gbot = g3 + ((g4-g3) >> 1);
-				bbot = b3 + ((b4-b3) >> 1);
+				rbot = r3 + (r4-r3 >> 1);
+				gbot = g3 + (g4-g3 >> 1);
+				bbot = b3 + (b4-b3 >> 1);
 				
-				u8 rbilerp2 = rtop + ((rbot-rtop) >> 1);
-				u8 gbilerp2 = gtop + ((gbot-gtop) >> 1);
-				u8 bbilerp2 = btop + ((bbot-btop) >> 1);
+				u8 rbilerp2 = rtop + (rbot-rtop >> 1);
+				u8 gbilerp2 = gtop + (gbot-gtop >> 1);
+				u8 bbilerp2 = btop + (bbot-btop >> 1);
 				
-				u8 rfinal = rbilerp1 + ((rbilerp2-rbilerp1) >> 1);
-				u8 gfinal = gbilerp1 + ((gbilerp2-gbilerp1) >> 1);
-				u8 bfinal = bbilerp1 + ((bbilerp2-bbilerp1) >> 1);
+				u8 rfinal = rbilerp1 + (rbilerp2-rbilerp1 >> 1);
+				u8 gfinal = gbilerp1 + (gbilerp2-gbilerp1 >> 1);
+				u8 bfinal = bbilerp1 + (bbilerp2-bbilerp1 >> 1);
 				
 				AGIDL_SetClr(scale,AGIDL_RGB(rfinal,gfinal,bfinal,fmt),x,y,newwidth,newheight);
 			}
@@ -1236,22 +1236,22 @@ void * AGIDL_FastScaleImgDataTrilerp(void* data, u16* width, u16* height, float 
 		
 		scalehalf = (COLOR16*)AGIDL_ScaleImgDataBilerp(datacpy,&whalf,&hhalf,0.5f,0.5f,fmt);
 		
-		float xscale = ((float)(worg-1)/newwidth);
-		float yscale = ((float)(horg-1)/newheight);
+		float xscale = (float)(worg-1)/newwidth;
+		float yscale = (float)(horg-1)/newheight;
 		
-		float xscalehalf = ((float)(whalf-1)/newwidth);
-		float yscalehalf = ((float)(hhalf-1)/newheight);
+		float xscalehalf = (float)(whalf-1)/newwidth;
+		float yscalehalf = (float)(hhalf-1)/newheight;
 		
 		float x_diff, y_diff, x_half, y_half;
 		
 		u16 x,y;
 		for(y = 0; y < newheight; y++){
 			for(x = 0; x < newwidth; x++){
-				u16 x2 = (x*xscale);
-				u16 y2 = (y*yscale);
+				u16 x2 = x*xscale;
+				u16 y2 = y*yscale;
 				
-				u16 x2half = (x*xscalehalf);
-				u16 y2half = (y*yscalehalf);
+				u16 x2half = x*xscalehalf;
+				u16 y2half = y*yscalehalf;
 				
 				COLOR16 clr1 = AGIDL_GetClr16(clrs,x2,y2,worg,horg);
 				COLOR16 clr2 = AGIDL_GetClr16(clrs,x2+1,y2,worg,horg);
@@ -1279,17 +1279,17 @@ void * AGIDL_FastScaleImgDataTrilerp(void* data, u16* width, u16* height, float 
 				u8 g4 = AGIDL_GetG(clr4,fmt);
 				u8 b4 = AGIDL_GetB(clr4,fmt);
 				
-				u8 rtop = r1 + ((r2-r1) >> 1);
-				u8 gtop = g1 + ((g2-g1) >> 1);
-				u8 btop = b1 + ((b2-b1) >> 1);
+				u8 rtop = r1 + (r2-r1 >> 1);
+				u8 gtop = g1 + (g2-g1 >> 1);
+				u8 btop = b1 + (b2-b1 >> 1);
 				
-				u8 rbot = r3 + ((r4-r3) >> 1);
-				u8 gbot = g3 + ((g4-g3) >> 1);
-				u8 bbot = b3 + ((b4-b3) >> 1);
+				u8 rbot = r3 + (r4-r3 >> 1);
+				u8 gbot = g3 + (g4-g3 >> 1);
+				u8 bbot = b3 + (b4-b3 >> 1);
 				
-				u8 rbilerp1 = rtop + ((rbot-rtop) >> 1);
-				u8 gbilerp1 = gtop + ((gbot-gtop) >> 1);
-				u8 bbilerp1 = btop + ((bbot-btop) >> 1);
+				u8 rbilerp1 = rtop + (rbot-rtop >> 1);
+				u8 gbilerp1 = gtop + (gbot-gtop >> 1);
+				u8 bbilerp1 = btop + (bbot-btop >> 1);
 				
 				r1 = AGIDL_GetR(clr1half,fmt);
 			    g1 = AGIDL_GetG(clr1half,fmt);
@@ -1307,21 +1307,21 @@ void * AGIDL_FastScaleImgDataTrilerp(void* data, u16* width, u16* height, float 
 				g4 = AGIDL_GetG(clr4half,fmt);
 				b4 = AGIDL_GetB(clr4half,fmt);
 				
-				rtop = r1 + ((r2-r1) >> 1);
-				gtop = g1 + ((g2-g1) >> 1);
-				btop = b1 + ((b2-b1) >> 1);
+				rtop = r1 + (r2-r1 >> 1);
+				gtop = g1 + (g2-g1 >> 1);
+				btop = b1 + (b2-b1 >> 1);
 				
-				rbot = r3 + ((r4-r3) >> 1);
-				gbot = g3 + ((g4-g3) >> 1);
-				bbot = b3 + ((b4-b3) >> 1);
+				rbot = r3 + (r4-r3 >> 1);
+				gbot = g3 + (g4-g3 >> 1);
+				bbot = b3 + (b4-b3 >> 1);
 				
-				u8 rbilerp2 = rtop + ((rbot-rtop) >> 1);
-				u8 gbilerp2 = gtop + ((gbot-gtop) >> 1);
-				u8 bbilerp2 = btop + ((bbot-btop) >> 1);
+				u8 rbilerp2 = rtop + (rbot-rtop >> 1);
+				u8 gbilerp2 = gtop + (gbot-gtop >> 1);
+				u8 bbilerp2 = btop + (bbot-btop >> 1);
 				
-				u8 rfinal = rbilerp1 + ((rbilerp2-rbilerp1) >> 1);
-				u8 gfinal = gbilerp1 + ((gbilerp2-gbilerp1) >> 1);
-				u8 bfinal = bbilerp1 + ((bbilerp2-bbilerp1) >> 1);
+				u8 rfinal = rbilerp1 + (rbilerp2-rbilerp1 >> 1);
+				u8 gfinal = gbilerp1 + (gbilerp2-gbilerp1 >> 1);
+				u8 bfinal = bbilerp1 + (bbilerp2-bbilerp1 >> 1);
 				
 				AGIDL_SetClr16(scale,AGIDL_RGB16(rfinal,gfinal,bfinal,fmt),x,y,newwidth,newheight);
 			}
@@ -1374,21 +1374,21 @@ void * AGIDL_NearestPow2ScaleImgData(void* data, u16* width, u16* height, u16 ma
 		u16 worg = *width;
 		u16 horg = *height;
 		
-		u16 w = AGIDL_NearestPow2((int)(worg)), h = AGIDL_NearestPow2((int)(horg));
+		u16 w = AGIDL_NearestPow2((int)worg), h = AGIDL_NearestPow2((int)horg);
 		
 		w = AGIDL_Clamp(1,w,max_pow); h = AGIDL_Clamp(1,h,max_pow);
 		
 		COLOR16* scale = (COLOR16*)malloc(sizeof(COLOR16)*w*h);
 		
-		float xscale = ((float)(worg-1)/w);
-		float yscale = ((float)(horg-1)/h);
+		float xscale = (float)(worg-1)/w;
+		float yscale = (float)(horg-1)/h;
 		
 		int x,y;
 		for(y = 0; y < h; y++){
 			for(x = 0; x < w; x++){
 				
-				u32 x2 = (x*xscale);
-				u32 y2 = (y*yscale);
+				u32 x2 = x*xscale;
+				u32 y2 = y*yscale;
 				
 				COLOR16 clr = AGIDL_GetClr16(clr_data,x2,y2,worg,horg);
 				
@@ -1409,21 +1409,21 @@ void * AGIDL_NearestPow2ScaleImgData(void* data, u16* width, u16* height, u16 ma
 		u16 worg = *width;
 		u16 horg = *height;
 		
-		u16 w = AGIDL_NearestPow2((int)(worg)), h = AGIDL_NearestPow2((int)(horg));
+		u16 w = AGIDL_NearestPow2((int)worg), h = AGIDL_NearestPow2((int)horg);
 		
 		w = AGIDL_Clamp(1,w,max_pow); h = AGIDL_Clamp(1,h,max_pow);
 		
 		COLOR* scale = (COLOR*)malloc(sizeof(COLOR)*w*h);
 		
-		float xscale = ((float)(worg-1)/w);
-		float yscale = ((float)(horg-1)/h);
+		float xscale = (float)(worg-1)/w;
+		float yscale = (float)(horg-1)/h;
 		
 		int x,y;
 		for(y = 0; y < h; y++){
 			for(x = 0; x < w; x++){
 				
-				u32 x2 = (x*xscale);
-				u32 y2 = (y*yscale);
+				u32 x2 = x*xscale;
+				u32 y2 = y*yscale;
 				
 				COLOR clr = AGIDL_GetClr(clr_data,x2,y2,worg,horg);
 				

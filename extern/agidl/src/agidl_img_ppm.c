@@ -329,13 +329,13 @@ int AGIDL_PPMDecodeHeader(AGIDL_PPM* ppm, FILE* file){
 			ppm->width = AGIDL_PPMGetNum(lod[0]);
 		}break;
 		case 2:{
-			ppm->width = (AGIDL_PPMGetNum(lod[0])*10)+(AGIDL_PPMGetNum(lod[1]));
+			ppm->width = AGIDL_PPMGetNum(lod[0])*10+AGIDL_PPMGetNum(lod[1]);
 		}break;
 		case 3:{
-			ppm->width = (AGIDL_PPMGetNum(lod[0])*100)+(AGIDL_PPMGetNum(lod[1])*10)+(AGIDL_PPMGetNum(lod[2]));
+			ppm->width = AGIDL_PPMGetNum(lod[0])*100+AGIDL_PPMGetNum(lod[1])*10+AGIDL_PPMGetNum(lod[2]);
 		}break;
 		case 4:{
-			ppm->width = (AGIDL_PPMGetNum(lod[0])*1000)+(AGIDL_PPMGetNum(lod[1])*100)+(AGIDL_PPMGetNum(lod[2])*10)+(AGIDL_PPMGetNum(lod[3]));
+			ppm->width = AGIDL_PPMGetNum(lod[0])*1000+AGIDL_PPMGetNum(lod[1])*100+AGIDL_PPMGetNum(lod[2])*10+AGIDL_PPMGetNum(lod[3]);
 		}break;
 		default: return INVALID_IMG_FORMATTING_ERROR;
 	}	
@@ -356,13 +356,13 @@ int AGIDL_PPMDecodeHeader(AGIDL_PPM* ppm, FILE* file){
 			ppm->height = AGIDL_PPMGetNum(lod[0]);
 		}break;
 		case 2:{
-			ppm->height = (AGIDL_PPMGetNum(lod[0])*10)+(AGIDL_PPMGetNum(lod[1]));
+			ppm->height = AGIDL_PPMGetNum(lod[0])*10+AGIDL_PPMGetNum(lod[1]);
 		}break;
 		case 3:{
-			ppm->height = (AGIDL_PPMGetNum(lod[0])*100)+(AGIDL_PPMGetNum(lod[1])*10)+(AGIDL_PPMGetNum(lod[2]));
+			ppm->height = AGIDL_PPMGetNum(lod[0])*100+AGIDL_PPMGetNum(lod[1])*10+AGIDL_PPMGetNum(lod[2]);
 		}break;
 		case 4:{
-			ppm->height = (AGIDL_PPMGetNum(lod[0])*1000)+(AGIDL_PPMGetNum(lod[1])*100)+(AGIDL_PPMGetNum(lod[2])*10)+(AGIDL_PPMGetNum(lod[3]));
+			ppm->height = AGIDL_PPMGetNum(lod[0])*1000+AGIDL_PPMGetNum(lod[1])*100+AGIDL_PPMGetNum(lod[2])*10+AGIDL_PPMGetNum(lod[3]);
 		}break;
 		default: return INVALID_IMG_FORMATTING_ERROR;
 	}
@@ -382,10 +382,10 @@ int AGIDL_PPMDecodeHeader(AGIDL_PPM* ppm, FILE* file){
 			ppm->bpp = AGIDL_PPMGetNum(bpp[0]);
 		}break;
 		case 2:{
-			ppm->bpp = (AGIDL_PPMGetNum(bpp[0])*10)+(AGIDL_PPMGetNum(bpp[1]));
+			ppm->bpp = AGIDL_PPMGetNum(bpp[0])*10+AGIDL_PPMGetNum(bpp[1]);
 		}break;
 		case 3:{
-			ppm->bpp = (AGIDL_PPMGetNum(bpp[0])*100)+(AGIDL_PPMGetNum(bpp[1])*10)+(AGIDL_PPMGetNum(bpp[2]));
+			ppm->bpp = AGIDL_PPMGetNum(bpp[0])*100+AGIDL_PPMGetNum(bpp[1])*10+AGIDL_PPMGetNum(bpp[2]);
 		}break;
 		default: return INVALID_IMG_FORMATTING_ERROR;
 	}

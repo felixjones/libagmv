@@ -377,7 +377,7 @@ u32 bsr_bin_2_dec(char* binary){
 			bin = 1;
 		}
 		
-		u8 mul = (strlen(binary)-1) - i;
+		u8 mul = strlen(binary)-1 - i;
 		
 		if(mul == 0 && bin == 1){
 			accumulation += bin;
@@ -432,14 +432,14 @@ u32 morton(u32 x, u32 y, u32 width, u32 height){
 	u32 morton = 0;
 	int i;
 	for(i = 0; i < d; i++){
-		morton |= ((x & (1 << i)) << (i + 1)) | ((y & (1 << i)) << i);
+		morton |= (x & 1 << i) << i + 1 | (y & 1 << i) << i;
 	}
 	
 	if(width < height){
-		morton |= ((y & ~(width - 1) << d));
+		morton |= y & ~(width - 1) << d;
 	}
 	else{
-		morton |= ((x & ~(height - 1) << d));
+		morton |= x & ~(height - 1) << d;
 	}
 	
 	return morton;
@@ -546,9 +546,9 @@ void AGIDL_GXTDecodeIMG(AGIDL_GXT* gxt, FILE* file){
 				fread(&byte2,1,1,file);
 				
 				u8 a = (byte1 & 0xf0) >> 4;
-				u8 r = (byte1 & 0xf0);
+				u8 r = byte1 & 0xf0;
 				u8 g = (byte2 & 0xf0) >> 4;
-				u8 b = (byte2 & 0xf0);
+				u8 b = byte2 & 0xf0;
 				
 				a <<= 4;
 				r <<= 4;
@@ -577,7 +577,7 @@ void AGIDL_GXTDecodeIMG(AGIDL_GXT* gxt, FILE* file){
 		
 		gxt->pixels.pix32 = (COLOR*)malloc(sizeof(COLOR)*AGIDL_GXTGetSize(gxt));
 		
-		u32 offset = (gxt->header.offset + gxt->header.size_of_tex) - 1024;
+		u32 offset = gxt->header.offset + gxt->header.size_of_tex - 1024;
 
 		fseek(file,offset,SEEK_SET);
 		
@@ -668,7 +668,7 @@ void AGIDL_GXTEncodeHeader(AGIDL_GXT* gxt, FILE* file){
 	u32 size = AGIDL_GXTGetWidth(gxt) * AGIDL_GXTGetHeight(gxt) * (AGIDL_GetBitCount(AGIDL_GXTGetClrFmt(gxt)) / 8);
 	
 	if(gxt->icp == 1){
-		size = (AGIDL_GXTGetWidth(gxt) * AGIDL_GXTGetHeight(gxt)) + 1024;
+		size = AGIDL_GXTGetWidth(gxt) * AGIDL_GXTGetHeight(gxt) + 1024;
 	}
 	
 	gxt->header.size_of_tex = size;
@@ -819,7 +819,7 @@ void AGIDL_GXTEncodeICP(AGIDL_GXT* gxt, FILE* file){
 		}
 	}
 	
-	u32 offset = (0x40 + gxt->header.size_of_tex) - 1024;
+	u32 offset = 0x40 + gxt->header.size_of_tex - 1024;
 	
 	u32 index = ftell(file);
 	

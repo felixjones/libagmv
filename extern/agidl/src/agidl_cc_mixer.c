@@ -20,28 +20,28 @@
 float AGIDL_FindRBDivisor(AGIDL_CLR_FMT fmt){
 	switch(fmt){
 		case AGIDL_RGB_888:{
-			return (255.0f);
+			return 255.0f;
 		}break;
 		case AGIDL_BGR_888:{
-			return (255.0f);
+			return 255.0f;
 		}break;
 		case AGIDL_RGB_555:{
-			return (31.0f);
+			return 31.0f;
 		}break;
 		case AGIDL_BGR_555:{
-			return (31.0f);
+			return 31.0f;
 		}break;
 		case AGIDL_RGB_565:{
-			return (31.0f);
+			return 31.0f;
 		}break;
 		case AGIDL_BGR_565:{
-			return (31.0f);
+			return 31.0f;
 		}break;
 		case AGIDL_RGBA_8888:{
-			return (255.0f);
+			return 255.0f;
 		}break;
 		case AGIDL_ARGB_8888:{
-			return (255.0f);
+			return 255.0f;
 		}break;
 	}
 	return 0;
@@ -50,62 +50,62 @@ float AGIDL_FindRBDivisor(AGIDL_CLR_FMT fmt){
 float AGIDL_FindGDivisor(AGIDL_CLR_FMT fmt){
 	switch(fmt){
 		case AGIDL_RGB_888:{
-			return (255.0f);
+			return 255.0f;
 		}break;
 		case AGIDL_BGR_888:{
-			return (255.0f);
+			return 255.0f;
 		}break;
 		case AGIDL_RGB_555:{
-			return (31.0f);
+			return 31.0f;
 		}break;
 		case AGIDL_BGR_555:{
-			return (31.0f);
+			return 31.0f;
 		}break;
 		case AGIDL_RGB_565:{
-			return (63.0f);
+			return 63.0f;
 		}break;
 		case AGIDL_BGR_565:{
-			return (63.0f);
+			return 63.0f;
 		}break;
 		case AGIDL_RGBA_8888:{
-			return (255.0f);
+			return 255.0f;
 		}break;
 		case AGIDL_ARGB_8888:{
-			return (255.0f);
+			return 255.0f;
 		}break;
 	}
 	return 0;
 }
 
 u8 AGIDL_MulCombine565(u8 cc1, u8 cc2){
-	return (cc1*cc2)/(63.0f);
+	return cc1*cc2/63.0f;
 }
 
 u8 AGIDL_MulCombine(u8 cc1, u8 cc2, AGIDL_CLR_FMT fmt){
 	switch(fmt){
 		case AGIDL_RGB_888:{
-			return (cc1*cc2)/(255.0f);
+			return cc1*cc2/255.0f;
 		}break;
 		case AGIDL_BGR_888:{
-			return (cc1*cc2)/(255.0f);
+			return cc1*cc2/255.0f;
 		}break;
 		case AGIDL_RGB_555:{
-			return (cc1*cc2)/(31.0f);
+			return cc1*cc2/31.0f;
 		}break;
 		case AGIDL_BGR_555:{
-			return (cc1*cc2)/(31.0f);
+			return cc1*cc2/31.0f;
 		}break;
 		case AGIDL_RGB_565:{
-			return (cc1*cc2)/(31.0f);
+			return cc1*cc2/31.0f;
 		}break;
 		case AGIDL_BGR_565:{
-			return (cc1*cc2)/(31.0f);
+			return cc1*cc2/31.0f;
 		}break;
 		case AGIDL_RGBA_8888:{
-			return (cc1*cc2)/(255.0f);
+			return cc1*cc2/255.0f;
 		}break;
 		case AGIDL_ARGB_8888:{
-			return (cc1*cc2)/(255.0f);
+			return cc1*cc2/255.0f;
 		}break;
 	}
 	return 0;
@@ -170,7 +170,7 @@ COLOR AGIDL_MulColor(COLOR clr1, COLOR clr2, AGIDL_CLR_FMT fmt){
 	
 	if(AGIDL_GetBitCount(fmt) == 32){
 		u8 a1 = AGIDL_GetA(clr1,fmt), a2 = AGIDL_GetA(clr2,fmt);
-		u8 a = (a1*a2)/255.0f;
+		u8 a = a1*a2/255.0f;
 		return AGIDL_RGBA(r,g,b,a,fmt);
 	}
 	
@@ -280,7 +280,7 @@ COLOR AGIDL_BlendColor(COLOR clr1, COLOR clr2, float blend_factor, int blend_mod
 		
 		switch(blend_mode){
 			case CC_BLEND_CLR_SRCINV:{
-				float blend_factor = (a1/255.0f);
+				float blend_factor = a1/255.0f;
 				float iblend_factor = 1.0f - blend_factor;
 				u8 r = r1*iblend_factor + r2*blend_factor;
 				u8 g = g1*iblend_factor + g2*blend_factor;
@@ -315,7 +315,7 @@ COLOR AGIDL_BlendColor(COLOR clr1, COLOR clr2, float blend_factor, int blend_mod
 				return AGIDL_RGBA(r,g,b,a,fmt);
 			}break;
 			case CC_BLEND_CLR_ISRC:{
-				float blend_factor = 1.0f - (a1/255.0f);
+				float blend_factor = 1.0f - a1/255.0f;
 				u8 r = r1*blend_factor + r2;
 				u8 g = g1*blend_factor + g2;
 				u8 b = b1*blend_factor + b2;
@@ -324,7 +324,7 @@ COLOR AGIDL_BlendColor(COLOR clr1, COLOR clr2, float blend_factor, int blend_mod
 			}break;
 			
 			case CC_BLEND_CLR_IDEST:{
-				float blend_factor = 1.0f - (a2/255.0f);
+				float blend_factor = 1.0f - a2/255.0f;
 				u8 r = r1*blend_factor + r2;
 				u8 g = g1*blend_factor + g2;
 				u8 b = b1*blend_factor + b2;
@@ -409,7 +409,7 @@ COLOR AGIDL_ColorCombine(COLOR clr1, COLOR clr2, AGIDL_CC_COMBINE_MODE cc, AGIDL
 			float rdiv = AGIDL_FindRBDivisor(fmt);
 			float bdiv = AGIDL_FindRBDivisor(fmt);
 			float gdiv = AGIDL_FindGDivisor(fmt);
-			float interp = 1.0f - ((r3/rdiv)+(g3/gdiv)+(b3/bdiv))/(3.0f);
+			float interp = 1.0f - (r3/rdiv+g3/gdiv+b3/bdiv)/3.0f;
 			return AGIDL_InterpColor(clr3,clr4,interp,fmt);
 		}break;
 		case CC_MUL_AND_ADD_CLR:{
@@ -421,7 +421,7 @@ COLOR AGIDL_ColorCombine(COLOR clr1, COLOR clr2, AGIDL_CC_COMBINE_MODE cc, AGIDL
 			float rdiv = AGIDL_FindRBDivisor(fmt);
 			float bdiv = AGIDL_FindRBDivisor(fmt);
 			float gdiv = AGIDL_FindGDivisor(fmt);
-			float interp = ((r3/rdiv)+(g3/gdiv)+(b3/bdiv))/(3.0f);
+			float interp = (r3/rdiv+g3/gdiv+b3/bdiv)/3.0f;
 			return AGIDL_InterpColor(clr3,clr4,interp,fmt);
 		}break;
 		case CC_MUL_AND_SUB_CLR1:{
@@ -433,7 +433,7 @@ COLOR AGIDL_ColorCombine(COLOR clr1, COLOR clr2, AGIDL_CC_COMBINE_MODE cc, AGIDL
 			float rdiv = AGIDL_FindRBDivisor(fmt);
 			float bdiv = AGIDL_FindRBDivisor(fmt);
 			float gdiv = AGIDL_FindGDivisor(fmt);
-			float interp = 1.0f - ((r1/rdiv)+(g1/gdiv)+(b1/bdiv))/(3.0f);
+			float interp = 1.0f - (r1/rdiv+g1/gdiv+b1/bdiv)/3.0f;
 			return AGIDL_InterpColor(clr3,clr4,interp,fmt);
 		}break;
 		case CC_MUL_AND_ADD_CLR1:{
@@ -445,7 +445,7 @@ COLOR AGIDL_ColorCombine(COLOR clr1, COLOR clr2, AGIDL_CC_COMBINE_MODE cc, AGIDL
 			float rdiv = AGIDL_FindRBDivisor(fmt);
 			float bdiv = AGIDL_FindRBDivisor(fmt);
 			float gdiv = AGIDL_FindGDivisor(fmt);
-			float interp = ((r1/rdiv)+(g1/gdiv)+(b1/bdiv))/(3.0f);
+			float interp = (r1/rdiv+g1/gdiv+b1/bdiv)/3.0f;
 			return AGIDL_InterpColor(clr3,clr4,interp,fmt);
 		}break;
 		case CC_MUL_AND_SUB_CLR2:{
@@ -457,7 +457,7 @@ COLOR AGIDL_ColorCombine(COLOR clr1, COLOR clr2, AGIDL_CC_COMBINE_MODE cc, AGIDL
 			float rdiv = AGIDL_FindRBDivisor(fmt);
 			float bdiv = AGIDL_FindRBDivisor(fmt);
 			float gdiv = AGIDL_FindGDivisor(fmt);
-			float interp = 1.0f - ((r2/rdiv)+(g2/gdiv)+(b2/bdiv))/(3.0f);
+			float interp = 1.0f - (r2/rdiv+g2/gdiv+b2/bdiv)/3.0f;
 			return AGIDL_InterpColor(clr3,clr4,interp,fmt);
 		}break;
 		case CC_MUL_AND_ADD_CLR2:{
@@ -469,16 +469,16 @@ COLOR AGIDL_ColorCombine(COLOR clr1, COLOR clr2, AGIDL_CC_COMBINE_MODE cc, AGIDL
 			float rdiv = AGIDL_FindRBDivisor(fmt);
 			float bdiv = AGIDL_FindRBDivisor(fmt);
 			float gdiv = AGIDL_FindGDivisor(fmt);
-			float interp = ((r2/rdiv)+(g2/gdiv)+(b2/bdiv))/(3.0f);
+			float interp = (r2/rdiv+g2/gdiv+b2/bdiv)/3.0f;
 			return AGIDL_InterpColor(clr3,clr4,interp,fmt);
 		}break;
 		case CC_INTERP_CLR:{
 			float rdiv = AGIDL_FindRBDivisor(fmt);
 			float bdiv = AGIDL_FindRBDivisor(fmt);
 			float gdiv = AGIDL_FindGDivisor(fmt);
-			float interp1 = ((r1/rdiv)+(g1/gdiv)+(b1/bdiv))/(3.0f);
-			float interp2 = ((r2/rdiv)+(g2/gdiv)+(b2/bdiv))/(3.0f);
-			float interp = (interp1+interp2)/(2.0f);
+			float interp1 = (r1/rdiv+g1/gdiv+b1/bdiv)/3.0f;
+			float interp2 = (r2/rdiv+g2/gdiv+b2/bdiv)/3.0f;
+			float interp = (interp1+interp2)/2.0f;
 			return AGIDL_InterpColor(clr1,clr2,interp,fmt);
 		}break;
 		case CC_MUL_AND_INTERP_CLR1:{
@@ -489,9 +489,9 @@ COLOR AGIDL_ColorCombine(COLOR clr1, COLOR clr2, AGIDL_CC_COMBINE_MODE cc, AGIDL
 			float rdiv = AGIDL_FindRBDivisor(fmt);
 			float bdiv = AGIDL_FindRBDivisor(fmt);
 			float gdiv = AGIDL_FindGDivisor(fmt);
-			float interp1 = ((r1/rdiv)+(g1/gdiv)+(b1/bdiv))/(3.0f);
-			float interp2 = ((r3/rdiv)+(g3/gdiv)+(b3/bdiv))/(3.0f);
-			float interp = (interp1+interp2)/(2.0f);
+			float interp1 = (r1/rdiv+g1/gdiv+b1/bdiv)/3.0f;
+			float interp2 = (r3/rdiv+g3/gdiv+b3/bdiv)/3.0f;
+			float interp = (interp1+interp2)/2.0f;
 			return AGIDL_InterpColor(clr3,clr1,interp,fmt);
 		}break;
 		case CC_ADD_AND_INTERP_CLR1:{
@@ -502,9 +502,9 @@ COLOR AGIDL_ColorCombine(COLOR clr1, COLOR clr2, AGIDL_CC_COMBINE_MODE cc, AGIDL
 			float rdiv = AGIDL_FindRBDivisor(fmt);
 			float bdiv = AGIDL_FindRBDivisor(fmt);
 			float gdiv = AGIDL_FindGDivisor(fmt);
-			float interp1 = ((r1/rdiv)+(g1/gdiv)+(b1/bdiv))/(3.0f);
-			float interp2 = ((r3/rdiv)+(g3/gdiv)+(b3/bdiv))/(3.0f);
-			float interp = (interp1+interp2)/(2.0f);
+			float interp1 = (r1/rdiv+g1/gdiv+b1/bdiv)/3.0f;
+			float interp2 = (r3/rdiv+g3/gdiv+b3/bdiv)/3.0f;
+			float interp = (interp1+interp2)/2.0f;
 			return AGIDL_InterpColor(clr1,clr3,interp,fmt);
 		}break;
 		case CC_SUB_AND_INTERP_CLR1:{
@@ -515,9 +515,9 @@ COLOR AGIDL_ColorCombine(COLOR clr1, COLOR clr2, AGIDL_CC_COMBINE_MODE cc, AGIDL
 			float rdiv = AGIDL_FindRBDivisor(fmt);
 			float bdiv = AGIDL_FindRBDivisor(fmt);
 			float gdiv = AGIDL_FindGDivisor(fmt);
-			float interp1 = ((r1/rdiv)+(g1/gdiv)+(b1/bdiv))/(3.0f);
-			float interp2 = ((r3/rdiv)+(g3/gdiv)+(b3/bdiv))/(3.0f);
-			float interp = (interp1+interp2)/(2.0f);
+			float interp1 = (r1/rdiv+g1/gdiv+b1/bdiv)/3.0f;
+			float interp2 = (r3/rdiv+g3/gdiv+b3/bdiv)/3.0f;
+			float interp = (interp1+interp2)/2.0f;
 			return AGIDL_InterpColor(clr3,clr1,interp,fmt);
 		}break;
 		case CC_MUL_AND_INTERP_CLR2:{
@@ -528,9 +528,9 @@ COLOR AGIDL_ColorCombine(COLOR clr1, COLOR clr2, AGIDL_CC_COMBINE_MODE cc, AGIDL
 			float rdiv = AGIDL_FindRBDivisor(fmt);
 			float bdiv = AGIDL_FindRBDivisor(fmt);
 			float gdiv = AGIDL_FindGDivisor(fmt);
-			float interp1 = ((r2/rdiv)+(g2/gdiv)+(b2/bdiv))/(3.0f);
-			float interp2 = ((r3/rdiv)+(g3/gdiv)+(b3/bdiv))/(3.0f);
-			float interp = (interp1+interp2)/(2.0f);
+			float interp1 = (r2/rdiv+g2/gdiv+b2/bdiv)/3.0f;
+			float interp2 = (r3/rdiv+g3/gdiv+b3/bdiv)/3.0f;
+			float interp = (interp1+interp2)/2.0f;
 			return AGIDL_InterpColor(clr3,clr2,interp,fmt);
 		}break;
 		case CC_ADD_AND_INTERP_CLR2:{
@@ -541,9 +541,9 @@ COLOR AGIDL_ColorCombine(COLOR clr1, COLOR clr2, AGIDL_CC_COMBINE_MODE cc, AGIDL
 			float rdiv = AGIDL_FindRBDivisor(fmt);
 			float bdiv = AGIDL_FindRBDivisor(fmt);
 			float gdiv = AGIDL_FindGDivisor(fmt);
-			float interp1 = ((r2/rdiv)+(g2/gdiv)+(b2/bdiv))/(3.0f);
-			float interp2 = ((r3/rdiv)+(g3/gdiv)+(b3/bdiv))/(3.0f);
-			float interp = (interp1+interp2)/(2.0f);
+			float interp1 = (r2/rdiv+g2/gdiv+b2/bdiv)/3.0f;
+			float interp2 = (r3/rdiv+g3/gdiv+b3/bdiv)/3.0f;
+			float interp = (interp1+interp2)/2.0f;
 			return AGIDL_InterpColor(clr2,clr3,interp,fmt);
 		}break;
 		case CC_SUB_AND_INTERP_CLR2:{
@@ -554,9 +554,9 @@ COLOR AGIDL_ColorCombine(COLOR clr1, COLOR clr2, AGIDL_CC_COMBINE_MODE cc, AGIDL
 			float rdiv = AGIDL_FindRBDivisor(fmt);
 			float bdiv = AGIDL_FindRBDivisor(fmt);
 			float gdiv = AGIDL_FindGDivisor(fmt);
-			float interp1 = ((r2/rdiv)+(g2/gdiv)+(b2/bdiv))/(3.0f);
-			float interp2 = ((r3/rdiv)+(g3/gdiv)+(b3/bdiv))/(3.0f);
-			float interp = (interp1+interp2)/(2.0f);
+			float interp1 = (r2/rdiv+g2/gdiv+b2/bdiv)/3.0f;
+			float interp2 = (r3/rdiv+g3/gdiv+b3/bdiv)/3.0f;
+			float interp = (interp1+interp2)/2.0f;
 			return AGIDL_InterpColor(clr3,clr2,interp,fmt);
 		}break;
 	}

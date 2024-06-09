@@ -161,8 +161,8 @@ int AGMV_DecodeFrameChunk(FILE* file, AGMV* agmv){
 				
 				if(byte == AGMV_FILL_FLAG){
 					index = bitstream_data[bitpos++]; 
-					fbit = (index >> 7) & 1;
-					bot = (index & 0x7f);
+					fbit = index >> 7 & 1;
+					bot = index & 0x7f;
 					
 					if(bitpos > agmv->bitstream->pos){
 						escape = TRUE;
@@ -184,7 +184,7 @@ int AGMV_DecodeFrameChunk(FILE* file, AGMV* agmv){
 					for(j = 0; j < 4; j++){
 						offset = (y+j)*width;
 						for(i = 0; i < 4; i++){
-							img_data[(x+i)+offset] = color;
+							img_data[x+i+offset] = color;
 						}
 					}
 				}
@@ -193,7 +193,7 @@ int AGMV_DecodeFrameChunk(FILE* file, AGMV* agmv){
 					for(j = 0; j < 4; j++){
 						offset = (y+j)*width;
 						for(i = 0; i < 4; i++){
-							indice = (x+i)+offset;
+							indice = x+i+offset;
 							img_data[indice] = iframe_data[indice];
 						}
 					}
@@ -208,8 +208,8 @@ int AGMV_DecodeFrameChunk(FILE* file, AGMV* agmv){
 								break;
 							}
 							index = bitstream_data[bitpos++];
-							fbit = (index >> 7) & 1;
-							bot = (index & 0x7f);
+							fbit = index >> 7 & 1;
+							bot = index & 0x7f;
 							
 							palette = fbit ? agmv->header.palette1 : agmv->header.palette0;
 							color;
@@ -221,7 +221,7 @@ int AGMV_DecodeFrameChunk(FILE* file, AGMV* agmv){
 								index = bitstream_data[bitpos++];
 								color = palette[index];
 							}
-							img_data[(x+i)+offset] = color;
+							img_data[x+i+offset] = color;
 						}
 					}
 				}
@@ -255,7 +255,7 @@ int AGMV_DecodeFrameChunk(FILE* file, AGMV* agmv){
 						for(j = 0; j < 4; j++){
 							offset = (y+j)*width;
 							for(i = 0; i < 4; i++){
-								img_data[(x+i)+offset] = color;
+								img_data[x+i+offset] = color;
 							}
 						}
 					}
@@ -265,7 +265,7 @@ int AGMV_DecodeFrameChunk(FILE* file, AGMV* agmv){
 					for(j = 0; j < 4; j++){
 						offset = (y+j)*width;
 						for(i = 0; i < 4; i++){
-							indice = (x+i)+offset;
+							indice = x+i+offset;
 							img_data[indice] = iframe_data[indice];
 						}
 					}
@@ -282,7 +282,7 @@ int AGMV_DecodeFrameChunk(FILE* file, AGMV* agmv){
 							}
 							color = palette0[index];
 							if(escape == FALSE){
-								img_data[(x+i)+offset] = color;
+								img_data[x+i+offset] = color;
 							}
 						}
 					}
@@ -559,11 +559,11 @@ void to_80bitfloat(u32 num, u8 bytes[10])
 		mask >>= 1 ;
 		} ;
 
-	num = count < 31 ? num << (count + 1) : 0 ;
+	num = count < 31 ? num << count + 1 : 0 ;
 	bytes [1] = 29 - count ;
-	bytes [2] = (num >> 24) & 0xFF ;
-	bytes [3] = (num >> 16) & 0xFF ;
-	bytes [4] = (num >> 8) & 0xFF ;
+	bytes [2] = num >> 24 & 0xFF ;
+	bytes [3] = num >> 16 & 0xFF ;
+	bytes [4] = num >> 8 & 0xFF ;
 	bytes [5] = num & 0xFF ;
 
 } 

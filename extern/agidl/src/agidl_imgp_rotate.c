@@ -26,7 +26,7 @@ void AGIDL_FlipImgDataHorz(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt)
 		u32 x,y;
 		for(y = 0; y < height; y++){
 			for(x = 0; x < width; x++){
-				COLOR clr = AGIDL_GetClr(clrs,x,(height-1)-y,width,height);
+				COLOR clr = AGIDL_GetClr(clrs,x,height-1-y,width,height);
 				AGIDL_SetClr(flip,clr,x,y,width,height);
 			}
 		}
@@ -41,7 +41,7 @@ void AGIDL_FlipImgDataHorz(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt)
 		u32 x,y;
 		for(y = 0; y < height; y++){
 			for(x = 0; x < width; x++){
-				COLOR16 clr = AGIDL_GetClr16(clrs,x,(height-1)-y,width,height);
+				COLOR16 clr = AGIDL_GetClr16(clrs,x,height-1-y,width,height);
 				AGIDL_SetClr16(flip,clr,x,y,width,height);
 			}
 		}
@@ -59,7 +59,7 @@ void AGIDL_FlipImgDataVert(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt)
 		u32 x,y;
 		for(y = 0; y < height; y++){
 			for(x = 0; x < width; x++){
-				COLOR clr = AGIDL_GetClr(clrs,(width-1)-x,y,width,height);
+				COLOR clr = AGIDL_GetClr(clrs,width-1-x,y,width,height);
 				AGIDL_SetClr(flip,clr,x,y,width,height);
 			}
 		}
@@ -74,7 +74,7 @@ void AGIDL_FlipImgDataVert(void* data, u32 width, u32 height, AGIDL_CLR_FMT fmt)
 		u32 x,y;
 		for(y = 0; y < height; y++){
 			for(x = 0; x < width; x++){
-				COLOR16 clr = AGIDL_GetClr16(clrs,(width-1)-x,y,width,height);
+				COLOR16 clr = AGIDL_GetClr16(clrs,width-1-x,y,width,height);
 				AGIDL_SetClr16(flip,clr,x,y,width,height);
 			}
 		}
@@ -92,7 +92,7 @@ void AGIDL_FlipImgDataHorzAndVert(void* data, u32 width, u32 height, AGIDL_CLR_F
 		u32 x,y;
 		for(y = 0; y < height; y++){
 			for(x = 0; x < width; x++){
-				COLOR clr = AGIDL_GetClr(clrs,(width-1)-x,(height-1)-y,width,height);
+				COLOR clr = AGIDL_GetClr(clrs,width-1-x,height-1-y,width,height);
 				AGIDL_SetClr(flip,clr,x,y,width,height);
 			}
 		}
@@ -107,7 +107,7 @@ void AGIDL_FlipImgDataHorzAndVert(void* data, u32 width, u32 height, AGIDL_CLR_F
 		u32 x,y;
 		for(y = 0; y < height; y++){
 			for(x = 0; x < width; x++){
-				COLOR16 clr = AGIDL_GetClr16(clrs,(width-1)-x,(height-1)-y,width,height);
+				COLOR16 clr = AGIDL_GetClr16(clrs,width-1-x,height-1-y,width,height);
 				AGIDL_SetClr16(flip,clr,x,y,width,height);
 			}
 		}

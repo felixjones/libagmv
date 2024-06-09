@@ -65,7 +65,7 @@ void AGIDL_WriteByte(FILE* file, u8 byte){
 
 void AGIDL_WriteShort(FILE* file, u16 word){
 	u8 msb = (word & 0xff00) >> 8;
-	u8 lsb = (word & 0xff);
+	u8 lsb = word & 0xff;
 	
 	if(useBigEndArch == TRUE){
 		AGIDL_WriteByte(file,msb);
@@ -78,10 +78,10 @@ void AGIDL_WriteShort(FILE* file, u16 word){
 }
 
 void AGIDL_WriteLong(FILE* file, u32 dword){
-	u8 msb = (dword >> 24) & 0xff;
+	u8 msb = dword >> 24 & 0xff;
 	u8 msb2 = (dword & 0xff0000) >> 16;
 	u8 lsb2 = (dword & 0xff00) >> 8;
-	u8 lsb = (dword & 0xff);
+	u8 lsb = dword & 0xff;
 	
 	if(useBigEndArch == TRUE){
 		AGIDL_WriteByte(file,msb);

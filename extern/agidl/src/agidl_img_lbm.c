@@ -449,8 +449,8 @@ int AGIDL_LBMDecodeHeader(AGIDL_LBM* lbm, FILE* file){
 }
 
 void AGIDL_LBMDecompressData(AGIDL_LBM* lbm, u8* src, u8* dest){
-	AGIDL_LBMSetWidth(lbm,(AGIDL_LBMGetWidth(lbm) + 15 ) & 0xFFFFFFF0);
-	u32 bytesperline = ((AGIDL_LBMGetWidth(lbm) + 15) / 16) * 2;
+	AGIDL_LBMSetWidth(lbm,AGIDL_LBMGetWidth(lbm) + 15 & 0xFFFFFFF0);
+	u32 bytesperline = (AGIDL_LBMGetWidth(lbm) + 15) / 16 * 2;
 	
 	if(lbm->header.bmhd.bpp != 1){
 		AGIDL_PackBits(src,dest,AGIDL_LBMGetSize(lbm));
@@ -487,7 +487,7 @@ void AGIDL_LBMDecompressData(AGIDL_LBM* lbm, u8* src, u8* dest){
 
 void AGIDL_LBMDeinterleaveData(AGIDL_LBM* lbm, u8* src, u8* dest){
 	u8 bpp = lbm->header.bmhd.bpp;
-	u32 bytesperline = ((AGIDL_LBMGetWidth(lbm) + 15) / 16) * 2;
+	u32 bytesperline = (AGIDL_LBMGetWidth(lbm) + 15) / 16 * 2;
 	
 	if (lbm->header.bmhd.mask == 1) {
 		bpp += 1;
@@ -498,14 +498,14 @@ void AGIDL_LBMDeinterleaveData(AGIDL_LBM* lbm, u8* src, u8* dest){
 		for(p = 0; p < bpp; p++){
 			u16 plane_mask = 1 << p;
 			for(i = 0; i < bytesperline; i++){
-				u32 bit_offset = (y * bpp * bytesperline) + (p * bytesperline) + i;
+				u32 bit_offset = y * bpp * bytesperline + p * bytesperline + i;
 				u8 bit_value = src[bit_offset];
 				for(b = 0; b < 8; b++){
-					u32 pixel_mask = 1 << (7 - b);
+					u32 pixel_mask = 1 << 7 - b;
 					
 					if(bit_value & pixel_mask){
-						u32 x = (i * 8) + b;
-						dest[(y * AGIDL_LBMGetWidth(lbm)) + x] |= plane_mask;
+						u32 x = i * 8 + b;
+						dest[y * AGIDL_LBMGetWidth(lbm) + x] |= plane_mask;
 					}
 				}
 			}

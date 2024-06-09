@@ -75,7 +75,7 @@ float AGIDL_Clampf(float minVal, float targetVal, float maxVal){
 }
 
 int AGIDL_Floor(int a){
-	return a - (a % 1);
+	return a - a % 1;
 }
 
 float AGIDL_FModf(float a, float b){
@@ -161,16 +161,16 @@ char* AGIDL_Dec2Bin(u32 num){
 		num_of_bits = 17;
 	}
 	
-	char* bin = (char*)malloc((sizeof(char)*num_of_bits)+1);
+	char* bin = (char*)malloc(sizeof(char)*num_of_bits+1);
 	
 	int i;
 	for(i = num_of_bits-1; i >= 0; i--){
 		int k = num >> i;
 		if(k & 1){
-			bin[(num_of_bits-1)-i] = '1';
+			bin[num_of_bits-1-i] = '1';
 		}
 		else{
-			bin[(num_of_bits-1)-i] = '0';
+			bin[num_of_bits-1-i] = '0';
 		}
 	}
 	
