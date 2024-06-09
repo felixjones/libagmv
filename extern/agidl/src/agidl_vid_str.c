@@ -18,7 +18,6 @@
 #include <string.h>
 
 #include <agidl_file_utils.h>
-#include <agidl_img_core.h>
 #include <agidl_img_error.h>
 #include <agidl_math_utils.h>
 
