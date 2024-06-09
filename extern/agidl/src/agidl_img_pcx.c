@@ -452,7 +452,7 @@ void AGIDL_PCXDecodeIMG(AGIDL_PCX* pcx, FILE* file){
 
 //	printf("scanlinelength - %d\n",scanlinelength);
 
-	const u16 roffset = 0, goffset = pcx->header.bytesperline, boffset = goffset * 2;
+	const u16 goffset = pcx->header.bytesperline, boffset = goffset * 2;
 
 //	printf("roffset - %d\n",roffset);
 //	printf("goffset - %d\n",goffset);
@@ -468,6 +468,7 @@ void AGIDL_PCXDecodeIMG(AGIDL_PCX* pcx, FILE* file){
 		fseek(file,128,SEEK_SET);
 
 		for(int scanline = 0; scanline < AGIDL_PCXGetHeight(pcx); scanline++){
+			const u16 roffset = 0;
 			u8 *buf = malloc(sizeof(u8)*scanlinelength);
 
 			int count = 0;
@@ -636,8 +637,6 @@ void AGIDL_PCXEncodeHeader(AGIDL_PCX* pcx, FILE* file){
 	pcx->header.screen_horz = 0;
 	pcx->header.screen_vert = 0;
 
-	const u8 icp = 0, blank = 0;
-
 	if(pcx->icp == YES_ICP){
 		pcx->header.numbitplanes = 1;
 	}
@@ -654,7 +653,8 @@ void AGIDL_PCXEncodeHeader(AGIDL_PCX* pcx, FILE* file){
 	AGIDL_WriteShort(file,vert);
 
 	int i;
-	for(i = 0; i < 48; i++){
+	for(i = 0; i < 48; i++) {
+		const u8 icp = 0;
 		AGIDL_WriteByte(file,icp);
 	}
 
@@ -665,7 +665,8 @@ void AGIDL_PCXEncodeHeader(AGIDL_PCX* pcx, FILE* file){
 	AGIDL_WriteShort(file,pcx->header.screen_horz);
 	AGIDL_WriteShort(file,pcx->header.screen_vert);
 
-	for(i = 0; i < 54; i++){
+	for(i = 0; i < 54; i++) {
+		const u8 blank = 0;
 		AGIDL_WriteByte(file,blank);
 	}
 }

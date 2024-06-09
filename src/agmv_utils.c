@@ -1089,14 +1089,18 @@ u32 AGMV_80BitFloat(FILE* file){
 }
 
 void AGMV_AIFCToAudioTrack(const char* filename, AGMV* agmv){
-	char fourcc[4];
-	u8* pcm8; u16* pcm;
-	u16 num_of_channels, sample_size;
-	u32 size, num_of_samples, sample_rate, i;
-
 	FILE* file = fopen(filename, "rb");
 
 	if(file != NULL){
+		u32 i;
+		u32 sample_rate;
+		u32 num_of_samples;
+		u32 size;
+		u16 sample_size;
+		u16 num_of_channels;
+		u16* pcm;
+		u8* pcm8;
+		char fourcc[4];
 		fseek(file,50,SEEK_SET);
 		AGMV_ReadFourCC(file,fourcc);
 		fseek(file,32,SEEK_SET);
@@ -1184,11 +1188,10 @@ void AGMV_AIFCToAudioTrack(const char* filename, AGMV* agmv){
 }
 
 void AGMV_AIFFToAudioTrack(const char* filename, AGMV* agmv){
-	u32 i;
-
 	FILE* file = fopen(filename, "rb");
 
 	if(file != NULL){
+		u32 i;
 		fseek(file,20,SEEK_SET);
 
 		const u16 num_of_channels = AGMV_SwapShort(AGMV_ReadShort(file));

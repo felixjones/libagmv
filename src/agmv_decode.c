@@ -72,9 +72,9 @@ int AGMV_DecodeHeader(FILE* file, AGMV* agmv){
 }
 
 int AGMV_DecodeFrameChunk(FILE* file, AGMV* agmv){
-	u32 pos, i, bitpos = 0, bits = 0, num_of_bits, width, height, bpos, csize, indice;
-	u32* img_data = agmv->frame->img_data, *iframe_data = agmv->iframe->img_data, *palette, color, offset;
-	u8 byte, len, org, index, fbit, bot, *bitstream_data = agmv->bitstream->data;
+	u32 i, bitpos = 0, num_of_bits, width, height, bpos, csize, indice;
+	u32* img_data = agmv->frame->img_data, *iframe_data = agmv->iframe->img_data, color, offset;
+	u8 byte, len, index, *bitstream_data = agmv->bitstream->data;
 	Bool escape = FALSE;
 
 	agmv->bitstream->pos = 0;
@@ -96,7 +96,9 @@ int AGMV_DecodeFrameChunk(FILE* file, AGMV* agmv){
 		return INVALID_HEADER_FORMATTING_ERR;
 	}
 	
-	if(agmv->header.version == 1 || agmv->header.version == 2){
+	if(agmv->header.version == 1 || agmv->header.version == 2) {
+		u32 bits = 0;
+		u8 org;
 		for(bits = 0; bits <= num_of_bits;){
 
 			byte = AGMV_ReadBits(file,1); bits++;
@@ -124,7 +126,8 @@ int AGMV_DecodeFrameChunk(FILE* file, AGMV* agmv){
 			}
 		}
 	}
-	else{
+	else {
+		u32 pos;
 		for(i = 0; i < csize; i += 4){
 			
 			offset = AGMV_ReadShort(file);
@@ -147,6 +150,9 @@ int AGMV_DecodeFrameChunk(FILE* file, AGMV* agmv){
 	AGMV_FlushReadBits();
 	
 	if(agmv->header.version == 1 || agmv->header.version == 3){
+		u32*palette;
+		u8 fbit;
+		u8 bot;
 		int x,y;
 		for(y = 0; y < height && escape != TRUE; y += 4){
 			for(x = 0; x < width && escape != TRUE; x += 4){
@@ -399,7 +405,6 @@ int AGMV_DecodeVideo(const char* filename, const u8 img_type){
 }
 
 int AGMV_DecodeAGMV(const char* filename, const u8 img_type, const AGMV_AUDIO_TYPE audio_type){
-	FILE*audio;
 	int err1, i;
 	
 	AGMV* agmv = malloc(sizeof(AGMV));
@@ -440,6 +445,7 @@ int AGMV_DecodeAGMV(const char* filename, const u8 img_type, const AGMV_AUDIO_TY
 		return err;
 	}
 	if(agmv->header.total_audio_duration != 0){
+		FILE*audio;
 		agmv->audio_track->start_point = 0;
 		agmv->audio_track->pcm = (u16*)malloc(sizeof(u16)*agmv->header.audio_size);
 
@@ -544,8 +550,6 @@ void to_80bitfloat(u32 num, u8 bytes[10])
 } 
 
 int AGMV_DecodeAudio(const char* filename, const AGMV_AUDIO_TYPE audio_type){
-	FILE*audio;
-
 	AGMV* agmv = malloc(sizeof(AGMV));
 	agmv->frame_chunk = (AGMV_FRAME_CHUNK*)malloc(sizeof(AGMV_FRAME_CHUNK));
 	agmv->audio_chunk = (AGMV_AUDIO_CHUNK*)malloc(sizeof(AGMV_AUDIO_CHUNK));
@@ -571,6 +575,7 @@ int AGMV_DecodeAudio(const char* filename, const AGMV_AUDIO_TYPE audio_type){
 		return err;
 	}
 	if(agmv->header.total_audio_duration != 0){
+		FILE*audio;
 		agmv->audio_track->start_point = 0;
 		agmv->audio_track->pcm = (u16*)malloc(sizeof(u16)*agmv->header.audio_size);
 

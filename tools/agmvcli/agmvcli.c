@@ -29,7 +29,7 @@ AGMV_COMPRESSION GetCompression(const char* compression);
 
 int main(const int argc, char* argv[]){
 
-	char* usage =
+	static const char* usage =
 	"\nAGMVCLI Copyright (c) Ryandracus Keith Chapman\n"
 	"........................................................................\n"
 	"Welcome to the Adaptive Graphics Motion Video Command Line Tool! - v1.0\n"

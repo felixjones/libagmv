@@ -3605,7 +3605,6 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 
 void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, const char* basename, u8 img_type, u32 start_frame, u32 end_frame, u32 width, u32 height, u32 frames_per_second, AGMV_OPT opt, AGMV_QUALITY quality, AGMV_COMPRESSION compression){
 	u32 i, palette0[256], palette1[256], n, count = 0, max_clr;
-	u32 sample_size;
 	u32 pal[512];
 
 	AGMV_SetOPT(agmv,opt);
@@ -3957,7 +3956,7 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 	free(histogram);
 
 	if(AGMV_GetTotalAudioDuration(agmv) != 0){
-		sample_size = agmv->header.audio_size / (f32)(end_frame-start_frame);
+		const u32 sample_size = agmv->header.audio_size / (f32)(end_frame-start_frame);
 
 		if(opt != AGMV_OPT_GBA_I && opt != AGMV_OPT_GBA_II){
 			agmv->audio_chunk->size = sample_size;
