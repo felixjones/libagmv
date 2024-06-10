@@ -25,7 +25,7 @@ void AGIDL_FlipImgDataHorz(void* data, const u32 width, const u32 height, const 
 
 		for(u32 y = 0; y < height; y++){
 			for(u32 x = 0; x < width; x++){
-				const COLOR clr = AGIDL_GetClr(clrs,x,height-1-y,width,height);
+				const COLOR clr = AGIDL_GetClr(clrs,x,(height-1)-y,width,height);
 				AGIDL_SetClr(flip,clr,x,y,width,height);
 			}
 		}
@@ -39,7 +39,7 @@ void AGIDL_FlipImgDataHorz(void* data, const u32 width, const u32 height, const 
 
 		for(u32 y = 0; y < height; y++){
 			for(u32 x = 0; x < width; x++){
-				const COLOR16 clr = AGIDL_GetClr16(clrs,x,height-1-y,width,height);
+				const COLOR16 clr = AGIDL_GetClr16(clrs,x,(height-1)-y,width,height);
 				AGIDL_SetClr16(flip,clr,x,y,width,height);
 			}
 		}
@@ -56,7 +56,7 @@ void AGIDL_FlipImgDataVert(void* data, const u32 width, const u32 height, const 
 
 		for(u32 y = 0; y < height; y++){
 			for(u32 x = 0; x < width; x++){
-				const COLOR clr = AGIDL_GetClr(clrs,width-1-x,y,width,height);
+				const COLOR clr = AGIDL_GetClr(clrs,(width-1)-x,y,width,height);
 				AGIDL_SetClr(flip,clr,x,y,width,height);
 			}
 		}
@@ -70,7 +70,7 @@ void AGIDL_FlipImgDataVert(void* data, const u32 width, const u32 height, const 
 
 		for(u32 y = 0; y < height; y++){
 			for(u32 x = 0; x < width; x++){
-				const COLOR16 clr = AGIDL_GetClr16(clrs,width-1-x,y,width,height);
+				const COLOR16 clr = AGIDL_GetClr16(clrs,(width-1)-x,y,width,height);
 				AGIDL_SetClr16(flip,clr,x,y,width,height);
 			}
 		}
@@ -87,7 +87,7 @@ void AGIDL_FlipImgDataHorzAndVert(void* data, const u32 width, const u32 height,
 
 		for(u32 y = 0; y < height; y++){
 			for(u32 x = 0; x < width; x++){
-				const COLOR clr = AGIDL_GetClr(clrs,width-1-x,height-1-y,width,height);
+				const COLOR clr = AGIDL_GetClr(clrs,(width-1)-x,(height-1)-y,width,height);
 				AGIDL_SetClr(flip,clr,x,y,width,height);
 			}
 		}
@@ -101,7 +101,7 @@ void AGIDL_FlipImgDataHorzAndVert(void* data, const u32 width, const u32 height,
 
 		for(u32 y = 0; y < height; y++){
 			for(u32 x = 0; x < width; x++){
-				const COLOR16 clr = AGIDL_GetClr16(clrs,width-1-x,height-1-y,width,height);
+				const COLOR16 clr = AGIDL_GetClr16(clrs,(width-1)-x,(height-1)-y,width,height);
 				AGIDL_SetClr16(flip,clr,x,y,width,height);
 			}
 		}

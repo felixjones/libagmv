@@ -378,7 +378,7 @@ int AGIDL_TIMDecodeIMG(AGIDL_TIM* tim, FILE* file){
 				for(int x = 0; x < AGIDL_TIMGetWidth(tim); x+=4){
 					const u16 index = AGIDL_ReadShort(file);
 
-					const u16 index1 = index & 0xF;
+					const u16 index1 = (index & 0xF);
 					const u16 index2 = (index & 0xF0) >> 4;
 					const u16 index3 = (index & 0xF00) >> 8;
 					const u16 index4 = (index & 0xF000) >> 12;
@@ -387,7 +387,6 @@ int AGIDL_TIMDecodeIMG(AGIDL_TIM* tim, FILE* file){
 					const COLOR16 clr2 = tim->palette.icp.palette_16b_16[index2];
 					const COLOR16 clr3 = tim->palette.icp.palette_16b_16[index3];
 					const COLOR16 clr4 = tim->palette.icp.palette_16b_16[index4];
-
 					AGIDL_TIMSetClr16(tim,x,y,clr);
 					AGIDL_TIMSetClr16(tim,x+1,y,clr2);
 					AGIDL_TIMSetClr16(tim,x+2,y,clr3);
@@ -477,13 +476,12 @@ int AGIDL_TIMDecodeIMG(AGIDL_TIM* tim, FILE* file){
 				const u16 pix2 = AGIDL_ReadShort(file);
 				const u16 pix3 = AGIDL_ReadShort(file);
 
-				const u8 r0 = pix1 & 0xff;
+				const u8 r0 = (pix1 & 0xff);
 				const u8 g0 = (pix1 & 0xff00) >> 8;
-				const u8 b0 = pix2 & 0xff;
+				const u8 b0 = (pix2 & 0xff);
 				const u8 r1 = (pix2 & 0xff00) >> 8;
-				const u8 g1 = pix3 & 0xff;
+				const u8 g1 = (pix3 & 0xff);
 				const u8 b1 = (pix3 & 0xff00) >> 8;
-
 				AGIDL_TIMSetClr(tim,x,y,AGIDL_RGB(r0,g0,b0,AGIDL_RGB_888));
 				AGIDL_TIMSetClr(tim,x+1,y,AGIDL_RGB(r1,g1,b1,AGIDL_RGB_888));
 			}
@@ -565,7 +563,7 @@ void AGIDL_TIMEncodeHeader(AGIDL_TIM* tim, FILE* file){
 
 		if(tim->force4bpp != TRUE){
 			tim->header.version = TIM_8BPP;
-			tim->clut_header.clut_size = 2*256+12;
+			tim->clut_header.clut_size = (2*256)+12;
 			tim->clut_header.num_clrs = 256;
 			tim->clut_header.num_icps = 1;
 
@@ -583,7 +581,7 @@ void AGIDL_TIMEncodeHeader(AGIDL_TIM* tim, FILE* file){
 		}
 		else{
 			tim->header.version = TIM_4BPP;
-			tim->clut_header.clut_size = 2*16+12;
+			tim->clut_header.clut_size = (2*16)+12;
 			tim->clut_header.num_clrs = 16;
 			tim->clut_header.num_icps = 1;
 
@@ -600,19 +598,18 @@ void AGIDL_TIMEncodeHeader(AGIDL_TIM* tim, FILE* file){
 			}
 		}
 
-		tim->img_header.img_size = AGIDL_TIMGetWidth(tim)*2*AGIDL_TIMGetHeight(tim)+12;
-
+		tim->img_header.img_size = (AGIDL_TIMGetWidth(tim)*2)*(AGIDL_TIMGetHeight(tim))+12;
 		u16 width = AGIDL_TIMGetWidth(tim);
 		const u16 height = AGIDL_TIMGetHeight(tim);
 
 		if(tim->force4bpp != TRUE){
-			while(width % 2 != 0){
+			while((width % 2) != 0){
 				width++;
 			}
 			width /= 2;
 		}
 		else{
-			while(width % 4 != 0){
+			while((width % 4) != 0){
 				width++;
 			}
 			width /= 4;
@@ -627,7 +624,7 @@ void AGIDL_TIMEncodeHeader(AGIDL_TIM* tim, FILE* file){
 	else{
 		tim->header.magic = TIM_MAGIC;
 		tim->header.version = TIM_16BPP;
-		tim->img_header.img_size = 2*AGIDL_TIMGetWidth(tim)*AGIDL_TIMGetHeight(tim) + 12;
+		tim->img_header.img_size = (2*AGIDL_TIMGetWidth(tim)*AGIDL_TIMGetHeight(tim)) + 12;
 		tim->img_header.img_mem_add_x = 0;
 		tim->img_header.img_mem_add_y = 0;
 
@@ -654,7 +651,7 @@ void AGIDL_TIMEncodeIMG(const AGIDL_TIM* tim, FILE* file){
 
 			for(int y = 0; y < AGIDL_TIMGetHeight(tim); y++){
 				for(int x = 0; x < w; x++){
-					const u16 x2 = scale*x;
+					const u16 x2 = (scale*x);
 					const COLOR16 clr = AGIDL_TIMGetClr16(tim,x2,y);
 					const u8 index = AGIDL_FindNearestColor(tim->palette,clr,AGIDL_TIMGetClrFmt(tim));
 					AGIDL_WriteByte(file,index);
@@ -680,7 +677,7 @@ void AGIDL_TIMEncodeIMG(const AGIDL_TIM* tim, FILE* file){
 
 			for(int y = 0; y < AGIDL_TIMGetHeight(tim); y++){
 				for(int x = 0; x < w; x += 4){
-					const u16 x2 = scale*x;
+					const u16 x2 = (scale*x);
 
 					const COLOR16 clr1 = AGIDL_TIMGetClr16(tim,x2,y);
 					const COLOR16 clr2 = AGIDL_TIMGetClr16(tim,x2+1,y);
@@ -694,7 +691,6 @@ void AGIDL_TIMEncodeIMG(const AGIDL_TIM* tim, FILE* file){
 
 					const u8 byte1 = index1 << 4 | index2;
 					const u8 byte2 = index3 << 4 | index4;
-
 					AGIDL_WriteByte(file,byte1);
 					AGIDL_WriteByte(file,byte2);
 				}

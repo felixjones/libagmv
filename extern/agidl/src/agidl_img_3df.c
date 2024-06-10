@@ -417,10 +417,10 @@ int AGIDL_3DFDecodeHeader(AGIDL_3DF* glide, FILE* file){
 		AGIDL_3DFSetWidth(glide,AGIDL_GetCharNum(wlod[0]));
 	}
 	else if(count == 3){
-		AGIDL_3DFSetWidth(glide,AGIDL_GetCharNum(wlod[0])*10+AGIDL_GetCharNum(wlod[1]));
+		AGIDL_3DFSetWidth(glide,(AGIDL_GetCharNum(wlod[0])*10)+AGIDL_GetCharNum(wlod[1]));
 	}
 	else{
-		AGIDL_3DFSetWidth(glide,AGIDL_GetCharNum(wlod[0])*100+AGIDL_GetCharNum(wlod[1])*10+AGIDL_GetCharNum(wlod[2]));
+		AGIDL_3DFSetWidth(glide,(AGIDL_GetCharNum(wlod[0])*100)+(AGIDL_GetCharNum(wlod[1])*10)+(AGIDL_GetCharNum(wlod[2])));
 	}
 
 	if(AGIDL_3DFGetWidth(glide) == 1){
@@ -446,10 +446,10 @@ int AGIDL_3DFDecodeHeader(AGIDL_3DF* glide, FILE* file){
 		AGIDL_3DFSetHeight(glide,AGIDL_GetCharNum(hlod[0]));
 	}
 	else if(count == 3){
-		AGIDL_3DFSetHeight(glide,AGIDL_GetCharNum(hlod[0])*10+AGIDL_GetCharNum(hlod[1]));
+		AGIDL_3DFSetHeight(glide,(AGIDL_GetCharNum(hlod[0])*10)+AGIDL_GetCharNum(hlod[1]));
 	}
 	else{
-		AGIDL_3DFSetHeight(glide,AGIDL_GetCharNum(hlod[0])*100+AGIDL_GetCharNum(hlod[1])*10+AGIDL_GetCharNum(hlod[2]));
+		AGIDL_3DFSetHeight(glide,(AGIDL_GetCharNum(hlod[0])*100)+(AGIDL_GetCharNum(hlod[1])*10)+(AGIDL_GetCharNum(hlod[2])));
 	}
 
 	fseek(file,14,SEEK_CUR);
@@ -684,11 +684,10 @@ void AGIDL_3DFDecodeIMG(AGIDL_3DF* glide, FILE* file){
 				for(i = 0; i < AGIDL_3DFGetSize(glide); i++){
 					u8 byte1 = AGIDL_ReadByte(file), byte2 = AGIDL_ReadByte(file);
 
-					u8 a = byte1 >> 4;
-					u8 r = byte1 & 0xf;
-					u8 g = byte2 >> 4;
-					u8 b = byte2 & 0xf;
-
+					u8 a = (byte1 >> 4);
+					u8 r = (byte1 & 0xf);
+					u8 g = (byte2 >> 4);
+					u8 b = (byte2 & 0xf);
 					a <<= 4; r <<= 4; g <<= 4; b <<= 4;
 
 					glide->pixels.pix32[i] = AGIDL_RGBA(r,g,b,a,AGIDL_3DFGetClrFmt(glide));
@@ -703,8 +702,7 @@ void AGIDL_3DFDecodeIMG(AGIDL_3DF* glide, FILE* file){
 
 					u8 r = (byte & 0xff) >> 5;
 					u8 g = (byte & 0x1f) >> 2;
-					u8 b = byte & 0x3;
-
+					u8 b = (byte & 0x3);
 					r <<= 2;
 					g <<= 2;
 					b *= 10.67;
@@ -722,8 +720,7 @@ void AGIDL_3DFDecodeIMG(AGIDL_3DF* glide, FILE* file){
 
 					u8 r = (byte & 0xff) >> 5;
 					u8 g = (byte & 0x1f) >> 2;
-					u8 b = byte & 0x3;
-
+					u8 b = (byte & 0x3);
 					r <<= 5;
 					g <<= 5;
 					b <<= 6;
@@ -852,11 +849,10 @@ void AGIDL_3DFDecodeIMG(AGIDL_3DF* glide, FILE* file){
 					for(j = 0; j < w*h; j++){
 						u8 byte1 = AGIDL_ReadByte(file), byte2 = AGIDL_ReadByte(file);
 
-						u8 a = byte1 >> 4;
-						u8 r = byte1 & 0xf;
-						u8 g = byte2 >> 4;
-						u8 b = byte2 & 0xf;
-
+						u8 a = (byte1 >> 4);
+						u8 r = (byte1 & 0xf);
+						u8 g = (byte2 >> 4);
+						u8 b = (byte2 & 0xf);
 						a <<= 4; r <<= 4; g <<= 4; b <<= 4;
 						img[j] = AGIDL_RGBA(r,g,b,a,AGIDL_3DFGetClrFmt(glide));
 					}
@@ -888,8 +884,7 @@ void AGIDL_3DFDecodeIMG(AGIDL_3DF* glide, FILE* file){
 
 						u8 r = (byte & 0xff) >> 5;
 						u8 g = (byte & 0x1f) >> 2;
-						u8 b = byte & 0x3;
-
+						u8 b = (byte & 0x3);
 						r <<= 2;
 						g <<= 2;
 						b *= 10.67;
@@ -925,8 +920,7 @@ void AGIDL_3DFDecodeIMG(AGIDL_3DF* glide, FILE* file){
 
 						u8 r = (byte & 0xff) >> 5;
 						u8 g = (byte & 0x1f) >> 2;
-						u8 b = byte & 0x3;
-
+						u8 b = (byte & 0x3);
 						r <<= 5;
 						g <<= 5;
 						b <<= 6;

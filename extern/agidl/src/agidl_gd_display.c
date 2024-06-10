@@ -28,7 +28,7 @@ void AGIDL_DispImgData(void* vram, u32 width, u32 height, AGIDL_ATTR table, void
 					COLOR16 clr;
 					
 					if(table.flipHorz == TRUE && table.flipVert != TRUE){
-						clr = AGIDL_GetClr16(spr16,x,heights-y-1,widths,heights);
+						clr = AGIDL_GetClr16(spr16,x,(heights-y)-1,widths,heights);
 						if(table.enableChroma == TRUE){
 							if(clr != table.chromaKey){
 								AGIDL_SetClr16(vram16,clr,x+table.tx,y+table.ty,width,height);
@@ -39,7 +39,7 @@ void AGIDL_DispImgData(void* vram, u32 width, u32 height, AGIDL_ATTR table, void
 						}
 					}
 					else if(table.flipHorz != TRUE && table.flipVert == TRUE){
-						clr = AGIDL_GetClr16(spr16,widths-x-1,y,widths,heights);
+						clr = AGIDL_GetClr16(spr16,(widths-x)-1,y,widths,heights);
 						if(table.enableChroma == TRUE){
 							if(clr != table.chromaKey){
 								AGIDL_SetClr16(vram16,clr,x+table.tx,y+table.ty,width,height);
@@ -50,7 +50,7 @@ void AGIDL_DispImgData(void* vram, u32 width, u32 height, AGIDL_ATTR table, void
 						}
 					}
 					else if(table.flipHorz == TRUE && table.flipVert == TRUE){
-						clr = AGIDL_GetClr16(spr16,widths-x-1,heights-y-1,widths,heights);
+						clr = AGIDL_GetClr16(spr16,(widths-x)-1,(heights-y)-1,widths,heights);
 						if(table.enableChroma == TRUE){
 							if(clr != table.chromaKey){
 								AGIDL_SetClr16(vram16,clr,x+table.tx,y+table.ty,width,height);
@@ -78,19 +78,19 @@ void AGIDL_DispImgData(void* vram, u32 width, u32 height, AGIDL_ATTR table, void
 			u32 w = widths*table.sx;
 			u32 h = heights*table.sy;
 
-			f32 xscale = (widths-1)/(float)w;
-			f32 yscale = (heights-1)/(float)h;
+			f32 xscale = (widths-1)/(float)(w);
+			f32 yscale = (heights-1)/(float)(h);
 
 			u32 x,y;
 			for(y = 0; y < h; y++){
 				for(x = 0; x < w; x++){
-					u32 x2 = x*xscale;
-					u32 y2 = y*yscale;
+					u32 x2 = (x*xscale);
+					u32 y2 = (y*yscale);
 
 					COLOR16 clr;
 
 					if(table.flipHorz == TRUE && table.flipVert != TRUE){
-						clr = AGIDL_GetClr16(spr16,x2,heights-y2-1,widths,heights);
+						clr = AGIDL_GetClr16(spr16,x2,(heights-y2)-1,widths,heights);
 						if(table.enableChroma == TRUE){
 							if(clr != table.chromaKey){
 								AGIDL_SetClr16(vram16,clr,x+table.tx,y+table.ty,width,height);
@@ -101,7 +101,7 @@ void AGIDL_DispImgData(void* vram, u32 width, u32 height, AGIDL_ATTR table, void
 						}
 					}
 					else if(table.flipHorz != TRUE && table.flipVert == TRUE){
-						clr = AGIDL_GetClr16(spr16,widths-x2-1,y2,widths,heights);
+						clr = AGIDL_GetClr16(spr16,(widths-x2)-1,y2,widths,heights);
 						if(table.enableChroma == TRUE){
 							if(clr != table.chromaKey){
 								AGIDL_SetClr16(vram16,clr,x+table.tx,y+table.ty,width,height);
@@ -112,7 +112,7 @@ void AGIDL_DispImgData(void* vram, u32 width, u32 height, AGIDL_ATTR table, void
 						}
 					}
 					else if(table.flipHorz == TRUE && table.flipVert == TRUE){
-						clr = AGIDL_GetClr16(spr16,widths-x2-1,heights-y2-1,widths,heights);
+						clr = AGIDL_GetClr16(spr16,(widths-x2)-1,(heights-y2)-1,widths,heights);
 						if(table.enableChroma == TRUE){
 							if(clr != table.chromaKey){
 								AGIDL_SetClr16(vram16,clr,x+table.tx,y+table.ty,width,height);
@@ -148,7 +148,7 @@ void AGIDL_DispImgData(void* vram, u32 width, u32 height, AGIDL_ATTR table, void
 					COLOR clr;
 
 					if(table.flipHorz == TRUE && table.flipVert != TRUE){
-						clr = AGIDL_GetClr(spr16,x,heights-y-1,widths,heights);
+						clr = AGIDL_GetClr(spr16,x,(heights-y)-1,widths,heights);
 						if(table.enableChroma == TRUE){
 							if(clr != table.chromaKey){
 								AGIDL_SetClr(vram16,clr,x+table.tx,y+table.ty,width,height);
@@ -159,7 +159,7 @@ void AGIDL_DispImgData(void* vram, u32 width, u32 height, AGIDL_ATTR table, void
 						}
 					}
 					else if(table.flipHorz != TRUE && table.flipVert == TRUE){
-						clr = AGIDL_GetClr(spr16,widths-x-1,y,widths,heights);
+						clr = AGIDL_GetClr(spr16,(widths-x)-1,y,widths,heights);
 						if(table.enableChroma == TRUE){
 							if(clr != table.chromaKey){
 								AGIDL_SetClr(vram16,clr,x+table.tx,y+table.ty,width,height);
@@ -170,7 +170,7 @@ void AGIDL_DispImgData(void* vram, u32 width, u32 height, AGIDL_ATTR table, void
 						}
 					}
 					else if(table.flipHorz == TRUE && table.flipVert == TRUE){
-						clr = AGIDL_GetClr(spr16,widths-x-1,heights-y-1,widths,heights);
+						clr = AGIDL_GetClr(spr16,(widths-x)-1,(heights-y)-1,widths,heights);
 						if(table.enableChroma == TRUE){
 							if(clr != table.chromaKey){
 								AGIDL_SetClr(vram16,clr,x+table.tx,y+table.ty,width,height);
@@ -198,19 +198,19 @@ void AGIDL_DispImgData(void* vram, u32 width, u32 height, AGIDL_ATTR table, void
 			u32 w = widths*table.sx;
 			u32 h = heights*table.sy;
 
-			f32 xscale = (widths-1)/(float)w;
-			f32 yscale = (heights-1)/(float)h;
+			f32 xscale = (widths-1)/(float)(w);
+			f32 yscale = (heights-1)/(float)(h);
 
 			u32 x,y;
 			for(y = 0; y < h; y++){
 				for(x = 0; x < w; x++){
-					u32 x2 = x*xscale;
-					u32 y2 = y*yscale;
+					u32 x2 = (x*xscale);
+					u32 y2 = (y*yscale);
 
 					COLOR clr;
 
 					if(table.flipHorz == TRUE && table.flipVert != TRUE){
-						clr = AGIDL_GetClr(spr16,x2,heights-y2-1,widths,heights);
+						clr = AGIDL_GetClr(spr16,x2,(heights-y2)-1,widths,heights);
 						if(table.enableChroma == TRUE){
 							if(clr != table.chromaKey){
 								AGIDL_SetClr(vram16,clr,x+table.tx,y+table.ty,width,height);
@@ -221,7 +221,7 @@ void AGIDL_DispImgData(void* vram, u32 width, u32 height, AGIDL_ATTR table, void
 						}
 					}
 					else if(table.flipHorz != TRUE && table.flipVert == TRUE){
-						clr = AGIDL_GetClr(spr16,widths-x2-1,y2,widths,heights);
+						clr = AGIDL_GetClr(spr16,(widths-x2)-1,y2,widths,heights);
 						if(table.enableChroma == TRUE){
 							if(clr != table.chromaKey){
 								AGIDL_SetClr(vram16,clr,x+table.tx,y+table.ty,width,height);
@@ -232,7 +232,7 @@ void AGIDL_DispImgData(void* vram, u32 width, u32 height, AGIDL_ATTR table, void
 						}
 					}
 					else if(table.flipHorz == TRUE && table.flipVert == TRUE){
-						clr = AGIDL_GetClr(spr16,widths-x2-1,heights-y2-1,widths,heights);
+						clr = AGIDL_GetClr(spr16,(widths-x2)-1,(heights-y2)-1,widths,heights);
 						if(table.enableChroma == TRUE){
 							if(clr != table.chromaKey){
 								AGIDL_SetClr(vram16,clr,x+table.tx,y+table.ty,width,height);
@@ -266,7 +266,7 @@ void AGIDL_DispImgData(void* vram, u32 width, u32 height, AGIDL_ATTR table, void
 			for(y = 0; y < heights; y++){
 				for(x = 0; x < widths; x++){
 					if(table.flipHorz == TRUE && table.flipVert != TRUE){
-						COLOR clr = AGIDL_GetClr(spr32,x,heights-y-1,widths,heights);
+						COLOR clr = AGIDL_GetClr(spr32,x,(heights-y)-1,widths,heights);
 						COLOR vramclr = AGIDL_GetClr(vram32,x+table.tx,y+table.ty,width,height);
 
 						COLOR blend = AGIDL_BlendColor(vramclr,clr,0,CC_BLEND_CLR_DESTINV,fmt);
@@ -274,7 +274,7 @@ void AGIDL_DispImgData(void* vram, u32 width, u32 height, AGIDL_ATTR table, void
 						AGIDL_SetClr(vram32,blend,x+table.tx,y+table.ty,width,height);
 					}
 					else if(table.flipHorz != TRUE && table.flipVert == TRUE){
-						COLOR clr = AGIDL_GetClr(spr32,widths-x-1,y,widths,heights);
+						COLOR clr = AGIDL_GetClr(spr32,(widths-x)-1,y,widths,heights);
 						COLOR vramclr = AGIDL_GetClr(vram32,x+table.tx,y+table.ty,width,height);
 
 						COLOR blend = AGIDL_BlendColor(vramclr,clr,0,CC_BLEND_CLR_DESTINV,fmt);
@@ -282,7 +282,7 @@ void AGIDL_DispImgData(void* vram, u32 width, u32 height, AGIDL_ATTR table, void
 						AGIDL_SetClr(vram32,blend,x+table.tx,y+table.ty,width,height);
 					}
 					else if(table.flipHorz == TRUE && table.flipVert == TRUE){
-						COLOR clr = AGIDL_GetClr(spr32,widths-x-1,heights-y-1,widths,heights);
+						COLOR clr = AGIDL_GetClr(spr32,(widths-x)-1,(heights-y)-1,widths,heights);
 						COLOR vramclr = AGIDL_GetClr(vram32,x+table.tx,y+table.ty,width,height);
 
 						COLOR blend = AGIDL_BlendColor(vramclr,clr,0,CC_BLEND_CLR_DESTINV,fmt);
@@ -304,19 +304,19 @@ void AGIDL_DispImgData(void* vram, u32 width, u32 height, AGIDL_ATTR table, void
 			u32 w = widths*table.sx;
 			u32 h = heights*table.sy;
 
-			f32 xscale = (widths-1)/(float)w;
-			f32 yscale = (heights-1)/(float)h;
+			f32 xscale = (widths-1)/(float)(w);
+			f32 yscale = (heights-1)/(float)(h);
 
 			u32 x,y;
 			for(y = 0; y < h; y++){
 				for(x = 0; x < w; x++){
-					u32 x2 = x*xscale;
-					u32 y2 = y*yscale;
+					u32 x2 = (x*xscale);
+					u32 y2 = (y*yscale);
 
 					COLOR clr;
 
 					if(table.flipHorz == TRUE && table.flipVert != TRUE){
-						clr = AGIDL_GetClr(spr32,x2,heights-y2-1,widths,heights);
+						clr = AGIDL_GetClr(spr32,x2,(heights-y2)-1,widths,heights);
 						COLOR vramclr = AGIDL_GetClr(vram32,x+table.tx,y+table.ty,width,height);
 
 						COLOR blend = AGIDL_BlendColor(vramclr,clr,0,CC_BLEND_CLR_DESTINV,fmt);
@@ -324,7 +324,7 @@ void AGIDL_DispImgData(void* vram, u32 width, u32 height, AGIDL_ATTR table, void
 						AGIDL_SetClr(vram32,blend,x+table.tx,y+table.ty,width,height);
 					}
 					else if(table.flipHorz != TRUE && table.flipVert == TRUE){
-						clr = AGIDL_GetClr(spr32,widths-x2-1,y2,widths,heights);
+						clr = AGIDL_GetClr(spr32,(widths-x2)-1,y2,widths,heights);
 						COLOR vramclr = AGIDL_GetClr(vram32,x+table.tx,y+table.ty,width,height);
 
 						COLOR blend = AGIDL_BlendColor(vramclr,clr,0,CC_BLEND_CLR_DESTINV,fmt);
@@ -332,7 +332,7 @@ void AGIDL_DispImgData(void* vram, u32 width, u32 height, AGIDL_ATTR table, void
 						AGIDL_SetClr(vram32,blend,x+table.tx,y+table.ty,width,height);
 					}
 					else if(table.flipHorz == TRUE && table.flipVert == TRUE){
-						clr = AGIDL_GetClr(spr32,widths-x2-1,heights-y2-1,widths,heights);
+						clr = AGIDL_GetClr(spr32,(widths-x2)-1,(heights-y2)-1,widths,heights);
 						COLOR vramclr = AGIDL_GetClr(vram32,x+table.tx,y+table.ty,width,height);
 
 						COLOR blend = AGIDL_BlendColor(vramclr,clr,0,CC_BLEND_CLR_DESTINV,fmt);
@@ -386,7 +386,6 @@ void AGIDL_DrawImgData(void* vram, const u32 width, const u32 height, const int 
 				const COLOR vramclr = AGIDL_GetClr(vram32,x+tx,y+ty,width,height);
 
 				const COLOR blend = AGIDL_BlendColor(vramclr,clr,0,CC_BLEND_CLR_DESTINV,fmt);
-
 				AGIDL_SetClr(vram32,blend,x+tx,y+ty,width,height);
 			}
 		}
@@ -401,13 +400,13 @@ void AGIDL_DispScaleImgData(void* vram, const u32 width, const u32 height, const
 		const u32 w = widths*sx;
 		const u32 h = heights*sy;
 
-		const f32 xscale = (widths-1)/(float)w;
-		const f32 yscale = (heights-1)/(float)h;
+		const f32 xscale = (widths-1)/(float)(w);
+		const f32 yscale = (heights-1)/(float)(h);
 
 		for(u32 y = 0; y < h; y++){
 			for(u32 x = 0; x < w; x++){
-				const u32 x2 = x*xscale;
-				const u32 y2 = y*yscale;
+				const u32 x2 = (x*xscale);
+				const u32 y2 = (y*yscale);
 
 				const COLOR16 clr = AGIDL_GetClr16(spr16,x2,y2,widths,heights);
 				AGIDL_SetClr16(vram16,clr,x+tx,y+ty,width,height);
@@ -421,13 +420,13 @@ void AGIDL_DispScaleImgData(void* vram, const u32 width, const u32 height, const
 		const u32 w = widths*sx;
 		const u32 h = heights*sy;
 
-		const f32 xscale = (widths-1)/(float)w;
-		const f32 yscale = (heights-1)/(float)h;
+		const f32 xscale = (widths-1)/(float)(w);
+		const f32 yscale = (heights-1)/(float)(h);
 
 		for(u32 y = 0; y < h; y++){
 			for(u32 x = 0; x < w; x++){
-				const u32 x2 = x*xscale;
-				const u32 y2 = y*yscale;
+				const u32 x2 = (x*xscale);
+				const u32 y2 = (y*yscale);
 
 				const COLOR clr = AGIDL_GetClr(spr24,x2,y2,widths,heights);
 				AGIDL_SetClr(vram24,clr,x+tx,y+ty,width,height);
@@ -441,19 +440,18 @@ void AGIDL_DispScaleImgData(void* vram, const u32 width, const u32 height, const
 		const u32 w = widths*sx;
 		const u32 h = heights*sy;
 
-		const f32 xscale = (widths-1)/(float)w;
-		const f32 yscale = (heights-1)/(float)h;
+		const f32 xscale = (widths-1)/(float)(w);
+		const f32 yscale = (heights-1)/(float)(h);
 
 		for(u32 y = 0; y < h; y++){
 			for(u32 x = 0; x < w; x++){
-				const u32 x2 = x*xscale;
-				const u32 y2 = y*yscale;
+				const u32 x2 = (x*xscale);
+				const u32 y2 = (y*yscale);
 
 				const COLOR clr = AGIDL_GetClr(spr32,x2,y2,widths,heights);
 				const COLOR vramclr = AGIDL_GetClr(vram32,x+tx,y+ty,width,height);
 
 				const COLOR blend = AGIDL_BlendColor(vramclr,clr,0,CC_BLEND_CLR_DESTINV,fmt);
-
 				AGIDL_SetClr(vram32,blend,x+tx,y+ty,width,height);
 			}
 		}
@@ -467,7 +465,7 @@ void AGIDL_DispFlipHorzImgData(void* vram, const u32 width, const u32 height, co
 
 		for(int y = 0; y < heights; y++){
 			for(int x = 0; x < widths; x++){
-				const COLOR16 clr = AGIDL_GetClr16(spr16,x,heights-y-1,widths,heights);
+				const COLOR16 clr = AGIDL_GetClr16(spr16,x,(heights-y)-1,widths,heights);
 				AGIDL_SetClr16(vram16,clr,x+tx,y+ty,width,height);
 			}
 		}
@@ -478,7 +476,7 @@ void AGIDL_DispFlipHorzImgData(void* vram, const u32 width, const u32 height, co
 
 		for(int y = 0; y < heights; y++){
 			for(int x = 0; x < widths; x++){
-				const COLOR clr = AGIDL_GetClr(spr24,x,heights-y-1,widths,heights);
+				const COLOR clr = AGIDL_GetClr(spr24,x,(heights-y)-1,widths,heights);
 				AGIDL_SetClr(vram24,clr,x+tx,y+ty,width,height);
 			}
 		}
@@ -489,11 +487,10 @@ void AGIDL_DispFlipHorzImgData(void* vram, const u32 width, const u32 height, co
 
 		for(int y = 0; y < heights; y++){
 			for(int x = 0; x < widths; x++){
-				const COLOR clr = AGIDL_GetClr(spr32,x,heights-y-1,widths,heights);
+				const COLOR clr = AGIDL_GetClr(spr32,x,(heights-y)-1,widths,heights);
 				const COLOR vramclr = AGIDL_GetClr(vram32,x+tx,y+ty,width,height);
 
 				const COLOR blend = AGIDL_BlendColor(vramclr,clr,0,CC_BLEND_CLR_DESTINV,fmt);
-
 				AGIDL_SetClr(vram32,blend,x+tx,y+ty,width,height);
 			}
 		}
@@ -507,7 +504,7 @@ void AGIDL_DispFlipVertImgData(void* vram, const u32 width, const u32 height, co
 
 		for(int y = 0; y < heights; y++){
 			for(int x = 0; x < widths; x++){
-				const COLOR16 clr = AGIDL_GetClr16(spr16,widths-x-1,y,widths,heights);
+				const COLOR16 clr = AGIDL_GetClr16(spr16,(widths-x)-1,y,widths,heights);
 				AGIDL_SetClr16(vram16,clr,x+tx,y+ty,width,height);
 			}
 		}
@@ -518,7 +515,7 @@ void AGIDL_DispFlipVertImgData(void* vram, const u32 width, const u32 height, co
 
 		for(int y = 0; y < heights; y++){
 			for(int x = 0; x < widths; x++){
-				const COLOR clr = AGIDL_GetClr(spr24,widths-x-1,y,widths,heights);
+				const COLOR clr = AGIDL_GetClr(spr24,(widths-x)-1,y,widths,heights);
 				AGIDL_SetClr(vram24,clr,x+tx,y+ty,width,height);
 			}
 		}
@@ -529,11 +526,10 @@ void AGIDL_DispFlipVertImgData(void* vram, const u32 width, const u32 height, co
 
 		for(int y = 0; y < heights; y++){
 			for(int x = 0; x < widths; x++){
-				const COLOR clr = AGIDL_GetClr(spr32,widths-x-1,y,widths,heights);
+				const COLOR clr = AGIDL_GetClr(spr32,(widths-x)-1,y,widths,heights);
 				const COLOR vramclr = AGIDL_GetClr(vram32,x+tx,y+ty,width,height);
 
 				const COLOR blend = AGIDL_BlendColor(vramclr,clr,0,CC_BLEND_CLR_DESTINV,fmt);
-
 				AGIDL_SetClr(vram32,blend,x+tx,y+ty,width,height);
 			}
 		}
@@ -547,7 +543,7 @@ void AGIDL_DispFlipHorzAndVertImgData(void* vram, const u32 width, const u32 hei
 
 		for(int y = 0; y < heights; y++){
 			for(int x = 0; x < widths; x++){
-				const COLOR16 clr = AGIDL_GetClr16(spr16,widths-x-1,heights-y-1,widths,heights);
+				const COLOR16 clr = AGIDL_GetClr16(spr16,(widths-x)-1,(heights-y)-1,widths,heights);
 				AGIDL_SetClr16(vram16,clr,x+tx,y+ty,width,height);
 			}
 		}
@@ -558,7 +554,7 @@ void AGIDL_DispFlipHorzAndVertImgData(void* vram, const u32 width, const u32 hei
 
 		for(int y = 0; y < heights; y++){
 			for(int x = 0; x < widths; x++){
-				const COLOR clr = AGIDL_GetClr(spr24,widths-x-1,heights-y-1,widths,heights);
+				const COLOR clr = AGIDL_GetClr(spr24,(widths-x)-1,(heights-y)-1,widths,heights);
 				AGIDL_SetClr(vram24,clr,x+tx,y+ty,width,height);
 			}
 		}
@@ -569,7 +565,7 @@ void AGIDL_DispFlipHorzAndVertImgData(void* vram, const u32 width, const u32 hei
 
 		for(int y = 0; y < heights; y++){
 			for(int x = 0; x < widths; x++){
-				const COLOR clr = AGIDL_GetClr(spr32,widths-x-1,heights-y-1,widths,heights);
+				const COLOR clr = AGIDL_GetClr(spr32,(widths-x)-1,(heights-y)-1,widths,heights);
 				const COLOR vramclr = AGIDL_GetClr(vram32,x+tx,y+ty,width,height);
 
 				const COLOR blend = AGIDL_BlendColor(vramclr,clr,0,CC_BLEND_CLR_DESTINV,fmt);

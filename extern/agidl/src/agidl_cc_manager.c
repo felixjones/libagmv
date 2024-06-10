@@ -131,28 +131,28 @@ u32 AGIDL_AcquireColorMask(const AGIDL_CLR_FMT fmt, const AGIDL_CLR_COMPONENT co
 u8 AGIDL_GetR(const COLOR clr, const AGIDL_CLR_FMT fmt){
 	switch(fmt){
 		case AGIDL_RGB_888:{
-			return (clr & 0xff0000) >> 16;
+			return ((clr & 0xff0000) >> 16);
 		}break;
 		case AGIDL_BGR_888:{
-			return clr & 0xff;
+			return ((clr & 0xff));
 		}break;
 		case AGIDL_RGBA_8888:{
-			return clr >> 24 & 0xff;
+			return ((clr >> 24) & 0xff);
 		}break;
 		case AGIDL_ARGB_8888:{
-			return clr >> 16 & 0xff;
+			return ((clr >> 16) & 0xff);
 		}break;
 		case AGIDL_RGB_555:{
-			return (clr & 0x7C00) >> 10;
+			return ((clr & 0x7C00) >> 10);
 		}break;
 		case AGIDL_BGR_555:{
-			return clr & 0x001F;
+			return ((clr & 0x001F));
 		}break;
 		case AGIDL_RGB_565:{
-			return (clr & 0xF800) >> 11;
+			return ((clr & 0xF800) >> 11);
 		}break;
 		case AGIDL_BGR_565:{
-			return clr & 0x001F;
+			return ((clr & 0x001F));
 		}break;
 		default: return 0;
 	}
@@ -161,28 +161,28 @@ u8 AGIDL_GetR(const COLOR clr, const AGIDL_CLR_FMT fmt){
 u8 AGIDL_GetG(const COLOR clr, const AGIDL_CLR_FMT fmt){
 	switch(fmt){
 		case AGIDL_RGB_888:{
-			return (clr & 0xff00) >> 8;
+			return ((clr & 0xff00) >> 8);
 		}break;
 		case AGIDL_BGR_888:{
-			return (clr & 0xff00) >> 8;
+			return ((clr & 0xff00) >> 8);
 		}break;
 		case AGIDL_RGBA_8888:{
-			return (clr & 0xff0000) >> 16;
+			return ((clr & 0xff0000) >> 16);
 		}break;
 		case AGIDL_ARGB_8888:{
-			return (clr & 0xff) >> 8;
+			return ((clr & 0xff) >> 8);
 		}break;
 		case AGIDL_RGB_555:{
-			return (clr & 0x3E0) >> 5;
+			return ((clr & 0x3E0) >> 5);
 		}break;
 		case AGIDL_BGR_555:{
-			return(clr & 0x3E0) >> 5;
+			return((clr & 0x3E0) >> 5);
 		}break;
 		case AGIDL_RGB_565:{
-			return (clr & 0x7E0) >> 5;
+			return ((clr & 0x7E0) >> 5);
 		}break;
 		case AGIDL_BGR_565:{
-			return(clr & 0x7E0) >> 5;
+			return((clr & 0x7E0) >> 5);
 		}break;
 		default: return 0;
 	}
@@ -191,28 +191,28 @@ u8 AGIDL_GetG(const COLOR clr, const AGIDL_CLR_FMT fmt){
 u8 AGIDL_GetB(const COLOR clr, const AGIDL_CLR_FMT fmt){
 	switch(fmt){
 		case AGIDL_RGB_888:{
-			return clr & 0xff;
+			return ((clr & 0xff));
 		}break;
 		case AGIDL_BGR_888:{
-			return (clr & 0xff0000) >> 16;
+			return ((clr & 0xff0000) >> 16);
 		}break;
 		case AGIDL_RGBA_8888:{
-			return (clr & 0xff00) >> 8;
+			return ((clr & 0xff00) >> 8);
 		}break;
 		case AGIDL_ARGB_8888:{
-			return clr & 0xff;
+			return ((clr & 0xff));
 		}break;
 		case AGIDL_RGB_555:{
-			return clr & 0x001F;
+			return ((clr & 0x001F));
 		}break;
 		case AGIDL_BGR_555:{
-			return (clr & 0x7C00) >> 10;
+			return ((clr & 0x7C00) >> 10);
 		}break;
 		case AGIDL_RGB_565:{
-			return clr & 0x001F;
+			return ((clr & 0x001F));
 		}break;
 		case AGIDL_BGR_565:{
-			return (clr & 0xF800) >> 11;
+			return ((clr & 0xF800) >> 11);
 		}break;
 		default: return 0;
 	}
@@ -220,7 +220,7 @@ u8 AGIDL_GetB(const COLOR clr, const AGIDL_CLR_FMT fmt){
 
 u8 AGIDL_GetA(const COLOR clr, const AGIDL_CLR_FMT fmt){
 	if(fmt == AGIDL_RGBA_8888){
-		return clr & 0xff;
+		return ((clr & 0xff));
 	}
 	if(fmt == AGIDL_ARGB_8888){
 		return clr >> 24;
@@ -843,10 +843,9 @@ COLOR AGIDL_GammaCorrectColor(const COLOR clr, const f32 gamma, const AGIDL_CLR_
 			u8 g = AGIDL_GetG(clr,fmt);
 			u8 b = AGIDL_GetB(clr,fmt);
 
-			r = pow(r/255.0f,1/gamma)*255;
-			g = pow(g/255.0f,1/gamma)*255;
-			b = pow(b/255.0f,1/gamma)*255;
-
+			r = pow((r/255.0f),1/gamma)*255;
+			g = pow((g/255.0f),1/gamma)*255;
+			b = pow((b/255.0f),1/gamma)*255;
 			return AGIDL_RGB(r,g,b,fmt);
 		}break;
 		case 16:{
@@ -854,10 +853,9 @@ COLOR AGIDL_GammaCorrectColor(const COLOR clr, const f32 gamma, const AGIDL_CLR_
 			u8 g = AGIDL_GetG(clr,fmt);
 			u8 b = AGIDL_GetB(clr,fmt);
 
-			r = pow(r/31.0f,1/gamma)*31;
-			g = pow(g/31.0f,1/gamma)*31;
-			b = pow(b/31.0f,1/gamma)*31;
-
+			r = pow((r/31.0f),1/gamma)*31;
+			g = pow((g/31.0f),1/gamma)*31;
+			b = pow((b/31.0f),1/gamma)*31;
 			return AGIDL_RGB16(r,g,b,fmt);
 		}break;
 		case 32:{
@@ -866,10 +864,9 @@ COLOR AGIDL_GammaCorrectColor(const COLOR clr, const f32 gamma, const AGIDL_CLR_
 			u8 b = AGIDL_GetB(clr,fmt);
 			const u8 a = AGIDL_GetA(clr,fmt);
 
-			r = pow(r/255.0f,1/gamma)*255;
-			g = pow(g/255.0f,1/gamma)*255;
-			b = pow(b/255.0f,1/gamma)*255;
-
+			r = pow((r/255.0f),1/gamma)*255;
+			g = pow((g/255.0f),1/gamma)*255;
+			b = pow((b/255.0f),1/gamma)*255;
 			return AGIDL_RGBA(r,g,b,a,fmt);
 		}break;
 	}
@@ -1235,7 +1232,7 @@ int partition(u32* data, u32* gram, const int low, const int high)
 
     // Index of smaller element and Indicate
     // the right position of pivot found so far
-    int i = low - 1;
+    int i = (low - 1);
     for (int j = low; j <= high; j++) {
         // If current element is smaller than the pivot
         if (data[j] < pivot) {
@@ -1247,7 +1244,7 @@ int partition(u32* data, u32* gram, const int low, const int high)
     }
     QSwap(&data[i + 1], &data[high]);
 	QSwap(&gram[i + 1], &gram[high]);
-    return i + 1;
+    return (i + 1);
 }
 
 void quickSort(u32* data, u32* gram, const int low, const int high)
@@ -1313,15 +1310,15 @@ void AGIDL_EncodeHistogramICP(AGIDL_ICP* palette, const void* data, const u32 wi
 				int bdiff = b-palb;
 
 				if(rdiff < 0){
-					rdiff += rdiff*rdiff;
+					rdiff += (rdiff*rdiff);
 				}
 
 				if(gdiff < 0){
-					gdiff += gdiff*gdiff;
+					gdiff += (gdiff*gdiff);
 				}
 
 				if(bdiff < 0){
-					bdiff += bdiff*bdiff;
+					bdiff += (bdiff*bdiff);
 				}
 
 				if(rdiff <= 1 && gdiff <= 1 && bdiff <= 1){
@@ -1388,15 +1385,15 @@ void AGIDL_EncodeHistogramICP(AGIDL_ICP* palette, const void* data, const u32 wi
 				int bdiff = b-palb;
 
 				if(rdiff < 0){
-					rdiff += rdiff*rdiff;
+					rdiff += (rdiff*rdiff);
 				}
 
 				if(gdiff < 0){
-					gdiff += gdiff*gdiff;
+					gdiff += (gdiff*gdiff);
 				}
 
 				if(bdiff < 0){
-					bdiff += bdiff*bdiff;
+					bdiff += (bdiff*bdiff);
 				}
 				
 				if(rdiff <= 1 && gdiff <= 1 && bdiff <= 1){

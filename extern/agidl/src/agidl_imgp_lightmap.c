@@ -42,9 +42,8 @@ void AGIDL_BindLightmapAndImg(void* data, void* lightdata, const u16 width, cons
 				COLOR clr = AGIDL_GetClr(clrdata,x,y,width,height);
 
 				const u8 avg = (AGIDL_GetR(clrlum,lightfmt)+AGIDL_GetG(clrlum,lightfmt)+AGIDL_GetB(clrlum,lightfmt))/3.0f;
-				const float factor = avg / 255.0f;
+				const float factor = (avg / 255.0f);
 				const float invfactor = 1.0f - factor;
-
 				if(light != INVLIGHTMAP){
 					clr = AGIDL_BlendColor(clr,blend,invfactor,CC_BLEND_CLR_SRCINV,imgfmt);
 					AGIDL_SetClr(clrdata,clr,x,y,width,height);
@@ -76,9 +75,8 @@ void AGIDL_BindLightmapAndImg(void* data, void* lightdata, const u16 width, cons
 				COLOR16 clr = AGIDL_GetClr16(clrdata,x,y,width,height);
 
 				const u8 avg = (AGIDL_GetR(clrlum,lightfmt)+AGIDL_GetG(clrlum,lightfmt)+AGIDL_GetB(clrlum,lightfmt))/3.0f;
-				const float factor = avg / 31.0f;
+				const float factor = (avg / 31.0f);
 				const float invfactor = 1.0f - factor;
-
 				if(light != INVLIGHTMAP){
 					clr = AGIDL_BlendColor(clr,blend,invfactor,CC_BLEND_CLR_SRCINV,imgfmt);
 					AGIDL_SetClr16(clrdata,clr,x,y,width,height);
@@ -110,9 +108,8 @@ void AGIDL_BindLightmapAndImg(void* data, void* lightdata, const u16 width, cons
 				COLOR clr = AGIDL_GetClr(clrdata,x,y,width,height);
 
 				const u8 avg = (AGIDL_GetR(clrlum,lightfmt)+AGIDL_GetG(clrlum,lightfmt)+AGIDL_GetB(clrlum,lightfmt))/3.0f;
-				const float factor = avg / 31.0f;
+				const float factor = (avg / 31.0f);
 				const float invfactor = 1.0f - factor;
-
 				if(light != INVLIGHTMAP){
 					clr = AGIDL_BlendColor(clr,blend,invfactor,CC_BLEND_CLR_SRCINV,imgfmt);
 					AGIDL_SetClr(clrdata,clr,x,y,width,height);
@@ -144,9 +141,8 @@ void AGIDL_BindLightmapAndImg(void* data, void* lightdata, const u16 width, cons
 				COLOR16 clr = AGIDL_GetClr16(clrdata,x,y,width,height);
 
 				const u8 avg = (AGIDL_GetR(clrlum,lightfmt)+AGIDL_GetG(clrlum,lightfmt)+AGIDL_GetB(clrlum,lightfmt))/3.0f;
-				const float factor = avg / 255.0f;
+				const float factor = (avg / 255.0f);
 				const float invfactor = 1.0f - factor;
-
 				if(light != INVLIGHTMAP){
 					clr = AGIDL_BlendColor(clr,blend,invfactor,CC_BLEND_CLR_SRCINV,imgfmt);
 					AGIDL_SetClr16(clrdata,clr,x,y,width,height);
@@ -213,7 +209,7 @@ void AGIDL_FillLightRect16(COLOR16* clrs, const u16 x, const u16 y, const u16 wi
 int IsInXRange(const float bias, const u16 x, const u8 size, const u16 width){
 	const u32 max_width_span = bias * width;
 
-	if(x + size >= max_width_span){
+	if((x + size) >= max_width_span){
 		return 0;
 	}
 	return 1;
@@ -222,19 +218,19 @@ int IsInXRange(const float bias, const u16 x, const u8 size, const u16 width){
 int IsInYRange(const float bias, const u16 y, const u8 size, const u16 height){
 	const u32 max_height_span = bias * height;
 
-	if(y + size >= max_height_span){
+	if((y + size) >= max_height_span){
 		return 0;
 	}
 	return 1;
 }
 
 int IsInInvXRange(const float bias, const u16 x, const u8 size, const u16 width){
-	const u32 max_width_span = bias * width;
+	const u32 max_width_span = (bias * width);
 
-	if(x - size >= max_width_span){
+	if((x - size) >= max_width_span){
 		return 1;
 	}
-	if(x - size <= 0){
+	if((x - size) <= 0){
 		return 0;
 	}
 	return 0;
@@ -243,10 +239,10 @@ int IsInInvXRange(const float bias, const u16 x, const u8 size, const u16 width)
 int IsInInvYRange(const float bias, const u16 y, const u8 size, const u16 height){
 	const u32 max_height_span = bias * height;
 
-	if(y - size <= 0){
+	if((y - size) <= 0){
 		return 0;
 	}
-	if(y - size >= max_height_span){
+	if((y - size) >= max_height_span){
 		return 1;
 	}
 	return 0;

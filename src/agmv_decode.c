@@ -166,8 +166,8 @@ int AGMV_DecodeFrameChunk(FILE* file, AGMV* agmv){
 				
 				if(byte == AGMV_FILL_FLAG){
 					index = bitstream_data[bitpos++]; 
-					fbit = index >> 7 & 1;
-					bot = index & 0x7f;
+					fbit = (index >> 7) & 1;
+					bot = (index & 0x7f);
 					
 					if(bitpos > agmv->bitstream->pos){
 						escape = TRUE;
@@ -212,9 +212,8 @@ int AGMV_DecodeFrameChunk(FILE* file, AGMV* agmv){
 								break;
 							}
 							index = bitstream_data[bitpos++];
-							fbit = index >> 7 & 1;
-							bot = index & 0x7f;
-
+							fbit = (index >> 7) & 1;
+							bot = (index & 0x7f);
 							palette = fbit ? agmv->header.palette1 : agmv->header.palette0;
 
 							if(bot < 127){
@@ -540,11 +539,11 @@ void to_80bitfloat(u32 num, u8 bytes[10])
 		mask >>= 1 ;
 		}
 
-	num = count < 31 ? num << count + 1 : 0 ;
+	num = count < 31 ? num << (count + 1) : 0 ;
 	bytes [1] = 29 - count ;
-	bytes [2] = num >> 24 & 0xFF ;
-	bytes [3] = num >> 16 & 0xFF ;
-	bytes [4] = num >> 8 & 0xFF ;
+	bytes [2] = (num >> 24) & 0xFF ;
+	bytes [3] = (num >> 16) & 0xFF ;
+	bytes [4] = (num >> 8) & 0xFF ;
 	bytes [5] = num & 0xFF ;
 
 } 

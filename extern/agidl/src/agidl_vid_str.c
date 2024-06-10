@@ -205,7 +205,7 @@ void AGIDL_ReadMDECVideoFrame(FILE* file, AGIDL_MDEC_FRAME* frame){
 	frame->version = AGIDL_ReadShort(file);
 	frame->pad = AGIDL_ReadLong(file);
 	
-	frame->size = MDEC_BLOCK_SIZE /2*frame->total_multi_chunk_num;
+	frame->size = (MDEC_BLOCK_SIZE/2)*frame->total_multi_chunk_num;
 	
 	AGIDL_EnsureDimMul16(frame);
 }
@@ -294,8 +294,8 @@ void AGIDL_PrintMDECBitstream(const AGIDL_MDEC_FRAME* frame){
 
 /* UTILITY FUNCTIONS */
 s32 extend_sign(const u16 bit_size, const u64 n){
-	const u32 mask = (1LL << bit_size - 1) - 1;
-	const AGIDL_Bool sign = (n & 1LL << bit_size - 1) != 0;
+	const u32 mask = ((1LL << (bit_size - 1)) - 1);
+	const AGIDL_Bool sign = (n & (1LL << (bit_size - 1))) != 0;
 
     s32 val = n & mask;
     if (sign) val |= ~mask;
@@ -342,7 +342,7 @@ void AGIDL_FindNextVideoFrame(FILE* file){
 
 void AGIDL_MDECAllocResources(AGIDL_MDEC_FRAME* frame){
 	frame->point = 0;
-	frame->size = MDEC_BLOCK_SIZE /2*frame->total_multi_chunk_num;
+	frame->size = (MDEC_BLOCK_SIZE/2)*frame->total_multi_chunk_num;
 	frame->data = (u16*)malloc(sizeof(u16)*MDEC_BLOCK_SIZE*frame->total_multi_chunk_num);
 }
 
@@ -422,7 +422,7 @@ int AGIDL_SingleIDCT(const int x, const int y, s16 macroblock[8][8]){
 
 	for(int v = 0; v < 8; v++){
 		for(int u = 0; u < 8; u++){
-			summation += C(u) * C(v) * macroblock[u][v] * PSX_IDCT_TABLE[x][u] * PSX_IDCT_TABLE[y][v];
+			summation += (C(u) * C(v)) * macroblock[u][v] * PSX_IDCT_TABLE[x][u] * PSX_IDCT_TABLE[y][v];
 		}
 	}
 	
@@ -455,7 +455,7 @@ void AGIDL_DecodeMacroblock(AGIDL_MDEC_FRAME* frame, s16 block[64], const int ta
 	const u16 word = AGIDL_GetNext16Bits(frame);
 	
 	s16 dc = extend_sign(10,word & BOTTOM_10_BITS);
-	const s16 quant = word >> 10 & 0x3f;
+	const s16 quant = (word >> 10) & 0x3f;
 	
 	s16 val = dc * table[0];
 
@@ -474,12 +474,12 @@ void AGIDL_DecodeMacroblock(AGIDL_MDEC_FRAME* frame, s16 block[64], const int ta
         }
 
         const u16 rle = AGIDL_GetNext16Bits(frame);
-        const u16 zeros = word >> 10 & 0x3f;
+        const u16 zeros = (word >> 10) & 0x3f;
 		
         dc = extend_sign(10, rle & BOTTOM_10_BITS);
         n += zeros + 1;
 
-        val = dc * table[n] * quant + 4 >> 3;
+        val = (dc * table[n] * quant + 4) >> 3;
     }
 
 

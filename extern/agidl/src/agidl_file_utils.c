@@ -60,7 +60,7 @@ void AGIDL_WriteByte(FILE* file, const u8 byte){
 
 void AGIDL_WriteShort(FILE* file, const u16 word){
 	const u8 msb = (word & 0xff00) >> 8;
-	const u8 lsb = word & 0xff;
+	const u8 lsb = (word & 0xff);
 	
 	if(useBigEndArch == TRUE){
 		AGIDL_WriteByte(file,msb);
@@ -73,10 +73,10 @@ void AGIDL_WriteShort(FILE* file, const u16 word){
 }
 
 void AGIDL_WriteLong(FILE* file, const u32 dword){
-	const u8 msb = dword >> 24 & 0xff;
+	const u8 msb = (dword >> 24) & 0xff;
 	const u8 msb2 = (dword & 0xff0000) >> 16;
 	const u8 lsb2 = (dword & 0xff00) >> 8;
-	const u8 lsb = dword & 0xff;
+	const u8 lsb = (dword & 0xff);
 	
 	if(useBigEndArch == TRUE){
 		AGIDL_WriteByte(file,msb);

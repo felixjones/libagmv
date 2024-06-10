@@ -444,9 +444,8 @@ int AGIDL_LBMDecodeHeader(AGIDL_LBM* lbm, FILE* file){
 }
 
 void AGIDL_LBMDecompressData(AGIDL_LBM* lbm, const u8* src, u8* dest){
-	AGIDL_LBMSetWidth(lbm,AGIDL_LBMGetWidth(lbm) + 15 & 0xFFFFFFF0);
-	const u32 bytesperline = (AGIDL_LBMGetWidth(lbm) + 15) / 16 * 2;
-
+	AGIDL_LBMSetWidth(lbm,(AGIDL_LBMGetWidth(lbm) + 15 ) & 0xFFFFFFF0);
+	const u32 bytesperline = ((AGIDL_LBMGetWidth(lbm) + 15) / 16) * 2;
 	if(lbm->header.bmhd.bpp != 1){
 		AGIDL_PackBits(src,dest,AGIDL_LBMGetSize(lbm));
 	}
@@ -479,8 +478,7 @@ void AGIDL_LBMDecompressData(AGIDL_LBM* lbm, const u8* src, u8* dest){
 
 void AGIDL_LBMDeinterleaveData(const AGIDL_LBM* lbm, const u8* src, u8* dest){
 	u8 bpp = lbm->header.bmhd.bpp;
-	const u32 bytesperline = (AGIDL_LBMGetWidth(lbm) + 15) / 16 * 2;
-
+	const u32 bytesperline = ((AGIDL_LBMGetWidth(lbm) + 15) / 16) * 2;
 	if (lbm->header.bmhd.mask == 1) {
 		bpp += 1;
 	}
@@ -489,14 +487,13 @@ void AGIDL_LBMDeinterleaveData(const AGIDL_LBM* lbm, const u8* src, u8* dest){
 		for(int p = 0; p < bpp; p++){
 			const u16 plane_mask = 1 << p;
 			for(int i = 0; i < bytesperline; i++){
-				const u32 bit_offset = y * bpp * bytesperline + p * bytesperline + i;
+				const u32 bit_offset = (y * bpp * bytesperline) + (p * bytesperline) + i;
 				const u8 bit_value = src[bit_offset];
 				for(int b = 0; b < 8; b++){
-					const u32 pixel_mask = 1 << 7 - b;
-
+					const u32 pixel_mask = 1 << (7 - b);
 					if(bit_value & pixel_mask){
-						const u32 x = i * 8 + b;
-						dest[y * AGIDL_LBMGetWidth(lbm) + x] |= plane_mask;
+						const u32 x = (i * 8) + b;
+						dest[(y * AGIDL_LBMGetWidth(lbm)) + x] |= plane_mask;
 					}
 				}
 			}
@@ -736,7 +733,7 @@ void AGIDL_LBMEncodeIMG(const AGIDL_LBM* lbm, FILE* file){
 		u32 size = 0;
 
 		for(int y = 0; y < AGIDL_LBMGetHeight(lbm); y++){
-			for(int x = 0; x < AGIDL_LBMGetWidth(lbm); x++){	
+			for(int x = 0; x < AGIDL_LBMGetWidth(lbm); x++){
 				COLOR clr = AGIDL_LBMGetClr(lbm,x,y);
 				const u32 count = AGIDL_EncodeRLE(lbm->pixels.pix32,AGIDL_GetBitCount(AGIDL_LBMGetClrFmt(lbm)),x,y,AGIDL_LBMGetWidth(lbm),AGIDL_LBMGetHeight(lbm),128);
 				u8 index = AGIDL_FindNearestColor(lbm->header.cmap.palette,clr,AGIDL_LBMGetClrFmt(lbm));

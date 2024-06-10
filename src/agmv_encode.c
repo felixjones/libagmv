@@ -238,9 +238,8 @@ u8 AGMV_ComparePFrameBlock(const AGMV* agmv, const u32 x, const u32 y, const AGM
 	
 	for(u32 j = 0; j < 4; j++){
 		for(u32 i = 0; i < 4; i++){
-			const AGMV_ENTRY ent1 = entry[x+i+(y+j)*width];
-			const AGMV_ENTRY ent2 = iframe_entries[x+i+(y+j)*width];
-
+			const AGMV_ENTRY ent1 = entry[(x+i)+(y+j)*width];
+			const AGMV_ENTRY ent2 = iframe_entries[(x+i)+(y+j)*width];
 			if(ent1.pal_num == 0){
 				color1 = agmv->header.palette0[ent1.index];
 			}
@@ -294,7 +293,7 @@ u8 AGMV_CompareIFrameBlock(const AGMV* agmv, const u32 x, const u32 y, const u32
 
 	for(u32 j = 0; j < 4; j++){
 		for(u32 i = 0; i < 4; i++){
-			const AGMV_ENTRY entry = img_entry[x+i+(y+j)*width];
+			const AGMV_ENTRY entry = img_entry[(x+i)+(y+j)*width];
 			u32 bc;
 			if(entry.pal_num == 0){
 				bc = agmv->header.palette0[entry.index];
@@ -374,7 +373,7 @@ void AGMV_AssembleIFrameBitstream(const AGMV* agmv, const AGMV_ENTRY* img_entry)
 					data[agmv->bitstream->pos++] = AGMV_NORMAL_FLAG;
 					for(j = 0; j < 4; j++){
 						for(i = 0; i < 4; i++){
-							const AGMV_ENTRY norm = img_entry[x+i+(y+j)*width];
+							const AGMV_ENTRY norm = img_entry[(x+i)+(y+j)*width];
 							if(norm.index < 127){
 								data[agmv->bitstream->pos++] = norm.pal_num << 7 | norm.index;
 							}
@@ -405,7 +404,7 @@ void AGMV_AssembleIFrameBitstream(const AGMV* agmv, const AGMV_ENTRY* img_entry)
 
 					for(j = 0; j < 4; j++){
 						for(i = 0; i < 4; i++){
-							entry = img_entry[x+i+(y+j)*width];
+							entry = img_entry[(x+i)+(y+j)*width];
 							data[agmv->bitstream->pos++] = entry.index;
 						}
 					}
@@ -457,7 +456,7 @@ void AGMV_AssemblePFrameBitstream(const AGMV* agmv, const AGMV_ENTRY* img_entry)
 					data[agmv->bitstream->pos++] = AGMV_NORMAL_FLAG;
 					for(j = 0; j < 4; j++){
 						for(i = 0; i < 4; i++){
-							const AGMV_ENTRY norm = img_entry[x+i+(y+j)*width];
+							const AGMV_ENTRY norm = img_entry[(x+i)+(y+j)*width];
 							if(norm.index < 127){
 								data[agmv->bitstream->pos++] = norm.pal_num << 7 | norm.index;
 							}
@@ -492,7 +491,7 @@ void AGMV_AssemblePFrameBitstream(const AGMV* agmv, const AGMV_ENTRY* img_entry)
 
 					for(j = 0; j < 4; j++){
 						for(i = 0; i < 4; i++){
-							entry = img_entry[x+i+(y+j)*width];
+							entry = img_entry[(x+i)+(y+j)*width];
 							data[agmv->bitstream->pos++] = entry.index;
 						}
 					}
@@ -1100,18 +1099,18 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					w = AGIDL_BMPGetWidth(frame1), h = AGIDL_BMPGetHeight(frame1);
-					AGIDL_ScaleBMP(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleBMP(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleBMP(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleBMP(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBMP(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBMP(frame2,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBMP(frame3,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBMP(frame4,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					w = AGIDL_BMPGetWidth(frame1), h = AGIDL_BMPGetHeight(frame1);
-					AGIDL_FastScaleBMP(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_NEAREST);
-					AGIDL_FastScaleBMP(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_NEAREST);
-					AGIDL_FastScaleBMP(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_NEAREST);
-					AGIDL_FastScaleBMP(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_NEAREST);
+					AGIDL_FastScaleBMP(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_NEAREST);
+					AGIDL_FastScaleBMP(frame2,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_NEAREST);
+					AGIDL_FastScaleBMP(frame3,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_NEAREST);
+					AGIDL_FastScaleBMP(frame4,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_NEAREST);
 				}
 
 				w = AGIDL_BMPGetWidth(frame2), h = AGIDL_BMPGetHeight(frame2);
@@ -1199,18 +1198,18 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					w = AGIDL_TGAGetWidth(frame1), h = AGIDL_TGAGetHeight(frame1);
-					AGIDL_ScaleTGA(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleTGA(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleTGA(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleTGA(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTGA(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTGA(frame2,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTGA(frame3,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTGA(frame4,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					w = AGIDL_TGAGetWidth(frame1), h = AGIDL_TGAGetHeight(frame1);
-					AGIDL_ScaleTGA(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleTGA(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleTGA(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleTGA(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTGA(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTGA(frame2,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTGA(frame3,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTGA(frame4,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				w = AGIDL_TGAGetWidth(frame2), h = AGIDL_TGAGetHeight(frame2);
@@ -1298,18 +1297,18 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					w = AGIDL_TIMGetWidth(frame1), h = AGIDL_TIMGetHeight(frame1);
-					AGIDL_ScaleTIM(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleTIM(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleTIM(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleTIM(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTIM(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTIM(frame2,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTIM(frame3,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTIM(frame4,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					w = AGIDL_TIMGetWidth(frame1), h = AGIDL_TIMGetHeight(frame1);
-					AGIDL_ScaleTIM(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleTIM(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleTIM(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleTIM(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTIM(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTIM(frame2,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTIM(frame3,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTIM(frame4,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				w = AGIDL_TIMGetWidth(frame2), h = AGIDL_TIMGetHeight(frame2);
@@ -1397,18 +1396,18 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					w = AGIDL_PCXGetWidth(frame1), h = AGIDL_PCXGetHeight(frame1);
-					AGIDL_ScalePCX(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePCX(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePCX(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePCX(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePCX(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePCX(frame2,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePCX(frame3,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePCX(frame4,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					w = AGIDL_PCXGetWidth(frame1), h = AGIDL_PCXGetHeight(frame1);
-					AGIDL_ScalePCX(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePCX(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePCX(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePCX(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePCX(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePCX(frame2,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePCX(frame3,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePCX(frame4,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				w = AGIDL_PCXGetWidth(frame2), h = AGIDL_PCXGetHeight(frame2);
@@ -1496,18 +1495,18 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					w = AGIDL_LMPGetWidth(frame1), h = AGIDL_LMPGetHeight(frame1);
-					AGIDL_ScaleLMP(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleLMP(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleLMP(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleLMP(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLMP(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLMP(frame2,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLMP(frame3,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLMP(frame4,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					w = AGIDL_LMPGetWidth(frame1), h = AGIDL_LMPGetHeight(frame1);
-					AGIDL_ScaleLMP(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleLMP(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleLMP(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleLMP(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLMP(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLMP(frame2,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLMP(frame3,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLMP(frame4,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				w = AGIDL_LMPGetWidth(frame2), h = AGIDL_LMPGetHeight(frame2);
@@ -1595,18 +1594,18 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					w = AGIDL_PVRGetWidth(frame1), h = AGIDL_PVRGetHeight(frame1);
-					AGIDL_ScalePVR(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePVR(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePVR(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePVR(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePVR(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePVR(frame2,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePVR(frame3,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePVR(frame4,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					w = AGIDL_PVRGetWidth(frame1), h = AGIDL_PVRGetHeight(frame1);
-					AGIDL_ScalePVR(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePVR(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePVR(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePVR(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePVR(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePVR(frame2,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePVR(frame3,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePVR(frame4,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				w = AGIDL_PVRGetWidth(frame2), h = AGIDL_PVRGetHeight(frame2);
@@ -1694,18 +1693,18 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					w = AGIDL_GXTGetWidth(frame1), h = AGIDL_GXTGetHeight(frame1);
-					AGIDL_ScaleGXT(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleGXT(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleGXT(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleGXT(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleGXT(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleGXT(frame2,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleGXT(frame3,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleGXT(frame4,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					w = AGIDL_GXTGetWidth(frame1), h = AGIDL_GXTGetHeight(frame1);
-					AGIDL_ScaleGXT(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleGXT(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleGXT(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleGXT(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleGXT(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleGXT(frame2,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleGXT(frame3,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleGXT(frame4,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				w = AGIDL_GXTGetWidth(frame2), h = AGIDL_GXTGetHeight(frame2);
@@ -1793,18 +1792,18 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					w = AGIDL_BTIGetWidth(frame1), h = AGIDL_BTIGetHeight(frame1);
-					AGIDL_ScaleBTI(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleBTI(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleBTI(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleBTI(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBTI(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBTI(frame2,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBTI(frame3,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBTI(frame4,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					w = AGIDL_BTIGetWidth(frame1), h = AGIDL_BTIGetHeight(frame1);
-					AGIDL_ScaleBTI(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleBTI(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleBTI(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleBTI(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBTI(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBTI(frame2,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBTI(frame3,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBTI(frame4,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				w = AGIDL_BTIGetWidth(frame2), h = AGIDL_BTIGetHeight(frame2);
@@ -1892,18 +1891,18 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					w = AGIDL_3DFGetWidth(frame1), h = AGIDL_3DFGetHeight(frame1);
-					AGIDL_Scale3DF(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_Scale3DF(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_Scale3DF(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_Scale3DF(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_Scale3DF(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_Scale3DF(frame2,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_Scale3DF(frame3,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_Scale3DF(frame4,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					w = AGIDL_3DFGetWidth(frame1), h = AGIDL_3DFGetHeight(frame1);
-					AGIDL_Scale3DF(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_Scale3DF(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_Scale3DF(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_Scale3DF(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_Scale3DF(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_Scale3DF(frame2,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_Scale3DF(frame3,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_Scale3DF(frame4,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				w = AGIDL_3DFGetWidth(frame2), h = AGIDL_3DFGetHeight(frame2);
@@ -1991,18 +1990,18 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					w = AGIDL_PPMGetWidth(frame1), h = AGIDL_PPMGetHeight(frame1);
-					AGIDL_ScalePPM(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePPM(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePPM(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePPM(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePPM(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePPM(frame2,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePPM(frame3,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePPM(frame4,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					w = AGIDL_PPMGetWidth(frame1), h = AGIDL_PPMGetHeight(frame1);
-					AGIDL_ScalePPM(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePPM(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePPM(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePPM(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePPM(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePPM(frame2,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePPM(frame3,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePPM(frame4,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				w = AGIDL_PPMGetWidth(frame2), h = AGIDL_PPMGetHeight(frame2);
@@ -2090,18 +2089,18 @@ void AGMV_EncodeVideo(const char* filename, const char* dir, const char* basenam
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					w = AGIDL_LBMGetWidth(frame1), h = AGIDL_LBMGetHeight(frame1);
-					AGIDL_ScaleLBM(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleLBM(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleLBM(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleLBM(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLBM(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLBM(frame2,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLBM(frame3,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLBM(frame4,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					w = AGIDL_LBMGetWidth(frame1), h = AGIDL_LBMGetHeight(frame1);
-					AGIDL_ScaleLBM(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleLBM(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleLBM(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleLBM(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLBM(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLBM(frame2,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLBM(frame3,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLBM(frame4,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				w = AGIDL_LBMGetWidth(frame2), h = AGIDL_LBMGetHeight(frame2);
@@ -2654,18 +2653,18 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					w = AGIDL_BMPGetWidth(frame1), h = AGIDL_BMPGetHeight(frame1);
-					AGIDL_ScaleBMP(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleBMP(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleBMP(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleBMP(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBMP(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBMP(frame2,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBMP(frame3,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBMP(frame4,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					w = AGIDL_BMPGetWidth(frame1), h = AGIDL_BMPGetHeight(frame1);
-					AGIDL_FastScaleBMP(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_NEAREST);
-					AGIDL_FastScaleBMP(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_NEAREST);
-					AGIDL_FastScaleBMP(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_NEAREST);
-					AGIDL_FastScaleBMP(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_NEAREST);
+					AGIDL_FastScaleBMP(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_NEAREST);
+					AGIDL_FastScaleBMP(frame2,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_NEAREST);
+					AGIDL_FastScaleBMP(frame3,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_NEAREST);
+					AGIDL_FastScaleBMP(frame4,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_NEAREST);
 				}
 
 				w = AGIDL_BMPGetWidth(frame2), h = AGIDL_BMPGetHeight(frame2);
@@ -2737,18 +2736,18 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					w = AGIDL_TGAGetWidth(frame1), h = AGIDL_TGAGetHeight(frame1);
-					AGIDL_ScaleTGA(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleTGA(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleTGA(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleTGA(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTGA(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTGA(frame2,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTGA(frame3,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTGA(frame4,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					w = AGIDL_TGAGetWidth(frame1), h = AGIDL_TGAGetHeight(frame1);
-					AGIDL_ScaleTGA(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleTGA(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleTGA(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleTGA(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTGA(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTGA(frame2,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTGA(frame3,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTGA(frame4,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				w = AGIDL_TGAGetWidth(frame2), h = AGIDL_TGAGetHeight(frame2);
@@ -2820,18 +2819,18 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					w = AGIDL_TIMGetWidth(frame1), h = AGIDL_TIMGetHeight(frame1);
-					AGIDL_ScaleTIM(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleTIM(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleTIM(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleTIM(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTIM(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTIM(frame2,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTIM(frame3,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTIM(frame4,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					w = AGIDL_TIMGetWidth(frame1), h = AGIDL_TIMGetHeight(frame1);
-					AGIDL_ScaleTIM(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleTIM(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleTIM(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleTIM(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTIM(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTIM(frame2,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTIM(frame3,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTIM(frame4,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				w = AGIDL_TIMGetWidth(frame2), h = AGIDL_TIMGetHeight(frame2);
@@ -2903,18 +2902,18 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					w = AGIDL_PCXGetWidth(frame1), h = AGIDL_PCXGetHeight(frame1);
-					AGIDL_ScalePCX(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePCX(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePCX(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePCX(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePCX(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePCX(frame2,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePCX(frame3,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePCX(frame4,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					w = AGIDL_PCXGetWidth(frame1), h = AGIDL_PCXGetHeight(frame1);
-					AGIDL_ScalePCX(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePCX(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePCX(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePCX(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePCX(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePCX(frame2,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePCX(frame3,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePCX(frame4,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 
@@ -2987,18 +2986,18 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					w = AGIDL_LMPGetWidth(frame1), h = AGIDL_LMPGetHeight(frame1);
-					AGIDL_ScaleLMP(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleLMP(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleLMP(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleLMP(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLMP(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLMP(frame2,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLMP(frame3,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLMP(frame4,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					w = AGIDL_LMPGetWidth(frame1), h = AGIDL_LMPGetHeight(frame1);
-					AGIDL_ScaleLMP(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleLMP(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleLMP(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleLMP(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLMP(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLMP(frame2,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLMP(frame3,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLMP(frame4,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				w = AGIDL_LMPGetWidth(frame2), h = AGIDL_LMPGetHeight(frame2);
@@ -3070,18 +3069,18 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					w = AGIDL_PVRGetWidth(frame1), h = AGIDL_PVRGetHeight(frame1);
-					AGIDL_ScalePVR(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePVR(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePVR(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePVR(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePVR(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePVR(frame2,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePVR(frame3,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePVR(frame4,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					w = AGIDL_PVRGetWidth(frame1), h = AGIDL_PVRGetHeight(frame1);
-					AGIDL_ScalePVR(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePVR(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePVR(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePVR(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePVR(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePVR(frame2,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePVR(frame3,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePVR(frame4,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				w = AGIDL_PVRGetWidth(frame2), h = AGIDL_PVRGetHeight(frame2);
@@ -3153,18 +3152,18 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					w = AGIDL_GXTGetWidth(frame1), h = AGIDL_GXTGetHeight(frame1);
-					AGIDL_ScaleGXT(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleGXT(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleGXT(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleGXT(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleGXT(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleGXT(frame2,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleGXT(frame3,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleGXT(frame4,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					w = AGIDL_GXTGetWidth(frame1), h = AGIDL_GXTGetHeight(frame1);
-					AGIDL_ScaleGXT(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleGXT(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleGXT(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleGXT(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleGXT(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleGXT(frame2,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleGXT(frame3,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleGXT(frame4,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				w = AGIDL_GXTGetWidth(frame2), h = AGIDL_GXTGetHeight(frame2);
@@ -3236,18 +3235,18 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					w = AGIDL_BTIGetWidth(frame1), h = AGIDL_BTIGetHeight(frame1);
-					AGIDL_ScaleBTI(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleBTI(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleBTI(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleBTI(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBTI(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBTI(frame2,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBTI(frame3,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBTI(frame4,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					w = AGIDL_BTIGetWidth(frame1), h = AGIDL_BTIGetHeight(frame1);
-					AGIDL_ScaleBTI(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleBTI(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleBTI(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleBTI(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBTI(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBTI(frame2,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBTI(frame3,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBTI(frame4,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				w = AGIDL_BTIGetWidth(frame2), h = AGIDL_BTIGetHeight(frame2);
@@ -3319,18 +3318,18 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					w = AGIDL_3DFGetWidth(frame1), h = AGIDL_3DFGetHeight(frame1);
-					AGIDL_Scale3DF(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_Scale3DF(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_Scale3DF(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_Scale3DF(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_Scale3DF(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_Scale3DF(frame2,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_Scale3DF(frame3,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_Scale3DF(frame4,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					w = AGIDL_3DFGetWidth(frame1), h = AGIDL_3DFGetHeight(frame1);
-					AGIDL_Scale3DF(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_Scale3DF(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_Scale3DF(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_Scale3DF(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_Scale3DF(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_Scale3DF(frame2,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_Scale3DF(frame3,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_Scale3DF(frame4,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				w = AGIDL_3DFGetWidth(frame2), h = AGIDL_3DFGetHeight(frame2);
@@ -3402,18 +3401,18 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					w = AGIDL_PPMGetWidth(frame1), h = AGIDL_PPMGetHeight(frame1);
-					AGIDL_ScalePPM(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePPM(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePPM(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePPM(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePPM(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePPM(frame2,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePPM(frame3,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePPM(frame4,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					w = AGIDL_PPMGetWidth(frame1), h = AGIDL_PPMGetHeight(frame1);
-					AGIDL_ScalePPM(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePPM(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePPM(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScalePPM(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePPM(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePPM(frame2,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePPM(frame3,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePPM(frame4,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				w = AGIDL_PPMGetWidth(frame2), h = AGIDL_PPMGetHeight(frame2);
@@ -3485,18 +3484,18 @@ void AGMV_EncodeAGMV(AGMV* agmv, const char* filename, const char* dir, const ch
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					w = AGIDL_LBMGetWidth(frame1), h = AGIDL_LBMGetHeight(frame1);
-					AGIDL_ScaleLBM(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleLBM(frame2,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleLBM(frame3,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleLBM(frame4,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLBM(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLBM(frame2,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLBM(frame3,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLBM(frame4,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					w = AGIDL_LBMGetWidth(frame1), h = AGIDL_LBMGetHeight(frame1);
-					AGIDL_ScaleLBM(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleLBM(frame2,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleLBM(frame3,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
-					AGIDL_ScaleLBM(frame4,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLBM(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLBM(frame2,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLBM(frame3,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLBM(frame4,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				w = AGIDL_LBMGetWidth(frame2), h = AGIDL_LBMGetHeight(frame2);
@@ -3999,12 +3998,12 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_BMPGetWidth(frame1), h = AGIDL_BMPGetHeight(frame1);
-					AGIDL_ScaleBMP(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBMP(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_BMPGetWidth(frame1), h = AGIDL_BMPGetHeight(frame1);
-					AGIDL_ScaleBMP(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBMP(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				printf("Encoding AGIDL Image Frame - %ld...\n",i);
@@ -4028,12 +4027,12 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_TGAGetWidth(frame1), h = AGIDL_TGAGetHeight(frame1);
-					AGIDL_ScaleTGA(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTGA(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_TGAGetWidth(frame1), h = AGIDL_TGAGetHeight(frame1);
-					AGIDL_ScaleTGA(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTGA(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				printf("Encoding AGIDL Image Frame - %ld...\n",i);
@@ -4057,12 +4056,12 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_TIMGetWidth(frame1), h = AGIDL_TIMGetHeight(frame1);
-					AGIDL_ScaleTIM(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTIM(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_TIMGetWidth(frame1), h = AGIDL_TIMGetHeight(frame1);
-					AGIDL_ScaleTIM(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleTIM(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				printf("Encoding AGIDL Image Frame - %ld...\n",i);
@@ -4086,12 +4085,12 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_PCXGetWidth(frame1), h = AGIDL_PCXGetHeight(frame1);
-					AGIDL_ScalePCX(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePCX(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_PCXGetWidth(frame1), h = AGIDL_PCXGetHeight(frame1);
-					AGIDL_ScalePCX(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePCX(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				printf("Encoding AGIDL Image Frame - %ld...\n",i);
@@ -4115,12 +4114,12 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_LMPGetWidth(frame1), h = AGIDL_LMPGetHeight(frame1);
-					AGIDL_ScaleLMP(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLMP(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_LMPGetWidth(frame1), h = AGIDL_LMPGetHeight(frame1);
-					AGIDL_ScaleLMP(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLMP(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				printf("Encoding AGIDL Image Frame - %ld...\n",i);
@@ -4144,12 +4143,12 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_PVRGetWidth(frame1), h = AGIDL_PVRGetHeight(frame1);
-					AGIDL_ScalePVR(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePVR(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_PVRGetWidth(frame1), h = AGIDL_PVRGetHeight(frame1);
-					AGIDL_ScalePVR(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePVR(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				printf("Encoding AGIDL Image Frame - %ld...\n",i);
@@ -4173,12 +4172,12 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_GXTGetWidth(frame1), h = AGIDL_GXTGetHeight(frame1);
-					AGIDL_ScaleGXT(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleGXT(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_GXTGetWidth(frame1), h = AGIDL_GXTGetHeight(frame1);
-					AGIDL_ScaleGXT(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleGXT(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				printf("Encoding AGIDL Image Frame - %ld...\n",i);
@@ -4202,12 +4201,12 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_BTIGetWidth(frame1), h = AGIDL_BTIGetHeight(frame1);
-					AGIDL_ScaleBTI(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBTI(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_BTIGetWidth(frame1), h = AGIDL_BTIGetHeight(frame1);
-					AGIDL_ScaleBTI(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleBTI(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				printf("Encoding AGIDL Image Frame - %ld...\n",i);
@@ -4230,12 +4229,12 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_3DFGetWidth(frame1), h = AGIDL_3DFGetHeight(frame1);
-					AGIDL_Scale3DF(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_Scale3DF(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_3DFGetWidth(frame1), h = AGIDL_3DFGetHeight(frame1);
-					AGIDL_Scale3DF(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_Scale3DF(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				printf("Encoding AGIDL Image Frame - %ld...\n",i);
@@ -4259,12 +4258,12 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_PPMGetWidth(frame1), h = AGIDL_PPMGetHeight(frame1);
-					AGIDL_ScalePPM(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePPM(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_PPMGetWidth(frame1), h = AGIDL_PPMGetHeight(frame1);
-					AGIDL_ScalePPM(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScalePPM(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				printf("Encoding AGIDL Image Frame - %ld...\n",i);
@@ -4288,12 +4287,12 @@ void AGMV_EncodeFullAGMV(AGMV* agmv, const char* filename, const char* dir, cons
 
 				if(opt == AGMV_OPT_GBA_I || opt == AGMV_OPT_GBA_II || opt == AGMV_OPT_GBA_III){
 					u32 w = AGIDL_LBMGetWidth(frame1), h = AGIDL_LBMGetHeight(frame1);
-					AGIDL_ScaleLBM(frame1,(f32)AGMV_GBA_W/w+0.001f,(f32)AGMV_GBA_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLBM(frame1,((f32)AGMV_GBA_W/w)+0.001f,((f32)AGMV_GBA_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				if(opt == AGMV_OPT_NDS){
 					u32 w = AGIDL_LBMGetWidth(frame1), h = AGIDL_LBMGetHeight(frame1);
-					AGIDL_ScaleLBM(frame1,(f32)AGMV_NDS_W/w+0.001f,(f32)AGMV_NDS_H/h+0.001f,AGIDL_SCALE_BILERP);
+					AGIDL_ScaleLBM(frame1,((f32)AGMV_NDS_W/w)+0.001f,((f32)AGMV_NDS_H/h)+0.001f,AGIDL_SCALE_BILERP);
 				}
 
 				printf("Encoding AGIDL Image Frame - %ld...\n",i);

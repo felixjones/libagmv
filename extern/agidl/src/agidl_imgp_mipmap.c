@@ -519,8 +519,8 @@ void AGIDL_BlendMipmapLevel(AGIDL_MIPMAP* mipmap, u8 mip_lvl1, u8 mip_lvl2){
 			int x,y;
 			for(y = 0; y < h1; y++){
 				for(x = 0; x < w1; x++){
-					u16 x2 = x*xscale;
-					u16 y2 = y*yscale;
+					u16 x2 = (x*xscale);
+					u16 y2 = (y*yscale);
 					
 					COLOR16 clr1 = AGIDL_GetClr16(img1_cpy,x,y,w1,h1);
 					COLOR16 clr2 = AGIDL_GetClr16(img1_cpy,x+1,y,w1,h1);
@@ -548,17 +548,17 @@ void AGIDL_BlendMipmapLevel(AGIDL_MIPMAP* mipmap, u8 mip_lvl1, u8 mip_lvl2){
 					u8 g4 = AGIDL_GetG(clr4,fmt);
 					u8 b4 = AGIDL_GetB(clr4,fmt);
 					
-					u8 rtop = r1 + (r2-r1 >> 1);
-					u8 gtop = g1 + (g2-g1 >> 1);
-					u8 btop = b1 + (b2-b1 >> 1);
+					u8 rtop = r1 + ((r2-r1) >> 1);
+					u8 gtop = g1 + ((g2-g1) >> 1);
+					u8 btop = b1 + ((b2-b1) >> 1);
 					
-					u8 rbot = r3 + (r4-r3 >> 1);
-					u8 gbot = g3 + (g4-g3 >> 1);
-					u8 bbot = b3 + (b4-b3 >> 1);
+					u8 rbot = r3 + ((r4-r3) >> 1);
+					u8 gbot = g3 + ((g4-g3) >> 1);
+					u8 bbot = b3 + ((b4-b3) >> 1);
 					
-					u8 rbilerp1 = rtop + (rbot-rtop >> 1);
-					u8 gbilerp1 = gtop + (gbot-gtop >> 1);
-					u8 bbilerp1 = btop + (bbot-btop >> 1);
+					u8 rbilerp1 = rtop + ((rbot-rtop) >> 1);
+					u8 gbilerp1 = gtop + ((gbot-gtop) >> 1);
+					u8 bbilerp1 = btop + ((bbot-btop) >> 1);
 					
 					r1 = AGIDL_GetR(clr12,fmt);
 					g1 = AGIDL_GetG(clr12,fmt);
@@ -576,21 +576,21 @@ void AGIDL_BlendMipmapLevel(AGIDL_MIPMAP* mipmap, u8 mip_lvl1, u8 mip_lvl2){
 					g4 = AGIDL_GetG(clr42,fmt);
 					b4 = AGIDL_GetB(clr42,fmt);
 					
-					rtop = r1 + (r2-r1 >> 1);
-					gtop = g1 + (g2-g1 >> 1);
-					btop = b1 + (b2-b1 >> 1);
+					rtop = r1 + ((r2-r1) >> 1);
+					gtop = g1 + ((g2-g1) >> 1);
+					btop = b1 + ((b2-b1) >> 1);
 					
-					rbot = r3 + (r4-r3 >> 1);
-					gbot = g3 + (g4-g3 >> 1);
-					bbot = b3 + (b4-b3 >> 1);
+					rbot = r3 + ((r4-r3) >> 1);
+					gbot = g3 + ((g4-g3) >> 1);
+					bbot = b3 + ((b4-b3) >> 1);
 					
-					u8 rbilerp2 = rtop + (rbot-rtop >> 1);
-					u8 gbilerp2 = gtop + (gbot-gtop >> 1);
-					u8 bbilerp2 = btop + (bbot-btop >> 1);
+					u8 rbilerp2 = rtop + ((rbot-rtop) >> 1);
+					u8 gbilerp2 = gtop + ((gbot-gtop) >> 1);
+					u8 bbilerp2 = btop + ((bbot-btop) >> 1);
 					
-					u8 rfinal = rbilerp1 + (rbilerp2-rbilerp1 >> 1);
-					u8 gfinal = gbilerp1 + (gbilerp2-gbilerp1 >> 1);
-					u8 bfinal = bbilerp1 + (bbilerp2-bbilerp1 >> 1);
+					u8 rfinal = rbilerp1 + ((rbilerp2-rbilerp1) >> 1);
+					u8 gfinal = gbilerp1 + ((gbilerp2-gbilerp1) >> 1);
+					u8 bfinal = bbilerp1 + ((bbilerp2-bbilerp1) >> 1);
 					
 					AGIDL_SetClr16(img1,AGIDL_RGB16(rfinal,gfinal,bfinal,fmt),x,y,w1,h1);
 				}
@@ -618,8 +618,8 @@ void AGIDL_BlendMipmapLevel(AGIDL_MIPMAP* mipmap, u8 mip_lvl1, u8 mip_lvl2){
 			int x,y;
 			for(y = 0; y < h1; y++){
 				for(x = 0; x < w1; x++){
-					u16 x2 = x*xscale;
-					u16 y2 = y*yscale;
+					u16 x2 = (x*xscale);
+					u16 y2 = (y*yscale);
 					
 					COLOR clr1 = AGIDL_GetClr(img1_cpy,x,y,w1,h1);
 					COLOR clr2 = AGIDL_GetClr(img1_cpy,x+1,y,w1,h1);
@@ -647,17 +647,17 @@ void AGIDL_BlendMipmapLevel(AGIDL_MIPMAP* mipmap, u8 mip_lvl1, u8 mip_lvl2){
 					u8 g4 = AGIDL_GetG(clr4,fmt);
 					u8 b4 = AGIDL_GetB(clr4,fmt);
 					
-					u8 rtop = r1 + (r2-r1 >> 1);
-					u8 gtop = g1 + (g2-g1 >> 1);
-					u8 btop = b1 + (b2-b1 >> 1);
+					u8 rtop = r1 + ((r2-r1) >> 1);
+					u8 gtop = g1 + ((g2-g1) >> 1);
+					u8 btop = b1 + ((b2-b1) >> 1);
 					
-					u8 rbot = r3 + (r4-r3 >> 1);
-					u8 gbot = g3 + (g4-g3 >> 1);
-					u8 bbot = b3 + (b4-b3 >> 1);
+					u8 rbot = r3 + ((r4-r3) >> 1);
+					u8 gbot = g3 + ((g4-g3) >> 1);
+					u8 bbot = b3 + ((b4-b3) >> 1);
 					
-					u8 rbilerp1 = rtop + (rbot-rtop >> 1);
-					u8 gbilerp1 = gtop + (gbot-gtop >> 1);
-					u8 bbilerp1 = btop + (bbot-btop >> 1);
+					u8 rbilerp1 = rtop + ((rbot-rtop) >> 1);
+					u8 gbilerp1 = gtop + ((gbot-gtop) >> 1);
+					u8 bbilerp1 = btop + ((bbot-btop) >> 1);
 					
 					r1 = AGIDL_GetR(clr12,fmt);
 					g1 = AGIDL_GetG(clr12,fmt);
@@ -675,21 +675,21 @@ void AGIDL_BlendMipmapLevel(AGIDL_MIPMAP* mipmap, u8 mip_lvl1, u8 mip_lvl2){
 					g4 = AGIDL_GetG(clr42,fmt);
 					b4 = AGIDL_GetB(clr42,fmt);
 					
-					rtop = r1 + (r2-r1 >> 1);
-					gtop = g1 + (g2-g1 >> 1);
-					btop = b1 + (b2-b1 >> 1);
+					rtop = r1 + ((r2-r1) >> 1);
+					gtop = g1 + ((g2-g1) >> 1);
+					btop = b1 + ((b2-b1) >> 1);
 					
-					rbot = r3 + (r4-r3 >> 1);
-					gbot = g3 + (g4-g3 >> 1);
-					bbot = b3 + (b4-b3 >> 1);
+					rbot = r3 + ((r4-r3) >> 1);
+					gbot = g3 + ((g4-g3) >> 1);
+					bbot = b3 + ((b4-b3) >> 1);
 					
-					u8 rbilerp2 = rtop + (rbot-rtop >> 1);
-					u8 gbilerp2 = gtop + (gbot-gtop >> 1);
-					u8 bbilerp2 = btop + (bbot-btop >> 1);
+					u8 rbilerp2 = rtop + ((rbot-rtop) >> 1);
+					u8 gbilerp2 = gtop + ((gbot-gtop) >> 1);
+					u8 bbilerp2 = btop + ((bbot-btop) >> 1);
 					
-					u8 rfinal = rbilerp1 + (rbilerp2-rbilerp1 >> 1);
-					u8 gfinal = gbilerp1 + (gbilerp2-gbilerp1 >> 1);
-					u8 bfinal = bbilerp1 + (bbilerp2-bbilerp1 >> 1);
+					u8 rfinal = rbilerp1 + ((rbilerp2-rbilerp1) >> 1);
+					u8 gfinal = gbilerp1 + ((gbilerp2-gbilerp1) >> 1);
+					u8 bfinal = bbilerp1 + ((bbilerp2-bbilerp1) >> 1);
 					
 					AGIDL_SetClr(img1,AGIDL_RGB(rfinal,gfinal,bfinal,fmt),x,y,w1,h1);
 				}

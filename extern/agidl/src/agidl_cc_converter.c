@@ -89,7 +89,7 @@ COLOR AGIDL_RGB_TO_BGR(const COLOR rgb, const AGIDL_CLR_FMT fmt){
 	const u8 r = AGIDL_GetR(rgb,fmt);
 	const u8 g = AGIDL_GetG(rgb,fmt);
 	const u8 b = AGIDL_GetB(rgb,fmt);
-	const u8 a = rgb >> 15 & 0x1;
+	const u8 a = (rgb >> 15) & 0x1;
 	
 	if(fmt == AGIDL_RGB_888){
 		return AGIDL_RGB(r,g,b,AGIDL_BGR_888);
@@ -107,7 +107,7 @@ COLOR AGIDL_BGR_TO_RGB(const COLOR bgr, const AGIDL_CLR_FMT fmt){
 	const u8 r = AGIDL_GetR(bgr,fmt);
 	const u8 g = AGIDL_GetG(bgr,fmt);
 	const u8 b = AGIDL_GetB(bgr,fmt);
-	const u8 a = bgr >> 15 & 0x1;
+	const u8 a = (bgr >> 15) & 0x1;
 	
 	if(fmt == AGIDL_BGR_888){
 		return AGIDL_RGB(r,g,b,AGIDL_RGB_888);
